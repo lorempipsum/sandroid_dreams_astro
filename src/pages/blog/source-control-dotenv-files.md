@@ -1,0 +1,38 @@
+---
+layout: '../../layouts/BaseLayout.astro'
+title: "Using Source Control for Bash Profile Files"
+---
+
+I followed [this](https://www.electricmonk.nl/log/2015/06/22/keep-your-home-dir-in-git-with-a-detached-working-directory/) blog post to add my dotfiles from $HOME to git. 
+
+That tutorial creates an alias for a custom git command to use for that directory, called dgit in their case. I found it ever so slighly annoying that I couldn't just do `git status` etc in my $HOME directory, and had to remember another alias for it. 
+
+So to fix it, I wrote a wrapper function around the git command to either run the special detached Head command when in $HOME, and regular git anywhere else.
+
+	alias dotfiles='git --git-dir ~/repos/dotenv/.git --work-tree=$HOME'
+
+	gitOverride() {
+
+			# In home directory, call custom detached head git command
+			if [ $PWD = $HOME ]; then
+					echo "Running dotfiles git command.."
+					command git --git-dir ~/repos/dotenv/.git --work-tree=$HOME "$@"
+			else
+					echo "running regular git command";
+					command git "$@"
+			fi
+	}
+
+	alias git=gitOverride;
+
+And that's it! Works great, and saves just a *little* bit of brain space.
+
+
+
+
+Quick paraphrasing of the rest of the process for posterity: 
+
+* Create your git directory (where .git will be), somewhere other than $HOME. E.g. $HOME/repos/dotenv
+* Add a .gitignore file that ignores everything
+* Add the above alias to your .bash_aliases or wherever you keep them 
+* If you want to add files in $HOME to source control, add them with `git add -f [filename]` 

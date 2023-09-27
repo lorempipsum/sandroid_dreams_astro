@@ -1,0 +1,15 @@
+.link  {
+    text-decoration: none;
+    text-align: center;
+    justify-self: center;
+    margin-top: 20px;
+  }
+  
+  .linkTextStyle {
+    text-decoration: none;
+    color: #333;
+  }
+  
+  .linkTextStyle:hover {
+    border-bottom: 1px solid #333;
+  }
