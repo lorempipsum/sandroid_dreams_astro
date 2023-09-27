@@ -31,25 +31,36 @@
     justify-content: center;
 }
 
+p {
+  display: flex;
+  justify-content: center;
+}
+
 img {
-    display:block;
-    margin: auto;
+  display: block;
+  width: calc(min(140%, 100vw)); /* Make the image larger than the container, but never larger than 100vw */
+  margin: 0 auto; /* Center the image horizontally */
+  max-width: none; /* Remove the maximum width restriction */
+  height: auto; /* Maintain the image's aspect ratio */
+
 }
 
 pre, code {
 
-  background-color: whitesmoke;
   overflow-x: auto;
   white-space: pre-wrap;
-
+  
 }
 
-pre {}
+code span {
+  color: black !important;
+}
 
 pre {
   padding: 10px;
     width: 100%;
-}
+    background-color: whitesmoke !important;
+  }
 
 .divider {
 background: linear-gradient(to right, rgba(255,255,255,0), #ccc, rgba(255,255,255,0));

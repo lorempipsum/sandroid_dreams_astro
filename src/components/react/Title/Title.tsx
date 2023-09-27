@@ -7,7 +7,7 @@ import styles from './Title.module.css';
 
 export const Title = ({ title }: {title: string}) => {
   // hrefDO reinstate the friends, about and instagram pages at some point?
-  const isLinkSectionShown = false;
+  const isLinkSectionShown = true;
 
   return (
     <div>
@@ -22,12 +22,12 @@ export const Title = ({ title }: {title: string}) => {
       {isLinkSectionShown && (
         <div className={styles.as}>
           <a
-            href="/rolls/newGallery"
+            href="/blog"
             className={
               styles.subtitleText
             }
           >
-            Gallery Test
+            Blog
           </a>
           <a
             href="/about"
