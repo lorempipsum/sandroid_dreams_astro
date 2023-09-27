@@ -1,4 +1,7 @@
 
+import { Image } from 'astro:assets';
+
+import logoImage from './logo.svg'
 
 import styles from './Logo.module.css'
 
@@ -9,7 +12,7 @@ const Logo = ({}) => {
         className={styles.logoBox}
       >
         <img
-          src="src/components/react/Title/logo.svg"
+          src={logoImage.src}
           className={styles.logoImage}
         />
       </div>

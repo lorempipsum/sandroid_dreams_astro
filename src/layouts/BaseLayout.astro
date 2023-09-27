@@ -1,0 +1,10 @@
+---
+import Layout from '../components/react/Layout/Layout.tsx';
+const {frontmatter} = Astro.props;
+---
+
+<Layout title={frontmatter.title}>
+    <div>
+        <slot />
+    </div>
+</Layout>
