@@ -1,0 +1,40 @@
+
+.subtitleText {
+    font-size: 15px;
+    font-weight: 500;
+    max-width: 200px;
+    margin: 10px 5px 60px;
+    color: #888;
+      text-decoration: none;
+      cursor: pointer;
+
+}
+
+
+.subtitleText:hover {
+  border-bottom: 1px solid #888;
+}
+
+.squareB {
+    margin: 0;
+    width: 10px;
+    height: 10px;
+    background: black;
+}
+
+.squareW {
+    margin: 0;
+    width: 10px;
+    height: 10px;
+    background: white;
+}
+
+.headingStyles {
+    margin-top: 20px;
+    text-align: center;
+    justify-self: center;
+    font-size: 2em;
+    font-variant: small-caps;
+    text-decoration: none;
+    color: #333;
+}

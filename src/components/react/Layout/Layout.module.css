@@ -1,0 +1,80 @@
+
+
+.main {
+    font-family: consolas, monaco, courier, "courier new", fixed-width, monospace;
+  display: grid;
+    margin: 3vh auto auto;
+    grid-template-columns:
+    minmax(0, auto) min(600px, 95vw) minmax(0, auto);
+
+  /*
+  // This makes the page content not jump when the scroll bar appears on the right as long content is loaded.
+  // Breaks on mobile with everything shifted to the right, so now just displaying the scrollbar for all pages regardless of height */
+  /* //   paddingLeft: 'calc(100vw - 100%)', */
+}
+
+.title {
+  text-align: center;
+}
+
+.header {
+    grid-column: 2;
+    grid-row: 1;
+    margin-top: 0;
+    text-align: center;
+    justify-self: center;
+}
+
+.content{
+    grid-column: 2;
+    grid-row: 2;
+    justify-content: center;
+}
+
+img {
+    display:block;
+    margin: auto;
+}
+
+pre, code {
+
+  background-color: whitesmoke;
+  overflow-x: auto;
+  white-space: pre-wrap;
+
+}
+
+pre {
+  padding: 10px;
+    width: 100%;
+}
+
+.divider {
+background: linear-gradient(to right, rgba(255,255,255,0), #ccc, rgba(255,255,255,0));
+height: 1px;
+margin: 2em;
+border-style: dashed;
+/* TODO use a variable for this. Should be the same as the BG colour so it melts into it*/
+border-color: white;
+}
+
+.dividerUpper {
+background: linear-gradient(to right, rgba(255,255,255,0), #ccc, rgba(255,255,255,0));
+height: 1px;
+margin: 2em;
+border-style: dashed;
+/* TODO use a variable for this. Should be the same as the BG colour so it melts into it*/
+border-color: white;
+opacity: 1;
+  -webkit-transition: none !important;
+  -moz-transition: none !important;
+  -o-transition: none !important;
+  transition: none !important;
+
+}
+
+.date {
+    text-align: center;
+  color:#524F4F;
+  font-weight: 500;
+}

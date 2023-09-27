@@ -1,0 +1,15 @@
+
+.logoBox {
+    position: relative;
+    width: 40px;
+    margin: 0 auto;
+    height: 40px;
+    border: 1px solid;
+}
+
+.logoImage {
+    position: absolute;
+    bottom: 0;
+    transform: translateX(-50%);
+    left: 50%;
+}

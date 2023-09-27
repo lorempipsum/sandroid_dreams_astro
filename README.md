@@ -1,4 +1,14 @@
-# Astro Starter Kit: Basics
+# Quickstart
+
+npm ci 
+npm run dev
+
+Other useful stuff: 
+CSS-modules can be used out of the box? Let's try. 
+
+
+
+## Astro Starter Kit: Basics
 
 ```sh
 npm create astro@latest -- --template basics
