@@ -5,7 +5,11 @@ title: "Intoxicated Shrubbery"
 tags: ["plotting"]
 ---
 
-![Plotting result](../../images/plotting/drunk_trees.jpg)
+import TheDoubleImage from '../../components/ImageComponent/TheDoubleImage/TheDoubleImage.astro';
+import plottingResult from '../../images/plotting/drunk_trees.jpg';
+import initialSketch from '../../images/plotting/intoxicated_shrubbery_sketch.jpg';
+
+<TheDoubleImage src1={initialSketch.src} src2={plottingResult.src}/>
 
 I was lying in the park on a sunny afternoon trying to
 think of ideas of what to plot on my recently acquired HP7475A. There wasn't much there besides some grass, a few trees and some
@@ -16,7 +20,6 @@ smoothly the further you went from the middle.
 Here's the rough sketch I made in the park so I wouldn't forget (I think the drawings on the left are dandelion-inspired
 ideas that are yet to be realized):
 
-![Initial Sketch](../../images/plotting/intoxicated_shrubbery_sketch.jpg)
 
 It's a random walk, starting from the bottom and moving in a random direction at each "step" - except the step size
 is larger if the random choice is directed upwards. The total length ("mass") of each
