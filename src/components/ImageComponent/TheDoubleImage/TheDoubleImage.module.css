@@ -1,0 +1,40 @@
+
+
+.imageOverlay {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    align-content: center;
+    justify-items: center;
+    border: 28px solid black;
+text-align: center;
+}
+
+    .imageOverlay:hover {
+        .image2 {
+            
+            opacity: 1;
+            transition: opacity 3s ease-out;
+        }
+        .image1 {
+            opacity: 0.05;
+            transition: opacity 0.6s ease-in-out;
+        }
+    }
+
+/* Initially hide the second image */
+.image2 {
+    opacity: 0;
+    transition: opacity 0.6s ease-in-out;
+    margin-left: -100%;
+
+  }
+
+
+.image1, .image2 {
+    width: 100%; /* Make the images take up the full width of the container */
+    height: 100%; /* Maintain the aspect ratio of the images */
+    object-fit: cover; /* Scale and crop the image to cover the container */
+    object-position: center top; /* Position the image at the center top of the container */
+    
+  }

@@ -1,0 +1,36 @@
+---
+const {src1, src2} = Astro.props;
+import styles from "./TheDoubleImage.module.css";
+
+
+---
+<script>
+
+    // JavaScript code goes here
+    let opacity1 = 1;
+    let opacity2 = 0;
+    
+    const overlay = document.querySelector('#image-overlay');
+    const image1 = overlay ? overlay.querySelector('#image1') : null;
+    const image2 = overlay ? overlay.querySelector('#image2') : null;
+    
+    
+    export const handleMouseMove = (e: any) => {
+      if (!overlay || !image1 || !image2) return; // Check if any element is null
+    
+      const x = e.clientX - overlay.getBoundingClientRect().left;
+      const width = overlay.offsetWidth;
+      const percentage = (x / width) * 100;
+    
+      opacity2 = percentage / 100;
+      opacity1 = 1 - (percentage / 100);
+    };
+    
+    export const handleMouseLeave = () => {
+      opacity1 = 1;
+      opacity2 = 0;
+    };
+    </script>
+<div class={styles.imageOverlay} id="image-overlay">
+<img src={src1} class={styles.image1} id="image1" /><img src={src2} class={styles.image2} id="image2" />
+</div>
