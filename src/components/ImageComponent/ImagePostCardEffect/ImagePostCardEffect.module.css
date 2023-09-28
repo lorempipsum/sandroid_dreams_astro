@@ -2,14 +2,18 @@
     display: flex;
     justify-content: center;
     transition: transform 0.3s ease; /* Add a smooth transition effect */
-    perspective: 550px;
-
+    
+    width: 70%;
+    transform: translateX(50%);
 }
   
   .imageContainer img {
     height: auto;
     transition: transform 0.3s ease; /* Add a smooth transition effect */
     border: 1vh solid white;
+    margin: 0 auto;
+    right: 200px;
+    box-shadow: 0 0 10px rgba(0, 0, 0, 0.3); /* Add a subtle box shadow */
 
   }
   
@@ -18,8 +22,10 @@
   }
   
   .imageContainer:hover img {
-    transform: translateZ(10px);
-    transform: translateY(-10px);
+    transform: perspective(500px) translateZ(20px);
+    transform-origin: 33% 50%;
     border: 1vh solid white;
     box-shadow: 0 0 10px rgba(0, 0, 0, 0.3); /* Add a subtle box shadow */
   }
+
+  

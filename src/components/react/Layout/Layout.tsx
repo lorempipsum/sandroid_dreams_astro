@@ -1,4 +1,5 @@
 
+import { useState } from 'react';
 import Title from '../Title/Title';
 import styles from './Layout.module.css';
 
@@ -11,16 +12,20 @@ const Layout = ({
   children,
   title,
 }: LayoutProps) => {
+  const [isDebugInfoShown, setIsDebugInfoShown] = useState<boolean>(false);
+  const debugBoxStyles = isDebugInfoShown ? styles.debugBox : "";
   return (
     <>
-      <div className={styles.main}>
+    <button onClick={() => {setIsDebugInfoShown(!isDebugInfoShown)}} >debug</button>
+    {isDebugInfoShown && <div className={styles.verticalSymmetryLine} />}
+      <div className={`${styles.main} ${debugBoxStyles}`}>
         <div className={styles.header}>
           <Title
             title={'sandroid.dev'}
           />
         </div>
 
-        <div className={styles.content}>
+        <div className={`${styles.content} ${debugBoxStyles}`}>
           <div
             className={
               styles.dividerUpper
@@ -36,10 +41,11 @@ const Layout = ({
               />
             </>
           )}
-          <div className="fadeIn">
+     
+        </div>
+        <div className={`${styles.innerContent} ${debugBoxStyles}`}>
             {children}
           </div>
-        </div>
       </div>
     </>
   );

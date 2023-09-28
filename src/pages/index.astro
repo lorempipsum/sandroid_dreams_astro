@@ -1,8 +1,8 @@
 ---
-import Layout from '../components/react/Layout/Layout.tsx';
+import BaseLayout from '../layouts/BaseLayout.astro';
 import PageLink from '../components/react/PageLink/PageLink';
 ---
 
-<Layout title="Welcome to Astro.">	
+<BaseLayout title="Welcome to Astro." client:load>	
 	<div>Hello World</div>
-</Layout>
+</BaseLayout>

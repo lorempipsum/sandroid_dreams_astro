@@ -2,10 +2,10 @@
 
 .main {
     font-family: consolas, monaco, courier, "courier new", fixed-width, monospace;
-  display: grid;
+    display: grid;
     margin: 3vh auto auto;
     grid-template-columns:
-    minmax(0, auto) min(600px, 95vw) minmax(0, auto);
+    minmax(0, auto) min(800px, 95vw) minmax(0, auto);
 
   /*
   // This makes the page content not jump when the scroll bar appears on the right as long content is loaded.
@@ -13,6 +13,20 @@
   /* //   paddingLeft: 'calc(100vw - 100%)', */
 }
 
+.debugBox {
+  border: 3px dashed red;
+}
+
+.verticalSymmetryLine {
+  border: 20px solid red;
+  transform: rotateX(90degrees);
+  position: fixed;
+  top: 0;
+  left: 50%;
+  transform: translateX(-50%);
+  height: 100vh;
+  opacity: 50%;
+}
 .title {
   text-align: center;
 }
@@ -26,10 +40,22 @@
 }
 
 .content{
+  display: flex;
+  flex-direction: column;
     grid-column: 2;
     grid-row: 2;
     justify-content: center;
 }
+
+.innerContent {
+  display: flex;
+  grid-row: 2;
+  grid-column: 2;
+  flex-direction: column;
+  justify-content: center;
+}
+
+
 
 p {
   display: flex;
@@ -38,7 +64,6 @@ p {
 
 img {
   display: block;
-  width: calc(min(140%, 100vw)); /* Make the image larger than the container, but never larger than 100vw */
   margin: 0 auto; /* Center the image horizontally */
   max-width: none; /* Remove the maximum width restriction */
   height: auto; /* Maintain the image's aspect ratio */
@@ -56,6 +81,7 @@ code span {
 }
 
 pre {
+  margin: 0 auto;
   padding: 10px;
     width: 100%;
     background-color: whitesmoke !important;

@@ -1,10 +1,10 @@
 ---
 import Layout from '../components/react/Layout/Layout.tsx';
 const {frontmatter} = Astro.props;
+
+const pageTitle = frontmatter ? frontmatter?.title ? frontmatter.title : Astro.props.title : Astro.props.title;
 ---
 
-<Layout title={frontmatter.title}>
-    <div>
+<Layout title={pageTitle} client:load>
         <slot />
-    </div>
 </Layout>
