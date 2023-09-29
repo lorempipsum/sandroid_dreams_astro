@@ -1,0 +1,41 @@
+---
+import BaseLayout from "../../layouts/BaseLayout.astro";
+import fg from "fast-glob";
+
+export async function getStaticPaths() {
+    // get all collection folder paths: 'public/pictures/[collection]'
+    const collections: string[] = fg.sync("../../content/photography/*", {
+        onlyDirectories: true,
+    });
+
+    // Create a new route for every collection
+    return collections.map((collection) => {
+        // Create Route
+        return {
+            params: {
+                // Return folder name of collection as dynamic parameter [collection]
+                collection: collection.split("/").pop(),
+            },
+            props: {
+                // Return array of all image srcs in collection as prop 'images'
+                images: fg
+                    .sync(`${collection}/**/*.{png,jpg}`)
+                    .map((img) => img.replace("public/", "/")),
+            },
+        };
+    });
+}
+
+export interface Props {
+    images: string[];
+}
+
+const { collection } = Astro.params;
+
+const { images } = Astro.props;
+console.log(JSON.stringify(images));
+---
+
+<BaseLayout title={collection}>
+    {images.map((img) => <img src={img} />)}
+</BaseLayout>

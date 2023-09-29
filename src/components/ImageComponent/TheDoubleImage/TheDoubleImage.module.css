@@ -17,7 +17,6 @@
 
 
 .verticalSymmetryLine {
-    border: 10px solid red;
     transform: rotateX(90degrees);
     position: absolute;
     top: 0;
@@ -43,9 +42,12 @@
     &:hover {
         .image1 {
             opacity: 0;
+            transition: opacity 10s ease-out;
+
         }
         .image2 {
             opacity: 1;
+            transition: opacity 0.5s ease-out;
         }
     }
 }
@@ -62,17 +64,6 @@
 
 }
 
-.imageWrapper::before {
-        content: "";
-        position: absolute;
-        top: 0;
-        bottom: 0;
-        left: 50%;
-        width: 20px; /* Adjust the line width as needed */
-        background-color: blue; /* Adjust the line color as needed */
-        transform: translateX(-50%);
-
-}
 
 img {
     opacity: 1;
@@ -80,7 +71,8 @@ img {
 }
 
 .image1, .image2 {
-    
+    transition: opacity 4s ease-out;
+
     object-fit: cover;
     object-position: 90.5% 28.5%; /* Center the zoom on one of the eyes */
 

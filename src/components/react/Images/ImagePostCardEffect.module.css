@@ -1,0 +1,25 @@
+.imageContainer {
+  display: inline-block;
+  position: relative;
+  transform-style: preserve-3d;
+  max-width: 75vw;
+}
+
+.imageContainer img {
+  max-width: 100%;
+  height: auto;
+  border: 1vh solid white;
+  outline: 3px solid whitesmoke;
+
+}
+
+.imageContainer img:hover {
+  max-width: 100%;
+  height: auto;
+  border: 1vh solid white;
+  box-shadow: none;
+}
+
+.imageContainer:hover {
+  cursor: pointer;
+}

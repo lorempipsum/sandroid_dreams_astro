@@ -1,9 +1,6 @@
 ---
-const {src} = Astro.props;
-import styles from "./ImagePostCardEffect.module.css";
-
+const { src } = Astro.props;
+import ImagePostCardEffectReact from "../../react/Images/ImagePostCardEffect.tsx";
 ---
 
-<div class={styles.imageContainer}>
-<img src={src} />
-</div>
+<ImagePostCardEffectReact src={src} client:load />
