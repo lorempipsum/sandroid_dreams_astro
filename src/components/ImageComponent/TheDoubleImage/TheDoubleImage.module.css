@@ -42,7 +42,7 @@
     &:hover {
         .image1 {
             opacity: 0;
-            transition: opacity 10s ease-out;
+            transition: opacity 1s ease-out;
 
         }
         .image2 {
@@ -71,10 +71,10 @@ img {
 }
 
 .image1, .image2 {
-    transition: opacity 4s ease-out;
+    transition: opacity 1s ease-out;
 
     object-fit: cover;
-    object-position: 90.5% 28.5%; /* Center the zoom on one of the eyes */
+    object-position: 90.5% 28.5%; /* Center the zoom on one of the eyes. TODO: pass this in as a prop so each image can have it's own position. */
 
 }
 

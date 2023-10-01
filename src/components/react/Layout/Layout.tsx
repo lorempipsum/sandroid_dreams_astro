@@ -14,6 +14,8 @@ const Layout = ({
 }: LayoutProps) => {
   const [isDebugInfoShown, setIsDebugInfoShown] = useState<boolean>(false);
   const debugBoxStyles = isDebugInfoShown ? styles.debugBox : "";
+
+  const isTitleShown = false; // Temporary const to hide the titles since at this point in time on 29/09/2023 I don't like the look of them
   return (
     <>
     <button onClick={() => {setIsDebugInfoShown(!isDebugInfoShown)}} >debug</button>
@@ -26,14 +28,10 @@ const Layout = ({
         </div>
 
         <div className={`${styles.content} ${debugBoxStyles}`}>
-          <div
-            className={
-              styles.dividerUpper
-            }
-          />
-          {title && (
+      
+          {isTitleShown && title && (
             <>
-              <h1 className={styles.title}>{title}</h1>{' '}
+               <h1 className={styles.title}>{title}</h1>{' '}
               <div
                 className={
                   styles.divider

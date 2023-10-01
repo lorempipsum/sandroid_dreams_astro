@@ -6,10 +6,14 @@ tags: ["plotting"]
 ---
 
 import TheDoubleImage from '../../components/ImageComponent/TheDoubleImage/TheDoubleImage.astro';
+import ImagePostCardEffect from '../../components/ImageComponent/ImagePostCardEffect/ImagePostCardEffect.astro';
 import plottingResult from '../../images/plotting/drunk_trees.jpg';
 import initialSketch from '../../images/plotting/intoxicated_shrubbery_sketch.jpg';
+import drunkTrees from '../../images/plotting/drunk_trees_closeup.jpg';
 
 <TheDoubleImage src1={initialSketch.src} src2={plottingResult.src}/>
+
+# Intoxicated Shrubbery
 
 I was lying in the park on a sunny afternoon trying to
 think of ideas of what to plot on my recently acquired HP7475A. There wasn't much there besides some grass, a few trees and some
@@ -66,8 +70,11 @@ Here's a more detailed breakdown with some code:
           i = i + 1; // increase mass used
       }
     ```
-
-![Plotting result closeup](../../images/plotting/drunk_trees_closeup.jpg)
+<br />
+<ImagePostCardEffect src={drunkTrees.src} />
+A close up
+<br />
+<br />
    
    ```Java
    void draw() {
