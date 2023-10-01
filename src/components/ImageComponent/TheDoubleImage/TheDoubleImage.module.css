@@ -16,17 +16,6 @@
 }
 
 
-.verticalSymmetryLine {
-    transform: rotateX(90degrees);
-    position: absolute;
-    top: 0;
-    left: 50%;
-    transform: translateX(-50%);
-    height: 100vh;
-    opacity: 50%;
-    z-index: 1000;
-  }
-
 .imageOverlay {
     width: calc(min(90vw, 150%)); /* Adjust the container width as needed */
 
@@ -72,10 +61,7 @@ img {
 
 .image1, .image2 {
     transition: opacity 1s ease-out;
-
-    object-fit: cover;
-    object-position: 90.5% 28.5%; /* Center the zoom on one of the eyes. TODO: pass this in as a prop so each image can have it's own position. */
-
+    object-fit: scale-down;
 }
 
 .image2 {

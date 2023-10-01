@@ -1,0 +1,41 @@
+---
+layout: '../../layouts/BaseLayout.astro'
+date: "2023-01-10"
+title: "Image Wrapper Component"
+tags: ["plotting"]
+---
+import ImageContainer from '../../components/react/Images/ImageContainer.tsx';
+import cloudRailway from '../photography/test_photos/cloud_railway.jpg';
+import bristol_balloons from '../photography/test_photos/bristol_balloons.jpg';
+import bristol_balloons_wide from '../photography/test_photos/bristol_balloons_wide.jpg';
+
+# Different ways of showing images on this site
+
+I'm making a new image display component for this site and this is some documentation of its different parts. 
+
+Not promise to be current or helpful is made. 
+
+Starting with
+
+### The Container 
+
+The image is set to be the width of the paragraphs by default. 
+
+The max-height of the image is 50vh. 
+
+Object-fit is set to 'cover'. (It would be fun to have it automatically select object-position for which part to zoom into)
+
+
+#### With a 4:3 image
+
+<ImageContainer src={bristol_balloons.src} id="bristol-balloons-jpg" client:only />
+
+#### With a Widescreen image
+
+<ImageContainer src={bristol_balloons_wide.src} id="bristol_balloons_wide-jpg" client:only />
+
+#### with a Portrait image
+
+<ImageContainer src={cloudRailway.src} id="cloud-railway-jpg" client:only />
+
+#### With a square image 

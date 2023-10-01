@@ -1,4 +1,4 @@
-import { useEffect, useState } from "react";
+import {  useState } from "react";
 import { useSpring, animated, easings } from 'react-spring';
 
 import styles from "./ImagePostCardEffect.module.css"
@@ -6,12 +6,7 @@ import styles from "./ImagePostCardEffect.module.css"
 const ImagePostCardEffectReact = ({src}: any) => {
     const [isLightBoxOn, setIsLightBoxOn] = useState(false);
 
-    const springAnimation = useSpring({
-        height: isLightBoxOn ? "100vh" : "auto",
-    })
-
-
-    
+    const lightboxStyles = isLightBoxOn ? {width: '100vw !improtant'} : {};
 
     return (
         
@@ -19,7 +14,7 @@ const ImagePostCardEffectReact = ({src}: any) => {
         <animated.div
           className={`${styles.imageContainer}`}
           onClick={() => {setIsLightBoxOn(!isLightBoxOn)}}
-          style={springAnimation}
+          style={{...lightboxStyles}}
         >
                     
           <img src={src} alt="Image 1"  />
