@@ -1,0 +1,38 @@
+---
+import fs from "fs/promises";
+import path from "path";
+
+import BaseLayout from "../layouts/BaseLayout.astro";
+import ImageContainer from "../components/react/Images/ImageContainer";
+
+export const imagesFolder = `src/content/photography/bristol`; // Update the path accordingly
+
+export async function getImageFiles() {
+    const imageFiles = await fs.readdir(imagesFolder);
+
+    // Filter the list to include only image files (you can customize this filter)
+    const imageFilesFiltered = imageFiles.filter((file) =>
+        /\.(jpg|jpeg|png|gif|webp)$/i.test(file)
+    );
+
+    return imageFilesFiltered;
+}
+
+const imageFiles = await getImageFiles();
+---
+
+<BaseLayout title="Welcome to Astro.">
+    <div>Hello World</div>
+    <div class="image-gallery">
+        {/* Use curly braces {} to include JavaScript code */}
+        {
+            imageFiles.map((fileName) => (
+                <ImageContainer
+                    client:only
+                    src={path.join("/", imagesFolder, fileName)}
+                    id={`${fileName}`}
+                />
+            ))
+        }
+    </div>
+</BaseLayout>

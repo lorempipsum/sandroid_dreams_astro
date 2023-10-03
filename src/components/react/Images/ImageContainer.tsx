@@ -12,9 +12,11 @@ const ImageContainer = ({src, id}: ImageContainerProps) => {
     const defaultStyles = {
         width: "100%",
         height: "auto",
-        maxHeight: '50vh',
+        minHeight: '20vh',
+        maxHeight: '70vh',
         objectFit: 'cover',
-
+        border: '20px solid white',
+        outline: '2px solid whitesmoke',
     }
     const [isZoomedView, setIsZoomedView] = useState(false);
     const [imgStyles, setImgStyles] = useState({...defaultStyles});
@@ -29,9 +31,10 @@ const ImageContainer = ({src, id}: ImageContainerProps) => {
         if (isZoomedView === true ) {
             
             setImgStyles({
-                width: '100vw',
+                width: '90vw',
                 height: 'auto',
                 maxHeight: '90vh',
+                objectFit: 'scale-down',
             })
 
         }
