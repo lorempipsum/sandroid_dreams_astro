@@ -6,9 +6,10 @@ import styles from './ImageContainer.module.css';
 interface ImageContainerProps {
     src: string;
     id: string;
+    isExpanded?: boolean;
 }
 
-const ImageContainer = ({src, id}: ImageContainerProps) => {
+const ImageContainer = ({src, id, isExpanded = false}: ImageContainerProps) => {
     const defaultStyles = {
         width: "100%",
         height: "auto",
@@ -21,7 +22,7 @@ const ImageContainer = ({src, id}: ImageContainerProps) => {
         objectPosition: '33% 33%'
 
     }
-    const [isZoomedView, setIsZoomedView] = useState(false);
+    const [isZoomedView, setIsZoomedView] = useState(isExpanded);
     const [imgStyles, setImgStyles] = useState({...defaultStyles});
 
   
@@ -39,7 +40,7 @@ const ImageContainer = ({src, id}: ImageContainerProps) => {
                 transition: 'all 1s ease-in-out',
                 border: '20px solid white',
                 outline: '2px solid whitesmoke',
-                objectPosition: '50% 33%'
+                objectPosition: '66% 33%'
 
             })
 
