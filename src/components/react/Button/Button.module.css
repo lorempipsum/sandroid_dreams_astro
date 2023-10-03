@@ -1,0 +1,18 @@
+
+.flexButton {
+    display: flex;
+    background: none;
+    cursor: pointer;
+    width: fit-content;
+    border: 2px solid black;
+
+    transition: all 1s;
+
+}
+
+.flexButton:hover {
+    background: rgb(255, 239, 193);
+    border: 2px dashed black;
+
+    transition: all 1s;
+}

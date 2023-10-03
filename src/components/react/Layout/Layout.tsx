@@ -3,6 +3,7 @@ import { useState } from 'react';
 import Title from '../Title/Title';
 import styles from './Layout.module.css';
 
+import "../styles/global.css"
 interface LayoutProps {
     children: any;
     title: string;
