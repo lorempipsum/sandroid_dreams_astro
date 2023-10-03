@@ -18,7 +18,7 @@ const NotFoundPage = () => {
     const newOption = <p><span onClick={() => readTheScreen()}
                                className="inlineLink fadeIn slowFadeIn"><span style={{marginRight: '1ch', display: "inline-block"}}>b)</span>Read the screen.</span></p>;
 
-    const flavor404 = <p className="typewriter fadeIn slowFadeIn">4 0 4</p>;
+    const flavor404 = <p className="typewriter fadeIn slowFadeIn bordered">4 0 4</p>;
     const [flavorText, setFlavorText] = useState(defaultFlavorText);
     const [option1, setOption1] = useState(defaultOption1);
     const [option2, setOption2] = useState(defaultOption2);
