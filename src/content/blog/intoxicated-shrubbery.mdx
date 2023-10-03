@@ -5,6 +5,7 @@ title: "Intoxicated Shrubbery"
 tags: ["plotting"]
 ---
 
+import ImageContainer from '../../components/react/Images/ImageContainer.tsx';
 import TheDoubleImage from '../../components/ImageComponent/TheDoubleImage/TheDoubleImage.astro';
 import ImagePostCardEffect from '../../components/ImageComponent/ImagePostCardEffect/ImagePostCardEffect.astro';
 import plottingResult from '../../images/plotting/drunk_trees.jpg';
@@ -71,7 +72,7 @@ Here's a more detailed breakdown with some code:
       }
     ```
 <br />
-<ImagePostCardEffect src={drunkTrees.src} />
+<ImageContainer src={drunkTrees.src} client:only />
 A close up
 <br />
 <br />

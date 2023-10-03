@@ -4,28 +4,28 @@ date: "2020-12-24"
 title: "Pointillism Extended"
 tags: ["plotting"]
 ---
-import ImagePostCardEffect from '../../components/ImageComponent/ImagePostCardEffect/ImagePostCardEffect.astro';
-import panda from  '../../images/plotting/panda.jpg';
-import panda_closeup from  '../../images/plotting/panda_closeup.jpg';
-import orca from  '../../images/plotting/orca.jpg';
+import ImageContainer from '../../components/react/Images/ImageContainer.tsx';
+import panda from  '../../images/plotting/panda.webp';
+import panda_closeup from  '../../images/plotting/panda_closeup.webp';
+import orca from  '../../images/plotting/orca.webp';
 
 
 # Pointillstic lines
 
-<ImagePostCardEffect src={panda.src} />
+<ImageContainer client:only src={panda.src} />
 
 This is a follow up from my pointillism exploration with plotterbjork. I wasn't too happy with the pointillism, since drawing mere points didn't really differ from just using a poor inkjet printer. So this uses a very similar idea, but instead of points it draws lines! And the results look **great**.
 
 It's evident from afar and even more so close up that this is something a little different than just a printer. The lines have a varying thickness due to how the ink flows, and each start and end point has a bit of a point on it. The lines are biased towards drawing upwards vertically, which gives the Panda a nice hairy look!
 
-<ImagePostCardEffect src={panda_closeup.src} />
+<ImageContainer client:only src={panda_closeup.src} />
 
 
 
 After the panda came out looking fabulous I went ahead and plotted some other
 black and white animals:
 
-<ImagePostCardEffect src={orca.src} />
+<ImageContainer client:only src={orca.src} />
 
 Code modified to bias the lines from left to right, to sell the illusion of movement, and give the orca a *slick* look.
 

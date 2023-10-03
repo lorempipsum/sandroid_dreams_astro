@@ -12,7 +12,7 @@ export async function getImageFiles() {
 
     // Filter the list to include only image files (you can customize this filter)
     const imageFilesFiltered = imageFiles.filter((file) =>
-        /\.(jpg|jpeg|png|gif|webp)$/i.test(file)
+        /\.(webp)$/i.test(file)
     );
 
     return imageFilesFiltered;

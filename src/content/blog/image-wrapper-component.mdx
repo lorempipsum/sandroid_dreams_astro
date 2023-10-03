@@ -5,10 +5,11 @@ title: "Image Wrapper Component"
 tags: ["plotting"]
 ---
 import ImageContainer from '../../components/react/Images/ImageContainer.tsx';
-import cloudRailway from '../photography/test_photos/cloud_railway.jpg';
-import bristol_balloons from '../photography/test_photos/bristol_balloons.jpg';
-import bristol_balloons_wide from '../photography/test_photos/bristol_balloons_wide.jpg';
-import bwArtsy from '../photography/test_photos/b&w_artsy.jpg';
+import cloudRailway from '../photography/test_photos/cloud_railway.webp';
+import bristol_balloons from '../photography/test_photos/bristol_balloons.webp';
+import bristol_balloons_wide from '../photography/test_photos/bristol_balloons_wide.webp';
+import bwArtsy from '../photography/test_photos/b&w_artsy.webp';
+import really_long_pano_sunset from '../photography/test_photos/really_long_pano_sunset.webp';
 
 # Different ways of showing images on this site
 
@@ -44,4 +45,7 @@ Object-fit is set to 'cover'. (It would be fun to have it automatically select o
 
 <ImageContainer src={bwArtsy.src} id="bwArtsy-jpg" client:only />
 
-#### With a square image 
+#### With a really long pano image 
+
+<ImageContainer src={really_long_pano_sunset.src} id="really_long_pano_sunset-jpg" client:only />
+

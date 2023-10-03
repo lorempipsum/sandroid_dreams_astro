@@ -17,6 +17,9 @@ const ImageContainer = ({src, id}: ImageContainerProps) => {
         objectFit: 'cover',
         border: '20px solid white',
         outline: '2px solid whitesmoke',
+        transition: 'all 1s ease-in-out',
+        objectPosition: '33% 33%'
+
     }
     const [isZoomedView, setIsZoomedView] = useState(false);
     const [imgStyles, setImgStyles] = useState({...defaultStyles});
@@ -25,22 +28,25 @@ const ImageContainer = ({src, id}: ImageContainerProps) => {
   
 
     useEffect(() => {
-        console.log(`clicke event!`);
 
-        console.log(isZoomedView);
         if (isZoomedView === true ) {
             
             setImgStyles({
                 width: '90vw',
                 height: 'auto',
+                minHeight: '20vh',
                 maxHeight: '90vh',
-                objectFit: 'scale-down',
+                objectFit: 'cover',
+                transition: 'all 1s ease-in-out',
+                border: '20px solid white',
+                outline: '2px solid whitesmoke',
+                objectPosition: '50% 33%'
+
             })
 
         }
 
         else {
-            console.log("DEFAULTING BACK")
             setImgStyles({
                 ...defaultStyles
             })}
