@@ -23,7 +23,6 @@ const ImageContainer = ({src, id}: ImageContainerProps) => {
     }
     const [isZoomedView, setIsZoomedView] = useState(false);
     const [imgStyles, setImgStyles] = useState({...defaultStyles});
-    const { height, width } = useWindowDimensions();
 
   
 
