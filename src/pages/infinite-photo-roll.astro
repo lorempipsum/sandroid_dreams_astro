@@ -5,7 +5,7 @@ import path from "path";
 import BaseLayout from "../layouts/BaseLayout.astro";
 import ImageContainer from "../components/react/Images/ImageContainer";
 
-export const imagesFolder = `src/content/photography/bristol`; // Update the path accordingly
+export const imagesFolder = `src/images/photography`; // Update the path accordingly
 
 export async function getImageFiles() {
     const imageFiles = await fs.readdir(imagesFolder);
