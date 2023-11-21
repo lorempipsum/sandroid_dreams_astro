@@ -18,7 +18,7 @@ const ImageContainer = ({src, id, isExpanded = false}: ImageContainerProps) => {
         objectFit: 'cover',
         border: '20px solid white',
         outline: '2px solid whitesmoke',
-        transition: 'all 1s ease-in-out',
+        transition: 'all 0.6s ease-in-out',
         objectPosition: '33% 33%'
 
     }
@@ -37,7 +37,7 @@ const ImageContainer = ({src, id, isExpanded = false}: ImageContainerProps) => {
                 minHeight: '20vh',
                 maxHeight: '90vh',
                 objectFit: 'cover',
-                transition: 'all 1s ease-in-out',
+                transition: 'all 0.6s ease-in-out',
                 border: '20px solid white',
                 outline: '2px solid whitesmoke',
                 objectPosition: '66% 33%'
