@@ -13,7 +13,7 @@ const allBlogPosts = await getCollection("blog");
         allBlogPosts.map((blogPost) => {
             return (
                 <PageLink
-                    to={`blog/${blogPost.slug}`}
+                    to={`/blog/${blogPost.slug}`}
                     text={blogPost.data.title}
                 />
             );
