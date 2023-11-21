@@ -1,0 +1,12 @@
+
+.imageContainer {
+    position: relative;
+    aspect-ratio: 16 / 10;
+    height: auto; /* Adjust the container height as needed */
+    justify-content: center;
+    text-align: center;
+    display: flex; /* Allow image within to be centered and overflow both sides */
+    align-items: center; /* Center the child both horizontally and vertically */
+    padding-top: 1.5rem;
+    padding-bottom: 1.5rem;
+}

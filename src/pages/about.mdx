@@ -1,0 +1,14 @@
+---
+layout: "../layouts/BaseLayout.astro"
+date: "2020-12-24"
+title: "Intoxicated Shrubbery"
+tags: ["plotting"]
+---
+
+import ImageContainer from '../components/react/Images/ImageContainer.tsx';
+import bristol_balloons_wide from '../content/photography/test_photos/bristol_balloons_wide.webp';
+
+<ImageContainer src={bristol_balloons_wide.src} isExpanded={true} id="bristol-balloons-about" client:only/>
+# About 
+
+Welcome to the About page.

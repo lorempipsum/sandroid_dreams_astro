@@ -6,6 +6,21 @@ npm run dev
 Other useful stuff: 
 CSS-modules can be used out of the box? Let's try. 
 
+## Images
+
+Astro has an <Image> and <Picture> component that can be used as such: 
+
+import myImage from "src/path/to/image.jpg";
+
+<Image src={myImage} ..otherProps />
+<Picture src={myImage} ..otherProps />
+
+But the annyoing part is that each image has to be imported like above, and these can only be used in an astro component, or passed to a React component as a child. 
+
+Currently I just use full sized images everywhere. To help with the old bandwidth I have converted them to webp with ImageMagick.
+
+Convert all images in a directory to a compress .webp: `mogrify -format webp -quality 80 *.jpg` (https://www.bartvandersanden.com/blog/2022/07/03/webp-imagick/)
+
 
 
 ## Astro Starter Kit: Basics

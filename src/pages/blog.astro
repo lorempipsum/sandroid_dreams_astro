@@ -1,16 +1,22 @@
 ---
-import Layout from '../components/react/Layout/Layout.tsx';
-import PageLink from '../components/react/PageLink/PageLink.tsx';
-import {getCollection } from 'astro:content';
+import BaseLayout from "../layouts/BaseLayout.astro";
+import PageLink from "../components/react/PageLink/PageLink.tsx";
+import { getCollection } from "astro:content";
 
-const allBlogPosts = await getCollection('blog');
+const allBlogPosts = await getCollection("blog");
 ---
 
-<Layout title="Blog">	
-	<div>Hi. Below are all the links to blog posts</div>
-	
-{allBlogPosts.map(blogPost => {
-	return <PageLink to={`blog/${blogPost.slug}`} text={blogPost.data.title} />
-})}
-</>
-</Layout>
+<BaseLayout title="Blog">
+    <div></div>
+
+    {
+        allBlogPosts.map((blogPost) => {
+            return (
+                <PageLink
+                    to={`blog/${blogPost.slug}`}
+                    text={blogPost.data.title}
+                />
+            );
+        })
+    }
+</BaseLayout>

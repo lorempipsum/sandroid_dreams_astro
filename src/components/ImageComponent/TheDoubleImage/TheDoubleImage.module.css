@@ -1,40 +1,69 @@
 
-
-.imageOverlay {
-    display: flex;
+.imageContainer {
+    margin-top: 2rem;
+    margin-bottom: 2rem;
+    position: relative;
+    margin-left: auto;
+    margin-right: auto;
+    width: 100%;
+    aspect-ratio: 16 / 10;
+    height: auto; /* Adjust the container height as needed */
     justify-content: center;
-    align-items: center;
-    align-content: center;
-    justify-items: center;
-    border: 28px solid black;
-text-align: center;
+    text-align: center;
+    display: flex;
+    align-items: center; /* Center the child both horizontally and vertically */
+    overflow: visible;
 }
 
-    .imageOverlay:hover {
-        .image2 {
-            
-            opacity: 1;
-            transition: opacity 3s ease-out;
-        }
+
+.imageOverlay {
+    width: calc(min(90vw, 150%)); /* Adjust the container width as needed */
+
+    height: 100%;
+    position: relative;
+    display: flex;
+    justify-content: center;
+    align-items: center; /* Center the child both horizontally and vertically */
+
+    display: flex;
+    justify-content: center;
+
+    &:hover {
         .image1 {
-            opacity: 0.05;
-            transition: opacity 0.6s ease-in-out;
+            opacity: 0;
+            transition: opacity 1s ease-out;
+
+        }
+        .image2 {
+            opacity: 1;
+            transition: opacity 0.5s ease-out;
         }
     }
+}
 
-/* Initially hide the second image */
-.image2 {
-    opacity: 0;
-    transition: opacity 0.6s ease-in-out;
-    margin-left: -100%;
+.imageWrapper {
 
-  }
+    display: flex; /* Keeps the image and line side by side */
+    position: absolute;
+    top: 0%;
+    width: inherit;
 
+    height: 100%;
+    overflow: hidden;
+
+}
+
+
+img {
+    opacity: 1;
+    width: 100%;
+}
 
 .image1, .image2 {
-    width: 100%; /* Make the images take up the full width of the container */
-    height: 100%; /* Maintain the aspect ratio of the images */
-    object-fit: cover; /* Scale and crop the image to cover the container */
-    object-position: center top; /* Position the image at the center top of the container */
-    
-  }
+    transition: opacity 1s ease-out;
+    object-fit: scale-down;
+}
+
+.image2 {
+    opacity: 0;
+}

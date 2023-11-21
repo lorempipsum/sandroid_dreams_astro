@@ -4,13 +4,13 @@ date: "2020-12-24"
 title: "Plotterbjork"
 tags: ["plotting"]
 ---
-import ImagePostCardEffect from '../../components/ImageComponent/ImagePostCardEffect/ImagePostCardEffect.astro';
+import ImageContainer from '../../components/react/Images/ImageContainer.tsx';
 import TheDoubleImage from '../../components/ImageComponent/TheDoubleImage/TheDoubleImage.astro'
-import plotterbjork from  '../../images/plotting/plotterbjork.jpg';
-import plotterbjork_closeup from  '../../images/plotting/plotterbjork_closeup.jpg';
-import bjork from  '../../images/plotting/bjork.jpg';
+import plotterbjork from  '../../images/plotting/plotterbjork-cropped.webp';
+import plotterbjork_closeup from  '../../images/plotting/plotterbjork_closeup.webp';
+import bjork from  '../../images/plotting/bjork-cropped.webp';
 
-<TheDoubleImage src1={plotterbjork.src} src2={bjork.src}/>
+<TheDoubleImage src2={plotterbjork.src} src1={bjork.src}/>
 
 
 ## Pointillism 
@@ -19,7 +19,7 @@ One of the more basic things you can do with a plotter is pointillism. That's th
 
 It sounds like a fun thing to try, but in the end I was left a little disappointed by my results. The main problem I had with is that the output just looks like the output from a poor inkjet printer, and doesn't have much of the characteristics of using a plotter in it. Sure, if you look closely you can see the variations in the dots (caused by the pen being at an angle or due to variations in the ink flow), but each dot is small and specific enough that it's a little boring.
 
-<ImagePostCardEffect src={plotterbjork_closeup.src} />
+<ImageContainer client:only src={plotterbjork_closeup.src} />
 
 
 

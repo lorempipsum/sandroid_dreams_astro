@@ -1,7 +1,9 @@
 
+import { useState } from 'react';
 import Title from '../Title/Title';
 import styles from './Layout.module.css';
 
+import "../styles/global.css"
 interface LayoutProps {
     children: any;
     title: string;
@@ -11,24 +13,26 @@ const Layout = ({
   children,
   title,
 }: LayoutProps) => {
+  const [isDebugInfoShown, setIsDebugInfoShown] = useState<boolean>(false);
+  const debugBoxStyles = isDebugInfoShown ? styles.debugBox : "";
+
+  const isTitleShown = false; // Temporary const to hide the titles since at this point in time on 29/09/2023 I don't like the look of them
   return (
     <>
-      <div className={styles.main}>
+    <button onClick={() => {setIsDebugInfoShown(!isDebugInfoShown)}} >debug</button>
+    {isDebugInfoShown && <div className={styles.verticalSymmetryLine} />}
+      <div className={`${styles.main} ${debugBoxStyles}`}>
         <div className={styles.header}>
           <Title
             title={'sandroid.dev'}
           />
         </div>
 
-        <div className={styles.content}>
-          <div
-            className={
-              styles.dividerUpper
-            }
-          />
-          {title && (
+        <div className={`${styles.content} ${debugBoxStyles}`}>
+      
+          {isTitleShown && title && (
             <>
-              <h1 className={styles.title}>{title}</h1>{' '}
+               <h1 className={styles.title}>{title}</h1>{' '}
               <div
                 className={
                   styles.divider
@@ -36,10 +40,11 @@ const Layout = ({
               />
             </>
           )}
-          <div className="fadeIn">
+     
+        </div>
+        <div className={`${styles.innerContent} ${debugBoxStyles}`}>
             {children}
           </div>
-        </div>
       </div>
     </>
   );
