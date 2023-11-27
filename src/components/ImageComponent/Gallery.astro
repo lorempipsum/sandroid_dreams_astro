@@ -1,0 +1,27 @@
+---
+import { Image } from "astro:assets";
+
+interface Props {
+    imagePath: string;
+    altText: string;
+    name: string;
+    age: number;
+}
+
+const { imagePath, altText } = Astro.props;
+const images = import.meta.glob(
+    "/src/images/photography/test_photos/*.{webp,jpg,jpeg,png}"
+);
+
+console.log("images: " + JSON.stringify(images));
+---
+
+<div>Gallery</div>
+<div class="image-gallery">
+    {
+        Object.keys(images).map((path) => {
+            // TODO: These need a width.. based on the screen width probs right?
+            return <Image src={images[path]()} alt="" />;
+        })
+    }
+</div>

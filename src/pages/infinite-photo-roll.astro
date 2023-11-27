@@ -7,7 +7,7 @@ import ImageContainer from "../components/react/Images/ImageContainer";
 
 export const imagesFolder = `src/images/photography`; // Update the path accordingly
 
-export async function getImageFiles() {
+export async function getImageFiles(imagesFolder: string) {
     const imageFiles = await fs.readdir(imagesFolder);
 
     // Filter the list to include only image files (you can customize this filter)
@@ -18,7 +18,7 @@ export async function getImageFiles() {
     return imageFilesFiltered;
 }
 
-const imageFiles = await getImageFiles();
+const imageFiles = await getImageFiles(imagesFolder);
 ---
 
 <BaseLayout title="Welcome to Astro.">

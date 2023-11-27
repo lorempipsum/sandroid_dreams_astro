@@ -1,0 +1,16 @@
+---
+import ImageComponent from "../react/Images/ImageContainer";
+
+const images = import.meta.glob(
+    "/src/images/photography/cows-of-mendip-hills/*.{jpg, webp, png}"
+);
+---
+
+<div>Gallery</div>
+<div class="image-gallery">
+    {
+        Object.keys(images).map((path) => {
+            return <ImageComponent client:only src={path} id={`img-${path}`} />;
+        })
+    }
+</div>
