@@ -1,0 +1,37 @@
+---
+layout: '../../layouts/BaseLayout.astro'
+date: "2023-11-29"
+title: "The Tomato Shootout (Merrill vs Bayer)"
+tags: ["photography"]
+---
+
+import DummyComponent from '../../components/DummyComponent/DummyComponent.astro';
+import TheDoubleImageMkII from '../../components/ImageComponent/TheDoubleImage/TheDoubleImageMkII.astro'
+
+<DummyComponent />
+
+
+# The Tomato Shootout
+
+The below photos are taken with a Sigma DP3 Merrill and an Olympus OM-D EM10Mk100 (with the 60mm F2.8 macro lens) in more or less the same conditions. Is the Merrill worth it? Is it different? Better? Worse? 
+
+The photos look more similar than I would have expected. 
+
+
+<TheDoubleImageMkII images={ import.meta.glob(
+    "/src/images/photography/merrill_vs_olympus/*.{jpeg,jpg,png,gif}")} imageName1={"/src/images/photography/merrill_vs_olympus/olympus-1.jpg"} imageName2={"/src/images/photography/merrill_vs_olympus/sigma-1.jpg"} />
+
+<TheDoubleImageMkII images={ import.meta.glob(
+    "/src/images/photography/merrill_vs_olympus/*.{jpeg,jpg,png,gif}")} imageName1={"/src/images/photography/merrill_vs_olympus/olympus-2.jpg"} imageName2={"/src/images/photography/merrill_vs_olympus/sigma-2.jpg"} />
+
+<TheDoubleImageMkII images={ import.meta.glob(
+    "/src/images/photography/merrill_vs_olympus/*.{jpeg,jpg,png,gif}")} imageName1={"/src/images/photography/merrill_vs_olympus/olympus-3.jpg"} imageName2={"/src/images/photography/merrill_vs_olympus/sigma-3.jpg"} />
+
+<TheDoubleImageMkII images={ import.meta.glob(
+    "/src/images/photography/merrill_vs_olympus/*.{jpeg,jpg,png,gif}")} imageName1={"/src/images/photography/merrill_vs_olympus/olympus-4.jpg"} imageName2={"/src/images/photography/merrill_vs_olympus/sigma-4.jpg"} />
+
+<TheDoubleImageMkII images={ import.meta.glob(
+    "/src/images/photography/merrill_vs_olympus/*.{jpeg,jpg,png,gif}")} imageName1={"/src/images/photography/merrill_vs_olympus/olympus-5.jpg"} imageName2={"/src/images/photography/merrill_vs_olympus/sigma-5.jpg"} />
+
+<TheDoubleImageMkII images={ import.meta.glob(
+    "/src/images/photography/merrill_vs_olympus/*.{jpeg,jpg,png,gif}")} imageName1={"/src/images/photography/merrill_vs_olympus/olympus-6.jpg"} imageName2={"/src/images/photography/merrill_vs_olympus/sigma-6.jpg"} />

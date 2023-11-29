@@ -1,0 +1,23 @@
+---
+import { Image } from "astro:assets";
+const { imageName1, imageName2, images } = Astro.props;
+import styles from "./TheDoubleImage.module.css";
+---
+
+<div class={styles.imageContainer}>
+    <div class={styles.imageOverlay} id="image-overlay">
+        <div class={styles.imageWrapper}>
+            <Image
+                src={images[imageName1]()}
+                alt={"image"}
+                class={styles.image1}
+            />
+        </div><div class={styles.imageWrapper}>
+            <Image
+                src={images[imageName2]()}
+                alt={"image"}
+                class={styles.image2}
+            />
+        </div>
+    </div>
+</div>
