@@ -14,12 +14,13 @@ const Layout = ({
   title,
 }: LayoutProps) => {
   const [isDebugInfoShown, setIsDebugInfoShown] = useState<boolean>(false);
+  const isDebugButtonShown = false;
   const debugBoxStyles = isDebugInfoShown ? styles.debugBox : "";
 
   const isTitleShown = false; // Temporary const to hide the titles since at this point in time on 29/09/2023 I don't like the look of them
   return (
     <>
-    <button onClick={() => {setIsDebugInfoShown(!isDebugInfoShown)}} >debug</button>
+  {isDebugButtonShown && <button onClick={() => {setIsDebugInfoShown(!isDebugInfoShown)}} >debug</button>}
     {isDebugInfoShown && <div className={styles.verticalSymmetryLine} />}
       <div className={`${styles.main} ${debugBoxStyles}`}>
         <div className={styles.header}>

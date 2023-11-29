@@ -1,6 +1,5 @@
 
 import { useEffect, useState } from 'react';
-import useWindowDimensions from '../hooks/useWindowDimensions';
 import styles from './ImageContainer.module.css';
 
 interface ImageContainerProps {
@@ -19,7 +18,8 @@ const ImageContainer = ({src, id, isExpanded = false}: ImageContainerProps) => {
         border: '20px solid white',
         outline: '2px solid whitesmoke',
         transition: 'all 0.6s ease-in-out',
-        objectPosition: '33% 33%'
+        objectPosition: '33% 33%',
+        maxWidth: '100vw',
 
     }
     const [isZoomedView, setIsZoomedView] = useState(isExpanded);
@@ -40,7 +40,8 @@ const ImageContainer = ({src, id, isExpanded = false}: ImageContainerProps) => {
                 transition: 'all 0.6s ease-in-out',
                 border: '20px solid white',
                 outline: '2px solid whitesmoke',
-                objectPosition: '66% 33%'
+                objectPosition: '66% 33%',
+                maxWidth: '100vw',
 
             })
 

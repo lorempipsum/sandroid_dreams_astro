@@ -7,13 +7,13 @@ body, div, dl, dt, dd, ul, ol, li, h1, h2, h3, h4, h5, h6, pre, form, fieldset, 
 html {
     /* show scrollbar regardless of page height */
     overflow-y: scroll;
-    font-size: 14px;
+    font-size: 1rem;
 }
 
 
 h1 {
     font-family: consolas, monaco, courier, "courier new", fixed-width;
-    font-size: 1.5em;
+    font-size: 1.5rem;
     text-align: center;
     font-weight: 500;
 
