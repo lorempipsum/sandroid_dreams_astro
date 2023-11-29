@@ -1,0 +1,26 @@
+---
+layout: '../../layouts/BaseLayout.astro'
+date: "2023-11-29"
+title: "Sigma Merrill Photos"
+tags: ["photography"]
+
+---
+
+import DummyComponent from '../../components/DummyComponent/DummyComponent.astro';
+import ShittyGallery from "../../components/ImageComponent/ShittyGallery.astro";
+
+
+<DummyComponent />
+
+
+# Sigma Merrill Photos
+
+Ah, the Sigma Merrill X3 Foveon sensor. The sensor is made up of 3 different sensors: one sensor for each colour in RGB. This means that each pixel gets its colour recorded exactly as it is in all three colours, instead of having to interpolate it from the surrounding pixels like in a traditional Bayer array. 
+
+It's unclear whether this actually makes as much of a difference in the final image as some claim. I always thought it did, but I've seen some convincing analysis which says it doesn't, and it's more to do with the lens or extra sharpening that's added in software etc. I got tired of reading about it though, and saw a DP3 Merrill on CEX for £340 and decided to buy it to see for myself. Below are some images I've taken with it.
+
+Whether the sensor is magic or not, the photos are undeniably sharp. 
+
+<ShittyGallery images={import.meta.glob(
+    "/src/images/photography/sigma_merrill/*.{jpeg,jpg,png,gif}"
+)}/>
