@@ -1,10 +1,22 @@
 ---
-import MyCustomImageComponent from "./MyCustomImageComponent.astro";
+import { Image } from "astro:assets";
+import ImageWrapper from "../react/Images/ImageWrapper.tsx";
+
+interface Props {
+    images: any;
+}
+
+const { images } = Astro.props;
 ---
 
-<MyCustomImageComponent
-    imagePath="/src/images/photography/cows_of_mendip_hills/cows-of-mendip-hills-3.jpg"
-    altText="A picture of some cows"
-    name="Priya"
-    age={25}
-/>
+<div class="card">
+    {
+        Object.keys(images).map((image) => {
+            return (
+                <ImageWrapper client:only>
+                    <Image src={images[image]()} alt={"image"} />
+                </ImageWrapper>
+            );
+        })
+    }
+</div>

@@ -3,14 +3,18 @@ layout: '../../layouts/BaseLayout.astro'
 date: "2023-11-27"
 title: "The Cows of Mendip Hills"
 tags: ["photography"]
+
 ---
 
 import DummyComponent from '../../components/DummyComponent/DummyComponent.astro';
 import ShittyGallery from "../../components/ImageComponent/ShittyGallery.astro";
+
 
 <DummyComponent />
 
 
 # The Cows of Mendip Hills
 
-<ShittyGallery />
+<ShittyGallery images={import.meta.glob(
+    "/src/images/photography/cows_of_mendip_hills/*.{jpeg,jpg,png,gif}"
+)}/>
