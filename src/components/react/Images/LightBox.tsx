@@ -33,6 +33,21 @@ const RightArrow = () => {
     );
   };
 
+  const CrossIcon = ({}) => {
+    return (
+        <div className={styles.crossIcon} >
+            <svg
+                xmlns="http://www.w3.org/2000/svg"
+                width="50"
+                height="50"
+                viewBox="0 0 25 25"
+            >
+                <path d="M6 6L19 19M6 19L19 6" />
+            </svg>
+        </div>
+    );
+  };
+
 interface LightBoxProps {
     imageToDisplay: any;
     handleKeyPress: any;
@@ -48,12 +63,12 @@ export const LightBox = ({
     image,
     setImage,
   }: LightBoxProps) => {
+    const isNavigationShown = false;
     useEffect(() => {
       window.removeEventListener('keyup', handleKeyPress);
   
       window.addEventListener('keyup', handleKeyPress);
   
-      // cleanup this component
       return () => {
         window.removeEventListener('keyup', handleKeyPress);
       };
@@ -81,23 +96,30 @@ export const LightBox = ({
         </button>
       );
     };
+
+    const CrossButton = () => {
+        return (
+          <button
+            className={styles.crossButton}
+            onClick={closeLightbox}
+          >
+            <CrossIcon />
+          </button>
+        );
+      }
   
     return (
       <>
-        <LeftButton />
-        <RightButton />
+        {isNavigationShown && <LeftButton />}
+        {isNavigationShown && <RightButton />}
         <div
           tabIndex={0}
-          onClick={() => closeLightbox()}
           className={styles.lightbox}
         >
-          <img
-            className={styles.lightboxImage}
-            style={{
-              objectFit: 'contain',
-            }}
-            src={imageToDisplay.src}
-          />
+            <div className={styles.lightboxImage} onClick={() => closeLightbox()}>
+
+         {imageToDisplay}
+         </div>
         </div>
       </>
     );

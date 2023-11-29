@@ -12,7 +12,7 @@
 }
 
 .defaultStyles img {
-    width: 50%;
+    width: 100%;
     height: auto;
     min-height: 20vh;
     max-height: 70vh;

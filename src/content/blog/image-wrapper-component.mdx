@@ -4,6 +4,7 @@ date: "2023-01-10"
 title: "Image Wrapper Component"
 tags: ["plotting"]
 ---
+import ImageWrapperLightBox from '../../components/react/Images/ImageWrapperLightBox.tsx';
 import ImageContainer from '../../components/react/Images/ImageContainer.tsx';
 import TheDoubleImage from '../../components/ImageComponent/TheDoubleImage/TheDoubleImage.astro'
 import cloudRailway from '../../images/photography/test_photos/cloud_railway.webp';
@@ -11,6 +12,9 @@ import bristol_balloons from '../../images/photography/test_photos/bristol_ballo
 import bristol_balloons_wide from '../../images/photography/test_photos/bristol_balloons_wide.webp';
 import bwArtsy from '../../images/photography/test_photos/b&w_artsy.webp';
 import really_long_pano_sunset from '../../images/photography/test_photos/really_long_pano_sunset.webp';
+import { Image } from "astro:assets";
+
+import MyCustomImageComponent from "../../components/ImageComponent/MyCustomImageComponent.astro";
 
 <TheDoubleImage src2={bwArtsy.src} src1={bristol_balloons.src}/>
 
@@ -53,3 +57,6 @@ Object-fit is set to 'cover'. (It would be fun to have it automatically select o
 <ImageContainer client:only src={really_long_pano_sunset.src} id="really_long_pano_sunset-jpg" />
 
 
+#### Image container with a Lightbox 
+
+<ImageWrapperLightBox client:only><Image src={bristol_balloons} alt={"Photo of Bristol Balloons"} /> </ImageWrapperLightBox>
