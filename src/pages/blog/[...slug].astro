@@ -11,10 +11,11 @@ export async function getStaticPaths() {
 
         return dateB.getTime() - dateA.getTime();
     });
-    return blogEntries.map((entry) => ({
+    const blogEntriesWithProps = blogEntries.map((entry) => ({
         params: { slug: entry.slug },
         props: { entry },
     }));
+    return blogEntriesWithProps;
 }
 
 // 2. For my template, I can get the entry directly from the prop
