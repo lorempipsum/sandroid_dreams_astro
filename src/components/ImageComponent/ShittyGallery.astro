@@ -13,7 +13,7 @@ const { images } = Astro.props;
     {
         Object.keys(images).map((image) => {
             return (
-                <ImageWrapper client:only>
+                <ImageWrapper client:only isExpanded={true}>
                     <Image src={images[image]()} alt={"image"} />
                 </ImageWrapper>
             );
