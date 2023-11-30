@@ -11,7 +11,6 @@ interface ImageContainerProps {
 const ImageWrapperLightBox = ({children, isExpanded = false}: ImageContainerProps) => {
    
     const [isZoomedView, setIsZoomedView] = useState(isExpanded);
-    console.log(isZoomedView);
 
      
 

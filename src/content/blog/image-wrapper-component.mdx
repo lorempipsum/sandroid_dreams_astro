@@ -4,8 +4,9 @@ date: "2023-01-10"
 title: "Image Wrapper Component"
 tags: ["plotting"]
 ---
+import TheDoubleImageMkII from '../../components/ImageComponent/TheDoubleImage/TheDoubleImageMkII.astro';
 import ImageWrapperLightBox from '../../components/react/Images/ImageWrapperLightBox.tsx';
-import ImageContainer from '../../components/react/Images/ImageContainer.tsx';
+import ImageContainer from '../../components/ImageComponent/ImageContainer.astro';
 import TheDoubleImage from '../../components/ImageComponent/TheDoubleImage/TheDoubleImage.astro'
 import cloudRailway from '../../images/photography/test_photos/cloud_railway.webp';
 import bristol_balloons from '../../images/photography/test_photos/bristol_balloons.webp';
@@ -37,23 +38,29 @@ Object-fit is set to 'cover'. (It would be fun to have it automatically select o
 
 #### With a 4:3 image
 
-<ImageContainer client:only src={bristol_balloons.src} id="bristol-balloons-jpg"  />
+<ImageContainer  image={bristol_balloons}   />
 
 #### With a Widescreen image
 
-<ImageContainer client:only src={bristol_balloons_wide.src} id="bristol_balloons_wide-jpg" />
+<ImageContainer  image={bristol_balloons_wide}  />
 
 #### with a Portrait image
 
-<ImageContainer client:only src={cloudRailway.src} id="cloud-railway-jpg" />
+<ImageContainer  image={cloudRailway}  />
 
 #### with a Fancy B&W image
 
-<ImageContainer client:only src={bwArtsy.src} id="bwArtsy-jpg" />
+<ImageContainer  image={bwArtsy}  />
 
 #### With a really long pano image 
 
-<ImageContainer client:only src={really_long_pano_sunset.src} id="really_long_pano_sunset-jpg" />
+<ImageContainer image={really_long_pano_sunset}  />
+
+#### The Double Image Mk II 
+
+<TheDoubleImageMkII images={ import.meta.glob(
+    "/src/images/photography/merrill_vs_olympus/*.{jpeg,jpg,png,gif}")} imageName1={"/src/images/photography/merrill_vs_olympus/olympus-1.jpg"} imageName2={"/src/images/photography/merrill_vs_olympus/sigma-1.jpg"} />
+
 
 
 #### Image container with a Lightbox 

@@ -1,5 +1,6 @@
 
 .imageContainer {
+    
     position: relative;
     aspect-ratio: 16 / 10;
     height: auto; /* Adjust the container height as needed */
@@ -9,6 +10,11 @@
     align-items: center; /* Center the child both horizontally and vertically */
     padding-top: 1.5rem;
     padding-bottom: 1.5rem;
+}
+
+.imageContainer img {
+    width: 100%;
+    height: auto;
 }
 
 .defaultStyles img {

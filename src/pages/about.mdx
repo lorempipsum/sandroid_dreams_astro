@@ -3,13 +3,13 @@ layout: "../layouts/BaseLayout.astro"
 title: "About"
 ---
 
-import ImageContainer from '../components/react/Images/ImageContainer.tsx';
+import ImageContainer from '../components/ImageComponent/ImageContainer.astro';
 import bristol_balloons_wide from '../images/photography/test_photos/bristol_balloons_wide.webp';
 import DummyComponent from '../components/DummyComponent/DummyComponent.astro'
 
 <DummyComponent />
 
-<ImageContainer src={bristol_balloons_wide.src} isExpanded={true} id="bristol-balloons-about" client:only/>
+<ImageContainer image={bristol_balloons_wide} isExpanded={true} alt={"A photo of hot air balloons above Bristol"}/>
 
 # About 
 

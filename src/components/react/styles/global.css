@@ -12,6 +12,7 @@ html {
 
 
 h1 {
+    font-family: consolas, monaco, courier, "courier new", fixed-width;
     font-size: 1.5rem;
     text-align: center;
     font-weight: 500;
@@ -26,12 +27,6 @@ h1 {
     text-underline-offset: 0.2em;
 }
 
-button {
-    font-family: consolas, monaco, courier, "courier new", fixed-width;
-    border: none;
-    margin: 2px;
-    border: 1px solid black;
-}
 
 .removeDecoration {
     /* underlining can't be overwritten normally

@@ -61,13 +61,6 @@ p {
   display: flex;
 }
 
-img {
-  display: block;
-  margin: 0 auto; /* Center the image horizontally */
-  max-width: none; /* Remove the maximum width restriction */
-  height: auto; /* Maintain the image's aspect ratio */
-
-}
 pre, code {
 
   overflow-x: auto;

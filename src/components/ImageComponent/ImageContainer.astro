@@ -1,0 +1,23 @@
+---
+import { Image } from "astro:assets";
+import ImageWrapper from "../react/Images/ImageWrapper.tsx";
+
+interface Props {
+    image: any;
+    alt?: string;
+    isExpanded?: boolean;
+    // TODO: Make it possible to just pass the "rest of the props" through without naming all of them
+}
+
+const { image, alt = "An image", isExpanded } = Astro.props;
+---
+
+<div>
+    {
+        (
+            <ImageWrapper isExpanded={isExpanded} client:only>
+                <Image src={image} alt={alt} />
+            </ImageWrapper>
+        )
+    }
+</div>
