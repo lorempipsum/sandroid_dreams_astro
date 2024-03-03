@@ -38,12 +38,20 @@ export const Title = ({ title }: {title: string}) => {
             About
           </a>
           <a
-            href="/friends"
+            href="/commutechecker"
             className={
               styles.subtitleText
             }
           >
-            Friends
+            CommuteChecker
+          </a>
+          <a
+            href="/404"
+            className={
+              styles.subtitleText
+            }
+          >
+            404
           </a>
           <a
             href="https://instagram.com/sandroid_dreams"

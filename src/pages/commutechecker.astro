@@ -1,0 +1,9 @@
+---
+import BaseLayout from "../layouts/BaseLayout.astro";
+
+import CommuteChecker from "/src/components/react/CommuteChecker/CommuteChecker.tsx";
+---
+
+<BaseLayout title="CommuteChecker">
+    <div>{(<CommuteChecker astro:include />)}</div>
+</BaseLayout>
