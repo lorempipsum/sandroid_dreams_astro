@@ -1,0 +1,20 @@
+---
+layout: '../../layouts/BaseLayout.astro'
+date: "2024-03-03"
+title: "Artsy B&W Photos"
+tags: ["photography"]
+---
+
+import DummyComponent from '../../components/DummyComponent/DummyComponent.astro';
+import ShittyGallery from "../../components/ImageComponent/ShittyGallery.astro";
+
+
+<DummyComponent />
+
+
+# {props.title}
+
+Photos taken with the Helios 44m 58mm f2 lens. This lens is known for its swirly bokeh.
+<ShittyGallery images={import.meta.glob(
+    "/src/images/photography/art/*.{jpeg,jpg,png,gif}"
+)}/>

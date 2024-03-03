@@ -1,0 +1,22 @@
+---
+import BaseLayout from "../layouts/BaseLayout.astro";
+import PageLink from "../components/react/PageLink/PageLink";
+import { getCollection } from "astro:content";
+
+const allBlogPosts = await getCollection("photography");
+---
+
+<BaseLayout title="Photography">
+    <div></div>
+
+    {
+        allBlogPosts.map((blogPost) => {
+            return (
+                <PageLink
+                    to={`/photography/${blogPost.slug}`}
+                    text={blogPost.data.title}
+                />
+            );
+        })
+    }
+</BaseLayout>

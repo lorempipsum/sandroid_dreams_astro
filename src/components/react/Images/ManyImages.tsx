@@ -21,7 +21,7 @@ export async function getImageFiles(imagesFolder: string) {
 
 const ManyImages = async ({folderPath}: {folderPath: string}) => {
     console.log("Hello")
-    const imageFiles = await getImageFiles("src/images/photography/cows-of-mendip-hills");
+    const imageFiles = await getImageFiles(folderPath);
 
     return <div className="image-gallery">
     {
