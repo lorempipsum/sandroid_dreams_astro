@@ -1,0 +1,19 @@
+---
+layout: '../../layouts/BaseLayout.astro'
+date: "2024-03-03"
+title: "Bristol"
+tags: ["photography"]
+---
+
+import DummyComponent from '../../components/DummyComponent/DummyComponent.astro';
+import GalleryImageGrid from "../../components/react/Images/GalleryImageGrid.tsx";
+
+
+<DummyComponent />
+
+
+# {props.title}
+
+<GalleryImageGrid client:only images={import.meta.glob(
+    "/src/images/photography/bristol/*.{jpeg,jpg,png,gif}"
+)}/>
