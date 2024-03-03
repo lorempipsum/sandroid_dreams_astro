@@ -76,7 +76,7 @@ export const GalleryImageGrid = ({ images }: GalleryImageGridProps) => {
       {isOpen && (
         <LightBox
           handleKeyPress={handleKeyPress}
-          imageToDisplay={fullArray[image]}
+          imageToDisplay={<img src={Object.keys(fullArray)[image]} />}
           closeLightbox={closeLightbox}
           image={image}
           setImage={setImage}
