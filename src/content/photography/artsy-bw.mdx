@@ -6,7 +6,7 @@ tags: ["photography"]
 ---
 
 import DummyComponent from '../../components/DummyComponent/DummyComponent.astro';
-import ShittyGallery from "../../components/ImageComponent/ShittyGallery.astro";
+import GalleryImageGrid from "../../components/react/Images/GalleryImageGrid.tsx";
 
 
 <DummyComponent />
@@ -14,7 +14,6 @@ import ShittyGallery from "../../components/ImageComponent/ShittyGallery.astro";
 
 # {props.title}
 
-Photos taken with the Helios 44m 58mm f2 lens. This lens is known for its swirly bokeh.
-<ShittyGallery images={import.meta.glob(
+<GalleryImageGrid client:only images={import.meta.glob(
     "/src/images/photography/art/*.{jpeg,jpg,png,gif}"
 )}/>

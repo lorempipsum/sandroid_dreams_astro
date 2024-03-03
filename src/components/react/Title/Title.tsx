@@ -46,6 +46,14 @@ export const Title = ({ title }: {title: string}) => {
             Friends
           </a>
           <a
+            href="/photography"
+            className={
+              styles.subtitleText
+            }
+          >
+            Photography
+          </a>
+          <a
             href="https://instagram.com/sandroid_dreams"
             className={
               styles.subtitleText

@@ -10,23 +10,6 @@ interface GalleryImageGridProps {
 // TODO: Make this accept 'children', which will be all the images? Made by Astro's Image component?
 export const GalleryImageGrid = ({ images }: GalleryImageGridProps) => {
     console.log('images', images);
-  // wtf is {images}?
-  // Something like that I guess:
-  // childImageSharp {
-  //   thumb: fluid(
-  //     maxWidth: 150
-  //     maxHeight: 150
-  //   ) {
-  //     ...GatsbyImageSharpFluid
-  //   }
-  //   full: fluid(
-  //     maxWidth: 1024
-  //   ) {
-  //     ...GatsbyImageSharpFluid
-  //   }
-  // }
-  // New style with all images in one prop
-  // determined if page has scrolled and if the view is on mobile
 
   const [isOpen, setIsOpen] = useState(false);
   const [image, setImage] = useState(0);
@@ -100,7 +83,7 @@ export const GalleryImageGrid = ({ images }: GalleryImageGridProps) => {
         ></LightBox>
       )}
       <div className={styles.imageGrid}>
-        {thumbsArray.map((thumbnail: any, index: number) => {
+        {Object.keys(thumbsArray).map((thumbnail: any, index: number) => {
           return (
             <div
               onClick={() => openLightbox(index)}
