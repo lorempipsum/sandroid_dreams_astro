@@ -35,37 +35,6 @@ const { images } = Astro.props;
             margin: 0 auto;
         }
     }
-    /* at higher than 600px, the grid will be 4 columns */
-    @media (min-width: 600px) {
-        .imageGrid {
-            grid-template-columns: 1fr 1fr 1fr 1fr;
-        }
-        .landscape {
-            grid-column: span 2; 
-            margin: 0 auto;
-        }
-    }
-    }
-    /* at higher than 900px, the grid will be 6 columns */
-    @media (min-width: 900px) {
-        .imageGrid {
-            grid-template-columns: 1fr 1fr 1fr 1fr 1fr 1fr ;
-        }
-        .landscape {
-            grid-column: span 2; 
-            margin: 0 auto;
-        }
-    }
-    /* at higher than 1200px, the grid will be just repeating 150px width columns */
-    @media (min-width: 1200px) {
-        .imageGrid {
-            grid-template-columns: repeat(auto-fill, minmax(150px, 1fr));
-        }
-        .landscape {
-            grid-column: span 2; 
-            margin: 0 auto;
-        }
-    }
     
 
     .thumbnail {
