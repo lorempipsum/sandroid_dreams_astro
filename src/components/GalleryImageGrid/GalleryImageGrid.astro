@@ -1,7 +1,7 @@
 ---
-import type { ImageMetadata } from "astro";
-
 import { Image } from "astro:assets";
+
+import Lightbox from "@julian_cataldo/astro-lightbox";
 
 import styles from "./galleryImageGrid.module.scss";
 
@@ -9,12 +9,18 @@ const { images } = Astro.props;
 ---
 
 <>
+    <Lightbox />
     <div class={styles.imageGrid}>
         {
             Object.entries(images).map(([imagePath, image]) => {
                 return (
-                    <div class={styles["thumbnail"]}>
-                        <Image src={image()} alt="test" width="300" />
+                    <div class={styles["thumbnail"]} data-lightbox="true">
+                        <Image
+                            src={image()}
+                            alt="test"
+                            widths={[200, 400, 800, 1600]}
+                            sizes={`(max-width: 400px) 400px, (max-width: 800px) 800px, 1200px`}
+                        />
                     </div>
                 );
             })

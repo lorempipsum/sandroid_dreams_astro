@@ -50,10 +50,10 @@ const RightArrow = () => {
 
 interface LightBoxProps {
     imageToDisplay: any;
-    handleKeyPress: any;
-    closeLightbox: any;
-    image: any;
-    setImage: any;
+    handleKeyPress?: any;
+    closeLightbox?: any;
+    image?: any;
+    setImage?: any;
 }
 
 export const LightBox = ({
