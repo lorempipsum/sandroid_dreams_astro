@@ -7,24 +7,140 @@ import styles from "./galleryImageGrid.module.scss";
 
 const { images } = Astro.props;
 ---
+<style>
+    .imageGrid {
+        display: grid;
+        grid-template-columns: repeat(auto-fill, minmax(150px, 1fr));
+        justify-items: center;
+        padding-left: 2rem;
+        padding-right: 2rem;
+        gap: 1rem;
+  }
 
+    .thumbnail {
+        grid-column: span 1;
+    }
+
+    .landscape {
+        grid-column: span 2;
+    }
+
+    /* at lower than 600px, the grid will be 1 column */
+    @media (max-width: 600px) {
+        .imageGrid {
+            grid-template-columns: 100%;
+        }
+        .landscape {
+            grid-column: span 1; 
+            margin: 0 auto;
+        }
+    }
+    /* at higher than 600px, the grid will be 4 columns */
+    @media (min-width: 600px) {
+        .imageGrid {
+            grid-template-columns: 1fr 1fr 1fr 1fr;
+        }
+        .landscape {
+            grid-column: span 2; 
+            margin: 0 auto;
+        }
+    }
+    }
+    /* at higher than 900px, the grid will be 6 columns */
+    @media (min-width: 900px) {
+        .imageGrid {
+            grid-template-columns: 1fr 1fr 1fr 1fr 1fr 1fr ;
+        }
+        .landscape {
+            grid-column: span 2; 
+            margin: 0 auto;
+        }
+    }
+    /* at higher than 1200px, the grid will be just repeating 150px width columns */
+    @media (min-width: 1200px) {
+        .imageGrid {
+            grid-template-columns: repeat(auto-fill, minmax(150px, 1fr));
+        }
+        .landscape {
+            grid-column: span 2; 
+            margin: 0 auto;
+        }
+    }
+    
+
+    .thumbnail {
+        transition: all 0.354s ease-in-out;
+        box-shadow: rgba(0, 0, 0, 0.25) 0px 0.0625em 0.0625em, rgba(0, 0, 0, 0.25) 0px 0.125em 0.5em, rgba(255, 255, 255, 0.1) 0px 0px 0px 1px inset;
+        opacity: 100%;
+        cursor: pointer;
+        border: 4px solid white;
+
+        img {
+        width: 100%;
+        height: 100%;
+
+        object-fit: cover;
+        margin: 0 auto;
+        display: block;
+        }
+    }
+    
+    
+    .thumbnail:hover {
+        opacity: 50%;
+        z-index: 200;
+    }
+    
+    // Every 300px, a new column is added. so: 
+
+</style>
+<script>
+    // Get the image element and check if it's landscape
+
+        function checkImageOrientation() {
+            const imageContainers = document.querySelectorAll("[id$='-thumbnail']");
+            imageContainers.forEach((imageContainer) => {
+                const image = imageContainer.querySelector("img");
+                const imageWidth = image.naturalWidth;
+                const imageHeight = image.naturalHeight;
+                const imageRatio = imageWidth / imageHeight;
+                if (imageWidth > imageHeight) {
+                    imageContainer.classList.add("landscape");
+                }
+                if (imageRatio > 2) {
+                    imageContainer.classList.add("superwide");
+                }
+            });
+
+        }
+        window.addEventListener("load", checkImageOrientation);
+
+        
+    </script>
 <>
     <Lightbox />
-    <div class={styles.imageGrid}>
+    <div class="imageGrid">
         {
             Object.entries(images).map(([imagePath, image]) => {
+                // if image is landscape, add landscape class
+        
+                const imageWidth = image();
+                console.log(imageWidth);
                 return (
-                    <div class={styles["thumbnail"]} data-lightbox="true">
+                    <div
+                        class="thumbnail"
+                        data-lightbox="true"
+                        id=`${imagePath}-thumbnail`
+                    >
                         <Image
                             src={image()}
                             alt="test"
-                            widths={[200, 400, 800, 1600]}
-                            sizes={`(max-width: 400px) 400px, (max-width: 800px) 800px, 1200px`}
+                            widths={[300, 600, 900, 1200, 1500]}
+                            sizes={`(max-width: 400px) 300px, (max-width: 800px) 900px, 1500px`}
                         />
                     </div>
                 );
             })
         }
     </div>
-    <div class={styles.footer}></div>
 </>
