@@ -1,12 +1,14 @@
 ---
-layout: '../../layouts/BaseLayout.astro'
+layout: '../../layouts/FreeLayout.astro'
 date: "2024-03-03"
 title: "Cows of Mendip Hills"
 tags: ["photography"]
 ---
 
 import DummyComponent from '../../components/DummyComponent/DummyComponent.astro';
-import GalleryImageGrid from "../../components/react/Images/GalleryImageGrid.tsx";
+import GalleryImageGrid from "../../components/GalleryImageGrid/GalleryImageGrid.astro";
+export const images = import.meta.glob(
+    "/src/images/photography/cows_of_mendip_hills/*.{jpeg,jpg,png,gif}");
 
 
 <DummyComponent />
@@ -14,6 +16,5 @@ import GalleryImageGrid from "../../components/react/Images/GalleryImageGrid.tsx
 
 # {props.title}
 
-<GalleryImageGrid client:only images={import.meta.glob(
-    "/src/images/photography/cows_of_mendip_hills/*.{jpeg,jpg,png,gif}"
-)}/>
+<GalleryImageGrid images={images} ></GalleryImageGrid>
+

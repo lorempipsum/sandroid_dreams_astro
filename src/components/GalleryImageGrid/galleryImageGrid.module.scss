@@ -1,0 +1,128 @@
+.imageGrid {
+    display: grid;
+      grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
+    gap: 3rem;
+    width: auto;
+    justify-items: center;
+    padding-left: 2rem;
+    padding-right: 2rem;
+    max-width: calc(90vw - 4rem);
+    margin: 0 auto;
+
+  }
+
+  
+  .lightbox  {
+    background: rgba(255, 255, 255, 0.9);
+    left: 0;
+    top: 0;
+    width: 100%;
+    height: 100%;
+    position: fixed;
+    z-index: 500;
+    transition: all 0.6s ease-in-out;
+  
+  }
+  
+  .previousButton {
+    left: 0;
+    top: 50%;
+    transform: translateY(-50%);
+    margin-left: 2vw;
+    position: fixed;
+    z-index: 6000;
+    border: none;
+    background: none;
+    cursor: pointer;
+  }
+  
+  .nextButton {
+    right: 0;
+    top: 50%;
+    transform: translateY(-50%);
+    margin-right: 2vw;
+    position: fixed;
+    z-index: 6000;
+    border: none;
+    background: none;
+    cursor: pointer;
+  }
+
+  .crossButton {
+    right: 50px;
+    top: 50px;
+    transform: translateY(-50%);
+    margin-right: 2vw;
+    position: fixed;
+    z-index: 6000;
+    border: none;
+    background: none;
+    cursor: pointer;
+  }
+  
+  .lightboxImage img {
+    position: fixed;
+    top: 50%;
+    left: 50%;
+    transform: translate3D(-50%, -50%, 0);
+    height: auto;
+    max-height: 90vh;
+    max-width: 100vw;
+    width: min(100vw, 1800px);
+    z-index: 1000;
+    transition: all 0.2s ease-out;
+    object-fit: contain
+  
+  }
+  
+  
+  .thumbnail {
+    transition: all 0.354s ease-in-out;
+    box-shadow: rgba(0, 0, 0, 0.25) 0px 0.0625em 0.0625em, rgba(0, 0, 0, 0.25) 0px 0.125em 0.5em, rgba(255, 255, 255, 0.1) 0px 0px 0px 1px inset;
+    opacity: 100%;
+    cursor: pointer;
+    max-width: 100vw;
+    border: 4px solid white;
+
+
+    img {
+      width: 100%;
+      height: 100%;
+      max-width: inherit;
+
+      object-fit: cover;
+      margin: 0 auto;
+      display: block;
+    }
+  }
+  
+  
+  .thumbnail:hover {
+    opacity: 50%;
+    z-index: 200;
+  }
+  
+  .arrow {
+    border: rgba(0, 0, 0, 0.5) 2px solid;
+  
+    background-color: rgba(255, 255, 255, 0.66);
+        border-radius: 5%;
+  
+  
+  }
+
+  .crossIcon {
+    border: rgba(0, 0, 0, 0.5) 2px solid;
+  
+    background-color: rgba(255, 255, 255, 0.66);
+        border-radius: 5%;
+  
+  }
+  .arrow svg {
+    margin-top: 10%;
+  
+  }
+  
+  .footer {
+    height: 30vh;
+  }

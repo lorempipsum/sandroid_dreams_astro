@@ -1,23 +1,26 @@
-import React, { useState, useEffect } from 'react';
+import React, { useState, useEffect, Children} from 'react';
 
 import styles from './galleryImageGridWithBigImages.module.scss';
 import { LightBox } from './LightBox';
 
 interface GalleryImageGridProps {
-    images: any;
+  children: any;
 }
 
 // TODO: Make this accept 'children', which will be all the images? Made by Astro's Image component?
-export const GalleryImageGrid = ({ images }: GalleryImageGridProps) => {
+export const GalleryImageGrid = ({ children }: GalleryImageGridProps) => {
+    console.log('images', children);
+
+    const images = Children.toArray(children);
     console.log('images', images);
 
   const [isOpen, setIsOpen] = useState(false);
   const [image, setImage] = useState(0);
 
   // TODO: make the thumbsArray be smaller thumbnails 
-  const thumbsArray = images;
+  const thumbsArray = children;
 
-  const fullArray = images;
+  const fullArray = children;
 
   const openLightbox = (index: React.SetStateAction<number>) => {
     setIsOpen(true);
@@ -76,20 +79,20 @@ export const GalleryImageGrid = ({ images }: GalleryImageGridProps) => {
       {isOpen && (
         <LightBox
           handleKeyPress={handleKeyPress}
-          imageToDisplay={<img src={Object.keys(fullArray)[image]} />}
+          imageToDisplay={children}
           closeLightbox={closeLightbox}
           image={image}
           setImage={setImage}
         ></LightBox>
       )}
       <div className={styles.imageGrid}>
-        {Object.keys(thumbsArray).map((thumbnail: any, index: number) => {
+        {(thumbsArray).map((thumbnail: any, index: number) => {
           return (
             <div
               onClick={() => openLightbox(index)}
               className={styles.thumbnail}
             >
-              <img src={thumbnail} />
+              {thumbnail}
             </div>
           );
         })}

@@ -1,19 +1,20 @@
 ---
-layout: '../../layouts/BaseLayout.astro'
+layout: '../../layouts/FreeLayout.astro'
 date: "2024-03-03"
 title: "Bristol"
 tags: ["photography"]
 ---
 
 import DummyComponent from '../../components/DummyComponent/DummyComponent.astro';
-import GalleryImageGrid from "../../components/react/Images/GalleryImageGrid.tsx";
+import GalleryImageGrid from "../../components/GalleryImageGrid/GalleryImageGrid.astro";
 
+export const images = import.meta.glob(
+    "/src/images/photography/bristol/*.{jpeg,jpg,png,gif}");
 
 <DummyComponent />
 
 
 # {props.title}
 
-<GalleryImageGrid client:only images={import.meta.glob(
-    "/src/images/photography/bristol/*.{jpeg,jpg,png,gif}"
-)}/>
+<GalleryImageGrid images={images} ></GalleryImageGrid>
+

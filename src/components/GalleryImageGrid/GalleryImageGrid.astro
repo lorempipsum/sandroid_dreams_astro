@@ -1,0 +1,24 @@
+---
+import type { ImageMetadata } from "astro";
+
+import { Image } from "astro:assets";
+
+import styles from "./galleryImageGrid.module.scss";
+
+const { images } = Astro.props;
+---
+
+<>
+    <div class={styles.imageGrid}>
+        {
+            Object.entries(images).map(([imagePath, image]) => {
+                return (
+                    <div class={styles["thumbnail"]}>
+                        <Image src={image()} alt="test" width="300" />
+                    </div>
+                );
+            })
+        }
+    </div>
+    <div class={styles.footer}></div>
+</>
