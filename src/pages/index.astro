@@ -1,7 +1,22 @@
 ---
 import BaseLayout from "../layouts/BaseLayout.astro";
+import PageLink from "../components/react/PageLink/PageLink.tsx";
+import { getCollection } from "astro:content";
+
+const allBlogPosts = await getCollection("blog");
 ---
 
-<BaseLayout title="Welcome to Astro.">
-    <div>Hello Traveller</div>
+<BaseLayout title="Blog">
+    <div></div>
+
+    {
+        allBlogPosts.map((blogPost) => {
+            return (
+                <PageLink
+                    to={`/blog/${blogPost.slug}`}
+                    text={blogPost.data.title}
+                />
+            );
+        })
+    }
 </BaseLayout>
