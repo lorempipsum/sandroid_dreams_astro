@@ -9,8 +9,8 @@ import ImageWrapperLightBox from '/src/components/react/Images/ImageWrapperLight
 
 import { Image } from "astro:assets";
 
-import skyTonightScreenshot from './project-moonshot/sky_tonight_screenshot_suspension_bridge_2.png';
-import photoPillsScreenshot from './project-moonshot/photopills.png';
+import skyTonightScreenshot from './_project-moonshot/sky_tonight_screenshot_suspension_bridge_2.png';
+import photoPillsScreenshot from './_project-moonshot/photopills.png';
 
 <DummyComponent />
 
