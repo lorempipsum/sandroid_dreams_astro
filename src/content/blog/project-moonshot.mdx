@@ -1,0 +1,78 @@
+---
+layout: '../../layouts/BaseLayout.astro'
+title: "Project Moonshot"
+date: "2024-03-07"
+tags: ["programming"]
+---
+import DummyComponent from '../../components/DummyComponent/DummyComponent.astro'
+import ImageWrapperLightBox from '/src/components/react/Images/ImageWrapperLightBox.tsx';
+
+import { Image } from "astro:assets";
+
+import skyTonightScreenshot from './project-moonshot/sky_tonight_screenshot_suspension_bridge_2.png';
+import photoPillsScreenshot from './project-moonshot/photopills.png';
+
+<DummyComponent />
+
+# Project Moonshot
+
+I want to take pictures that incorporate the Moon this year. To make the photos more interesting, I want to include a foreground subject. 
+
+To successfully capture the Moon next to the foreground object with a telephoto lens, it is necessary for the moon to be low in the sky. 
+
+To make sure the foreground object is lit properly, and to make the moon easier to expose for (it is very bright in the night sky), I will need to shoot during sunset or sunrise. 
+
+So, to plan my shots I need to know these things: 
+
+* When does the sun rise and set? 
+* At what altitude will the moon be at sunrise and sunset? (An easier question to answer might be "What time will the moon rise and set?" depending on APIs etc)
+
+
+Bonus: 
+* What phase will the moon be in?
+* What will the weather be like?
+
+## Current Process 
+
+I have been using the app **PhotoPills** and **Sky Tonight** to plan shots manually. **Sky Tonight** has a really helpful AR feature that shows the path of the Moon and Sun in the sky. 
+
+<ImageWrapperLightBox client:only><Image src={skyTonightScreenshot} alt={"Screenshot of Sky Tonight AR feature"} /> </ImageWrapperLightBox>
+
+PhotoPills has some fancy features like being able to see the path of the moon and sun on a map, and seeing how large the moon will be in the sky at a given focal length and distance. 
+
+<ImageWrapperLightBox client:only><Image src={photoPillsScreenshot} alt={"Screenshot of PhotoPills UI"} /> </ImageWrapperLightBox>
+
+I am not a very advanced user however, and I am sure there are many features I am not using. 
+
+TODO: Check if PhotoPills has an API, a way to export data, or a way to automate the process of planning shots based on my criteria. 
+
+Okay I checked, and it looks like PhotoPills already does Everything I need, maybe: 
+https://www.photopills.com/videos/planner-find-sun-or-moon-determined-position
+
+Here's how to do it:
+
+1. Go to the planner, and set your location where you want to take a photo at
+1. Drop the black pin on the map on top of your subject
+1. Click the "Find" icon in the bottom left
+1. Click "Moon at azimuth & elevation"
+
+## Development 
+
+To make this more fun I have tried to use ChatGPT to make this page for me. 
+
+It's a fairly simple page that I am sure has lots of prior work on it in Github, so I feel like ChatGPT should handle it just fine. 
+
+
+The first thing I tried was some sort of programming based plugin (or "GPT") called Grimoire. I gave it this prompt: 
+
+```
+Hi ChatGPT. Please act as a professional software engineer proficient in web development. I want you to generate the code for the following page in a React app: 
+
+
+
+The page shows a full-page calendar with dates, and when a date is selected, it shows this information on the screen for that date: 
+* Time of sunrise / sunset
+* Time of Moonrise / Moonset
+* Height of the moon angle at sunrise / sunset 
+* The moon phase
+``` 
