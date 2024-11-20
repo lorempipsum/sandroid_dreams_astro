@@ -10,7 +10,7 @@ const SENSORS = ['Capacative Touch', 'Video Feed', 'Audio Feed',
 
 const OUTPUT = ['LED', 'Motor', 'Speaker', 'Display', 'Servo Motor', 'Printed Photo', 'Video', 'Audio', 'Haptic Feedback', 'Animation']
 
-const OBJECTS = ['Photo Frame', 'Mirror', 'Camera Box', 'Tablet', 'Lamp', 'Clock', 'Thermometer', 'Plant',  'Balloon', 'Kindle', 'Laptop', 'Phone', 'Drawings']
+const OBJECTS = ['Photo Frame', 'Mirror', 'Camera Box', 'Tablet', 'Lamp', 'Clock', 'Thermometer', 'Plant',  'Balloon', 'Kindle', 'Laptop', 'Phone']
 
 interface IdeaCardProps {
     idea: string;
