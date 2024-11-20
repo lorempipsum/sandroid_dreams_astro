@@ -4,7 +4,7 @@ import { defineCollection } from 'astro:content';
 // 2. Define your collection(s)
 
 // List of allowed tag names as string
-const TagsEnum = z.enum(["plotting", "programming", "photography"]);
+const TagsEnum = z.enum(["plotting", "programming", "photography", "art"]);
 
 const blogCollection = defineCollection({ 
     type: 'content',

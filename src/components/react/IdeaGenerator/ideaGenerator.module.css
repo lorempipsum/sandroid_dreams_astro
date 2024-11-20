@@ -1,0 +1,53 @@
+.central {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+
+    flex-direction: column;
+    gap: 2rem;
+}
+
+.ideaCard {
+    position: relative;
+    align-items: center;
+
+    width: 300px;
+    height: 400px;
+    padding: 1rem;
+    border-radius: 10px;
+    border: 2px solid black;
+    box-shadow: 0 0 10px hsla(60, 0%, 46%, 0.816);
+
+    .inputs {
+      /* Make each input central horizontally */
+        display: flex;
+        flex-direction: column;
+        justify-content: center;
+        gap: 1rem;
+        text-align: center;
+        font-size: 1.5rem;
+        
+        margin-top: 2rem;
+        margin-bottom: 1rem;
+
+        
+        .input {
+            width: 100%;
+        }
+    }
+
+    .idea {
+        text-align: center;
+        border: 1px solid black;
+        border-radius: 5px;
+
+        position: absolute;
+        bottom: 3rem;
+        left: 1rem;
+        right: 1rem;
+        padding: 1rem;
+
+        font-size: 1.1rem;
+        
+    }
+}
