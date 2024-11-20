@@ -5,12 +5,12 @@ import styles from "./ideaGenerator.module.css"
 
 const SENSORS = ['Capacative Touch', 'Video Feed', 'Audio Feed', 
     'Distance Sensor', 'Temperature Sensor', 'Humidity Sensor',
-    'Noise Sensor', 'Light Sensor', 'Pressure Sensor', 'Accelerometer']
+    'Noise Sensor', 'Light Sensor', 'Pressure Sensor', 'Accelerometer', 'Facial Expression', 'Pose Detection']
 
 
-const OUTPUT = ['LED', 'Motor', 'Speaker', 'Display', 'Servo Motor', 'Printed Photo', 'Video', 'Audio', 'Haptic Feedback', 'Animation']
+const OUTPUT = ['LED', 'Motor', 'Speaker', 'Display', 'Servo Motor', 'Printed Photo', 'Video', 'Audio', 'Haptic Feedback', 'Animation', 'Text', 'Vibration', 'Heat', 'Cooling', 'Movement', 'Rotation', 'Laser']
 
-const OBJECTS = ['Photo Frame', 'Mirror', 'Camera Box', 'Tablet', 'Lamp', 'Clock', 'Thermometer', 'Plant',  'Balloon', 'Kindle', 'Laptop', 'Phone']
+const OBJECTS = ['Photo Frame', 'Mirror', 'Camera', 'Tablet', 'Lamp', 'Clock', 'Thermometer', 'Plant',  'Balloon', 'Kindle', 'Phone']
 
 interface IdeaCardProps {
     idea: string;
