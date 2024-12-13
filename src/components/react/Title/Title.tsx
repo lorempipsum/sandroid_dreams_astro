@@ -29,6 +29,7 @@ export const Title = ({ title }: {title: string}) => {
           >
             Blog
           </a>
+          {false && 
           <a
             href="/about"
             className={
@@ -36,7 +37,8 @@ export const Title = ({ title }: {title: string}) => {
             }
           >
             About
-          </a>
+          </a>}
+          {false && 
           <a
             href="/friends"
             className={
@@ -44,7 +46,7 @@ export const Title = ({ title }: {title: string}) => {
             }
           >
             Friends
-          </a>
+          </a>}
           <a
             href="/photography"
             className={
