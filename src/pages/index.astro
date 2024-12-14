@@ -4,6 +4,10 @@ import PageLink from "../components/react/PageLink/PageLink.tsx";
 import { getCollection } from "astro:content";
 
 const allPhotos = await getCollection("photography");
+
+return Astro.redirect("/photography/everything");
+
+return Astro.redirect("/photography/everything");
 ---
 
 <BaseLayout title="Photography">

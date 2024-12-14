@@ -56,7 +56,7 @@ export const Title = ({ title }: {title: string}) => {
             Plotter Art
           </a>
           <a
-            href="/photography/everything"
+            href="/photography"
             className={
               styles.subtitleText
             }
