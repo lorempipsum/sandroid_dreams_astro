@@ -7,7 +7,7 @@ files_with_spaces=$(find . -type f -name "* *" -not -path "./node_modules/*" -no
 if [ -n "$files_with_spaces" ]; then
     echo "Error: Found files with spaces in their names:"
     echo "$files_with_spaces"
-    echo "Please rename these files to use underscores or hyphens instead of spaces."
+    echo "Please rename these files to use underscores or hyphens instead of spaces. Run remove_spaces_from_filename.sh to fix."
     exit 1
 fi
 
