@@ -148,7 +148,7 @@ function getDateFromFilename(filename: string) {
 
     :global(.app-lightbox img) {
         max-height: 90vh !important;
-        width: auto !important;
+        width: 100%;
         object-fit: contain;
     }
 
@@ -363,7 +363,8 @@ function getDateFromFilename(filename: string) {
 </script>
 
 <>
-    <Lightbox />
+    <Lightbox class="app-lightbox" />
+
     <div class="imageGrid">
         {
             allImageData.map((imageData, index) => {
