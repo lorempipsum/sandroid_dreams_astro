@@ -3,18 +3,18 @@ import BaseLayout from "../layouts/BaseLayout.astro";
 import PageLink from "../components/react/PageLink/PageLink.tsx";
 import { getCollection } from "astro:content";
 
-const allBlogPosts = await getCollection("blog");
+const allPhotos = await getCollection("photography");
 ---
 
-<BaseLayout title="Blog">
+<BaseLayout title="Photography">
     <div></div>
 
     {
-        allBlogPosts.map((blogPost) => {
+        allPhotos.map((photo) => {
             return (
                 <PageLink
-                    to={`/blog/${blogPost.slug}`}
-                    text={blogPost.data.title}
+                    to={`/photography/${photo.slug}`}
+                    text={photo.data.title}
                 />
             );
         })

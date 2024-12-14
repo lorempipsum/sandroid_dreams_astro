@@ -3,7 +3,22 @@ import { Image } from "astro:assets";
 import Lightbox from "@julian_cataldo/astro-lightbox";
 import styles from "./galleryImageGrid.module.scss";
 
+const BATCH_SIZE = 20;
 const { images } = Astro.props;
+
+// Pre-sort all images and convert to array format for client-side use
+const allImageData = Object.entries(images)
+    .sort(
+        ([filenameA], [filenameB]) =>
+            getDateFromFilename(filenameB).getTime() -
+            getDateFromFilename(filenameA).getTime(),
+    )
+    .map(([path, imageGetter]) => ({
+        path,
+        image: imageGetter(),
+    }));
+
+const totalBatches = Math.ceil(allImageData.length / BATCH_SIZE);
 
 function getDateFromFilename(filename: string) {
     // Match YYYYMMDD-HH-MM-SS pattern
@@ -14,10 +29,11 @@ function getDateFromFilename(filename: string) {
     const year = date.slice(0, 4);
     const month = date.slice(4, 6);
     const day = date.slice(6, 8);
-    
+
     return new Date(`${year}-${month}-${day}T${hours}:${minutes}:${seconds}`);
 }
 ---
+
 <style>
     .imageGrid {
         display: grid;
@@ -27,7 +43,7 @@ function getDateFromFilename(filename: string) {
         padding-right: 2rem;
         gap: 1rem;
         margin: 0 auto;
-  }
+    }
 
     .thumbnail {
         grid-column: span 1;
@@ -38,9 +54,8 @@ function getDateFromFilename(filename: string) {
     }
 
     .superwide {
-        
         grid-column: 1 / -1;
-        
+
         img {
             width: 95vw !important;
             height: auto;
@@ -53,35 +68,36 @@ function getDateFromFilename(filename: string) {
             grid-template-columns: 100%;
         }
         .landscape {
-            grid-column: span 1; 
+            grid-column: span 1;
             margin: 0 auto;
         }
     }
-    
 
     .thumbnail {
         transition: all 0.354s ease-in-out;
-        box-shadow: rgba(0, 0, 0, 0.25) 0px 0.0625em 0.0625em, rgba(0, 0, 0, 0.25) 0px 0.125em 0.5em, rgba(255, 255, 255, 0.1) 0px 0px 0px 1px inset;
+        box-shadow:
+            rgba(0, 0, 0, 0.25) 0px 0.0625em 0.0625em,
+            rgba(0, 0, 0, 0.25) 0px 0.125em 0.5em,
+            rgba(255, 255, 255, 0.1) 0px 0px 0px 1px inset;
         opacity: 100%;
         cursor: pointer;
         border: 4px solid white;
 
         img {
-        width: 100%;
-        height: 100%;
+            width: 100%;
+            height: 100%;
 
-        object-fit: cover;
-        margin: 0 auto;
-        display: block;
+            object-fit: cover;
+            margin: 0 auto;
+            display: block;
         }
     }
-    
-    
+
     .thumbnail:hover {
         opacity: 50%;
         z-index: 200;
     }
-    
+
     :global(.lightbox-arrow {
         position: fixed;
         top: 50%;
@@ -109,178 +125,269 @@ function getDateFromFilename(filename: string) {
         width: 100%;
         height: 100%;
         z-index: 100220;
-        transition: opacity 0.1s ease-out !important;
-        background: rgba(0, 0, 0, 0.9);
+        transition: opacity 0.2s ease-out !important;
     }
 
     :global(.fade-out) {
         opacity: 0 !important;
     }
 
+    #loading-trigger {
+        width: 100%;
+        height: 10px;
+        margin: 2rem 0;
+    }
+
+    .hidden-batch {
+        display: none;
+    }
+
+    :global(.app-lightbox) {
+        background: rgba(0, 0, 0, 0.9) !important;
+    }
+
+    :global(.app-lightbox img) {
+        max-height: 90vh !important;
+        width: auto !important;
+        object-fit: contain;
+    }
+
+    :global(.app-lightbox) {
+        cursor: default !important;
+    }
+
+    :global(.app-lightbox-close) {
+        color: white !important;
+        font-size: 2rem !important;
+    }
+
+    :global(.app-lightbox-nav) {
+        position: fixed;
+        top: 50%;
+        transform: translateY(-50%);
+        background: rgba(255, 255, 255, 0.8);
+        border: none;
+        padding: 1rem 1.5rem;
+        font-size: 2rem;
+        cursor: pointer;
+        z-index: 100222;
+        border-radius: 50%;
+        color: black;
+        transition: background-color 0.2s;
+    }
+
+    :global(.app-lightbox-nav:hover) {
+        background: rgba(255, 255, 255, 1);
+    }
+
+    :global(.app-lightbox-prev) {
+        left: 2rem;
+    }
+
+    :global(.app-lightbox-next) {
+        right: 2rem;
+    }
 </style>
-<script>
-    function checkImageOrientation(imageContainer) {
-        const image = imageContainer.querySelector("img");
-        
-        // If image is already loaded
-        if (image.complete) {
-            setOrientation();
-        } else {
-            // If image is still loading
-            image.addEventListener('load', setOrientation);
-        }
+
+<script define:vars={{ allImageData, BATCH_SIZE, totalBatches }}>
+    function checkImageOrientation(thumbnail) {
+        const img = thumbnail.querySelector("img");
 
         function setOrientation() {
-            const imageWidth = image.naturalWidth;
-            const imageHeight = image.naturalHeight;
-            const imageRatio = imageWidth / imageHeight;
+            const imageWidth = img.naturalWidth;
+            const imageHeight = img.naturalHeight;
+            const ratio = imageWidth / imageHeight;
+
             if (imageWidth > imageHeight) {
-                imageContainer.classList.add("landscape");
+                thumbnail.classList.add("landscape");
             }
-            if (imageRatio > 2) {
-                imageContainer.classList.add("superwide");
+            if (ratio > 2) {
+                thumbnail.classList.add("superwide");
             }
+        }
+
+        if (img.complete) {
+            setOrientation();
+        } else {
+            img.addEventListener("load", setOrientation);
         }
     }
 
-    // Create intersection observer for lazy loading
-    const observer = new IntersectionObserver((entries) => {
-        entries.forEach(entry => {
-            if (entry.isIntersecting) {
-                checkImageOrientation(entry.target);
-                observer.unobserve(entry.target); // Stop observing once handled
-            }
-        });
-    });
+    function showNextBatch() {
+        if (currentBatch >= totalBatches) return;
 
-    // Start observing all thumbnail containers
-    document.querySelectorAll("[id$='-thumbnail']").forEach(container => {
-        observer.observe(container);
-    });
+        const thumbnails = document.querySelectorAll(`.batch-${currentBatch}`);
+        thumbnails.forEach((thumbnail) => {
+            thumbnail.classList.remove("hidden-batch");
+            checkImageOrientation(thumbnail);
+        });
+
+        currentBatch++;
+    }
+
+    let currentBatch = 1;
+
+    // Check first batch immediately
+    document.querySelectorAll(".batch-0").forEach(checkImageOrientation);
+
+    // Throttle scroll handler
+    let scrollTimeout;
+    function handleScroll() {
+        if (scrollTimeout) return;
+
+        scrollTimeout = setTimeout(() => {
+            const scrollPosition = window.innerHeight + window.scrollY;
+            const pageBottom = document.documentElement.scrollHeight - 500;
+
+            if (scrollPosition >= pageBottom) {
+                showNextBatch();
+            }
+            scrollTimeout = null;
+        }, 100);
+    }
+
+    window.addEventListener("scroll", handleScroll);
+    setTimeout(handleScroll, 100);
 
     function setupLightboxNavigation() {
-        const thumbnails = Array.from(document.querySelectorAll('.thumbnail'));
         let currentIndex = 0;
+        let thumbnails = [];
 
-        function showNext() {
-            currentIndex = (currentIndex + 1) % thumbnails.length;
-            const clone = createTransitionClone();
-            
-            document.querySelector('.app-lightbox-close')?.click();
-            
-            if (clone) {
-                requestAnimationFrame(() => {
-                    clone.classList.add('fade-out');
-                    setTimeout(() => {
-                        clone.remove();
-                    }, 300);
-                });
-            }
-            
-            setTimeout(() => thumbnails[currentIndex].click(), 1);
+        function createTransitionClone(lightbox) {
+            const clone = lightbox.cloneNode(true);
+            clone.classList.add("lightbox-clone");
+            // Remove navigation and close buttons from clone
+            clone.querySelectorAll("button").forEach((btn) => btn.remove());
+            document.body.appendChild(clone);
+
+            // Trigger fade out
+            requestAnimationFrame(() => {
+                clone.classList.add("fade-out");
+                setTimeout(() => clone.remove(), 300);
+            });
         }
 
-        function showPrevious() {
-            currentIndex = (currentIndex - 1 + thumbnails.length) % thumbnails.length;
-            const clone = createTransitionClone();
-            
-            document.querySelector('.app-lightbox-close')?.click();
-            
-            if (clone) {
-                requestAnimationFrame(() => {
-                    clone.classList.add('fade-out');
-                    setTimeout(() => {
-                        clone.remove();
-                    }, 300);
-                });
-            }
-            
-            setTimeout(() => thumbnails[currentIndex].click(), 1);
+        function updateThumbnails() {
+            thumbnails = Array.from(document.querySelectorAll(".thumbnail"));
         }
 
-        // Move keyboard navigation here, outside of setupArrows
-        document.addEventListener('keydown', (e) => {
-            if (!document.querySelector('.app-lightbox.is-active')) return;
-            if (e.key === 'ArrowRight') showNext();
-            if (e.key === 'ArrowLeft') showPrevious();
-        });
+        function handleLightbox(mutations) {
+            const lightbox = document.querySelector(".app-lightbox.is-active");
+            if (!lightbox) return;
 
-        const observer = new MutationObserver((mutations, obs) => {
-            const lightbox = document.querySelector('.app-lightbox.is-active');
-            if (lightbox) {
-                setupArrows(lightbox);
-                obs.disconnect();
+            if (!lightbox.querySelector(".app-lightbox-nav")) {
+                updateThumbnails();
+
+                // Add navigation buttons
+                const prev = document.createElement("button");
+                prev.innerHTML = "<";
+                prev.className = "app-lightbox-nav app-lightbox-prev";
+
+                const next = document.createElement("button");
+                next.innerHTML = ">";
+                next.className = "app-lightbox-nav app-lightbox-next";
+
+                lightbox.appendChild(prev);
+                lightbox.appendChild(next);
+
+                function navigate(direction) {
+                    const nextIndex =
+                        (currentIndex + direction + thumbnails.length) %
+                        thumbnails.length;
+                    currentIndex = nextIndex;
+
+                    // Create clone before closing current lightbox
+                    createTransitionClone(lightbox);
+
+                    // Close current lightbox
+                    lightbox.querySelector(".app-lightbox-close")?.click();
+
+                    // Open new image after a short delay
+                    setTimeout(() => thumbnails[nextIndex].click(), 50);
+                }
+
+                prev.onclick = () => navigate(-1);
+                next.onclick = () => navigate(1);
+
+                const keyHandler = (e) => {
+                    if (!document.querySelector(".app-lightbox.is-active"))
+                        return;
+                    if (e.key === "ArrowLeft") navigate(-1);
+                    if (e.key === "ArrowRight") navigate(1);
+                };
+
+                document.addEventListener("keydown", keyHandler);
+
+                // Track current image
+                const updateIndex = () => {
+                    const lightboxImg = lightbox.querySelector("img");
+                    if (lightboxImg) {
+                        currentIndex = thumbnails.findIndex(
+                            (thumb) =>
+                                thumb.querySelector("img").src ===
+                                lightboxImg.src,
+                        );
+                    }
+                };
+                updateIndex();
+
+                // Cleanup when lightbox closes
+                const cleanup = () => {
+                    if (!document.querySelector(".app-lightbox.is-active")) {
+                        document.removeEventListener("keydown", keyHandler);
+                    }
+                };
+
+                new MutationObserver(cleanup).observe(document.body, {
+                    childList: true,
+                    subtree: true,
+                });
             }
-        });
+        }
 
+        // Watch for lightbox opening
+        const observer = new MutationObserver(handleLightbox);
         observer.observe(document.body, {
             childList: true,
-            subtree: true
+            subtree: true,
         });
 
-        function createTransitionClone() {
-            const current = document.querySelector('.app-lightbox.is-active');
-            if (!current) return null;
-            
-            const clone = current.cloneNode(true) as HTMLElement;
-            clone.classList.add('lightbox-clone');
-            // Remove any interactive elements from clone
-            clone.querySelectorAll('button').forEach(btn => btn.remove());
-            document.body.appendChild(clone);
-            return clone;
-        }
-
-        function setupArrows(lightbox) {
-            // Track current index
-            thumbnails.forEach((thumb, index) => {
-                thumb.addEventListener('click', () => {
-                    currentIndex = index;
-                });
-            });
-
-            // Add arrow buttons
-            const arrows = `
-                <button class="lightbox-arrow prev">←</button>
-                <button class="lightbox-arrow next">→</button>
-            `;
-            lightbox.insertAdjacentHTML('beforeend', arrows);
-
-            // Add click handlers
-            document.querySelector('.next')?.addEventListener('click', showNext);
-            document.querySelector('.prev')?.addEventListener('click', showPrevious);
-        }
+        // Update thumbnails list when new batch is loaded
+        const originalShowNextBatch = window.showNextBatch;
+        window.showNextBatch = function () {
+            originalShowNextBatch();
+        };
     }
 
-    window.addEventListener("load", () => {
-        setupLightboxNavigation();
-    });
-        
-    </script>
+    window.addEventListener("load", setupLightboxNavigation);
+</script>
+
 <>
     <Lightbox />
     <div class="imageGrid">
         {
-            Object.entries(images)
-                .sort(([filenameA], [filenameB]) => 
-                    getDateFromFilename(filenameB).getTime() - getDateFromFilename(filenameA).getTime()
-                )
-                .map(([imagePath, image]) => {
-                    return (
-                        <div
-                            class="thumbnail"
-                            data-lightbox="true"
-                            id=`${imagePath}-thumbnail`
-                        >
-                            <Image
-                                src={image()}
-                                alt="test"
-                                widths={[300, 600, 900, 1200, 1500]}
-                                sizes={`(max-width: 400px) 300px, (max-width: 800px) 900px, 1500px`}
-                                loading="lazy"
-                            />
-                        </div>
-                    );
-                })
+            allImageData.map((imageData, index) => {
+                const batchNumber = Math.floor(index / BATCH_SIZE);
+                return (
+                    <div
+                        class:list={[
+                            "thumbnail",
+                            `batch-${batchNumber}`,
+                            { "hidden-batch": batchNumber > 0 },
+                        ]}
+                        data-lightbox="true"
+                        id={`${imageData.path}-thumbnail`}
+                    >
+                        <Image
+                            src={imageData.image}
+                            alt="thumbnail"
+                            width={imageData.image.width}
+                            height={imageData.image.height}
+                            loading="lazy"
+                        />
+                    </div>
+                );
+            })
         }
     </div>
 </>
