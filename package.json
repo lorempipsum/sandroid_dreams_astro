@@ -3,9 +3,10 @@
   "type": "module",
   "version": "0.0.1",
   "scripts": {
+    "check-filenames": "bash check-filenames.sh",
     "dev": "astro dev",
     "start": "astro dev",
-    "build": "astro build",
+    "build": "npm run check-filenames && astro build",
     "preview": "astro preview",
     "astro": "astro"
   },
