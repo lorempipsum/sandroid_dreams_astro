@@ -61,7 +61,40 @@ const { images } = Astro.props;
         z-index: 200;
     }
     
-    // Every 300px, a new column is added. so: 
+    :global(.lightbox-arrow {
+        position: fixed;
+        top: 50%;
+        transform: translateY(-50%);
+        background: rgba(255, 255, 255, 0.8);
+        border: none;
+        padding: 1rem;
+        font-size: 2rem;
+        cursor: pointer;
+        z-index: 100221;
+        border-radius: 50%;
+    })
+
+    :global(.prev { left: 2rem; })
+    :global(.next { right: 2rem; })
+
+    :global(.lightbox-arrow:hover) {
+        background: rgba(255, 255, 255, 1);
+    }
+
+    :global(.lightbox-clone) {
+        position: fixed !important;
+        top: 0;
+        left: 0;
+        width: 100%;
+        height: 100%;
+        z-index: 100220;
+        transition: opacity 0.2s ease-out !important;
+        background: rgba(0, 0, 0, 0.9);
+    }
+
+    :global(.fade-out) {
+        opacity: 0 !important;
+    }
 
 </style>
 <script>
@@ -83,8 +116,105 @@ const { images } = Astro.props;
             });
 
         }
-         window.addEventListener("load", checkImageOrientation);
 
+         
+    function setupLightboxNavigation() {
+        const thumbnails = Array.from(document.querySelectorAll('.thumbnail'));
+        let currentIndex = 0;
+
+        function showNext() {
+            currentIndex = (currentIndex + 1) % thumbnails.length;
+            const clone = createTransitionClone();
+            
+            document.querySelector('.app-lightbox-close')?.click();
+            
+            if (clone) {
+                requestAnimationFrame(() => {
+                    clone.classList.add('fade-out');
+                    setTimeout(() => {
+                        clone.remove();
+                    }, 300);
+                });
+            }
+            
+            setTimeout(() => thumbnails[currentIndex].click(), 1);
+        }
+
+        function showPrevious() {
+            currentIndex = (currentIndex - 1 + thumbnails.length) % thumbnails.length;
+            const clone = createTransitionClone();
+            
+            document.querySelector('.app-lightbox-close')?.click();
+            
+            if (clone) {
+                requestAnimationFrame(() => {
+                    clone.classList.add('fade-out');
+                    setTimeout(() => {
+                        clone.remove();
+                    }, 300);
+                });
+            }
+            
+            setTimeout(() => thumbnails[currentIndex].click(), 1);
+        }
+
+        // Move keyboard navigation here, outside of setupArrows
+        document.addEventListener('keydown', (e) => {
+            if (!document.querySelector('.app-lightbox.is-active')) return;
+            if (e.key === 'ArrowRight') showNext();
+            if (e.key === 'ArrowLeft') showPrevious();
+        });
+
+        const observer = new MutationObserver((mutations, obs) => {
+            const lightbox = document.querySelector('.app-lightbox.is-active');
+            if (lightbox) {
+                setupArrows(lightbox);
+                obs.disconnect();
+            }
+        });
+
+        observer.observe(document.body, {
+            childList: true,
+            subtree: true
+        });
+
+        function createTransitionClone() {
+            const current = document.querySelector('.app-lightbox.is-active');
+            if (!current) return null;
+            
+            const clone = current.cloneNode(true) as HTMLElement;
+            clone.classList.add('lightbox-clone');
+            // Remove any interactive elements from clone
+            clone.querySelectorAll('button').forEach(btn => btn.remove());
+            document.body.appendChild(clone);
+            return clone;
+        }
+
+        function setupArrows(lightbox) {
+            // Track current index
+            thumbnails.forEach((thumb, index) => {
+                thumb.addEventListener('click', () => {
+                    currentIndex = index;
+                });
+            });
+
+            // Add arrow buttons
+            const arrows = `
+                <button class="lightbox-arrow prev">←</button>
+                <button class="lightbox-arrow next">→</button>
+            `;
+            lightbox.insertAdjacentHTML('beforeend', arrows);
+
+            // Add click handlers
+            document.querySelector('.next')?.addEventListener('click', showNext);
+            document.querySelector('.prev')?.addEventListener('click', showPrevious);
+        }
+    }
+
+    window.addEventListener("load", () => {
+        checkImageOrientation();
+        setupLightboxNavigation();
+    });
         
     </script>
 <>
@@ -92,10 +222,6 @@ const { images } = Astro.props;
     <div class="imageGrid">
         {
             Object.entries(images).map(([imagePath, image]) => {
-                // if image is landscape, add landscape class
-        
-                const imageWidth = image();
-                console.log(imageWidth);
                 return (
                     <div
                         class="thumbnail"
