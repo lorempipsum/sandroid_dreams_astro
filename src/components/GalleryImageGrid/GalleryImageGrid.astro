@@ -1,11 +1,22 @@
 ---
 import { Image } from "astro:assets";
-
 import Lightbox from "@julian_cataldo/astro-lightbox";
-
 import styles from "./galleryImageGrid.module.scss";
 
 const { images } = Astro.props;
+
+function getDateFromFilename(filename: string) {
+    // Match YYYYMMDD-HH-MM-SS pattern
+    const match = filename.match(/(\d{8})-(\d{2})-(\d{2})-(\d{2})/);
+    if (!match) return new Date(0);
+
+    const [_, date, hours, minutes, seconds] = match;
+    const year = date.slice(0, 4);
+    const month = date.slice(4, 6);
+    const day = date.slice(6, 8);
+    
+    return new Date(`${year}-${month}-${day}T${hours}:${minutes}:${seconds}`);
+}
 ---
 <style>
     .imageGrid {
@@ -221,22 +232,26 @@ const { images } = Astro.props;
     <Lightbox />
     <div class="imageGrid">
         {
-            Object.entries(images).map(([imagePath, image]) => {
-                return (
-                    <div
-                        class="thumbnail"
-                        data-lightbox="true"
-                        id=`${imagePath}-thumbnail`
-                    >
-                        <Image
-                            src={image()}
-                            alt="test"
-                            widths={[300, 600, 900, 1200, 1500]}
-                            sizes={`(max-width: 400px) 300px, (max-width: 800px) 900px, 1500px`}
-                        />
-                    </div>
-                );
-            })
+            Object.entries(images)
+                .sort(([filenameA], [filenameB]) => 
+                    getDateFromFilename(filenameB).getTime() - getDateFromFilename(filenameA).getTime()
+                )
+                .map(([imagePath, image]) => {
+                    return (
+                        <div
+                            class="thumbnail"
+                            data-lightbox="true"
+                            id=`${imagePath}-thumbnail`
+                        >
+                            <Image
+                                src={image()}
+                                alt="test"
+                                widths={[300, 600, 900, 1200, 1500]}
+                                sizes={`(max-width: 400px) 300px, (max-width: 800px) 900px, 1500px`}
+                            />
+                        </div>
+                    );
+                })
         }
     </div>
 </>
