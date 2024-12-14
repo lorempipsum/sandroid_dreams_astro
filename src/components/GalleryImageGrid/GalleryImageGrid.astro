@@ -37,6 +37,16 @@ function getDateFromFilename(filename: string) {
         grid-column: span 2;
     }
 
+    .superwide {
+        
+        grid-column: 1 / -1;
+        
+        img {
+            width: 95vw !important;
+            height: auto;
+        }
+    }
+
     /* at lower than 600px, the grid will be 1 column */
     @media (max-width: 600px) {
         .imageGrid {
@@ -109,26 +119,45 @@ function getDateFromFilename(filename: string) {
 
 </style>
 <script>
-    // Get the image element and check if it's landscape
-
-        function checkImageOrientation() {
-            const imageContainers = document.querySelectorAll("[id$='-thumbnail']");
-            imageContainers.forEach((imageContainer) => {
-                const image = imageContainer.querySelector("img");
-                const imageWidth = image.naturalWidth;
-                const imageHeight = image.naturalHeight;
-                const imageRatio = imageWidth / imageHeight;
-                if (imageWidth > imageHeight) {
-                    imageContainer.classList.add("landscape");
-                }
-                if (imageRatio > 2) {
-                    imageContainer.classList.add("superwide");
-                }
-            });
-
+    function checkImageOrientation(imageContainer) {
+        const image = imageContainer.querySelector("img");
+        
+        // If image is already loaded
+        if (image.complete) {
+            setOrientation();
+        } else {
+            // If image is still loading
+            image.addEventListener('load', setOrientation);
         }
 
-         
+        function setOrientation() {
+            const imageWidth = image.naturalWidth;
+            const imageHeight = image.naturalHeight;
+            const imageRatio = imageWidth / imageHeight;
+            if (imageWidth > imageHeight) {
+                imageContainer.classList.add("landscape");
+            }
+            if (imageRatio > 2) {
+                imageContainer.classList.add("superwide");
+            }
+        }
+    }
+
+    // Create intersection observer for lazy loading
+    const observer = new IntersectionObserver((entries) => {
+        entries.forEach(entry => {
+            if (entry.isIntersecting) {
+                checkImageOrientation(entry.target);
+                observer.unobserve(entry.target); // Stop observing once handled
+            }
+        });
+    });
+
+    // Start observing all thumbnail containers
+    document.querySelectorAll("[id$='-thumbnail']").forEach(container => {
+        observer.observe(container);
+    });
+
     function setupLightboxNavigation() {
         const thumbnails = Array.from(document.querySelectorAll('.thumbnail'));
         let currentIndex = 0;
@@ -223,7 +252,6 @@ function getDateFromFilename(filename: string) {
     }
 
     window.addEventListener("load", () => {
-        checkImageOrientation();
         setupLightboxNavigation();
     });
         
@@ -248,6 +276,7 @@ function getDateFromFilename(filename: string) {
                                 alt="test"
                                 widths={[300, 600, 900, 1200, 1500]}
                                 sizes={`(max-width: 400px) 300px, (max-width: 800px) 900px, 1500px`}
+                                loading="lazy"
                             />
                         </div>
                     );
