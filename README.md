@@ -22,6 +22,11 @@ Currently I just use full sized images everywhere. To help with the old bandwidt
 Convert all images in a directory to a compress .webp: `mogrify -format webp -quality 80 *.jpg` (https://www.bartvandersanden.com/blog/2022/07/03/webp-imagick/)
 
 
+## I think I had a like an ALBUM_SRC folder somewhere that was synced to this repo? How do I get images to here again?
+
+
+
+
 
 ## Astro Starter Kit: Basics
 

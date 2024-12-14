@@ -48,6 +48,14 @@ export const Title = ({ title }: {title: string}) => {
             Friends
           </a>}
           <a
+            href="/plotting"
+            className={
+              styles.subtitleText
+            }
+          >
+            Plotter Art
+          </a>
+          <a
             href="/photography/everything"
             className={
               styles.subtitleText

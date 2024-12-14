@@ -1,0 +1,22 @@
+---
+import BaseLayout from "../layouts/BaseLayout.astro";
+import PageLink from "../components/react/PageLink/PageLink";
+import { getCollection } from "astro:content";
+
+const allBlogPosts = await getCollection("plotting");
+---
+
+<BaseLayout title="Plotter Art">
+    <div></div>
+
+    {
+        allBlogPosts.map((blogPost) => {
+            return (
+                <PageLink
+                    to={`/plotting/${blogPost.slug}`}
+                    text={blogPost.data.title}
+                />
+            );
+        })
+    }
+</BaseLayout>

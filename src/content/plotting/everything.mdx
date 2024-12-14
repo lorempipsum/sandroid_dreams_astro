@@ -1,0 +1,21 @@
+---
+layout: '../../layouts/FreeLayout.astro'
+date: "2024-03-05"
+title: "Everything"
+tags: ["plotting"]
+---
+import {Image} from 'astro:assets';
+import DummyComponent from '../../components/DummyComponent/DummyComponent.astro';
+import GalleryImageGrid from "../../components/GalleryImageGrid/GalleryImageGrid.astro";
+
+export const images = import.meta.glob(
+    "/src/images/plotting/**/*.{jpeg,jpg,png,gif,webp}");
+
+
+<DummyComponent />
+
+
+# {props.title}
+
+<GalleryImageGrid images={images} ></GalleryImageGrid>
+
