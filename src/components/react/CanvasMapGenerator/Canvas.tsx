@@ -63,8 +63,6 @@ const Canvas =({reRenderTrigger}: {reRenderTrigger: number}) => {
 
   const canvasRef = useRef(null)
   const draw = (ctx, frameCount) => {
-    console.log(frameCount)
-    console.log(JSON.stringify(player));
     ctx.clearRect(0, 0, ctx.canvas.width, ctx.canvas.height);
 
     fillMapWithGreen(ctx);

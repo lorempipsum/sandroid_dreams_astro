@@ -15,7 +15,6 @@ const ImageComparer = (props: ImageComparerProps) => {
     const [imageSizeStyleName, setImageSizeStyleName] = React.useState("normal");
 
     const makeImageVisible = (imageNumber: number) => {
-        console.log("Making image visible: " + imageNumber);
         if (imageNumber === 1) {
             setImageStyles(styles.image1Visible);
             setButton1Styles(styles.buttonSelected);

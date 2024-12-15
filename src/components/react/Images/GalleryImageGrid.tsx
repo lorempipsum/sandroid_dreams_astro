@@ -9,10 +9,8 @@ interface GalleryImageGridProps {
 
 // TODO: Make this accept 'children', which will be all the images? Made by Astro's Image component?
 export const GalleryImageGrid = ({ children }: GalleryImageGridProps) => {
-    console.log('images', children);
 
     const images = Children.toArray(children);
-    console.log('images', images);
 
   const [isOpen, setIsOpen] = useState(false);
   const [image, setImage] = useState(0);
@@ -57,8 +55,7 @@ export const GalleryImageGrid = ({ children }: GalleryImageGridProps) => {
   };
 
   const handleKeyPress = (event: { key: string | number; }) => {
-    console.log('KeyPress!');
-    console.log(event.key);
+
 
     if (event.key === 'ArrowLeft') {
       handleLeftArrow();
@@ -67,7 +64,6 @@ export const GalleryImageGrid = ({ children }: GalleryImageGridProps) => {
       handleRightArrow();
     }
     if (event.key === 'Escape' || event.key === 27) {
-      console.log('Closing lightbox');
 
       setIsOpen(false);
     }

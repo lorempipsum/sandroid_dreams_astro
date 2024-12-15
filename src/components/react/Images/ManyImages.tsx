@@ -7,9 +7,9 @@ import styles from "./manyImages.module.scss";
 
 
 export async function getImageFiles(imagesFolder: string) {
-    console.log("getting image files");
+
     const imageFiles = await fs.readdir(imagesFolder);
-    console.log(imageFiles)
+
 
     // Filter the list to include only image files (you can customize this filter)
     const imageFilesFiltered = imageFiles.filter((file) =>
@@ -20,7 +20,7 @@ export async function getImageFiles(imagesFolder: string) {
 };
 
 const ManyImages = async ({folderPath}: {folderPath: string}) => {
-    console.log("Hello")
+
     const imageFiles = await getImageFiles(folderPath);
 
     return <div className="image-gallery">
