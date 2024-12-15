@@ -1,26 +1,5 @@
 ---
-import BaseLayout from "../layouts/BaseLayout.astro";
-import PageLink from "../components/react/PageLink/PageLink.tsx";
-import { getCollection } from "astro:content";
-
-const allPhotos = await getCollection("photography");
-
-return Astro.redirect("/photography/everything");
-
-return Astro.redirect("/photography/everything");
+if (Astro.url.pathname === "/") {
+    return Response.redirect(`${Astro.url.origin}/photography/everything`, 307);
+}
 ---
-
-<BaseLayout title="Photography">
-    <div></div>
-
-    {
-        allPhotos.map((photo) => {
-            return (
-                <PageLink
-                    to={`/photography/${photo.slug}`}
-                    text={photo.data.title}
-                />
-            );
-        })
-    }
-</BaseLayout>

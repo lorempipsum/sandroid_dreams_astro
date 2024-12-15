@@ -275,12 +275,35 @@ function getDateFromFilename(filename: string) {
             thumbnails = Array.from(document.querySelectorAll(".thumbnail"));
         }
 
+        // Create a mutation observer to watch for image changes in the lightbox
+        const imageObserver = new MutationObserver((mutations) => {
+            const lightbox = document.querySelector(".app-lightbox.is-active");
+            if (lightbox) {
+                updateThumbnails();
+                const lightboxImg = lightbox.querySelector("img");
+                if (lightboxImg) {
+                    currentIndex = thumbnails.findIndex(
+                        (thumb) =>
+                            thumb.querySelector("img").src === lightboxImg.src,
+                    );
+                }
+            }
+        });
+
         function handleLightbox(mutations) {
             const lightbox = document.querySelector(".app-lightbox.is-active");
             if (!lightbox) return;
 
             if (!lightbox.querySelector(".app-lightbox-nav")) {
                 updateThumbnails();
+
+                // Watch for changes to the lightbox content
+                imageObserver.observe(lightbox, {
+                    childList: true,
+                    subtree: true,
+                    attributes: true,
+                    attributeFilter: ["src"],
+                });
 
                 // Add navigation buttons
                 const prev = document.createElement("button");
@@ -339,6 +362,7 @@ function getDateFromFilename(filename: string) {
                 const cleanup = () => {
                     if (!document.querySelector(".app-lightbox.is-active")) {
                         document.removeEventListener("keydown", keyHandler);
+                        imageObserver.disconnect();
                     }
                 };
 
