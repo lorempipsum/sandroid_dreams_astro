@@ -164,16 +164,16 @@ function getDateFromFilename(filename: string) {
     :global(.app-lightbox-nav) {
         position: fixed;
         top: 50%;
+        padding: 1rem;
         transform: translateY(-50%);
         background: rgba(255, 255, 255, 0.8);
         border: none;
-        padding: 1rem 1.5rem;
-        font-size: 2rem;
+        font-size: 3rem;
         cursor: pointer;
         z-index: 100222;
-        border-radius: 50%;
         color: black;
         transition: background-color 0.2s;
+        height: 100%;
     }
 
     :global(.app-lightbox-nav:hover) {
@@ -181,11 +181,15 @@ function getDateFromFilename(filename: string) {
     }
 
     :global(.app-lightbox-prev) {
-        left: 2rem;
+        left: 0;
+
+        span {
+            transform: translateX(100%);
+        }
     }
 
     :global(.app-lightbox-next) {
-        right: 2rem;
+        right: 0;
     }
 </style>
 
