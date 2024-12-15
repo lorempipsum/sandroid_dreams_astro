@@ -333,8 +333,14 @@ function getDateFromFilename(filename: string) {
                     setTimeout(() => thumbnails[nextIndex].click(), 50);
                 }
 
-                prev.onclick = () => navigate(-1);
-                next.onclick = () => navigate(1);
+                prev.onclick = (event) => {
+                    event.stopPropagation();
+                    navigate(-1);
+                };
+                next.onclick = (event) => {
+                    event.stopPropagation();
+                    navigate(1);
+                };
 
                 const keyHandler = (e) => {
                     if (!document.querySelector(".app-lightbox.is-active"))
