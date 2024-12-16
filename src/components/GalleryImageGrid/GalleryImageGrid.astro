@@ -164,9 +164,9 @@ function getDateFromFilename(filename: string) {
     :global(.app-lightbox-nav) {
         position: fixed;
         top: 50%;
-        padding: 3rem;
+        padding: 1rem;
         transform: translateY(-50%);
-        background: rgba(255, 255, 255, 0.2);
+        background: rgba(255, 255, 255, 0.8);
         border: none;
         font-size: 3rem;
         cursor: pointer;
@@ -177,7 +177,7 @@ function getDateFromFilename(filename: string) {
     }
 
     :global(.app-lightbox-nav:hover) {
-        background: rgba(255, 255, 255, 0.5);
+        background: rgba(255, 255, 255, 1);
     }
 
     :global(.app-lightbox-prev) {
@@ -189,6 +189,47 @@ function getDateFromFilename(filename: string) {
     }
 
     :global(.app-lightbox-next) {
+        right: 0;
+    }
+
+    :global(.persistent-nav) {
+        position: fixed;
+        top: 0;
+        left: 0;
+        width: 100%;
+        height: 100%;
+        pointer-events: none;
+        z-index: 100222;
+        display: none;
+    }
+
+    :global(.persistent-nav.visible) {
+        display: block;
+    }
+
+    :global(.persistent-nav button) {
+        position: fixed;
+        top: 50%;
+        transform: translateY(-50%);
+        background: rgba(255, 255, 255, 0.8);
+        border: none;
+        padding: 1rem;
+        font-size: 3rem;
+        cursor: pointer;
+        pointer-events: auto;
+        height: 100%;
+        transition: background-color 0.2s;
+    }
+
+    :global(.persistent-nav button:hover) {
+        background: rgba(255, 255, 255, 1);
+    }
+
+    :global(.persistent-prev) {
+        left: 0;
+    }
+
+    :global(.persistent-next) {
         right: 0;
     }
 </style>
@@ -256,30 +297,43 @@ function getDateFromFilename(filename: string) {
     function setupLightboxNavigation() {
         let currentIndex = 0;
         let thumbnails = [];
+        const navContainer = document.createElement("div");
+        navContainer.className = "persistent-nav";
 
-        function createTransitionClone(lightbox) {
-            const clone = lightbox.cloneNode(true);
-            clone.classList.add("lightbox-clone");
-            // Remove navigation and close buttons from clone
-            clone.querySelectorAll("button").forEach((btn) => btn.remove());
-            document.body.appendChild(clone);
+        const prev = document.createElement("button");
+        prev.innerHTML = "<";
+        prev.className = "persistent-prev";
 
-            // Trigger fade out
-            requestAnimationFrame(() => {
-                clone.classList.add("fade-out");
-                setTimeout(() => clone.remove(), 300);
-            });
-        }
+        const next = document.createElement("button");
+        next.innerHTML = ">";
+        next.className = "persistent-next";
+
+        navContainer.appendChild(prev);
+        navContainer.appendChild(next);
+        document.body.appendChild(navContainer);
 
         function updateThumbnails() {
             thumbnails = Array.from(document.querySelectorAll(".thumbnail"));
         }
 
-        // Create a mutation observer to watch for image changes in the lightbox
-        const imageObserver = new MutationObserver((mutations) => {
+        function navigate(direction) {
+            const nextIndex =
+                (currentIndex + direction + thumbnails.length) %
+                thumbnails.length;
+            currentIndex = nextIndex;
+            thumbnails[nextIndex].click();
+        }
+
+        prev.onclick = () => navigate(-1);
+        next.onclick = () => navigate(1);
+
+        // Watch for lightbox state
+        const observer = new MutationObserver(() => {
             const lightbox = document.querySelector(".app-lightbox.is-active");
             if (lightbox) {
                 updateThumbnails();
+                navContainer.classList.add("visible");
+                // Update current index
                 const lightboxImg = lightbox.querySelector("img");
                 if (lightboxImg) {
                     currentIndex = thumbnails.findIndex(
@@ -287,110 +341,22 @@ function getDateFromFilename(filename: string) {
                             thumb.querySelector("img").src === lightboxImg.src,
                     );
                 }
+            } else {
+                navContainer.classList.remove("visible");
             }
         });
 
-        function handleLightbox(mutations) {
-            const lightbox = document.querySelector(".app-lightbox.is-active");
-            if (!lightbox) return;
-
-            if (!lightbox.querySelector(".app-lightbox-nav")) {
-                updateThumbnails();
-
-                // Watch for changes to the lightbox content
-                imageObserver.observe(lightbox, {
-                    childList: true,
-                    subtree: true,
-                    attributes: true,
-                    attributeFilter: ["src"],
-                });
-
-                // Add navigation buttons
-                const prev = document.createElement("button");
-                prev.innerHTML = "<";
-                prev.className = "app-lightbox-nav app-lightbox-prev";
-
-                const next = document.createElement("button");
-                next.innerHTML = ">";
-                next.className = "app-lightbox-nav app-lightbox-next";
-
-                lightbox.appendChild(prev);
-                lightbox.appendChild(next);
-
-                function navigate(direction) {
-                    const nextIndex =
-                        (currentIndex + direction + thumbnails.length) %
-                        thumbnails.length;
-                    currentIndex = nextIndex;
-
-                    // Create clone before closing current lightbox
-                    createTransitionClone(lightbox);
-
-                    // Close current lightbox
-                    lightbox.querySelector(".app-lightbox-close")?.click();
-
-                    // Open new image after a short delay
-                    setTimeout(() => thumbnails[nextIndex].click(), 50);
-                }
-
-                prev.onclick = (event) => {
-                    event.stopPropagation();
-                    navigate(-1);
-                };
-                next.onclick = (event) => {
-                    event.stopPropagation();
-                    navigate(1);
-                };
-
-                const keyHandler = (e) => {
-                    if (!document.querySelector(".app-lightbox.is-active"))
-                        return;
-                    if (e.key === "ArrowLeft") navigate(-1);
-                    if (e.key === "ArrowRight") navigate(1);
-                };
-
-                document.addEventListener("keydown", keyHandler);
-
-                // Track current image
-                const updateIndex = () => {
-                    const lightboxImg = lightbox.querySelector("img");
-                    if (lightboxImg) {
-                        currentIndex = thumbnails.findIndex(
-                            (thumb) =>
-                                thumb.querySelector("img").src ===
-                                lightboxImg.src,
-                        );
-                    }
-                };
-                updateIndex();
-
-                // Cleanup when lightbox closes
-                const cleanup = () => {
-                    if (!document.querySelector(".app-lightbox.is-active")) {
-                        document.removeEventListener("keydown", keyHandler);
-                        imageObserver.disconnect();
-                    }
-                };
-
-                new MutationObserver(cleanup).observe(document.body, {
-                    childList: true,
-                    subtree: true,
-                });
-            }
-        }
-
-        // Watch for lightbox opening
-        const observer = new MutationObserver(handleLightbox);
         observer.observe(document.body, {
             childList: true,
             subtree: true,
         });
 
-        // Update thumbnails list when new batch is loaded
-        const originalShowNextBatch = window.showNextBatch;
-        window.showNextBatch = function () {
-            originalShowNextBatch();
-        };
+        // Handle keyboard navigation
+        document.addEventListener("keydown", (e) => {
+            if (!document.querySelector(".app-lightbox.is-active")) return;
+            if (e.key === "ArrowLeft") navigate(-1);
+            if (e.key === "ArrowRight") navigate(1);
+        });
     }
 
     window.addEventListener("load", setupLightboxNavigation);
