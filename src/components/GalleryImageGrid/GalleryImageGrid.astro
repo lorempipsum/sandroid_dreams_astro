@@ -357,27 +357,37 @@ function getDateFromFilename(filename: string) {
         next.onclick = () => navigate(1);
 
         // Watch for lightbox state
-        const observer = new MutationObserver(() => {
-            const lightbox = document.querySelector(".app-lightbox.is-active");
-            if (lightbox) {
-                updateThumbnails();
-                navContainer.classList.add("visible");
-                // Update current index
-                const lightboxImg = lightbox.querySelector("img");
-                if (lightboxImg) {
-                    currentIndex = thumbnails.findIndex(
-                        (thumb) =>
-                            thumb.querySelector("img").src === lightboxImg.src,
-                    );
+        const lightboxElement = document.querySelector(".app-lightbox");
+        const observer = new MutationObserver((mutations) => {
+            mutations.forEach((mutation) => {
+                if (
+                    mutation.type === "attributes" &&
+                    mutation.attributeName === "class"
+                ) {
+                    const lightbox = mutation.target;
+                    if (lightbox.classList.contains("is-active")) {
+                        updateThumbnails();
+                        navContainer.classList.add("visible");
+                        // Update current index
+                        const lightboxImg = lightbox.querySelector("img");
+                        if (lightboxImg) {
+                            currentIndex = thumbnails.findIndex(
+                                (thumb) =>
+                                    thumb.querySelector("img").src ===
+                                    lightboxImg.src,
+                            );
+                        }
+                    } else {
+                        navContainer.classList.remove("visible");
+                        isTransitioning = false;
+                    }
                 }
-            } else {
-                navContainer.classList.remove("visible");
-            }
+            });
         });
 
-        observer.observe(document.body, {
-            childList: true,
-            subtree: true,
+        observer.observe(lightboxElement, {
+            attributes: true,
+            attributeFilter: ["class"],
         });
 
         // Handle keyboard navigation
