@@ -125,7 +125,7 @@ function getDateFromFilename(filename: string) {
         width: 100%;
         height: 100%;
         z-index: 100220;
-        transition: opacity 0.2s ease-out !important;
+        transition: opacity 0.3s ease-out !important;
     }
 
     :global(.fade-out) {
@@ -297,6 +297,29 @@ function getDateFromFilename(filename: string) {
     function setupLightboxNavigation() {
         let currentIndex = 0;
         let thumbnails = [];
+        let isTransitioning = false;
+
+        function createTransitionClone(lightbox) {
+            isTransitioning = true;
+
+            const clone = lightbox.cloneNode(true);
+            clone.classList.add("lightbox-clone");
+            // Remove close button but keep nav elements
+            clone.querySelector(".app-lightbox-close")?.remove();
+
+            document.body.appendChild(clone);
+
+            requestAnimationFrame(() => {
+                clone.classList.add("fade-out");
+                setTimeout(() => {
+                    clone.remove();
+                    isTransitioning = false;
+                }, 300);
+            });
+
+            return clone;
+        }
+
         const navContainer = document.createElement("div");
         navContainer.className = "persistent-nav";
 
@@ -321,7 +344,13 @@ function getDateFromFilename(filename: string) {
                 (currentIndex + direction + thumbnails.length) %
                 thumbnails.length;
             currentIndex = nextIndex;
-            thumbnails[nextIndex].click();
+
+            const lightbox = document.querySelector(".app-lightbox.is-active");
+            if (lightbox) {
+                createTransitionClone(lightbox);
+                lightbox.querySelector(".app-lightbox-close")?.click();
+                setTimeout(() => thumbnails[nextIndex].click(), 50);
+            }
         }
 
         prev.onclick = () => navigate(-1);
