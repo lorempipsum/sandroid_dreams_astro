@@ -32,12 +32,10 @@ jobs:
       run: npm run build --if-present
 
     - name: Upload artifact
-      uses: actions/upload-artifact@v4
+      uses: actions/upload-pages-artifact@v3
       with:
         path: ./dist
         name: github-pages
-        compression-level: 0
-        overwrite: true
 
   deploy:
     environment:
