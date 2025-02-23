@@ -2,8 +2,8 @@ import { useState, useEffect } from 'react';
 import styles from './Binder.module.scss';
 
 const BIN_LOCATION = {
-  latitude: 51.45420930957217,
-  longitude: -2.606765201992718
+  latitude: 51.459630162385146, 
+  longitude: -2.616381270527417
 };
 
 const Binder = () => {
