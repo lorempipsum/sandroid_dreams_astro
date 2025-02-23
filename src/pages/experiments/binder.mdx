@@ -1,0 +1,14 @@
+---
+layout: "../../layouts/BaseLayout.astro"
+date: "2020-12-24"
+title: "Binder"
+tags: ["experiment"]
+---
+import DummyComponent from '../../components/DummyComponent/DummyComponent.astro'
+
+<DummyComponent />
+
+import Binder from '../../components/react/Binder/Binder.tsx';
+
+# The Canvas Map Generator
+<Binder client:only/>
