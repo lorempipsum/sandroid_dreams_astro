@@ -1,0 +1,56 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<!-- Created with Inkscape (http://www.inkscape.org/) -->
+
+<svg
+   width="210mm"
+   height="297mm"
+   viewBox="0 0 210 297"
+   version="1.1"
+   id="svg13060"
+   sodipodi:docname="cloak_symbol_eesti.svg"
+   inkscape:version="1.1 (c68e22c387, 2021-05-23)"
+   xmlns:inkscape="http://www.inkscape.org/namespaces/inkscape"
+   xmlns:sodipodi="http://sodipodi.sourceforge.net/DTD/sodipodi-0.dtd"
+   xmlns="http://www.w3.org/2000/svg"
+   xmlns:svg="http://www.w3.org/2000/svg">
+  <sodipodi:namedview
+     id="namedview13062"
+     pagecolor="#ffffff"
+     bordercolor="#666666"
+     borderopacity="1.0"
+     inkscape:pageshadow="2"
+     inkscape:pageopacity="0.0"
+     inkscape:pagecheckerboard="0"
+     inkscape:document-units="mm"
+     showgrid="false"
+     inkscape:zoom="0.54929737"
+     inkscape:cx="423.268"
+     inkscape:cy="692.70311"
+     inkscape:window-width="1920"
+     inkscape:window-height="1017"
+     inkscape:window-x="-8"
+     inkscape:window-y="-8"
+     inkscape:window-maximized="1"
+     inkscape:current-layer="layer1" />
+  <defs
+     id="defs13057" />
+  <g
+     inkscape:label="Layer 1"
+     inkscape:groupmode="layer"
+     id="layer1">
+    <path
+       style="fill:none;stroke:#0000f9;stroke-width:6;stroke-linecap:round;stroke-linejoin:round;stroke-miterlimit:4;stroke-dasharray:none;stroke-opacity:1"
+       d="M 72.394589,40.891811 104.95138,73.448625 138.89687,39.50314 v 67.42805 h 66.50227 l -33.94548,33.94548 33.79121,33.79116 h -66.50231 v 65.2679 l -32.8654,-32.86537 -33.328279,33.32828 V 173.89637 H 5.7380162 L 38.294819,141.33957 4.6579358,107.70268 H 72.085993 Z"
+       id="path13109" />
+    <text
+       x="105.99189"
+       y="177.52162"
+       id="text13599"><tspan
+         sodipodi:role="line"
+         style="font-style:normal;font-weight:normal;font-size:5.02708px;text-align:center;text-anchor:middle;fill:#000000;fill-opacity:1;stroke:none"
+         dy="-37.173958"
+         id="tspan13597"
+         x="105.99189"
+         y="177.52162">910.32 mm</tspan></text>
+  </g>
+</svg>

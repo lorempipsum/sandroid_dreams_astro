@@ -1,0 +1,57 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<!-- Created with Inkscape (http://www.inkscape.org/) -->
+
+<svg
+   sodipodi:docname="cloak_symbol_chair.svg"
+   inkscape:version="1.1 (c68e22c387, 2021-05-23)"
+   id="svg9645"
+   version="1.1"
+   viewBox="0 0 210 297"
+   height="297mm"
+   width="210mm"
+   xmlns:inkscape="http://www.inkscape.org/namespaces/inkscape"
+   xmlns:sodipodi="http://sodipodi.sourceforge.net/DTD/sodipodi-0.dtd"
+   xmlns="http://www.w3.org/2000/svg"
+   xmlns:svg="http://www.w3.org/2000/svg">
+  <sodipodi:namedview
+     id="namedview9647"
+     pagecolor="#ffffff"
+     bordercolor="#666666"
+     borderopacity="1.0"
+     inkscape:pageshadow="2"
+     inkscape:pageopacity="0.0"
+     inkscape:pagecheckerboard="0"
+     inkscape:document-units="mm"
+     showgrid="false"
+     inkscape:zoom="0.54929737"
+     inkscape:cx="33.679389"
+     inkscape:cy="585.29317"
+     inkscape:window-width="1920"
+     inkscape:window-height="1017"
+     inkscape:window-x="-8"
+     inkscape:window-y="-8"
+     inkscape:window-maximized="1"
+     inkscape:current-layer="layer1" />
+  <defs
+     id="defs9642" />
+  <g
+     inkscape:label="Layer 1"
+     inkscape:groupmode="layer"
+     id="layer1">
+    <path
+       style="fill:none;stroke:#fbff00;stroke-width:6;stroke-linecap:butt;stroke-linejoin:miter;stroke-miterlimit:4;stroke-dasharray:none;stroke-opacity:1"
+       d="m 59.641446,142.11372 -5.52173,-119.269034 106.569104,6e-6 -9.93912,129.208128 h 21.5347 l -2.20868,133.07333 H 159.43473 L 152.40625,170.27447 H 61.850126 L 50.816806,282.74376 H 39.497426 V 151.24623 l 93.030624,0.25441"
+       id="path12024" />
+    <text
+       x="106.16798"
+       y="181.38768"
+       id="text12815"
+       style="font-size:20.0848px;stroke-width:1.67373"><tspan
+         sodipodi:role="line"
+         style="font-style:normal;font-weight:normal;font-size:8.41396px;text-align:center;text-anchor:middle;fill:#000000;fill-opacity:1;stroke:none;stroke-width:1.67373"
+         dy="-62.219112"
+         id="tspan12813"
+         x="106.16798"
+         y="181.38768">1075.3 mm</tspan></text>
+  </g>
+</svg>

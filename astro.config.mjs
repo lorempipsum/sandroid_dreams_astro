@@ -7,5 +7,5 @@ import mdx from "@astrojs/mdx";
 export default defineConfig({
   site: "https://sandroid.dev",
   integrations: [react(), mdx()],
-  output: "static"
+  output: "static",
 });

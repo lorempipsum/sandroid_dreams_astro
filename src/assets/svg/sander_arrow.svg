@@ -1,0 +1,55 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<!-- Created with Inkscape (http://www.inkscape.org/) -->
+
+<svg
+   width="210mm"
+   height="297mm"
+   viewBox="0 0 210 297"
+   version="1.1"
+   id="svg1229"
+   inkscape:version="1.2.2 (732a01da63, 2022-12-09)"
+   sodipodi:docname="sander_arrow.svg"
+   xmlns:inkscape="http://www.inkscape.org/namespaces/inkscape"
+   xmlns:sodipodi="http://sodipodi.sourceforge.net/DTD/sodipodi-0.dtd"
+   xmlns="http://www.w3.org/2000/svg"
+   xmlns:svg="http://www.w3.org/2000/svg">
+  <sodipodi:namedview
+     id="namedview1231"
+     pagecolor="#ffffff"
+     bordercolor="#666666"
+     borderopacity="1.0"
+     inkscape:pageshadow="2"
+     inkscape:pageopacity="0.0"
+     inkscape:pagecheckerboard="0"
+     inkscape:document-units="mm"
+     showgrid="false"
+     inkscape:zoom="0.77771465"
+     inkscape:cx="266.16446"
+     inkscape:cy="573.47512"
+     inkscape:window-width="2560"
+     inkscape:window-height="1369"
+     inkscape:window-x="-8"
+     inkscape:window-y="-8"
+     inkscape:window-maximized="1"
+     inkscape:current-layer="layer1"
+     inkscape:showpageshadow="2"
+     inkscape:deskcolor="#d1d1d1"
+     showguides="true">
+    <sodipodi:guide
+       position="105.80412,235.76289"
+       orientation="1,0"
+       id="guide628"
+       inkscape:locked="false" />
+  </sodipodi:namedview>
+  <defs
+     id="defs1226" />
+  <g
+     inkscape:label="Layer 1"
+     inkscape:groupmode="layer"
+     id="layer1">
+    <path
+       style="color:#000000;fill:#000000;stroke-width:1.04782;stroke-linejoin:bevel;-inkscape-stroke:none"
+       d="M 103.70041,8.6227447 1.5160478,281.07682 l 4.3529298,3.39722 100.7415624,-69.50362 -0.0717,-0.10436 98.64594,69.35422 4.37954,-3.36856 L 109.12361,8.6370803 Z m 2.68707,9.3136723 94.53653,256.215023 -91.07179,-64.02919 -3.32354,4.72948 -3.20279,-4.64353 -93.1531,64.26659 z"
+       id="path1489" />
+  </g>
+</svg>

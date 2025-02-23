@@ -27,5 +27,8 @@
     "sass": "^1.68.0",
     "simplex-noise": "^4.0.1",
     "typescript": "^5.2.2"
+  },
+  "devDependencies": {
+    "vite-plugin-svgr": "^4.3.0"
   }
 }

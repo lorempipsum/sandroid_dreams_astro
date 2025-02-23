@@ -1,0 +1,63 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<!-- Created with Inkscape (http://www.inkscape.org/) -->
+
+<svg
+   width="210mm"
+   height="297mm"
+   viewBox="0 0 210 297"
+   version="1.1"
+   id="svg12849"
+   sodipodi:docname="cloak_symbol_boring_spiral.svg"
+   inkscape:version="1.1 (c68e22c387, 2021-05-23)"
+   xmlns:inkscape="http://www.inkscape.org/namespaces/inkscape"
+   xmlns:sodipodi="http://sodipodi.sourceforge.net/DTD/sodipodi-0.dtd"
+   xmlns="http://www.w3.org/2000/svg"
+   xmlns:svg="http://www.w3.org/2000/svg">
+  <sodipodi:namedview
+     id="namedview12851"
+     pagecolor="#ffffff"
+     bordercolor="#666666"
+     borderopacity="1.0"
+     inkscape:pageshadow="2"
+     inkscape:pageopacity="0.0"
+     inkscape:pagecheckerboard="0"
+     inkscape:document-units="mm"
+     showgrid="false"
+     inkscape:zoom="0.77682379"
+     inkscape:cx="143.53319"
+     inkscape:cy="561.90349"
+     inkscape:window-width="1920"
+     inkscape:window-height="1017"
+     inkscape:window-x="-8"
+     inkscape:window-y="-8"
+     inkscape:window-maximized="1"
+     inkscape:current-layer="layer1" />
+  <defs
+     id="defs12846" />
+  <g
+     inkscape:label="Layer 1"
+     inkscape:groupmode="layer"
+     id="layer1">
+    <path
+       sodipodi:type="spiral"
+       style="fill:none;fill-rule:evenodd;stroke:#000000;stroke-width:22.67716564;stroke-miterlimit:4;stroke-dasharray:none"
+       id="path12876"
+       sodipodi:cx="223.98901"
+       sodipodi:cy="252.30946"
+       sodipodi:expansion="1"
+       sodipodi:revolution="3"
+       sodipodi:radius="421.01575"
+       sodipodi:argument="-18.187708"
+       sodipodi:t0="0"
+       d="m 223.98901,252.30946 c 16.65205,12.97312 -9.27196,28.84711 -21.56217,27.6768 -33.30569,-3.17146 -43.67166,-44.04016 -33.79142,-70.80114 17.67343,-47.86911 77.41831,-60.63913 120.04011,-39.90605 62.54921,30.42663 78.03974,111.22405 46.02067,169.27908 -42.67638,77.37822 -145.17828,95.62072 -218.51804,52.1353 C 23.887543,335.97149 2.8840024,211.49098 57.928229,122.93643 124.59416,15.685015 271.19414,-8.0845271 374.92421,58.571882 497.16652,137.12415 523.70547,305.92567 445.40339,424.80684 355.00055,562.05985 163.94541,591.37073 29.92947,501.40064 -122.34796,399.17091 -154.43269,185.827 -52.77896,36.687748 61.261163,-130.62396 296.91871,-165.48404 461.1729,-52.135308 643.52619,73.703266 681.16282,331.6927 556.11058,511.05552"
+       transform="matrix(0.264583 0 0 0.264583 36.1032 83.7867)" />
+    <text
+       x="104.59872025720665"
+       y="141.31520610447308"
+       id="text13025"><tspan
+         sodipodi:role="line"
+         style="fill:#000000;fill-opacity:1.0;font-size:5.027083333333334;font-style:normal;font-weight:normal;stroke:none;text-align:center;text-anchor:middle;vertical-align:bottom"
+         dy="-37.17395833333333"
+         id="tspan13023">1060.13 mm</tspan></text>
+  </g>
+</svg>
