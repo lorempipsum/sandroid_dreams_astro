@@ -10,6 +10,7 @@ const Binder = () => {
   const [userLocation, setUserLocation] = useState<GeolocationCoordinates | null>(null);
   const [compass, setCompass] = useState<number>(0);
   const [distance, setDistance] = useState<number | null>(null);
+  const [permissionGranted, setPermissionGranted] = useState(false);
 
   // Calculate bearing between two points
   const calculateBearing = (start: GeolocationCoordinates, end: { latitude: number; longitude: number }) => {
@@ -40,6 +41,31 @@ const Binder = () => {
     return R * c;
   };
 
+  const requestPermissions = async () => {
+    try {
+      if (typeof (DeviceOrientationEvent as any).requestPermission === 'function') {
+        const permission = await (DeviceOrientationEvent as any).requestPermission();
+        if (permission === 'granted') {
+          setPermissionGranted(true);
+          window.addEventListener('deviceorientation', handleOrientation);
+        }
+      } else {
+        setPermissionGranted(true);
+        window.addEventListener('deviceorientation', handleOrientation);
+      }
+    } catch (error) {
+      console.error('Error requesting device orientation permission:', error);
+    }
+  };
+
+  const handleOrientation = (event: DeviceOrientationEvent) => {
+    if (event.webkitCompassHeading) {
+      setCompass(event.webkitCompassHeading);
+    } else if (event.alpha) {
+      setCompass(360 - event.alpha);
+    }
+  };
+
   useEffect(() => {
     // Request geolocation permission
     navigator.geolocation.watchPosition(
@@ -53,27 +79,6 @@ const Binder = () => {
       { enableHighAccuracy: true }
     );
 
-    // Request device orientation permission and handle updates
-    const handleOrientation = (event: DeviceOrientationEvent) => {
-      if (event.webkitCompassHeading) {
-        setCompass(event.webkitCompassHeading);
-      } else if (event.alpha) {
-        setCompass(360 - event.alpha);
-      }
-    };
-
-    if (typeof DeviceOrientationEvent.requestPermission === 'function') {
-      DeviceOrientationEvent.requestPermission()
-        .then(permissionState => {
-          if (permissionState === 'granted') {
-            window.addEventListener('deviceorientation', handleOrientation);
-          }
-        })
-        .catch(console.error);
-    } else {
-      window.addEventListener('deviceorientation', handleOrientation);
-    }
-
     return () => {
       window.removeEventListener('deviceorientation', handleOrientation);
     };
@@ -84,13 +89,21 @@ const Binder = () => {
 
   return (
     <div className={styles.container}>
-      <div 
-        className={styles.arrow}
-        style={{ transform: `rotate(${rotation}deg)` }}
-      />
-      <div className={styles.distance}>
-        {distance ? `${Math.round(distance)}m` : 'Calculating...'}
-      </div>
+      {!permissionGranted ? (
+        <button className={styles.permissionButton} onClick={requestPermissions}>
+          Enable Compass
+        </button>
+      ) : (
+        <>
+          <div 
+            className={styles.arrow}
+            style={{ transform: `rotate(${rotation}deg)` }}
+          />
+          <div className={styles.distance}>
+            {distance ? `${Math.round(distance)}m` : 'Calculating...'}
+          </div>
+        </>
+      )}
     </div>
   );
 };
