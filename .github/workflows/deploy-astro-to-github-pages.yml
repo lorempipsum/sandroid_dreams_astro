@@ -37,6 +37,7 @@ jobs:
         path: ./dist
         name: github-pages
         compression-level: 0
+        overwrite: true
 
   deploy:
     environment:
