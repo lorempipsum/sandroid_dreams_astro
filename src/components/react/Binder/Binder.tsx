@@ -2,6 +2,7 @@ import { useState, useEffect } from 'react';
 import styles from './Binder.module.scss';
 import AnimatedBobUp from '../animations/AnimatedBobUp';
 import Button from '../Button/Button';
+import { calculateBearing, findNearestBin } from '../../../utils/locationUtils';
 
 const BIN_LOCATIONS = [
   {
@@ -22,22 +23,6 @@ const BIN_LOCATIONS = [
 
 ];
 
-// Add this function before the Binder component
-const findNearestBin = (userCoords: GeolocationCoordinates) => {
-  let nearestBin = BIN_LOCATIONS[0];
-  let shortestDistance = calculateDistance(userCoords, BIN_LOCATIONS[0]);
-
-  BIN_LOCATIONS.forEach(bin => {
-    const distance = calculateDistance(userCoords, bin);
-    if (distance < shortestDistance) {
-      shortestDistance = distance;
-      nearestBin = bin;
-    }
-  });
-
-  return { bin: nearestBin, distance: shortestDistance };
-};
-
 const Binder = () => {
   const [userLocation, setUserLocation] = useState<GeolocationCoordinates | null>(null);
   const [compass, setCompass] = useState<number>(0);
@@ -45,67 +30,12 @@ const Binder = () => {
   const [permissionGranted, setPermissionGranted] = useState(false);
   const [currentBin, setCurrentBin] = useState(BIN_LOCATIONS[0]);
 
-  // Calculate bearing between two points
-  const calculateBearing = (start: GeolocationCoordinates, end: { latitude: number; longitude: number }) => {
-    const startLat = start.latitude * Math.PI / 180;
-    const endLat = end.latitude * Math.PI / 180;
-    const diffLong = (end.longitude - start.longitude) * Math.PI / 180;
-
-    const x = Math.sin(diffLong) * Math.cos(endLat);
-    const y = Math.cos(startLat) * Math.sin(endLat) -
-              Math.sin(startLat) * Math.cos(endLat) * Math.cos(diffLong);
-
-    return (Math.atan2(x, y) * 180 / Math.PI + 360) % 360;
-  };
-
-  // Calculate distance in meters
-  const calculateDistance = (start: GeolocationCoordinates, end: { latitude: number; longitude: number }) => {
-    const R = 6371e3; // Earth's radius in meters
-    const φ1 = start.latitude * Math.PI / 180;
-    const φ2 = end.latitude * Math.PI / 180;
-    const Δφ = (end.latitude - start.latitude) * Math.PI / 180;
-    const Δλ = (end.longitude - start.longitude) * Math.PI / 180;
-
-    const a = Math.sin(Δφ/2) * Math.sin(Δφ/2) +
-              Math.cos(φ1) * Math.cos(φ2) *
-              Math.sin(Δλ/2) * Math.sin(Δλ/2);
-    const c = 2 * Math.atan2(Math.sqrt(a), Math.sqrt(1-a));
-
-    return R * c;
-  };
-
-  const requestPermissions = async () => {
-    try {
-      if (typeof (DeviceOrientationEvent as any).requestPermission === 'function') {
-        const permission = await (DeviceOrientationEvent as any).requestPermission();
-        if (permission === 'granted') {
-          setPermissionGranted(true);
-          window.addEventListener('deviceorientation', handleOrientation);
-        }
-      } else {
-        setPermissionGranted(true);
-        window.addEventListener('deviceorientation', handleOrientation);
-      }
-    } catch (error) {
-      console.error('Error requesting device orientation permission:', error);
-    }
-  };
-
-  const handleOrientation = (event: DeviceOrientationEvent) => {
-    if (event.webkitCompassHeading) {
-      setCompass(event.webkitCompassHeading);
-    } else if (event.alpha) {
-      setCompass(360 - event.alpha);
-    }
-  };
-
   useEffect(() => {
-    // Request geolocation permission
     navigator.geolocation.watchPosition(
       (position) => {
         setUserLocation(position.coords);
         if (position.coords) {
-          const nearest = findNearestBin(position.coords);
+          const nearest = findNearestBin(position.coords, BIN_LOCATIONS);
           setCurrentBin(nearest.bin);
           setDistance(nearest.distance);
         }
@@ -153,18 +83,4 @@ const Binder = () => {
 };
 
 export default Binder;
-const calculateDistance = (start: GeolocationCoordinates, end: { latitude: number; longitude: number }) => {
-  const R = 6371e3; // Earth's radius in meters
-  const φ1 = start.latitude * Math.PI / 180;
-  const φ2 = end.latitude * Math.PI / 180;
-  const Δφ = (end.latitude - start.latitude) * Math.PI / 180;
-  const Δλ = (end.longitude - start.longitude) * Math.PI / 180;
-
-  const a = Math.sin(Δφ / 2) * Math.sin(Δφ / 2) +
-            Math.cos(φ1) * Math.cos(φ2) *
-            Math.sin(Δλ / 2) * Math.sin(Δλ / 2);
-  const c = 2 * Math.atan2(Math.sqrt(a), Math.sqrt(1 - a));
-
-  return R * c;
-};
 
