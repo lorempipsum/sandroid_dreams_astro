@@ -1,0 +1,29 @@
+@import 'src/styles/colors';
+
+.flexButton {
+    display: flex;
+    background: none;
+    cursor: pointer;
+    width: fit-content;
+
+    font-weight: 600;
+    text-transform: uppercase;
+    letter-spacing: 1px;
+    text-align: center;
+    align-items: center;    
+    justify-content: center;
+    text-decoration: none;
+
+    padding: 12px 24px;
+    font-size: 18px;
+    background-color: $arrowBlue;
+    color: white;
+    border: none;
+    border-radius: 4px;
+    cursor: pointer;
+
+    &:hover {
+      background-color: $martiniPink;
+    }
+
+}

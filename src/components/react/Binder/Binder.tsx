@@ -1,6 +1,7 @@
 import { useState, useEffect } from 'react';
 import styles from './Binder.module.scss';
 import AnimatedBobUp from '../animations/AnimatedBobUp';
+import Button from '../Button/Button';
 
 const BIN_LOCATION = {
   latitude: 51.459630162385146, 
@@ -91,9 +92,8 @@ const Binder = () => {
   return (
     <div className={styles.container}>
       {!permissionGranted ? (
-        <button className={styles.permissionButton} onClick={requestPermissions}>
-          Enable Compass
-        </button>
+        <Button id="enable-compass" onClick={requestPermissions} label="Enable Compass" />
+      
       ) : (
         <>
         <AnimatedBobUp>
