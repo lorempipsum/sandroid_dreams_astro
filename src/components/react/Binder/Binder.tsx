@@ -1,5 +1,6 @@
 import { useState, useEffect } from 'react';
 import styles from './Binder.module.scss';
+import AnimatedBobUp from '../animations/AnimatedBobUp';
 
 const BIN_LOCATION = {
   latitude: 51.459630162385146, 
@@ -95,6 +96,7 @@ const Binder = () => {
         </button>
       ) : (
         <>
+        <AnimatedBobUp>
           <svg
             className={styles.arrow}
             style={{ transform: `rotate(${rotation}deg)` }}
@@ -106,6 +108,7 @@ const Binder = () => {
           >
             <path d="m 106.15699,104.81898 0.81766,137.66811 102.24487,52.63857 L 106.09742,1.2562312 1.2008898,295.02942 96.460978,247.10502" />
           </svg>
+        </AnimatedBobUp>
           <div className={styles.distance}>
             {distance ? `${Math.round(distance)}m` : 'Calculating...'}
           </div>
