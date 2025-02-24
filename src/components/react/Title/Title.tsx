@@ -29,6 +29,14 @@ export const Title = ({ title }: {title: string}) => {
           >
             Blog
           </a>
+          <a
+            href="/experiments/binder"
+            className={
+              styles.subtitleText
+            }
+          >
+            Binder
+          </a>
           {false && 
           <a
             href="/about"

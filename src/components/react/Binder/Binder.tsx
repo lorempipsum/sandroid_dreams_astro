@@ -3,9 +3,39 @@ import styles from './Binder.module.scss';
 import AnimatedBobUp from '../animations/AnimatedBobUp';
 import Button from '../Button/Button';
 
-const BIN_LOCATION = {
+const BIN_LOCATIONS = [
+  {
   latitude: 51.459630162385146, 
-  longitude: -2.616381270527417
+  longitude: -2.616381270527417,
+  name: "Clifton Cathedral"
+},
+  {
+  latitude:  51.46889719595909, 
+  longitude: -2.6330892462843325,
+  name: "Sea Walls"
+},
+  {
+  latitude:  51.461985595937925, 
+  longitude: -2.6258963970676614,
+  name: "Alderman's Water Fountain"
+},
+
+];
+
+// Add this function before the Binder component
+const findNearestBin = (userCoords: GeolocationCoordinates) => {
+  let nearestBin = BIN_LOCATIONS[0];
+  let shortestDistance = calculateDistance(userCoords, BIN_LOCATIONS[0]);
+
+  BIN_LOCATIONS.forEach(bin => {
+    const distance = calculateDistance(userCoords, bin);
+    if (distance < shortestDistance) {
+      shortestDistance = distance;
+      nearestBin = bin;
+    }
+  });
+
+  return { bin: nearestBin, distance: shortestDistance };
 };
 
 const Binder = () => {
@@ -13,6 +43,7 @@ const Binder = () => {
   const [compass, setCompass] = useState<number>(0);
   const [distance, setDistance] = useState<number | null>(null);
   const [permissionGranted, setPermissionGranted] = useState(false);
+  const [currentBin, setCurrentBin] = useState(BIN_LOCATIONS[0]);
 
   // Calculate bearing between two points
   const calculateBearing = (start: GeolocationCoordinates, end: { latitude: number; longitude: number }) => {
@@ -74,7 +105,9 @@ const Binder = () => {
       (position) => {
         setUserLocation(position.coords);
         if (position.coords) {
-          setDistance(calculateDistance(position.coords, BIN_LOCATION));
+          const nearest = findNearestBin(position.coords);
+          setCurrentBin(nearest.bin);
+          setDistance(nearest.distance);
         }
       },
       (error) => console.error('Error getting location:', error),
@@ -86,7 +119,7 @@ const Binder = () => {
     };
   }, []);
 
-  const bearing = userLocation ? calculateBearing(userLocation, BIN_LOCATION) : 0;
+  const bearing = userLocation ? calculateBearing(userLocation, currentBin) : 0;
   const rotation = compass ? bearing - compass : 0;
 
   return (
@@ -110,6 +143,7 @@ const Binder = () => {
           </svg>
         </AnimatedBobUp>
           <div className={styles.distance}>
+            <div className={styles.binName}>{currentBin.name}</div>
             {distance ? `${Math.round(distance)}m` : 'Calculating...'}
           </div>
         </>
@@ -119,3 +153,18 @@ const Binder = () => {
 };
 
 export default Binder;
+const calculateDistance = (start: GeolocationCoordinates, end: { latitude: number; longitude: number }) => {
+  const R = 6371e3; // Earth's radius in meters
+  const φ1 = start.latitude * Math.PI / 180;
+  const φ2 = end.latitude * Math.PI / 180;
+  const Δφ = (end.latitude - start.latitude) * Math.PI / 180;
+  const Δλ = (end.longitude - start.longitude) * Math.PI / 180;
+
+  const a = Math.sin(Δφ / 2) * Math.sin(Δφ / 2) +
+            Math.cos(φ1) * Math.cos(φ2) *
+            Math.sin(Δλ / 2) * Math.sin(Δλ / 2);
+  const c = 2 * Math.atan2(Math.sqrt(a), Math.sqrt(1 - a));
+
+  return R * c;
+};
+
