@@ -73,9 +73,11 @@ const Binder = () => {
   const rotation = compass ? bearing - compass : 0;
 
   const getDotPosition = (distance: number, bearing: number) => {
-    // Scale distance to fit within 150px radius (300px diameter)
     const radius = 150;
-    const angle = (bearing - 90) * (Math.PI / 180); // Convert to radians, -90 to align north
+    // Use the same rotation calculation as the arrow
+    const rotatedBearing = bearing - compass;
+    // Convert to radians and adjust for CSS coordinate system
+    const angle = ((rotatedBearing - 90) * Math.PI) / 180;
     const scaledDistance = Math.min(distance, 300) * (radius / 300);
     
     return {
