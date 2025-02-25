@@ -1,7 +1,7 @@
 import type { Feature, FeatureCollection } from 'geojson';
 
 export interface GeneralTree {
-  latinName: ReactNode;
+  latinName: string;
   crownWidth: string;
   id: string;
   name: string;
