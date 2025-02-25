@@ -29,8 +29,6 @@ const Binder = () => {
   const [dataType, setDataType] = useState<'facilities' | 'crimes'>('facilities');
   const [crimeLocations] = useState(() => getCrimeData());
 
-  console.log(nearbyLocations)
-
   useEffect(() => {
     try {
       const newLocations = getFacilitiesByType(selectedType);
