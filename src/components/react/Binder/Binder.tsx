@@ -187,7 +187,7 @@ const Binder = () => {
             checked={showAllNearby}
             onChange={(e) => setShowAllNearby(e.target.checked)}
           />
-          Show nearby
+          Show closest 10
         </label>
       </div>
       
