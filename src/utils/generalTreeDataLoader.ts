@@ -25,13 +25,11 @@ export const getGeneralTreeData = async (): Promise<GeneralTree[]> => {
     
     // Only take first 50 valid entries to prevent memory issues
     return data.features
-      .slice(0, 200) // Take first 200 to find 50 valid ones
       .filter(feature => 
         feature.geometry?.coordinates && 
         Array.isArray(feature.geometry.coordinates) &&
         feature.geometry.coordinates.length === 2
       )
-      .slice(0, 50) // Limit to 50 valid entries
       .map(feature => ({
         id: `tree-${feature.properties.ASSET_ID}`,
         name: feature.properties.COMMON_NAME || feature.properties.SPECIES || 'Unknown Tree',
