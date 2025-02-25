@@ -7,7 +7,11 @@ import { calculateBearing, findNearestBin } from '../../../utils/locationUtils';
 import { requestOrientationPermission } from '../../../utils/devicePermissions';
 import { getUniqueTypes, getFacilitiesByType } from '../../../utils/geoJsonLoader';
 import { getCrimeData, type CrimeLocation } from '../../../utils/crimeDataLoader';
+import { getTreeData, type TreeLocation } from '../../../utils/treeDataLoader';
 import React from 'react';
+
+const DATASOURCES = ['Facilities', 'Crimes', 'Trees'] as const;
+type DataSourceType = typeof DATASOURCES[number];
 
 const Binder = () => {
   const [userLocation, setUserLocation] = useState<GeolocationCoordinates | null>(null);
@@ -26,8 +30,9 @@ const Binder = () => {
     distance: number,
     bearing: number
   }>>([]);
-  const [dataType, setDataType] = useState<'facilities' | 'crimes'>('facilities');
+  const [dataType, setDataType] = useState<'facilities' | 'crimes' | 'trees'>('facilities');
   const [crimeLocations] = useState(() => getCrimeData());
+  const [treeLocations] = useState(() => getTreeData());
 
   useEffect(() => {
     try {
@@ -60,28 +65,44 @@ const Binder = () => {
   useEffect(() => {
     if (!userLocation) return;
 
-    if (dataType === 'facilities') {
-      const sorted = locations.map(bin => findNearestBin(userLocation, [bin]))
-        .sort((a, b) => a.distance - b.distance)
-        .slice(0, 10);
-
-      setNearbyLocations(sorted);
-      setCurrentBin(sorted[0].bin);
-      setDistance(sorted[0].distance);
-    } else {
-      const sorted = crimeLocations
-        .map(crime => ({
-          bin: crime,
-          ...findNearestBin(userLocation, [crime])
-        }))
-        .sort((a, b) => a.distance - b.distance)
-        .slice(0, 10);
-
-      setNearbyLocations(sorted);
-      setCurrentBin(sorted[0].bin);
-      setDistance(sorted[0].distance);
+    switch (dataType) {
+      case 'facilities': {
+        const sorted = locations.map(bin => findNearestBin(userLocation, [bin]))
+          .sort((a, b) => a.distance - b.distance)
+          .slice(0, 10);
+        setNearbyLocations(sorted);
+        setCurrentBin(sorted[0].bin);
+        setDistance(sorted[0].distance);
+        break;
+      }
+      case 'crimes': {
+        const sorted = crimeLocations
+          .map(crime => ({
+            bin: crime,
+            ...findNearestBin(userLocation, [crime])
+          }))
+          .sort((a, b) => a.distance - b.distance)
+          .slice(0, 10);
+        setNearbyLocations(sorted);
+        setCurrentBin(sorted[0].bin);
+        setDistance(sorted[0].distance);
+        break;
+      }
+      case 'trees': {
+        const sorted = treeLocations
+          .map(tree => ({
+            bin: tree,
+            ...findNearestBin(userLocation, [tree])
+          }))
+          .sort((a, b) => a.distance - b.distance)
+          .slice(0, 10);
+        setNearbyLocations(sorted);
+        setCurrentBin(sorted[0].bin);
+        setDistance(sorted[0].distance);
+        break;
+      }
     }
-  }, [locations, userLocation, dataType, crimeLocations]);
+  }, [locations, userLocation, dataType, crimeLocations, treeLocations]);
 
   const handleOrientation = (event: DeviceOrientationEvent) => {
     const angle = event.webkitCompassHeading || event.alpha || 0;
@@ -136,27 +157,45 @@ const Binder = () => {
   };
 
   const renderInfo = (location: any, distance: number, bearing: number) => {
-    if (dataType === 'crimes') {
-      const crime = location as CrimeLocation;
-      return (
-        <>
-          <h3>{crime.streetName}</h3>
-          <p>{Math.round(distance)}m away</p>
-          <p>Month: {crime.month}</p>
-          <p>Category: {crime.category}</p>
-          <p>Crime Type: {crime.locationType}</p>
-          <p>Outcome: {crime.outcome || 'Unknown'}</p>
-          <p>Bearing: {Math.round(bearing)}°</p>
-        </>
-      );
+    switch (dataType) {
+      case 'crimes': {
+        const crime = location as CrimeLocation;
+        return (
+          <>
+            <h3>{crime.streetName}</h3>
+            <p>{Math.round(distance)}m away</p>
+            <p>Month: {crime.month}</p>
+            <p>Category: {crime.category}</p>
+            <p>Crime Type: {crime.locationType}</p>
+            <p>Outcome: {crime.outcome || 'Unknown'}</p>
+            <p>Bearing: {Math.round(bearing)}°</p>
+          </>
+        );
+      }
+      case 'trees': {
+        const tree = location as TreeLocation;
+        return (
+          <>
+            <h3>{tree.reference}</h3>
+            <p>{Math.round(distance)}m away</p>
+            <p>Type: {tree.treeType}</p>
+            {tree.notes && <p>Notes: {tree.notes}</p>}
+            {tree.treePreservationOrder && <p>TPO: {tree.treePreservationOrder}</p>}
+            {tree.startDate && <p>Protected since: {tree.startDate}</p>}
+
+            <p>Bearing: {Math.round(bearing)}°</p>
+          </>
+        );
+      }
+      default:
+        return (
+          <>
+            <h3>{location.name}</h3>
+            <p>{Math.round(distance)}m away</p>
+            <p>Bearing: {Math.round(bearing)}°</p>
+          </>
+        );
     }
-    return (
-      <>
-        <h3>{location.name}</h3>
-        <p>{Math.round(distance)}m away</p>
-        <p>Bearing: {Math.round(bearing)}°</p>
-      </>
-    );
   };
 
   return (
@@ -166,11 +205,12 @@ const Binder = () => {
         <div className={styles.selector}>
           <select 
             value={dataType} 
-            onChange={(e) => setDataType(e.target.value as 'facilities' | 'crimes')}
+            onChange={(e) => setDataType(e.target.value as typeof dataType)}
             className={styles.dataTypeSelect}
           >
             <option value="facilities">Facilities</option>
             <option value="crimes">Crimes</option>
+            <option value="trees">Protected Trees</option>
           </select>
           {dataType === 'facilities' && (
             <TypeSelector 
