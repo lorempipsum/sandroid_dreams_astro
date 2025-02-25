@@ -17,6 +17,7 @@ const Binder = () => {
   const [locations, setLocations] = useState(() => getFacilitiesByType(facilityTypes[0]));
   const [currentBin, setCurrentBin] = useState(locations[0]);
   const [error, setError] = useState<string | null>(null);
+  const [showDotInfo, setShowDotInfo] = useState(false);
 
   useEffect(() => {
     try {
@@ -71,16 +72,28 @@ const Binder = () => {
   const bearing = userLocation ? calculateBearing(userLocation, currentBin) : 0;
   const rotation = compass ? bearing - compass : 0;
 
+  const getDotPosition = (distance: number, bearing: number) => {
+    // Scale distance to fit within 150px radius (300px diameter)
+    const radius = 150;
+    const angle = (bearing - 90) * (Math.PI / 180); // Convert to radians, -90 to align north
+    const scaledDistance = Math.min(distance, 300) * (radius / 300);
+    
+    return {
+      left: `${radius + scaledDistance * Math.cos(angle)}px`,
+      top: `${radius + scaledDistance * Math.sin(angle)}px`
+    };
+  };
 
   return (
     <>
       <div className={styles.titleContainer}>
-        Find the closest
+        <span>Find the closest</span>
+        <div className={styles.selector}>
         <TypeSelector 
           types={facilityTypes}
           selectedType={selectedType}
           onTypeChange={setSelectedType}
-        />
+        /></div>
       </div>
       
       <div className={styles.container}>
@@ -90,6 +103,29 @@ const Binder = () => {
           <Button id="enable-compass" onClick={requestPermissions} label="Enable Compass" />
         ) : (
           <>
+            <div className={styles.radar}>
+              {currentBin && distance && (
+                <>
+                  <div 
+                    className={styles.dot} 
+                    style={getDotPosition(distance, bearing)}
+                    onClick={() => setShowDotInfo(!showDotInfo)}
+                    role="button"
+                    tabIndex={0}
+                  />
+                  {showDotInfo && (
+                    <div 
+                      className={styles.dotInfo}
+                      style={getDotPosition(distance, bearing)}
+                    >
+                      <h3>{currentBin.name}</h3>
+                      <p>{Math.round(distance)}m away</p>
+                      <p>Bearing: {Math.round(bearing)}°</p>
+                    </div>
+                  )}
+                </>
+              )}
+            </div>
             <AnimatedBobUp>
               <svg
                 className={styles.arrow}
