@@ -157,7 +157,7 @@ const Binder = () => {
   const rotation = compass ? bearing - compass : 0;
 
   const getDotPosition = (distance: number, bearing: number) => {
-    const radius = 150;
+    const radius = 30;
     // Use the same rotation calculation as the arrow
     const rotatedBearing = bearing - compass;
     // Convert to radians and adjust for CSS coordinate system
