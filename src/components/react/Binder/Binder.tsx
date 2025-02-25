@@ -135,7 +135,7 @@ const Binder = () => {
     setShowDotInfo(binId ? binId : !showDotInfo);
   };
 
-  const renderInfo = (location: any, distance: number) => {
+  const renderInfo = (location: any, distance: number, bearing: number) => {
     if (dataType === 'crimes') {
       const crime = location as CrimeLocation;
       return (
@@ -146,6 +146,7 @@ const Binder = () => {
           <p>Category: {crime.category}</p>
           <p>Crime Type: {crime.locationType}</p>
           <p>Outcome: {crime.outcome || 'Unknown'}</p>
+          <p>Bearing: {Math.round(bearing)}°</p>
         </>
       );
     }
@@ -213,7 +214,7 @@ const Binder = () => {
                         style={getDotPosition(loc.distance, loc.bearing)}
                         onClick={(e) => e.stopPropagation()}
                       >
-                        {renderInfo(loc.bin, loc.distance)}
+                        {renderInfo(loc.bin, loc.distance, loc.bearing)}
                       </div>
                     )}
                   </React.Fragment>
