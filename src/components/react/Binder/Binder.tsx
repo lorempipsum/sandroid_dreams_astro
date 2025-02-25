@@ -8,9 +8,10 @@ import { requestOrientationPermission } from '../../../utils/devicePermissions';
 import { getUniqueTypes, getFacilitiesByType } from '../../../utils/geoJsonLoader';
 import { getCrimeData, type CrimeLocation } from '../../../utils/crimeDataLoader';
 import { getTreeData, type TreeLocation } from '../../../utils/treeDataLoader';
+import { getGeneralTreeData, type GeneralTree } from '../../../utils/generalTreeDataLoader';
 import React from 'react';
 
-const DATASOURCES = ['Facilities', 'Crimes', 'Trees'] as const;
+const DATASOURCES = ['Facilities', 'Crimes', 'Protected Trees', 'Trees'] as const;
 type DataSourceType = typeof DATASOURCES[number];
 
 const Binder = () => {
@@ -30,9 +31,10 @@ const Binder = () => {
     distance: number,
     bearing: number
   }>>([]);
-  const [dataType, setDataType] = useState<'facilities' | 'crimes' | 'trees'>('facilities');
+  const [dataType, setDataType] = useState<'facilities' | 'crimes' | 'trees' | 'general-trees'>('facilities');
   const [crimeLocations] = useState(() => getCrimeData());
   const [treeLocations] = useState(() => getTreeData());
+  const [generalTreeLocations, setGeneralTreeLocations] = useState<GeneralTree[]>([]);
 
   useEffect(() => {
     try {
@@ -101,8 +103,29 @@ const Binder = () => {
         setDistance(sorted[0].distance);
         break;
       }
+      case 'general-trees': {
+        const sorted = generalTreeLocations
+          .map(tree => ({
+            bin: tree,
+            ...findNearestBin(userLocation, [tree])
+          }))
+          .sort((a, b) => a.distance - b.distance)
+          .slice(0, 10);
+        setNearbyLocations(sorted);
+        setCurrentBin(sorted[0].bin);
+        setDistance(sorted[0].distance);
+        break;
+      }
     }
-  }, [locations, userLocation, dataType, crimeLocations, treeLocations]);
+  }, [locations, userLocation, dataType, crimeLocations, treeLocations, generalTreeLocations]);
+
+  useEffect(() => {
+    const loadGeneralTrees = async () => {
+      const trees = await getGeneralTreeData();
+      setGeneralTreeLocations(trees);
+    };
+    loadGeneralTrees();
+  }, []);
 
   const handleOrientation = (event: DeviceOrientationEvent) => {
     const angle = event.webkitCompassHeading || event.alpha || 0;
@@ -187,6 +210,20 @@ const Binder = () => {
           </>
         );
       }
+      case 'general-trees': {
+        const tree = location as GeneralTree;
+        return (
+          <>
+            <h3>{tree.commonName}</h3>
+            <p>{Math.round(distance)}m away</p>
+            <p>Latin Name: {tree.latinName}</p>
+            <p>Height: {tree.height}</p>
+            <p>Crown width: {tree.crownWidth}</p>
+            <p>Condition: {tree.condition}</p>
+            <p>Bearing: {Math.round(bearing)}°</p>
+          </>
+        );
+      }
       default:
         return (
           <>
@@ -211,6 +248,7 @@ const Binder = () => {
             <option value="facilities">Facilities</option>
             <option value="crimes">Crimes</option>
             <option value="trees">Protected Trees</option>
+            <option value="general-trees">Trees</option>
           </select>
           {dataType === 'facilities' && (
             <TypeSelector 
