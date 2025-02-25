@@ -108,6 +108,7 @@
   cursor: pointer;
   transition: transform 0.2s ease-out;
   z-index: 2;
+  opacity: 0.6;
 
   &:hover {
     transform: translate(-50%, -50%) scale(1.5);
@@ -116,6 +117,15 @@
   &:focus {
     outline: none;
     transform: translate(-50%, -50%) scale(1.5);
+  }
+
+  &.nearest {
+    opacity: 1;
+    width: 12px;
+    height: 12px;
+    z-index: 3;
+    background-color: $arrowBlue;
+    box-shadow: 0 0 8px rgba(51, 102, 205, 0.5);
   }
 }
 
@@ -126,7 +136,7 @@
   border-radius: 8px;
   box-shadow: 0 2px 8px rgba(0, 0, 0, 0.15);
   transform: translate(10px, -50%);
-  z-index: 1;
+  z-index: 10;
   min-width: 150px;
   border: 1px solid rgba(51, 102, 205, 0.2);
 
@@ -138,7 +148,42 @@
 
   p {
     margin: 4px 0;
-    font-size: 14px;
+    font-size: 12px;
     color: #666;
+    
+    &:first-of-type {
+      color: $arrowBlue;
+      font-weight: bold;
+    }
+  }
+}
+
+.toggleNearby {
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+  font-size: 0.9rem;
+  color: $arrowBlue;
+  margin-top: 0.5rem;
+  cursor: pointer;
+
+  input {
+    width: 1rem;
+    height: 1rem;
+  }
+}
+
+.dataTypeSelect {
+  padding: 0.5rem;
+  border-radius: 4px;
+  border: 1px solid rgba(51, 102, 205, 0.2);
+  margin-right: 0.5rem;
+  background: white;
+  color: $arrowBlue;
+  font-size: 0.9rem;
+  
+  &:focus {
+    outline: none;
+    border-color: $arrowBlue;
   }
 }

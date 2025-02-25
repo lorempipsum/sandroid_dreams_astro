@@ -6,6 +6,8 @@ import TypeSelector from '../TypeSelector/TypeSelector';
 import { calculateBearing, findNearestBin } from '../../../utils/locationUtils';
 import { requestOrientationPermission } from '../../../utils/devicePermissions';
 import { getUniqueTypes, getFacilitiesByType } from '../../../utils/geoJsonLoader';
+import { getCrimeData, type CrimeLocation } from '../../../utils/crimeDataLoader';
+import React from 'react';
 
 const Binder = () => {
   const [userLocation, setUserLocation] = useState<GeolocationCoordinates | null>(null);
@@ -18,6 +20,16 @@ const Binder = () => {
   const [currentBin, setCurrentBin] = useState(locations[0]);
   const [error, setError] = useState<string | null>(null);
   const [showDotInfo, setShowDotInfo] = useState(false);
+  const [showAllNearby, setShowAllNearby] = useState(false);
+  const [nearbyLocations, setNearbyLocations] = useState<Array<{
+    bin: typeof locations[0],
+    distance: number,
+    bearing: number
+  }>>([]);
+  const [dataType, setDataType] = useState<'facilities' | 'crimes'>('facilities');
+  const [crimeLocations] = useState(() => getCrimeData());
+
+  console.log(nearbyLocations)
 
   useEffect(() => {
     try {
@@ -37,11 +49,41 @@ const Binder = () => {
 
   useEffect(() => {
     if (userLocation && locations.length > 0) {
-      const nearest = findNearestBin(userLocation, locations);
-      setCurrentBin(nearest.bin);
-      setDistance(nearest.distance);
+      const sorted = locations.map(bin => findNearestBin(userLocation, [bin]))
+        .sort((a, b) => a.distance - b.distance)
+        .slice(0, 10);
+
+      setNearbyLocations(sorted);
+      setCurrentBin(sorted[0].bin);
+      setDistance(sorted[0].distance);
     }
   }, [locations, userLocation]);
+
+  useEffect(() => {
+    if (!userLocation) return;
+
+    if (dataType === 'facilities') {
+      const sorted = locations.map(bin => findNearestBin(userLocation, [bin]))
+        .sort((a, b) => a.distance - b.distance)
+        .slice(0, 10);
+
+      setNearbyLocations(sorted);
+      setCurrentBin(sorted[0].bin);
+      setDistance(sorted[0].distance);
+    } else {
+      const sorted = crimeLocations
+        .map(crime => ({
+          bin: crime,
+          ...findNearestBin(userLocation, [crime])
+        }))
+        .sort((a, b) => a.distance - b.distance)
+        .slice(0, 10);
+
+      setNearbyLocations(sorted);
+      setCurrentBin(sorted[0].bin);
+      setDistance(sorted[0].distance);
+    }
+  }, [locations, userLocation, dataType, crimeLocations]);
 
   const handleOrientation = (event: DeviceOrientationEvent) => {
     const angle = event.webkitCompassHeading || event.alpha || 0;
@@ -86,16 +128,67 @@ const Binder = () => {
     };
   };
 
+  const handleBackgroundClick = () => {
+    setShowDotInfo(false);
+  };
+
+  const handleDotClick = (e: React.MouseEvent, binId?: string) => {
+    e.stopPropagation(); // Prevent click from bubbling to background
+    setShowDotInfo(binId ? binId : !showDotInfo);
+  };
+
+  const renderInfo = (location: any) => {
+    if (dataType === 'crimes') {
+      const crime = location as CrimeLocation;
+      return (
+        <>
+          <h3>{crime.streetName}</h3>
+          <p>{Math.round(distance!)}m away</p>
+          <p>Month: {crime.month}</p>
+          <p>Category: {crime.category}</p>
+          <p>Crime Type: {crime.locationType}</p>
+          <p>Outcome: {crime.outcome || 'Unknown'}</p>
+        </>
+      );
+    }
+    return (
+      <>
+        <h3>{location.name}</h3>
+        <p>{Math.round(distance!)}m away</p>
+        <p>Bearing: {Math.round(bearing)}°</p>
+      </>
+    );
+  };
+
   return (
-    <>
+    <div onClick={handleBackgroundClick}>
       <div className={styles.titleContainer}>
         <span>Find the closest</span>
         <div className={styles.selector}>
-        <TypeSelector 
-          types={facilityTypes}
-          selectedType={selectedType}
-          onTypeChange={setSelectedType}
-        /></div>
+          <select 
+            value={dataType} 
+            onChange={(e) => setDataType(e.target.value as 'facilities' | 'crimes')}
+            className={styles.dataTypeSelect}
+          >
+            <option value="facilities">Facilities</option>
+            <option value="crimes">Crimes</option>
+          </select>
+          {dataType === 'facilities' && (
+            <TypeSelector 
+              types={facilityTypes}
+              selectedType={selectedType}
+              onTypeChange={setSelectedType}
+            />
+          )}
+        </div>
+        <label className={styles.toggleNearby}>
+          <input
+            type="checkbox"
+            checked={showAllNearby}
+            onChange={(e) => setShowAllNearby(e.target.checked)}
+          />
+          Show nearby
+        </label>
       </div>
       
       <div className={styles.container}>
@@ -106,24 +199,48 @@ const Binder = () => {
         ) : (
           <>
             <div className={styles.radar}>
-              {currentBin && distance && (
-                <>
-                  <div 
-                    className={styles.dot} 
-                    style={getDotPosition(distance, bearing)}
-                    onClick={() => setShowDotInfo(!showDotInfo)}
-                    role="button"
-                    tabIndex={0}
-                  />
-                  {showDotInfo && (
+              {showAllNearby ? (
+                nearbyLocations.map((loc, index) => (
+                  <React.Fragment key={loc.bin.id}>
                     <div 
-                      className={styles.dotInfo}
-                      style={getDotPosition(distance, bearing)}
-                    >
-                      <h3>{currentBin.name}</h3>
-                      <p>{Math.round(distance)}m away</p>
-                      <p>Bearing: {Math.round(bearing)}°</p>
-                    </div>
+                      className={`${styles.dot} ${index === 0 ? styles.nearest : ''}`}
+                      style={getDotPosition(loc.distance, loc.bearing)}
+                      onClick={(e) => handleDotClick(e, loc.bin.id)}
+                      role="button"
+                      tabIndex={0}
+                    />
+                    {showDotInfo === loc.bin.id && (
+                      <div 
+                        className={styles.dotInfo}
+                        style={getDotPosition(loc.distance, loc.bearing)}
+                        onClick={(e) => e.stopPropagation()}
+                      >
+                        {renderInfo(loc.bin)}
+                      </div>
+                    )}
+                  </React.Fragment>
+                ))
+              ) : (
+                <>
+                  {currentBin && distance && (
+                    <>
+                      <div 
+                        className={styles.dot} 
+                        style={getDotPosition(distance, bearing)}
+                        onClick={(e) => handleDotClick(e)}
+                        role="button"
+                        tabIndex={0}
+                      />
+                      {showDotInfo && (
+                        <div 
+                          className={styles.dotInfo}
+                          style={getDotPosition(distance, bearing)}
+                          onClick={(e) => e.stopPropagation()}
+                        >
+                          {renderInfo(currentBin)}
+                        </div>
+                      )}
+                    </>
                   )}
                 </>
               )}
@@ -148,7 +265,7 @@ const Binder = () => {
           </>
         )}
       </div>
-    </>
+    </div>
   );
 };
 

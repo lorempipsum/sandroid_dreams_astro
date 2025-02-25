@@ -25,17 +25,17 @@ export const calculateDistance = (start: GeolocationCoordinates, end: { latitude
   return R * c;
 };
 
-export const findNearestBin = (userCoords: GeolocationCoordinates, binLocations: Array<{ latitude: number; longitude: number; name: string }>) => {
-  let nearestBin = binLocations[0];
-  let shortestDistance = calculateDistance(userCoords, binLocations[0]);
+export const findNearestBin = (userLocation: GeolocationCoordinates, bins: any[]) => {
+  // Calculate distance and bearing for each bin
+  const nearestBin = bins.reduce((nearest, bin) => {
+    const distance = calculateDistance(userLocation, bin);
+    const bearing = calculateBearing(userLocation, bin);
 
-  binLocations.forEach(bin => {
-    const distance = calculateDistance(userCoords, bin);
-    if (distance < shortestDistance) {
-      shortestDistance = distance;
-      nearestBin = bin;
+    if (!nearest || distance < nearest.distance) {
+      return { bin, distance, bearing };
     }
-  });
+    return nearest;
+  }, null);
 
-  return { bin: nearestBin, distance: shortestDistance };
+  return nearestBin || { bin: bins[0], distance: 0, bearing: 0 };
 };
