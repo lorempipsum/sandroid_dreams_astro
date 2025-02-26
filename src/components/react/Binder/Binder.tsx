@@ -157,12 +157,14 @@ const Binder = () => {
   const rotation = compass ? bearing - compass : 0;
 
   const getDotPosition = (distance: number, bearing: number) => {
-    const radius = 30;
+    const radius = 150; // has to be half of the width and height set in Binder.module.scss
+    const scalingFactor = 0.33;
+    const maxDistance = radius*scalingFactor;
     // Use the same rotation calculation as the arrow
     const rotatedBearing = bearing - compass;
     // Convert to radians and adjust for CSS coordinate system
     const angle = ((rotatedBearing - 90) * Math.PI) / 180;
-    const scaledDistance = Math.min(distance, 300) * (radius / 300);
+    const scaledDistance = Math.min(distance, maxDistance) * (radius / maxDistance);
     
     return {
       left: `${radius + scaledDistance * Math.cos(angle)}px`,
