@@ -9,6 +9,7 @@ import { getUniqueTypes, getFacilitiesByType } from '../../../utils/geoJsonLoade
 import { getCrimeData, type CrimeLocation } from '../../../utils/crimeDataLoader';
 import { getTreeData, type TreeLocation } from '../../../utils/treeDataLoader';
 import { getGeneralTreeData, type GeneralTree } from '../../../utils/generalTreeDataLoader';
+import { getCollisionData, type CollisionLocation } from '../../../utils/collisionDataLoader';
 import React from 'react';
 
 const DATASOURCES = ['Facilities', 'Crimes', 'Protected Trees', 'Trees'] as const;
@@ -31,10 +32,11 @@ const Binder = () => {
     distance: number,
     bearing: number
   }>>([]);
-  const [dataType, setDataType] = useState<'facilities' | 'crimes' | 'trees' | 'general-trees'>('facilities');
+  const [dataType, setDataType] = useState<'facilities' | 'crimes' | 'trees' | 'general-trees' | 'collisions'>('facilities');
   const [crimeLocations] = useState(() => getCrimeData());
   const [treeLocations] = useState(() => getTreeData());
   const [generalTreeLocations, setGeneralTreeLocations] = useState<GeneralTree[]>([]);
+  const [collisionLocations] = useState(() => getCollisionData());
   const [lockNorth, setLockNorth] = useState(false);
 
   useEffect(() => {
@@ -117,8 +119,21 @@ const Binder = () => {
         setDistance(sorted[0].distance);
         break;
       }
+      case 'collisions': {
+        const sorted = collisionLocations
+          .map(collision => ({
+            bin: collision,
+            ...findNearestBin(userLocation, [collision])
+          }))
+          .sort((a, b) => a.distance - b.distance)
+          .slice(0, 10);
+        setNearbyLocations(sorted);
+        setCurrentBin(sorted[0].bin);
+        setDistance(sorted[0].distance);
+        break;
+      }
     }
-  }, [locations, userLocation, dataType, crimeLocations, treeLocations, generalTreeLocations]);
+  }, [locations, userLocation, dataType, crimeLocations, treeLocations, generalTreeLocations, collisionLocations]);
 
   useEffect(() => {
     const loadGeneralTrees = async () => {
@@ -244,6 +259,27 @@ const Binder = () => {
           </>
         );
       }
+      case 'collisions': {
+        const collision = location as CollisionLocation;
+        return (
+          <>
+            <h3>Traffic Collision</h3>
+            <p>{Math.round(distance)}m away</p>
+            <p>Date: {new Date(collision.date).toLocaleDateString()}</p>
+            <p>Time: {collision.time}</p>
+            <p>Severity: {collision.severity}</p>
+            <p>Type: {collision.accidentDescription}</p>
+            <p>Vehicles: {collision.vehicles}</p>
+            <p>Casualties: {collision.casualties}</p>
+            {collision.pedestrians > 0 && <p>Pedestrians: {collision.pedestrians}</p>}
+            {collision.cycles > 0 && <p>Cyclists: {collision.cycles}</p>}
+            {collision.motorcycles > 0 && <p>Motorcyclists: {collision.motorcycles}</p>}
+            {collision.children > 0 && <p>Children: {collision.children}</p>}
+            {collision.elderly > 0 && <p>Elderly: {collision.elderly}</p>}
+            <p>Bearing: {Math.round(bearing)}°</p>
+          </>
+        );
+      }
       default:
         return (
           <>
@@ -269,6 +305,7 @@ const Binder = () => {
             <option value="crimes">Crimes</option>
             <option value="trees">Protected Trees</option>
             <option value="general-trees">Trees</option>
+            <option value="collisions">Traffic Collisions</option>
           </select>
           {dataType === 'facilities' && (
             <TypeSelector 
