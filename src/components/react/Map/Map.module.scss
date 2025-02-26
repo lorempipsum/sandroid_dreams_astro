@@ -1,12 +1,14 @@
 .mapContainer {
   position: absolute;
-  width: 300px;
-  height: 300px;
+  width: 400px;  // Increase base size
+  height: 400px; // Increase base size
   overflow: hidden;
   opacity: 0.7;
   pointer-events: none;
-  top: 0;
-  left: 0;
+  top: -50px;    // Offset to center
+  left: -50px;   // Offset to center
+  transform: scale(0.75); // Scale down to match radar size (300px)
+  transform-origin: center center;
 }
 
 .map {
