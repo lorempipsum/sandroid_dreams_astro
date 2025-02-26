@@ -6,9 +6,18 @@ interface MapProps {
   currentLocation?: { latitude: number; longitude: number } | null;
   compass: number;
   lockNorth: boolean;
+  debugMode?: boolean;
+  onDebugCompass?: (value: number) => void;
 }
 
-const Map = ({ userLocation, currentLocation, compass, lockNorth }: MapProps) => {
+const Map = ({ 
+  userLocation, 
+  currentLocation, 
+  compass, 
+  lockNorth,
+  debugMode = false,
+  onDebugCompass 
+}: MapProps) => {
   const mapRef = useRef<L.Map | null>(null);
   const markerRef = useRef<L.Marker | null>(null);
   const userMarkerRef = useRef<L.Marker | null>(null);
@@ -44,10 +53,10 @@ const Map = ({ userLocation, currentLocation, compass, lockNorth }: MapProps) =>
       ).addTo(mapRef.current);
     }
 
-    // Update map rotation based on compass
+    // Update map rotation based on compass - negate the value to match compass direction
     if (mapRef.current && !lockNorth) {
       const mapContainer = mapRef.current.getContainer();
-      mapContainer.style.transform = `rotate(${compass}deg)`;
+      mapContainer.style.transform = `rotate(-${compass}deg)`;
     }
 
     // Update user location and center
@@ -77,6 +86,18 @@ const Map = ({ userLocation, currentLocation, compass, lockNorth }: MapProps) =>
   return (
     <div className={styles.mapContainer}>
       <div id="map" className={styles.map} />
+      {debugMode && (
+        <div className={styles.debugControls}>
+          <input
+            type="range"
+            min="0"
+            max="360"
+            value={compass}
+            onChange={(e) => onDebugCompass?.(Number(e.target.value))}
+          />
+          <span>{Math.round(compass)}°</span>
+        </div>
+      )}
     </div>
   );
 };

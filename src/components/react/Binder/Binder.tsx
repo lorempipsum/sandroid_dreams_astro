@@ -37,6 +37,11 @@ const Binder = () => {
   const [treeLocations] = useState(() => getTreeData());
   const [generalTreeLocations, setGeneralTreeLocations] = useState<GeneralTree[]>([]);
   const [lockNorth, setLockNorth] = useState(false);
+  const [isDebugMode] = useState(() => 
+    typeof window !== 'undefined' && 
+    !('ontouchstart' in window) && 
+    process.env.NODE_ENV === 'development'
+  );
 
   useEffect(() => {
     try {
@@ -156,7 +161,7 @@ const Binder = () => {
   }, []);
 
   const bearing = userLocation ? calculateBearing(userLocation, currentBin) : 0;
-  const rotation = compass ? bearing - compass : 0;
+  const rotation = compass ? -(bearing - compass) : 0;
 
   const getDotPosition = (distance: number, bearing: number) => {
     const radius = 150; // has to be half of the width and height set in Binder.module.scss
@@ -181,6 +186,10 @@ const Binder = () => {
   const handleDotClick = (e: React.MouseEvent, binId?: string) => {
     e.stopPropagation(); // Prevent click from bubbling to background
     setShowDotInfo(binId ? binId : !showDotInfo);
+  };
+
+  const handleDebugCompass = (value: number) => {
+    setCompass(value);
   };
 
   const renderInfo = (location: any, distance: number, bearing: number) => {
@@ -295,6 +304,8 @@ const Binder = () => {
                 currentLocation={currentBin}
                 compass={compass}
                 lockNorth={lockNorth}
+                debugMode={isDebugMode}
+                onDebugCompass={handleDebugCompass}
               />
               {showAllNearby ? (
                 nearbyLocations.map((loc, index) => (
