@@ -35,6 +35,7 @@ const Binder = () => {
   const [crimeLocations] = useState(() => getCrimeData());
   const [treeLocations] = useState(() => getTreeData());
   const [generalTreeLocations, setGeneralTreeLocations] = useState<GeneralTree[]>([]);
+  const [lockNorth, setLockNorth] = useState(false);
 
   useEffect(() => {
     try {
@@ -160,7 +161,8 @@ const Binder = () => {
     const radius = 150; // half of radar width/height
     const scalingFactor = 0.33;
     const maxDistance = radius*scalingFactor;
-    const rotatedBearing = bearing - compass;
+    // Only rotate bearing by compass if north isn't locked
+    const rotatedBearing = lockNorth ? bearing : bearing - compass;
     const angle = ((rotatedBearing - 90) * Math.PI) / 180;
     const scaledDistance = Math.min(distance, maxDistance) * (radius / maxDistance);
     
@@ -276,14 +278,24 @@ const Binder = () => {
             />
           )}
         </div>
-        <label className={styles.toggleNearby}>
-          <input
-            type="checkbox"
-            checked={showAllNearby}
-            onChange={(e) => setShowAllNearby(e.target.checked)}
-          />
-          Show closest 10
-        </label>
+        <div className={styles.toggleContainer}>
+          <label className={styles.toggleNearby}>
+            <input
+              type="checkbox"
+              checked={showAllNearby}
+              onChange={(e) => setShowAllNearby(e.target.checked)}
+            />
+            Show closest 10
+          </label>
+          <label className={styles.toggleNearby}>
+            <input
+              type="checkbox"
+              checked={lockNorth}
+              onChange={(e) => setLockNorth(e.target.checked)}
+            />
+            Lock North
+          </label>
+        </div>
       </div>
       
       <div className={styles.container}>

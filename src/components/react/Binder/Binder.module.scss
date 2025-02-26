@@ -163,19 +163,26 @@
   }
 }
 
+.toggleContainer {
+  display: flex;
+  gap: 1rem;
+  margin-top: 0.5rem;
+}
+
 .toggleNearby {
   display: flex;
   align-items: center;
   gap: 0.5rem;
   font-size: 0.9rem;
   color: $arrowBlue;
-  margin-top: 0.5rem;
   cursor: pointer;
 
   input {
     width: 1rem;
     height: 1rem;
   }
+
+  margin-top: 0; // Remove margin-top since it's handled by container
 }
 
 .dataTypeSelect {
