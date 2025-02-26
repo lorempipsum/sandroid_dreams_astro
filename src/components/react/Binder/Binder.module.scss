@@ -8,6 +8,7 @@
   justify-content: center;
   height: 100vh;
   background: #f5f5f5;
+  overflow: hidden;
 }
 
 .arrow {
@@ -139,6 +140,10 @@
   z-index: 10;
   min-width: 150px;
   border: 1px solid rgba(51, 102, 205, 0.2);
+
+  &.flipLeft {
+    transform: translate(calc(-100% - 20px), -50%);
+  }
 
   h3 {
     margin: 0 0 8px 0;

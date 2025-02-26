@@ -157,18 +157,34 @@ const Binder = () => {
   const rotation = compass ? bearing - compass : 0;
 
   const getDotPosition = (distance: number, bearing: number) => {
-    const radius = 150; // has to be half of the width and height set in Binder.module.scss
+    const radius = 150; // half of radar width/height
     const scalingFactor = 0.33;
     const maxDistance = radius*scalingFactor;
-    // Use the same rotation calculation as the arrow
     const rotatedBearing = bearing - compass;
-    // Convert to radians and adjust for CSS coordinate system
     const angle = ((rotatedBearing - 90) * Math.PI) / 180;
     const scaledDistance = Math.min(distance, maxDistance) * (radius / maxDistance);
     
+    const x = radius + scaledDistance * Math.cos(angle);
+    const y = radius + scaledDistance * Math.sin(angle);
+    
     return {
-      left: `${radius + scaledDistance * Math.cos(angle)}px`,
-      top: `${radius + scaledDistance * Math.sin(angle)}px`
+      left: `${x}px`,
+      top: `${y}px`,
+      xPos: x // Return raw x position for info box positioning
+    };
+  };
+
+  // Add this new function to determine info box position
+  const getInfoPosition = (dotPosition: { left: string, top: string, xPos: number }) => {
+    const screenWidth = 300; // Width of radar
+    const dotX = dotPosition.xPos;
+    
+    // If dot is in the right half of the screen, position info box to the left
+    const shouldFlip = dotX > screenWidth / 2;
+    
+    return {
+      ...dotPosition,
+      className: `${styles.dotInfo} ${shouldFlip ? styles.flipLeft : ''}`
     };
   };
 
@@ -279,47 +295,57 @@ const Binder = () => {
           <>
             <div className={styles.radar}>
               {showAllNearby ? (
-                nearbyLocations.map((loc, index) => (
-                  <React.Fragment key={loc.bin.id}>
-                    <div 
-                      className={`${styles.dot} ${index === 0 ? styles.nearest : ''}`}
-                      style={getDotPosition(loc.distance, loc.bearing)}
-                      onClick={(e) => handleDotClick(e, loc.bin.id)}
-                      role="button"
-                      tabIndex={0}
-                    />
-                    {showDotInfo === loc.bin.id && (
+                nearbyLocations.map((loc, index) => {
+                  const dotPos = getDotPosition(loc.distance, loc.bearing);
+                  const infoPos = getInfoPosition(dotPos);
+                  return (
+                    <React.Fragment key={loc.bin.id}>
                       <div 
-                        className={styles.dotInfo}
-                        style={getDotPosition(loc.distance, loc.bearing)}
-                        onClick={(e) => e.stopPropagation()}
-                      >
-                        {renderInfo(loc.bin, loc.distance, loc.bearing)}
-                      </div>
-                    )}
-                  </React.Fragment>
-                ))
-              ) : (
-                <>
-                  {currentBin && distance && (
-                    <>
-                      <div 
-                        className={styles.dot} 
-                        style={getDotPosition(distance, bearing)}
-                        onClick={(e) => handleDotClick(e)}
+                        className={`${styles.dot} ${index === 0 ? styles.nearest : ''}`}
+                        style={dotPos}
+                        onClick={(e) => handleDotClick(e, loc.bin.id)}
                         role="button"
                         tabIndex={0}
                       />
-                      {showDotInfo && (
+                      {showDotInfo === loc.bin.id && (
                         <div 
-                          className={styles.dotInfo}
-                          style={getDotPosition(distance, bearing)}
+                          className={infoPos.className}
+                          style={dotPos}
                           onClick={(e) => e.stopPropagation()}
                         >
-                          {renderInfo(currentBin, distance)}
+                          {renderInfo(loc.bin, loc.distance, loc.bearing)}
                         </div>
                       )}
-                    </>
+                    </React.Fragment>
+                  );
+                })
+              ) : (
+                <>
+                  {currentBin && distance && (
+                    (() => {
+                      const dotPos = getDotPosition(distance, bearing);
+                      const infoPos = getInfoPosition(dotPos);
+                      return (
+                        <>
+                          <div 
+                            className={styles.dot} 
+                            style={dotPos}
+                            onClick={(e) => handleDotClick(e)}
+                            role="button"
+                            tabIndex={0}
+                          />
+                          {showDotInfo && (
+                            <div 
+                              className={infoPos.className}
+                              style={dotPos}
+                              onClick={(e) => e.stopPropagation()}
+                            >
+                              {renderInfo(currentBin, distance)}
+                            </div>
+                          )}
+                        </>
+                      );
+                    })()
                   )}
                 </>
               )}
