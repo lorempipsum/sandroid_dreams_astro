@@ -160,7 +160,7 @@ const Binder = () => {
 
   const getDotPosition = (distance: number, bearing: number) => {
     const radius = 150; // has to be half of the width and height set in Binder.module.scss
-    const scalingFactor = 0.33;
+    const scalingFactor = 1;
     const maxDistance = radius*scalingFactor;
     // Use the same rotation calculation as the arrow
     const rotatedBearing = bearing - compass;
