@@ -21,6 +21,7 @@
     "@use-gesture/react": "^10.3.1",
     "alea": "^1.0.1",
     "astro": "^3.6.5",
+    "leaflet": "^1.9.4",
     "path": "^0.12.7",
     "perlin.js": "^1.0.0",
     "react": "^18.2.0",
@@ -31,6 +32,7 @@
     "typescript": "^5.2.2"
   },
   "devDependencies": {
+    "@types/leaflet": "^1.9.16",
     "vite-plugin-svgr": "^4.3.0"
   }
 }
