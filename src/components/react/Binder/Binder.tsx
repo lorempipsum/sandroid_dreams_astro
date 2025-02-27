@@ -72,56 +72,41 @@ const Binder = () => {
         .sort((a, b) => a.distance - b.distance)
         .slice(0, 10);
 
-      setNearbyLocations(sorted);
-      setCurrentBin(sorted[0].bin);
-      setDistance(sorted[0].distance);
+      updateLocations(sorted);
     }
   }, [locations, userLocation]);
 
   useEffect(() => {
     if (!userLocation) return;
 
+    const getLocationsForType = (items: any[]) => {
+      return items
+        .map(item => ({
+          bin: item,
+          ...findNearestBin(userLocation, [item])
+        }))
+        .sort((a, b) => a.distance - b.distance)
+        .slice(0, 10);
+    };
+
+    let sorted;
     switch (dataType) {
-      case 'facilities': {
-        const sorted = locations.map(bin => findNearestBin(userLocation, [bin]))
-          .sort((a, b) => a.distance - b.distance)
-          .slice(0, 10);
-        updateLocations(sorted);
+      case 'facilities':
+        sorted = getLocationsForType(locations);
         break;
-      }
-      case 'crimes': {
-        const sorted = crimeLocations
-          .map(crime => ({
-            bin: crime,
-            ...findNearestBin(userLocation, [crime])
-          }))
-          .sort((a, b) => a.distance - b.distance)
-          .slice(0, 10);
-        updateLocations(sorted);
+      case 'crimes':
+        sorted = getLocationsForType(crimeLocations);
         break;
-      }
-      case 'protected trees': {
-        const sorted = treeLocations
-          .map(tree => ({
-            bin: tree,
-            ...findNearestBin(userLocation, [tree])
-          }))
-          .sort((a, b) => a.distance - b.distance)
-          .slice(0, 10);
-        updateLocations(sorted);
+      case 'protected trees':
+        sorted = getLocationsForType(treeLocations);
         break;
-      }
-      case 'trees': {
-        const sorted = generalTreeLocations
-          .map(tree => ({
-            bin: tree,
-            ...findNearestBin(userLocation, [tree])
-          }))
-          .sort((a, b) => a.distance - b.distance)
-          .slice(0, 10);
-        updateLocations(sorted);
+      case 'trees':
+        sorted = getLocationsForType(generalTreeLocations);
         break;
-      }
+    }
+    
+    if (sorted) {
+      updateLocations(sorted);
     }
   }, [locations, userLocation, dataType, crimeLocations, treeLocations, generalTreeLocations]);
 
