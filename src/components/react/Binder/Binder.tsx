@@ -161,7 +161,8 @@ const Binder = () => {
   }, []);
 
   const bearing = userLocation ? calculateBearing(userLocation, currentBin) : 0;
-  const rotation = compass ? -(bearing - compass) : 0;
+  // Fix rotation calculation to point correctly
+  const rotation = compass ? (bearing - compass) : bearing; // Remove negative sign from formula
 
   const getDotPosition = (distance: number, bearing: number) => {
     const radius = 150; // has to be half of the width and height set in Binder.module.scss
