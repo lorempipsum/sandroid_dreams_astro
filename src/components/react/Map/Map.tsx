@@ -50,13 +50,31 @@ const Map = ({
             html: '<div></div>'
           })
         }
-      ).addTo(mapRef.current);
+      )
+      .bindPopup(() => {
+        const content = document.createElement('div');
+        content.className = styles.userPopup;
+        content.innerHTML = `
+          <h3>Your Location</h3>
+          <p>Lat: ${userLocation.latitude.toFixed(6)}</p>
+          <p>Lng: ${userLocation.longitude.toFixed(6)}</p>
+          <p>Accuracy: ${userLocation.accuracy.toFixed(1)}m</p>
+          ${userLocation.altitude ? `<p>Altitude: ${userLocation.altitude.toFixed(1)}m</p>` : ''}
+        `;
+        return content;
+      }, {
+        closeButton: false,
+        className: styles.popup
+      })
+      .addTo(mapRef.current);
     }
 
-    // Update map rotation based on compass - negate the value to match compass direction
-    if (mapRef.current && !lockNorth) {
+    // Update map rotation based on compass - reset to 0 when locked to north
+    if (mapRef.current) {
       const mapContainer = mapRef.current.getContainer();
-      mapContainer.style.transform = `rotate(-${compass}deg)`;
+      mapContainer.style.transform = lockNorth ? 
+        'rotate(0deg)' : 
+        `rotate(-${compass}deg)`;
     }
 
     // Update user location and center

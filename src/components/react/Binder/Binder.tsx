@@ -167,8 +167,8 @@ const Binder = () => {
     const radius = 150; // has to be half of the width and height set in Binder.module.scss
     const scalingFactor = 1;
     const maxDistance = radius*scalingFactor;
-    // Use the same rotation calculation as the arrow
-    const rotatedBearing = bearing - compass;
+    // Only rotate bearing with compass if not locked to north
+    const rotatedBearing = lockNorth ? bearing : bearing - compass;
     // Convert to radians and adjust for CSS coordinate system
     const angle = ((rotatedBearing - 90) * Math.PI) / 180;
     const scaledDistance = Math.min(distance, maxDistance) * (radius / maxDistance);
