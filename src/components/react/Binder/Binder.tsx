@@ -11,6 +11,7 @@ import { getTreeData, type TreeLocation } from '../../../utils/treeDataLoader';
 import { getGeneralTreeData, type GeneralTree } from '../../../utils/generalTreeDataLoader';
 import React from 'react';
 import Map from '../Map/Map';
+import DataTypeSelector from '../DataTypeSelector/DataTypeSelector';
 
 const DATASOURCES = ['Facilities', 'Crimes', 'Protected Trees', 'Trees'] as const;
 type DataSourceType = typeof DATASOURCES[number];
@@ -32,7 +33,7 @@ const Binder = () => {
     distance: number,
     bearing: number
   }>>([]);
-  const [dataType, setDataType] = useState<'facilities' | 'crimes' | 'trees' | 'general-trees'>('facilities');
+  const [dataType, setDataType] = useState<'facilities' | 'crimes' | 'protected trees' | 'trees'>('facilities');
   const [crimeLocations] = useState(() => getCrimeData());
   const [treeLocations] = useState(() => getTreeData());
   const [generalTreeLocations, setGeneralTreeLocations] = useState<GeneralTree[]>([]);
@@ -97,7 +98,7 @@ const Binder = () => {
         setDistance(sorted[0].distance);
         break;
       }
-      case 'trees': {
+      case 'protected trees': {
         const sorted = treeLocations
           .map(tree => ({
             bin: tree,
@@ -110,7 +111,7 @@ const Binder = () => {
         setDistance(sorted[0].distance);
         break;
       }
-      case 'general-trees': {
+      case 'trees': {
         const sorted = generalTreeLocations
           .map(tree => ({
             bin: tree,
@@ -209,7 +210,7 @@ const Binder = () => {
           </>
         );
       }
-      case 'trees': {
+      case 'protected trees': {
         const tree = location as TreeLocation;
         return (
           <>
@@ -224,7 +225,7 @@ const Binder = () => {
           </>
         );
       }
-      case 'general-trees': {
+      case 'trees': {
         const tree = location as GeneralTree;
         return (
           <>
@@ -253,25 +254,13 @@ const Binder = () => {
     <div onClick={handleBackgroundClick}>
       <div className={styles.titleContainer}>
         <span>Find the closest</span>
-        <div className={styles.selector}>
-          <select 
-            value={dataType} 
-            onChange={(e) => setDataType(e.target.value as typeof dataType)}
-            className={styles.dataTypeSelect}
-          >
-            <option value="facilities">Facilities</option>
-            <option value="crimes">Crimes</option>
-            <option value="trees">Protected Trees</option>
-            <option value="general-trees">Trees</option>
-          </select>
-          {dataType === 'facilities' && (
-            <TypeSelector 
-              types={facilityTypes}
-              selectedType={selectedType}
-              onTypeChange={setSelectedType}
-            />
-          )}
-        </div>
+        <DataTypeSelector 
+          dataType={dataType}
+          onDataTypeChange={(type) => setDataType(type as typeof dataType)}
+          facilityTypes={facilityTypes}
+          selectedType={selectedType}
+          onTypeChange={setSelectedType}
+        />
         <div className={styles.toggleContainer}>
           <label className={styles.toggleNearby}>
             <input

@@ -9,7 +9,7 @@ interface DotInfoProps {
   distance: number;
   bearing?: number; // Make optional since it wasn't always provided in original
   compass?: number; // Add compass prop
-  dataType: 'facilities' | 'crimes' | 'trees' | 'general-trees';
+  dataType: 'facilities' | 'crimes' | 'trees' | 'trees';
   style?: React.CSSProperties;
   onClick?: (e: React.MouseEvent) => void;
 }
@@ -55,7 +55,7 @@ const DotInfo = ({ location, distance, bearing = 0, compass = 0, dataType, style
           </>
         );
       }
-      case 'trees': {
+      case 'protected trees': {
         const tree = location as TreeLocation;
         return (
           <>
@@ -69,7 +69,7 @@ const DotInfo = ({ location, distance, bearing = 0, compass = 0, dataType, style
           </>
         );
       }
-      case 'general-trees': {
+      case 'trees': {
         const tree = location as GeneralTree;
         return (
           <>
