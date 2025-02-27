@@ -1,0 +1,43 @@
+.dotInfo {
+  position: absolute;
+  background: rgba(255, 255, 255, 0.9);
+  padding: 8px;
+  border-radius: 4px;
+  min-width: 150px;
+  transform: translate(-50%, -120%);
+  pointer-events: all;
+  z-index: 1000;
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+  transition: transform 0.2s ease;
+
+  h3 {
+    margin: 0 0 8px 0;
+    font-size: 14px;
+    font-weight: bold;
+    color: #333;
+  }
+
+  p {
+    margin: 4px 0;
+    font-size: 12px;
+    color: #666;
+    line-height: 1.4;
+  }
+
+  &.flipLeft {
+    transform: translate(-150%, -120%);
+  }
+}
+
+// Fix for smaller screens
+@media (max-width: 480px) {
+  .dotInfo {
+    min-width: 120px;
+    padding: 6px;
+    transform: translate(-50%, -110%);
+
+    &.flipLeft {
+      transform: translate(-150%, -110%);
+    }
+  }
+}
