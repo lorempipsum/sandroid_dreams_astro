@@ -44,6 +44,12 @@ const Binder = () => {
     process.env.NODE_ENV === 'development'
   );
 
+  const updateLocations = (sorted: Array<{ bin: any, distance: number, bearing: number }>) => {
+    setNearbyLocations(sorted);
+    setCurrentBin(sorted[0].bin);
+    setDistance(sorted[0].distance);
+  };
+
   useEffect(() => {
     try {
       const newLocations = getFacilitiesByType(selectedType);
@@ -80,9 +86,7 @@ const Binder = () => {
         const sorted = locations.map(bin => findNearestBin(userLocation, [bin]))
           .sort((a, b) => a.distance - b.distance)
           .slice(0, 10);
-        setNearbyLocations(sorted);
-        setCurrentBin(sorted[0].bin);
-        setDistance(sorted[0].distance);
+        updateLocations(sorted);
         break;
       }
       case 'crimes': {
@@ -93,9 +97,7 @@ const Binder = () => {
           }))
           .sort((a, b) => a.distance - b.distance)
           .slice(0, 10);
-        setNearbyLocations(sorted);
-        setCurrentBin(sorted[0].bin);
-        setDistance(sorted[0].distance);
+        updateLocations(sorted);
         break;
       }
       case 'protected trees': {
@@ -106,9 +108,7 @@ const Binder = () => {
           }))
           .sort((a, b) => a.distance - b.distance)
           .slice(0, 10);
-        setNearbyLocations(sorted);
-        setCurrentBin(sorted[0].bin);
-        setDistance(sorted[0].distance);
+        updateLocations(sorted);
         break;
       }
       case 'trees': {
@@ -119,9 +119,7 @@ const Binder = () => {
           }))
           .sort((a, b) => a.distance - b.distance)
           .slice(0, 10);
-        setNearbyLocations(sorted);
-        setCurrentBin(sorted[0].bin);
-        setDistance(sorted[0].distance);
+        updateLocations(sorted);
         break;
       }
     }
