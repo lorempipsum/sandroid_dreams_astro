@@ -12,6 +12,7 @@ import { getGeneralTreeData, type GeneralTree } from '../../../utils/generalTree
 import React from 'react';
 import Map from '../Map/Map';
 import DataTypeSelector from '../DataTypeSelector/DataTypeSelector';
+import InfoRenderer from '../InfoRenderer/InfoRenderer';
 
 const DATASOURCES = ['Facilities', 'Crimes', 'Protected Trees', 'Trees'] as const;
 type DataSourceType = typeof DATASOURCES[number];
@@ -177,62 +178,6 @@ const Binder = () => {
     setCompass(value);
   };
 
-  const renderInfo = (location: any, distance: number, bearing: number) => {
-    switch (dataType) {
-      case 'crimes': {
-        const crime = location as CrimeLocation;
-        return (
-          <>
-            <h3>{crime.streetName}</h3>
-            <p>{Math.round(distance)}m away</p>
-            <p>Month: {crime.month}</p>
-            <p>Category: {crime.category}</p>
-            <p>Crime Type: {crime.locationType}</p>
-            <p>Outcome: {crime.outcome || 'Unknown'}</p>
-            <p>Bearing: {Math.round(bearing)}°</p>
-          </>
-        );
-      }
-      case 'protected trees': {
-        const tree = location as TreeLocation;
-        return (
-          <>
-            <h3>{tree.reference}</h3>
-            <p>{Math.round(distance)}m away</p>
-            <p>Type: {tree.treeType}</p>
-            {tree.notes && <p>Notes: {tree.notes}</p>}
-            {tree.treePreservationOrder && <p>TPO: {tree.treePreservationOrder}</p>}
-            {tree.startDate && <p>Protected since: {tree.startDate}</p>}
-
-            <p>Bearing: {Math.round(bearing)}°</p>
-          </>
-        );
-      }
-      case 'trees': {
-        const tree = location as GeneralTree;
-        return (
-          <>
-            <h3>{tree.commonName}</h3>
-            <p>{Math.round(distance)}m away</p>
-            <p>Latin Name: {tree.latinName}</p>
-            <p>Height: {tree.height}</p>
-            <p>Crown width: {tree.crownWidth}</p>
-            <p>Condition: {tree.condition}</p>
-            <p>Bearing: {Math.round(bearing)}°</p>
-          </>
-        );
-      }
-      default:
-        return (
-          <>
-            <h3>{location.name}</h3>
-            <p>{Math.round(distance)}m away</p>
-            <p>Bearing: {Math.round(bearing)}°</p>
-          </>
-        );
-    }
-  };
-
   return (
     <div onClick={handleBackgroundClick}>
       <div className={styles.titleContainer}>
@@ -296,7 +241,12 @@ const Binder = () => {
                         style={getDotPosition(loc.distance, loc.bearing)}
                         onClick={(e) => e.stopPropagation()}
                       >
-                        {renderInfo(loc.bin, loc.distance, loc.bearing)}
+                        <InfoRenderer
+                          location={loc.bin}
+                          distance={loc.distance}
+                          bearing={loc.bearing}
+                          dataType={dataType}
+                        />
                       </div>
                     )}
                   </React.Fragment>
@@ -318,7 +268,12 @@ const Binder = () => {
                           style={getDotPosition(distance, bearing)}
                           onClick={(e) => e.stopPropagation()}
                         >
-                          {renderInfo(currentBin, distance)}
+                          <InfoRenderer
+                            location={currentBin}
+                            distance={distance}
+                            bearing={bearing}
+                            dataType={dataType}
+                          />
                         </div>
                       )}
                     </>
