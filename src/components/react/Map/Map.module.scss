@@ -23,12 +23,18 @@
 
 .userMarker {
   div {
-    width: 15px;
-    height: 15px;
-    background: $martiniPink;
+    width: 12px;
+    height: 12px;
+    background-color: #2196F3;
+    border: 2px solid white;
     border-radius: 50%;
-
-
+    box-shadow: 0 0 6px rgba(0, 0, 0, 0.5);
+    transition: transform 0.2s;
+    
+    &:hover {
+      transform: scale(1.2);
+      cursor: move;
+    }
   }
 }
 
@@ -47,24 +53,52 @@
 .debugControls {
   position: absolute;
   bottom: 10px;
-  left: 50%;
-  transform: translateX(-50%);
-  background: rgba(255, 255, 255, 0.8);
+  left: 10px;
+  background: rgba(255, 255, 255, 0.85);
   padding: 10px;
-  border-radius: 4px;
-  display: flex;
-  align-items: center;
-  gap: 10px;
+  border-radius: 6px;
   z-index: 1000;
-  pointer-events: all;  /* Enable pointer events for debug controls */
+  width: calc(100% - 20px);
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.2);
 
-  input {
-    width: 200px;
-    cursor: pointer;
+  .debugControl {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    margin-bottom: 8px;
+    
+    label {
+      min-width: 70px;
+      font-size: 12px;
+    }
+    
+    input {
+      flex: 1;
+    }
+    
+    span {
+      min-width: 40px;
+      text-align: right;
+      font-size: 12px;
+    }
   }
-
-  span {
-    min-width: 48px;
-    text-align: right;
+  
+  .debugInfo {
+    font-size: 12px;
+    
+    h4 {
+      margin: 0 0 4px 0;
+      color: #f44336;
+    }
+    
+    p {
+      margin: 0 0 4px 0;
+      font-style: italic;
+    }
+    
+    div {
+      display: flex;
+      justify-content: space-between;
+    }
   }
 }

@@ -59,6 +59,7 @@ const Binder = () => {
   const [currentSvgContent, setCurrentSvgContent] = useState<string | null>(null);
   const [svgScale, setSvgScale] = useState(1.0); // Default scale is 1x
   const [currentGoalIndex, setCurrentGoalIndex] = useState<number>(0);
+  const [svgAnchorLocation, setSvgAnchorLocation] = useState<{latitude: number, longitude: number} | null>(null);
 
   const updateLocations = (sorted: Array<{ bin: any, distance: number, bearing: number }>) => {
     setNearbyLocations(sorted);
@@ -128,23 +129,32 @@ const Binder = () => {
 
   // Re-process SVG when parameters change
   useEffect(() => {
-    if (currentSvgContent && userLocation) {
-      const points = processSVGPath(currentSvgContent, userLocation.latitude, userLocation.longitude, {
+    if (!currentSvgContent || (!userLocation && !svgAnchorLocation)) return;
+    
+    // Use either the anchor location (if set) or the current user location
+    const anchorPoint = svgAnchorLocation || userLocation!;
+    
+    const points = processSVGPath(
+      currentSvgContent, 
+      anchorPoint.latitude, 
+      anchorPoint.longitude, 
+      {
         minDistanceMeters: svgMinDistance,
         maxDistanceMeters: svgMaxDistance,
         maxPoints: svgMaxPoints,
-        svgScale: svgScale  // Pass scale factor to processing function
-      });
-      
-      setSvgPathPoints(points);
-    }
-  }, [currentSvgContent, userLocation, svgMinDistance, svgMaxDistance, svgMaxPoints, svgScale]);
+        svgScale: svgScale
+      }
+    );
+    
+    setSvgPathPoints(points);
+  }, [currentSvgContent, svgAnchorLocation, svgMinDistance, svgMaxDistance, svgMaxPoints, svgScale]);
 
   // Add this effect to check if user is near the current goal dot
   useEffect(() => {
     if (userLocation && svgPathPoints.length > 0 && showSvgPath) {
-      // Find the current incomplete dot
-      const currentGoalPoint = svgPathPoints.find(point => !point.completed);
+      // Use order property to find the next incomplete point
+      const orderedPoints = [...svgPathPoints].sort((a, b) => a.order - b.order);
+      const currentGoalPoint = orderedPoints.find(point => !point.completed);
       
       if (!currentGoalPoint) return; // All dots completed
       
@@ -206,18 +216,48 @@ const Binder = () => {
     setCompass(value);
   };
 
+  const handleDebugPositionChange = (lat: number, lng: number) => {
+    // Create a mock GeolocationCoordinates object
+    const mockPosition: GeolocationCoordinates = {
+      latitude: lat,
+      longitude: lng,
+      accuracy: 5,
+      altitude: null,
+      altitudeAccuracy: null,
+      heading: null,
+      speed: null
+    };
+    
+    setUserLocation(mockPosition);
+  };
+
   const handleSVGImport = (svgContent: string) => {
     if (userLocation) {
       setCurrentSvgContent(svgContent);
-      // The actual processing will happen in the useEffect
+      // Set the anchor point to current user location when SVG is first imported
+      setSvgAnchorLocation({
+        latitude: userLocation.latitude,
+        longitude: userLocation.longitude
+      });
+      setCurrentGoalIndex(0); // Reset the current goal index
       setShowSvgPath(true);
     } else {
       setError('User location not available. Please enable location services.');
     }
   };
 
+  const handleRecenterSVG = () => {
+    if (userLocation) {
+      setSvgAnchorLocation({
+        latitude: userLocation.latitude,
+        longitude: userLocation.longitude
+      });
+    }
+  };
+
   // Find the current goal dot and determine SVG navigation mode
-  const currentGoalDot = svgPathPoints.find(point => !point.completed);
+  const orderedSvgPoints = [...svgPathPoints].sort((a, b) => a.order - b.order);
+  const currentGoalDot = orderedSvgPoints.find(point => !point.completed);
   const completedCount = svgPathPoints.filter(point => point.completed).length;
   const totalCount = svgPathPoints.length;
   const isSvgNavigationActive = showSvgPath && svgPathPoints.length > 0 && currentGoalDot;
@@ -311,6 +351,15 @@ const Binder = () => {
               style={{ width: `${(completedCount / totalCount) * 100}%` }}
             />
           </div>
+          
+          {/* Add recenter button */}
+          <button 
+            className={styles.recenterButton}
+            onClick={handleRecenterSVG}
+            title="Recenter SVG path at your current location"
+          >
+            Recenter SVG
+          </button>
         </div>
       )}
       
@@ -342,6 +391,7 @@ const Binder = () => {
                 lockNorth={lockNorth}
                 debugMode={isDebugMode}
                 onDebugCompass={handleDebugCompass}
+                onDebugPositionChange={handleDebugPositionChange} // Add this prop
                 mapZoom={mapZoom}
               />
               
@@ -375,7 +425,7 @@ const Binder = () => {
               )}
               
               {/* Always show SVG dots when active */}
-              {showSvgPath && svgPathPoints.map((point) => (
+              {showSvgPath && orderedSvgPoints.map((point) => (
                 <div
                   key={`svg-${point.id}`}
                   className={`

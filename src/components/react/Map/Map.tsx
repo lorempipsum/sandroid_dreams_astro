@@ -8,6 +8,7 @@ interface MapProps {
   lockNorth: boolean;
   debugMode?: boolean;
   onDebugCompass?: (value: number) => void;
+  onDebugPositionChange?: (lat: number, lng: number) => void; // Add this prop
   mapZoom?: number;
 }
 
@@ -18,6 +19,7 @@ const Map = ({
   lockNorth,
   debugMode = false,
   onDebugCompass,
+  onDebugPositionChange,
   mapZoom = 17
 }: MapProps) => {
   const mapRef = useRef<L.Map | null>(null);
@@ -44,13 +46,15 @@ const Map = ({
         attribution: '© OpenStreetMap contributors'
       }).addTo(mapRef.current);
 
+      // Create user marker with draggable option if in debug mode
       userMarkerRef.current = L.marker(
         [userLocation.latitude, userLocation.longitude],
         {
           icon: L.divIcon({
             className: styles.userMarker,
             html: '<div></div>'
-          })
+          }),
+          draggable: debugMode // Make marker draggable in debug mode
         }
       )
       .bindPopup(() => {
@@ -69,6 +73,16 @@ const Map = ({
         className: styles.popup
       })
       .addTo(mapRef.current);
+
+      // Add drag end event listener for debug mode
+      if (debugMode && onDebugPositionChange) {
+        userMarkerRef.current.on('dragend', function() {
+          const position = userMarkerRef.current?.getLatLng();
+          if (position) {
+            onDebugPositionChange(position.lat, position.lng);
+          }
+        });
+      }
     }
 
     // Update map rotation based on compass - reset to 0 when locked to north
@@ -106,21 +120,44 @@ const Map = ({
     if (mapRef.current) {
       mapRef.current.setZoom(mapZoom);
     }
-  }, [userLocation, currentLocation, compass, lockNorth, mapZoom]);
+
+    // Update draggable status if debug mode changes
+    if (userMarkerRef.current) {
+      if (debugMode) {
+        userMarkerRef.current.dragging?.enable();
+      } else {
+        userMarkerRef.current.dragging?.disable();
+      }
+    }
+  }, [userLocation, currentLocation, compass, lockNorth, mapZoom, debugMode]);
 
   return (
     <div className={styles.mapContainer}>
       <div id="map" className={styles.map} />
       {debugMode && (
         <div className={styles.debugControls}>
-          <input
-            type="range"
-            min="0"
-            max="360"
-            value={compass}
-            onChange={(e) => onDebugCompass?.(Number(e.target.value))}
-          />
-          <span>{Math.round(compass)}°</span>
+          <div className={styles.debugControl}>
+            <label>Compass:</label>
+            <input
+              type="range"
+              min="0"
+              max="360"
+              value={compass}
+              onChange={(e) => onDebugCompass?.(Number(e.target.value))}
+            />
+            <span>{Math.round(compass)}°</span>
+          </div>
+          
+          <div className={styles.debugInfo}>
+            <h4>Debug Mode</h4>
+            <p>Drag the blue marker to change your position</p>
+            {userLocation && (
+              <div>
+                <div>Lat: {userLocation.latitude.toFixed(6)}</div>
+                <div>Lng: {userLocation.longitude.toFixed(6)}</div>
+              </div>
+            )}
+          </div>
         </div>
       )}
     </div>
