@@ -372,16 +372,7 @@ const Binder = () => {
               style={{ width: `${(completedCount / totalCount) * 100}%` }}
             />
           </div>
-          
-          <div className={styles.svgControlsRow}>
-            <button 
-              className={styles.svgControlsButton}
-              onClick={handleShowSvgControls}
-              title="Open SVG controls"
-            >
-              ⚙️ SVG Settings
-            </button>
-          </div>
+
           
           {/* Add recenter button */}
           <button 
