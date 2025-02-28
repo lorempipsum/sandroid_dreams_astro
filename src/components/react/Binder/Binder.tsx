@@ -158,8 +158,7 @@ const Binder = () => {
     setSvgPathPoints(result.points);
     setSvgMetadata(result.metadata);
     
-    // Log the total distance for debugging
-    console.log(`SVG path total distance: ${result.metadata.totalDistanceMeters.toFixed(2)}m`);
+
   }, [currentSvgContent, svgAnchorLocation, svgMinDistance, svgMaxDistance, svgMaxPoints, svgScale, svgRotation]);
 
   // Add this effect to check if user is near the current goal dot
@@ -246,7 +245,7 @@ const Binder = () => {
 
   const handleSVGImport = (svgContent: string) => {
     if (userLocation) {
-      console.log('Importing SVG content:', svgContent.substring(0, 100) + '...');
+
       setCurrentSvgContent(svgContent);
       
       // Set the anchor point to current user location when SVG is first imported
@@ -280,7 +279,7 @@ const Binder = () => {
   };
 
   const handleToggleSvgPath = (value: boolean) => {
-    console.log('Toggle SVG path visibility:', value);
+
     setShowSvgPath(value);
   };
 

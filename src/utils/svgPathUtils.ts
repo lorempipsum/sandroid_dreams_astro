@@ -34,7 +34,7 @@ export const processSVGPath = (
     svgRotation = 0  // Default rotation is 0 degrees
   } = options;
 
-  console.log(`Processing SVG with scale=${svgScale}, rotation=${svgRotation}°`);
+
 
   try {
     const parser = new DOMParser();
@@ -78,7 +78,7 @@ export const processSVGPath = (
       return { points: [], metadata: { totalDistanceMeters: 0, averagePointDistanceMeters: 0, pointsCount: 0 } };
     }
     
-    console.log(`Found ${pathElements.length} path elements in SVG`);
+
         
     const points: PathPoint[] = [];
     let order = 0;
@@ -177,7 +177,7 @@ export const processSVGPath = (
     };
     
     // Log the result for debugging
-    console.log(`Generated ${points.length} path points`);
+
     return { points, metadata };
   } catch (error) {
     console.error('Error processing SVG:', error);
