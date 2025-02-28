@@ -85,18 +85,6 @@ const SVGImporter: React.FC<SVGImporterProps> = ({
           <span>{maxDistance}m</span>
         </div>
 
-        <div className={styles.setting}>
-          <label>SVG Scale</label>
-          <input 
-            type="range" 
-            min={0.1} 
-            max={50} 
-            step={0.1}
-            value={svgScale}
-            onChange={(e) => handleScaleChange(Number(e.target.value))}
-          />
-          <span>×{svgScale.toFixed(1)}</span>
-        </div>
 
         <div className={styles.info}>
           <span>Max Points: {maxPoints}</span>

@@ -14,12 +14,18 @@ interface SVGProcessingOptions {
   svgRotation?: number;  // Add rotation parameter
 }
 
+export interface SVGPathMetadata {
+  totalDistanceMeters: number;
+  averagePointDistanceMeters: number;
+  pointsCount: number;
+}
+
 export const processSVGPath = (
   svgContent: string, 
   startLat: number, 
   startLng: number, 
   options: SVGProcessingOptions = { minDistanceMeters: 10, maxDistanceMeters: 20 }
-): PathPoint[] => {
+): { points: PathPoint[], metadata: SVGPathMetadata } => {
   const {
     minDistanceMeters,
     maxDistanceMeters = 20,
@@ -39,14 +45,14 @@ export const processSVGPath = (
     const parseError = svgDoc.querySelector('parsererror');
     if (parseError) {
       console.error('SVG parsing error:', parseError.textContent);
-      return [];
+      return { points: [], metadata: { totalDistanceMeters: 0, averagePointDistanceMeters: 0, pointsCount: 0 } };
     }
     
     // Extract viewBox from SVG root
     const svgElement = svgDoc.querySelector('svg');
     if (!svgElement) {
       console.error('No SVG element found');
-      return [];
+      return { points: [], metadata: { totalDistanceMeters: 0, averagePointDistanceMeters: 0, pointsCount: 0 } };
     }
     
     // Get viewBox or use element dimensions
@@ -69,7 +75,7 @@ export const processSVGPath = (
     const pathElements = svgDoc.querySelectorAll('path');
     if (pathElements.length === 0) {
       console.error('No path elements found in SVG');
-      return [];
+      return { points: [], metadata: { totalDistanceMeters: 0, averagePointDistanceMeters: 0, pointsCount: 0 } };
     }
     
     console.log(`Found ${pathElements.length} path elements in SVG`);
@@ -155,12 +161,34 @@ export const processSVGPath = (
       }
     });
     
+    // Calculate total distance of the path
+    let totalDistanceMeters = 0;
+    for (let i = 1; i < points.length; i++) {
+      totalDistanceMeters += calculateDistance(
+        points[i-1].latitude, points[i-1].longitude,
+        points[i].latitude, points[i].longitude
+      );
+    }
+    
+    const metadata: SVGPathMetadata = {
+      totalDistanceMeters,
+      averagePointDistanceMeters: points.length > 1 ? totalDistanceMeters / (points.length - 1) : 0,
+      pointsCount: points.length
+    };
+    
     // Log the result for debugging
     console.log(`Generated ${points.length} path points`);
-    return points;
+    return { points, metadata };
   } catch (error) {
     console.error('Error processing SVG:', error);
-    return [];
+    return { 
+      points: [], 
+      metadata: { 
+        totalDistanceMeters: 0, 
+        averagePointDistanceMeters: 0, 
+        pointsCount: 0 
+      } 
+    };
   }
 };
 

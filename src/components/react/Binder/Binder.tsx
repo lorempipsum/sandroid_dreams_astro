@@ -16,7 +16,7 @@ import DistanceDisplay from './DistanceDisplay/DistanceDisplay';
 import { getLocationsForType } from './utils';
 import Dot, { getDotPosition } from './Dot/Dot';
 import ZoomControls from './ZoomControls/ZoomControls';
-import { processSVGPath, type PathPoint } from '../../../utils/svgPathUtils';
+import { processSVGPath, type PathPoint, type SVGPathMetadata } from '../../../utils/svgPathUtils';
 import SVGControlsOverlay from './SVGControlsOverlay/SVGControlsOverlay';
 
 const DATASOURCES = ['Facilities', 'Crimes', 'Protected Trees', 'Trees'] as const;
@@ -63,6 +63,11 @@ const Binder = () => {
   const [svgRotation, setSvgRotation] = useState(0); // Make sure rotation state exists
   const [showSvgOptions, setShowSvgOptions] = useState(false);
   const [overlayPosition, setOverlayPosition] = useState({ x: 0, y: 0 });
+  const [svgMetadata, setSvgMetadata] = useState<SVGPathMetadata>({ 
+    totalDistanceMeters: 0, 
+    averagePointDistanceMeters: 0, 
+    pointsCount: 0 
+  });
 
   const updateLocations = (sorted: Array<{ bin: any, distance: number, bearing: number }>) => {
     setNearbyLocations(sorted);
@@ -137,7 +142,7 @@ const Binder = () => {
     // Use either the anchor location (if set) or the current user location
     const anchorPoint = svgAnchorLocation || userLocation!;
     
-    const points = processSVGPath(
+    const result = processSVGPath(
       currentSvgContent, 
       anchorPoint.latitude, 
       anchorPoint.longitude, 
@@ -145,12 +150,17 @@ const Binder = () => {
         minDistanceMeters: svgMinDistance,
         maxDistanceMeters: svgMaxDistance,
         maxPoints: svgMaxPoints,
-        svgScale: svgScale
+        svgScale: svgScale,
+        svgRotation: svgRotation
       }
     );
     
-    setSvgPathPoints(points);
-  }, [currentSvgContent, svgAnchorLocation, svgMinDistance, svgMaxDistance, svgMaxPoints, svgScale]);
+    setSvgPathPoints(result.points);
+    setSvgMetadata(result.metadata);
+    
+    // Log the total distance for debugging
+    console.log(`SVG path total distance: ${result.metadata.totalDistanceMeters.toFixed(2)}m`);
+  }, [currentSvgContent, svgAnchorLocation, svgMinDistance, svgMaxDistance, svgMaxPoints, svgScale, svgRotation]);
 
   // Add this effect to check if user is near the current goal dot
   useEffect(() => {
@@ -478,6 +488,7 @@ const Binder = () => {
                   position={overlayPosition}
                   onPositionChange={handleOverlayPositionChange}
                   isDraggable={true}
+                  totalDistance={svgMetadata.totalDistanceMeters}
                 />
               )}
             </div>

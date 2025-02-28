@@ -18,6 +18,7 @@ interface SVGControlsOverlayProps {
   showSvgPath: boolean;
   onToggleSvgPath: (value: boolean) => void;
   totalPoints: number;
+  totalDistance?: number;
 }
 
 const SVGControlsOverlay: React.FC<SVGControlsOverlayProps> = ({
@@ -36,7 +37,8 @@ const SVGControlsOverlay: React.FC<SVGControlsOverlayProps> = ({
   maxPoints = 1000,
   showSvgPath,
   onToggleSvgPath,
-  totalPoints
+  totalPoints,
+  totalDistance = 0
 }) => {
   const [activeTab, setActiveTab] = useState<'controls' | 'import'>('controls');
   const [svgPreview, setSvgPreview] = useState<string | null>(null);
@@ -107,6 +109,14 @@ const SVGControlsOverlay: React.FC<SVGControlsOverlayProps> = ({
       window.removeEventListener('mouseup', handleMouseUp);
     };
   }, [isDragging]);
+
+  const formatDistance = (meters: number): string => {
+    if (meters < 1000) {
+      return `${meters.toFixed(0)}m`;
+    } else {
+      return `${(meters / 1000).toFixed(2)}km`;
+    }
+  };
 
   return (
     <div 
@@ -193,7 +203,7 @@ const SVGControlsOverlay: React.FC<SVGControlsOverlayProps> = ({
                   <input
                     type="range"
                     min="0.1"
-                    max="5"
+                    max="50"
                     step="0.1"
                     value={svgScale}
                     onChange={(e) => onSvgScaleChange(Number(e.target.value))}
@@ -256,6 +266,12 @@ const SVGControlsOverlay: React.FC<SVGControlsOverlayProps> = ({
                 <span className={styles.infoLabel}>Max Points:</span>
                 <span className={styles.infoValue}>{maxPoints}</span>
               </div>
+              {totalDistance > 0 && (
+                <div className={styles.infoRow}>
+                  <span className={styles.infoLabel}>Total Length:</span>
+                  <span className={styles.infoValue}>{formatDistance(totalDistance)}</span>
+                </div>
+              )}
             </div>
             
             <div className={styles.buttonRow}>
