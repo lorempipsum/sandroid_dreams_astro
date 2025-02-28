@@ -193,11 +193,6 @@ const Binder = () => {
     };
   }, []);
 
-  const bearing = userLocation ? calculateBearing(userLocation, currentBin) : 0;
-  // Fix rotation calculation to point correctly
-  const rotation = compass ? (bearing - compass) : bearing; // Remove negative sign from formula
-
-
   const handleBackgroundClick = () => {
     setShowDotInfo(false);
   };
@@ -221,10 +216,30 @@ const Binder = () => {
     }
   };
 
-  // Find the current goal dot
+  // Find the current goal dot and determine SVG navigation mode
   const currentGoalDot = svgPathPoints.find(point => !point.completed);
   const completedCount = svgPathPoints.filter(point => point.completed).length;
   const totalCount = svgPathPoints.length;
+  const isSvgNavigationActive = showSvgPath && svgPathPoints.length > 0 && currentGoalDot;
+  
+  // Calculate bearing based on active navigation mode
+  let bearing = 0;
+  
+  if (userLocation) {
+    if (isSvgNavigationActive && currentGoalDot) {
+      // Point to SVG goal in SVG mode
+      bearing = calculateBearing(
+        userLocation, 
+        { latitude: currentGoalDot.latitude, longitude: currentGoalDot.longitude }
+      );
+    } else if (currentBin) {
+      // Point to facility otherwise
+      bearing = calculateBearing(userLocation, currentBin);
+    }
+  }
+  
+  // Calculate final rotation with compass adjustment
+  const rotation = compass ? (bearing - compass) : bearing;
 
   return (
     <div onClick={handleBackgroundClick}>
@@ -319,14 +334,19 @@ const Binder = () => {
             <div className={styles.radar}>
               <Map 
                 userLocation={userLocation}
-                currentLocation={currentBin}
+                currentLocation={isSvgNavigationActive && currentGoalDot ? 
+                  { latitude: currentGoalDot.latitude, longitude: currentGoalDot.longitude } : 
+                  currentBin
+                }
                 compass={compass}
                 lockNorth={lockNorth}
                 debugMode={isDebugMode}
                 onDebugCompass={handleDebugCompass}
                 mapZoom={mapZoom}
               />
-              {showAllNearby ? (
+              
+              {/* Only show facility dots when not in SVG navigation mode */}
+              {!isSvgNavigationActive && showAllNearby && (
                 nearbyLocations.map((loc, index) => (
                   <Dot
                     key={loc.bin.id}
@@ -340,20 +360,22 @@ const Binder = () => {
                     mapZoom={mapZoom}
                   />
                 ))
-              ) : (
-                currentBin && distance && (
-                  <Dot
-                    loc={{ bin: currentBin, distance, bearing }}
-                    isNearest={true}
-                    showDotInfo={showDotInfo}
-                    dataType={dataType}
-                    compass={compass}
-                    isNorthLocked={lockNorth}
-                    onDotClick={handleDotClick}
-                  />
-                )
               )}
-              {showSvgPath && svgPathPoints.map((point, index) => (
+              
+              {!isSvgNavigationActive && !showAllNearby && currentBin && distance && (
+                <Dot
+                  loc={{ bin: currentBin, distance, bearing }}
+                  isNearest={true}
+                  showDotInfo={showDotInfo}
+                  dataType={dataType}
+                  compass={compass}
+                  isNorthLocked={lockNorth}
+                  onDotClick={handleDotClick}
+                />
+              )}
+              
+              {/* Always show SVG dots when active */}
+              {showSvgPath && svgPathPoints.map((point) => (
                 <div
                   key={`svg-${point.id}`}
                   className={`
@@ -380,15 +402,6 @@ const Binder = () => {
               ))}
             </div>
             
-            {currentGoalDot && userLocation && showSvgPath && (
-              <div className={styles.goalInfo}>
-                <span>Next goal: {Math.round(calculateDistance(
-                  userLocation,
-                  { latitude: currentGoalDot.latitude, longitude: currentGoalDot.longitude }
-                ))}m</span>
-              </div>
-            )}
-            
             <AnimatedBobUp>
               <svg
                 className={styles.arrow}
@@ -402,7 +415,21 @@ const Binder = () => {
                 <path d="m 106.15699,104.81898 0.81766,137.66811 102.24487,52.63857 L 106.09742,1.2562312 1.2008898,295.02942 96.460978,247.10502" />
               </svg>
             </AnimatedBobUp>
-            <DistanceDisplay name={currentBin.name} distance={distance} />
+            
+            {/* Show different information based on mode */}
+            {isSvgNavigationActive ? (
+              <div className={styles.goalInfo}>
+                <span>Next goal: {Math.round(calculateDistance(
+                  userLocation!,
+                  { latitude: currentGoalDot.latitude, longitude: currentGoalDot.longitude }
+                ))}m</span>
+              </div>
+            ) : (
+              <DistanceDisplay 
+                name={currentBin?.name || ''} 
+                distance={distance} 
+              />
+            )}
           </>
         )}
       </div>
