@@ -14,6 +14,7 @@ import DataTypeSelector from './DataTypeSelector/DataTypeSelector';
 import InfoRenderer from '../InfoRenderer/InfoRenderer';
 import DistanceDisplay from './DistanceDisplay/DistanceDisplay';
 import { getLocationsForType } from './utils';
+import Dot from './Dot/Dot';
 
 const DATASOURCES = ['Facilities', 'Crimes', 'Protected Trees', 'Trees'] as const;
 type DataSourceType = typeof DATASOURCES[number];
@@ -142,21 +143,6 @@ const Binder = () => {
   // Fix rotation calculation to point correctly
   const rotation = compass ? (bearing - compass) : bearing; // Remove negative sign from formula
 
-  const getDotPosition = (distance: number, bearing: number) => {
-    const radius = 150; // has to be half of the width and height set in Binder.module.scss
-    const scalingFactor = 1;
-    const maxDistance = radius*scalingFactor;
-    // Only rotate bearing with compass if not locked to north
-    const rotatedBearing = lockNorth ? bearing : bearing - compass;
-    // Convert to radians and adjust for CSS coordinate system
-    const angle = ((rotatedBearing - 90) * Math.PI) / 180;
-    const scaledDistance = Math.min(distance, maxDistance) * (radius / maxDistance);
-    
-    return {
-      left: `${radius + scaledDistance * Math.cos(angle)}px`,
-      top: `${radius + scaledDistance * Math.sin(angle)}px`
-    };
-  };
 
   const handleBackgroundClick = () => {
     setShowDotInfo(false);
@@ -220,58 +206,29 @@ const Binder = () => {
               />
               {showAllNearby ? (
                 nearbyLocations.map((loc, index) => (
-                  <React.Fragment key={loc.bin.id}>
-                    <div 
-                      className={`${styles.dot} ${index === 0 ? styles.nearest : ''}`}
-                      style={getDotPosition(loc.distance, loc.bearing)}
-                      onClick={(e) => handleDotClick(e, loc.bin.id)}
-                      role="button"
-                      tabIndex={0}
-                    />
-                    {showDotInfo === loc.bin.id && (
-                      <div 
-                        className={styles.dotInfo}
-                        style={getDotPosition(loc.distance, loc.bearing)}
-                        onClick={(e) => e.stopPropagation()}
-                      >
-                        <InfoRenderer
-                          location={loc.bin}
-                          distance={loc.distance}
-                          bearing={loc.bearing}
-                          dataType={dataType}
-                        />
-                      </div>
-                    )}
-                  </React.Fragment>
+                  <Dot
+                    key={loc.bin.id}
+                    loc={loc}
+                    isNearest={index === 0}
+                    showDotInfo={showDotInfo}
+                    dataType={dataType}
+                    compass={compass}
+                    isNorthLocked={lockNorth}
+                    onDotClick={handleDotClick}
+                  />
                 ))
               ) : (
-                <>
-                  {currentBin && distance && (
-                    <>
-                      <div 
-                        className={styles.dot} 
-                        style={getDotPosition(distance, bearing)}
-                        onClick={(e) => handleDotClick(e)}
-                        role="button"
-                        tabIndex={0}
-                      />
-                      {showDotInfo && (
-                        <div 
-                          className={styles.dotInfo}
-                          style={getDotPosition(distance, bearing)}
-                          onClick={(e) => e.stopPropagation()}
-                        >
-                          <InfoRenderer
-                            location={currentBin}
-                            distance={distance}
-                            bearing={bearing}
-                            dataType={dataType}
-                          />
-                        </div>
-                      )}
-                    </>
-                  )}
-                </>
+                currentBin && distance && (
+                  <Dot
+                    loc={{ bin: currentBin, distance, bearing }}
+                    isNearest={true}
+                    showDotInfo={showDotInfo}
+                    dataType={dataType}
+                    compass={compass}
+                    isNorthLocked={lockNorth}
+                    onDotClick={handleDotClick}
+                  />
+                )
               )}
             </div>
             <AnimatedBobUp>
