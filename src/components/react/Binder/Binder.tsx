@@ -2,7 +2,6 @@ import { useState, useEffect } from 'react';
 import styles from './Binder.module.scss';
 import AnimatedBobUp from '../animations/AnimatedBobUp';
 import Button from '../Button/Button';
-import TypeSelector from '../TypeSelector/TypeSelector';
 import { calculateBearing, findNearestBin } from '../../../utils/locationUtils';
 import { requestOrientationPermission } from '../../../utils/devicePermissions';
 import { getUniqueTypes, getFacilitiesByType } from '../../../utils/geoJsonLoader';
@@ -11,8 +10,10 @@ import { getTreeData, type TreeLocation } from '../../../utils/treeDataLoader';
 import { getGeneralTreeData, type GeneralTree } from '../../../utils/generalTreeDataLoader';
 import React from 'react';
 import Map from '../Map/Map';
-import DataTypeSelector from '../DataTypeSelector/DataTypeSelector';
+import DataTypeSelector from './DataTypeSelector/DataTypeSelector';
 import InfoRenderer from '../InfoRenderer/InfoRenderer';
+import DistanceDisplay from './DistanceDisplay/DistanceDisplay';
+import { getLocationsForType } from './utils';
 
 const DATASOURCES = ['Facilities', 'Crimes', 'Protected Trees', 'Trees'] as const;
 type DataSourceType = typeof DATASOURCES[number];
@@ -80,29 +81,21 @@ const Binder = () => {
   useEffect(() => {
     if (!userLocation) return;
 
-    const getLocationsForType = (items: any[]) => {
-      return items
-        .map(item => ({
-          bin: item,
-          ...findNearestBin(userLocation, [item])
-        }))
-        .sort((a, b) => a.distance - b.distance)
-        .slice(0, 10);
-    };
+    
 
     let sorted;
     switch (dataType) {
       case 'facilities':
-        sorted = getLocationsForType(locations);
+        sorted = getLocationsForType(locations, userLocation);
         break;
       case 'crimes':
-        sorted = getLocationsForType(crimeLocations);
+        sorted = getLocationsForType(crimeLocations, userLocation);
         break;
       case 'protected trees':
-        sorted = getLocationsForType(treeLocations);
+        sorted = getLocationsForType(treeLocations, userLocation);
         break;
       case 'trees':
-        sorted = getLocationsForType(generalTreeLocations);
+        sorted = getLocationsForType(generalTreeLocations, userLocation);
         break;
     }
     
@@ -294,10 +287,7 @@ const Binder = () => {
                 <path d="m 106.15699,104.81898 0.81766,137.66811 102.24487,52.63857 L 106.09742,1.2562312 1.2008898,295.02942 96.460978,247.10502" />
               </svg>
             </AnimatedBobUp>
-            <div className={styles.distance}>
-              <div className={styles.binName}>{currentBin.name}</div>
-              {distance ? `${Math.round(distance)}m` : 'Calculating...'}
-            </div>
+            <DistanceDisplay name={currentBin.name} distance={distance} />
           </>
         )}
       </div>

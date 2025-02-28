@@ -1,5 +1,5 @@
 import React from 'react';
-import TypeSelector from '../TypeSelector/TypeSelector';
+import TypeSelector from '../../TypeSelector/TypeSelector';
 import styles from './DataTypeSelector.module.scss';
 
 interface DataTypeSelectorProps {

@@ -1,0 +1,29 @@
+@import '../../../../styles/colors';
+
+.distance {
+  margin-top: 20px;
+  font-size: 24px;
+  font-weight: bold;
+  opacity: 0;
+  animation: fadeInDistance 0.5s ease-out 0.3s forwards;
+  text-align: center;
+}
+
+.binName {
+  font-size: 18px;
+  margin-bottom: 8px;
+  color: $arrowBlue;
+  opacity: 0;
+  animation: fadeInDistance 0.5s ease-out 0.3s forwards;
+}
+
+@keyframes fadeInDistance {
+  from {
+    opacity: 0;
+    transform: translateY(10px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
