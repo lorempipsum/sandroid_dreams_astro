@@ -452,6 +452,7 @@ const Binder = () => {
                   compass={compass}
                   isNorthLocked={lockNorth}
                   onDotClick={handleDotClick}
+                  mapZoom={mapZoom} 
                 />
               )}
               
