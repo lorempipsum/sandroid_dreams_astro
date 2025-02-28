@@ -83,7 +83,7 @@ const Map = ({
     if (mapRef.current && userLocation && userMarkerRef.current) {
       const newLatLng = [userLocation.latitude, userLocation.longitude] as [number, number];
       userMarkerRef.current.setLatLng(newLatLng);
-      mapRef.current.setView(newLatLng, 17, { animate: false });
+      mapRef.current.setView(newLatLng, mapZoom, { animate: false });
     }
 
     // Update destination marker
