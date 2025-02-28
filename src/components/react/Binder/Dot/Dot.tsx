@@ -14,23 +14,35 @@ interface DotProps {
   compass: number;
   isNorthLocked: boolean;
   onDotClick: (e: React.MouseEvent, binId: string) => void;
+  mapZoom?: number;
 }
 
-const getDotPosition = (distance: number, bearing: number, isNorthLocked: boolean, compass: number) => {
-    const radius = 150; // has to be half of the width and height set in Binder.module.scss
-    const scalingFactor = 1;
-    const maxDistance = radius*scalingFactor;
-    // Only rotate bearing with compass if not locked to north
-    const rotatedBearing = isNorthLocked ? bearing : bearing - compass;
-    // Convert to radians and adjust for CSS coordinate system
-    const angle = ((rotatedBearing - 90) * Math.PI) / 180;
-    const scaledDistance = Math.min(distance, maxDistance) * (radius / maxDistance);
-    
-    return {
-      left: `${radius + scaledDistance * Math.cos(angle)}px`,
-      top: `${radius + scaledDistance * Math.sin(angle)}px`
-    };
+const getDotPosition = (
+  distance: number, 
+  bearing: number, 
+  isNorthLocked: boolean, 
+  compass: number,
+  mapZoom: number = 17
+) => {
+  const radius = 150;
+  
+  // Calculate scaling factor based on map zoom:
+  // For zoom 15, we want to show more area (smaller scaling to fit more)
+  // For zoom 19, we want to show less area (larger scaling to show detail)
+  const baseScalingFactor = 1;
+  const zoomScaleAdjustment = Math.pow(2, (17 - mapZoom) / 2); // Exponential scaling
+  const scalingFactor = baseScalingFactor * zoomScaleAdjustment;
+  
+  const maxDistance = radius * scalingFactor;
+  const rotatedBearing = isNorthLocked ? bearing : bearing - compass;
+  const angle = ((rotatedBearing - 90) * Math.PI) / 180;
+  const scaledDistance = Math.min(distance, maxDistance) * (radius / maxDistance);
+  
+  return {
+    left: `${radius + scaledDistance * Math.cos(angle)}px`,
+    top: `${radius + scaledDistance * Math.sin(angle)}px`
   };
+};
 
 const Dot: React.FC<DotProps> = ({
   loc,
@@ -39,13 +51,15 @@ const Dot: React.FC<DotProps> = ({
   dataType,
   compass,
   isNorthLocked,
-  onDotClick
+  onDotClick,
+  mapZoom = 17
 }) => {
   const position = getDotPosition(
     loc.distance,
     loc.bearing,
     isNorthLocked,
-    compass
+    compass,
+    mapZoom
   );
 
   return (

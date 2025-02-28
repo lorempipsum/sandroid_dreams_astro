@@ -1,0 +1,54 @@
+@import '../../../../styles/colors';
+
+.controls {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  background: white;
+  padding: 6px 8px;
+  border-radius: 4px;
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+
+  .label {
+    font-size: 14px;
+    color: $arrowBlue;
+    margin-right: 4px;
+    font-weight: 500;
+  }
+
+  button {
+    width: 24px;
+    height: 24px;
+    border: 1px solid $arrowBlue;
+    background: white;
+    color: $arrowBlue;
+    border-radius: 4px;
+    cursor: pointer;
+    font-weight: bold;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+
+    &:hover {
+      background-color: #f5f8ff;
+    }
+
+    &:active {
+      transform: translateY(1px);
+    }
+
+    &:disabled {
+      opacity: 0.5;
+      cursor: not-allowed;
+      border-color: #ccc;
+      color: #ccc;
+    }
+  }
+
+  span {
+    min-width: 48px;
+    text-align: center;
+    font-size: 14px;
+    color: #555;
+  }
+}

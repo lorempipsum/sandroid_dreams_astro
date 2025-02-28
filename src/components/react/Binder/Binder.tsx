@@ -15,6 +15,7 @@ import InfoRenderer from '../InfoRenderer/InfoRenderer';
 import DistanceDisplay from './DistanceDisplay/DistanceDisplay';
 import { getLocationsForType } from './utils';
 import Dot from './Dot/Dot';
+import ZoomControls from './ZoomControls/ZoomControls';
 
 const DATASOURCES = ['Facilities', 'Crimes', 'Protected Trees', 'Trees'] as const;
 type DataSourceType = typeof DATASOURCES[number];
@@ -46,6 +47,7 @@ const Binder = () => {
     !('ontouchstart' in window) && 
     process.env.NODE_ENV === 'development'
   );
+  const [mapZoom, setMapZoom] = useState(17); // Default zoom level 17
 
   const updateLocations = (sorted: Array<{ bin: any, distance: number, bearing: number }>) => {
     setNearbyLocations(sorted);
@@ -195,6 +197,16 @@ const Binder = () => {
           <Button id="enable-compass" onClick={requestPermissions} label="Enable Compass" />
         ) : (
           <>
+            <div className={styles.zoomControls}>
+              <ZoomControls 
+                zoom={mapZoom} 
+                onZoomChange={setMapZoom} 
+                min={15} 
+                max={19} 
+                step={1}
+                label="Map Zoom"
+              />
+            </div>
             <div className={styles.radar}>
               <Map 
                 userLocation={userLocation}
@@ -203,6 +215,7 @@ const Binder = () => {
                 lockNorth={lockNorth}
                 debugMode={isDebugMode}
                 onDebugCompass={handleDebugCompass}
+                mapZoom={mapZoom}
               />
               {showAllNearby ? (
                 nearbyLocations.map((loc, index) => (
@@ -215,6 +228,7 @@ const Binder = () => {
                     compass={compass}
                     isNorthLocked={lockNorth}
                     onDotClick={handleDotClick}
+                    mapZoom={mapZoom}
                   />
                 ))
               ) : (

@@ -8,6 +8,7 @@ interface MapProps {
   lockNorth: boolean;
   debugMode?: boolean;
   onDebugCompass?: (value: number) => void;
+  mapZoom?: number;
 }
 
 const Map = ({ 
@@ -16,7 +17,8 @@ const Map = ({
   compass, 
   lockNorth,
   debugMode = false,
-  onDebugCompass 
+  onDebugCompass,
+  mapZoom = 17
 }: MapProps) => {
   const mapRef = useRef<L.Map | null>(null);
   const markerRef = useRef<L.Marker | null>(null);
@@ -34,7 +36,7 @@ const Map = ({
         keyboard: false,
       }).setView(
         [userLocation.latitude, userLocation.longitude],
-        17
+        mapZoom
       );
 
       L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
@@ -99,7 +101,12 @@ const Map = ({
         }
       ).addTo(mapRef.current);
     }
-  }, [userLocation, currentLocation, compass, lockNorth]);
+
+    // Update zoom level when it changes
+    if (mapRef.current) {
+      mapRef.current.setZoom(mapZoom);
+    }
+  }, [userLocation, currentLocation, compass, lockNorth, mapZoom]);
 
   return (
     <div className={styles.mapContainer}>

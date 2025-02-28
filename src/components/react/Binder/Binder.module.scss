@@ -155,6 +155,13 @@
   }
 }
 
+.zoomControls {
+  position: relative;
+  margin-bottom: 10px;
+  display: flex;
+  justify-content: flex-end;
+  width: 300px; // Match radar width
+}
 
 .map {
   width: 300px;
