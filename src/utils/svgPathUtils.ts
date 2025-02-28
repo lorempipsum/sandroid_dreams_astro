@@ -11,6 +11,7 @@ interface SVGProcessingOptions {
   maxDistanceMeters?: number;
   maxPoints?: number;
   svgScale?: number;  // Add scale factor parameter
+  svgRotation?: number;  // Add rotation parameter
 }
 
 export const processSVGPath = (
@@ -23,8 +24,11 @@ export const processSVGPath = (
     minDistanceMeters,
     maxDistanceMeters = 20,
     maxPoints = 1000,
-    svgScale = 1.0  // Default scale is 1.0 (unchanged)
+    svgScale = 1.0,  // Default scale is 1.0 (unchanged)
+    svgRotation = 0  // Default rotation is 0 degrees
   } = options;
+
+  console.log(`Processing SVG with scale=${svgScale}, rotation=${svgRotation}°`);
 
   try {
     const parser = new DOMParser();
@@ -67,6 +71,8 @@ export const processSVGPath = (
       console.error('No path elements found in SVG');
       return [];
     }
+    
+    console.log(`Found ${pathElements.length} path elements in SVG`);
         
     const points: PathPoint[] = [];
     let order = 0;
@@ -149,6 +155,8 @@ export const processSVGPath = (
       }
     });
     
+    // Log the result for debugging
+    console.log(`Generated ${points.length} path points`);
     return points;
   } catch (error) {
     console.error('Error processing SVG:', error);

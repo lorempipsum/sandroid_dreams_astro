@@ -17,7 +17,7 @@ import { getLocationsForType } from './utils';
 import Dot, { getDotPosition } from './Dot/Dot';
 import ZoomControls from './ZoomControls/ZoomControls';
 import { processSVGPath, type PathPoint } from '../../../utils/svgPathUtils';
-import SVGImporter from './SVGImporter/SVGImporter';
+import SVGControlsOverlay from './SVGControlsOverlay/SVGControlsOverlay';
 
 const DATASOURCES = ['Facilities', 'Crimes', 'Protected Trees', 'Trees'] as const;
 type DataSourceType = typeof DATASOURCES[number];
@@ -60,6 +60,8 @@ const Binder = () => {
   const [svgScale, setSvgScale] = useState(1.0); // Default scale is 1x
   const [currentGoalIndex, setCurrentGoalIndex] = useState<number>(0);
   const [svgAnchorLocation, setSvgAnchorLocation] = useState<{latitude: number, longitude: number} | null>(null);
+  const [svgRotation, setSvgRotation] = useState(0); // Make sure rotation state exists
+  const [showSvgOptions, setShowSvgOptions] = useState(false);
 
   const updateLocations = (sorted: Array<{ bin: any, distance: number, bearing: number }>) => {
     setNearbyLocations(sorted);
@@ -233,14 +235,21 @@ const Binder = () => {
 
   const handleSVGImport = (svgContent: string) => {
     if (userLocation) {
+      console.log('Importing SVG content:', svgContent.substring(0, 100) + '...');
       setCurrentSvgContent(svgContent);
+      
       // Set the anchor point to current user location when SVG is first imported
       setSvgAnchorLocation({
         latitude: userLocation.latitude,
         longitude: userLocation.longitude
       });
-      setCurrentGoalIndex(0); // Reset the current goal index
+      
+      // Reset the goal index and ensure path is visible
+      setCurrentGoalIndex(0);
       setShowSvgPath(true);
+      
+      // Close the overlay after successful import
+      // setShowSvgOptions(false); // Uncomment if you want it to close after import
     } else {
       setError('User location not available. Please enable location services.');
     }
@@ -253,6 +262,15 @@ const Binder = () => {
         longitude: userLocation.longitude
       });
     }
+  };
+
+  const handleShowSvgControls = () => {
+    setShowSvgOptions(true);
+  };
+
+  const handleToggleSvgPath = (value: boolean) => {
+    console.log('Toggle SVG path visibility:', value);
+    setShowSvgPath(value);
   };
 
   // Find the current goal dot and determine SVG navigation mode
@@ -311,36 +329,12 @@ const Binder = () => {
           </label>
           <button 
             className={styles.svgButton} 
-            onClick={() => setShowSVGImporter(prev => !prev)}
+            onClick={handleShowSvgControls}
           >
-            {showSVGImporter ? 'Hide SVG Importer' : 'Import SVG Path'}
+            SVG Path Tools
           </button>
-          
-          {svgPathPoints.length > 0 && (
-            <label className={styles.toggleNearby}>
-              <input
-                type="checkbox"
-                checked={showSvgPath}
-                onChange={(e) => setShowSvgPath(e.target.checked)}
-              />
-              Show SVG Path ({svgPathPoints.length} points)
-            </label>
-          )}
         </div>
       </div>
-      
-      {showSVGImporter && (
-        <SVGImporter
-          onSVGImport={handleSVGImport}
-          minDistance={svgMinDistance}
-          maxDistance={svgMaxDistance}
-          onMinDistanceChange={setSvgMinDistance}
-          onMaxDistanceChange={setSvgMaxDistance}
-          maxPoints={svgMaxPoints}
-          svgScale={svgScale}
-          onSvgScaleChange={setSvgScale}
-        />
-      )}
       
       {svgPathPoints.length > 0 && showSvgPath && (
         <div className={styles.svgProgress}>
@@ -350,6 +344,16 @@ const Binder = () => {
               className={styles.progressFill}
               style={{ width: `${(completedCount / totalCount) * 100}%` }}
             />
+          </div>
+          
+          <div className={styles.svgControlsRow}>
+            <button 
+              className={styles.svgControlsButton}
+              onClick={handleShowSvgControls}
+              title="Open SVG controls"
+            >
+              ⚙️ SVG Settings
+            </button>
           </div>
           
           {/* Add recenter button */}
@@ -450,6 +454,24 @@ const Binder = () => {
                   title={`Point ${point.order}${point.completed ? ' (Completed)' : ''}`}
                 />
               ))}
+              
+              {/* Show SVG controls overlay when active */}
+              {showSvgOptions && (
+                <SVGControlsOverlay
+                  onClose={() => setShowSvgOptions(false)}
+                  svgScale={svgScale}
+                  onSvgScaleChange={setSvgScale}
+                  svgRotation={svgRotation}
+                  onSvgRotationChange={setSvgRotation}
+                  onRecenter={handleRecenterSVG}
+                  onSVGImport={handleSVGImport}
+                  minDistance={svgMinDistance}
+                  maxDistance={svgMaxDistance}
+                  onMinDistanceChange={setSvgMinDistance}
+                  onMaxDistanceChange={setSvgMaxDistance}
+                  progress={{ completed: completedCount, total: totalCount }}
+                />
+              )}
             </div>
             
             <AnimatedBobUp>
