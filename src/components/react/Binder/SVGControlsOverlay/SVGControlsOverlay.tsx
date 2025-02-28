@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useState, useRef, useEffect } from 'react';
 import styles from './SVGControlsOverlay.module.scss';
 
 interface SVGControlsOverlayProps {
@@ -40,7 +40,15 @@ const SVGControlsOverlay: React.FC<SVGControlsOverlayProps> = ({
 }) => {
   const [activeTab, setActiveTab] = useState<'controls' | 'import'>('controls');
   const [svgPreview, setSvgPreview] = useState<string | null>(null);
+  
+  // States to handle dragging
+  const [isDragging, setIsDragging] = useState(false);
+  const [position, setPosition] = useState({ x: 0, y: 0 });
+  const dragRef = useRef<HTMLDivElement>(null);
+  const initialPos = useRef({ x: 0, y: 0 });
+  const dragStartPos = useRef({ x: 0, y: 0 });
 
+  // Handle file upload
   const handleFileChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     const file = e.target.files?.[0];
     if (!file) return;
@@ -54,10 +62,77 @@ const SVGControlsOverlay: React.FC<SVGControlsOverlayProps> = ({
     reader.readAsText(file);
   };
 
+  // Mouse down handler to start dragging
+  const handleMouseDown = (e: React.MouseEvent<HTMLDivElement>) => {
+    if (!dragRef.current) return;
+    
+    setIsDragging(true);
+    dragStartPos.current = { x: e.clientX, y: e.clientY };
+    initialPos.current = position;
+    
+    // Prevent text selection during drag
+    e.preventDefault();
+  };
+
+  // Mouse move handler to update position during drag
+  const handleMouseMove = (e: MouseEvent) => {
+    if (!isDragging) return;
+    
+    const dx = e.clientX - dragStartPos.current.x;
+    const dy = e.clientY - dragStartPos.current.y;
+    
+    setPosition({
+      x: initialPos.current.x + dx,
+      y: initialPos.current.y + dy
+    });
+  };
+
+  // Mouse up handler to stop dragging
+  const handleMouseUp = () => {
+    setIsDragging(false);
+  };
+
+  // Add and remove global event listeners
+  useEffect(() => {
+    if (isDragging) {
+      window.addEventListener('mousemove', handleMouseMove);
+      window.addEventListener('mouseup', handleMouseUp);
+    } else {
+      window.removeEventListener('mousemove', handleMouseMove);
+      window.removeEventListener('mouseup', handleMouseUp);
+    }
+    
+    return () => {
+      window.removeEventListener('mousemove', handleMouseMove);
+      window.removeEventListener('mouseup', handleMouseUp);
+    };
+  }, [isDragging]);
+
   return (
-    <div className={styles.overlay} onClick={() => onClose()}>
-      <div className={styles.controlPanel} onClick={(e) => e.stopPropagation()}>
-        <div className={styles.header}>
+    <div 
+      className={styles.overlay} 
+      onClick={() => onClose()}
+      style={{ 
+        cursor: isDragging ? 'grabbing' : 'auto'
+      }}
+    >
+      <div 
+        className={styles.controlPanel} 
+        onClick={(e) => e.stopPropagation()}
+        ref={dragRef}
+        style={{ 
+          transform: `translate(${position.x}px, ${position.y}px)`,
+          cursor: isDragging ? 'grabbing' : 'auto'
+        }}
+      >
+        <div 
+          className={styles.header} 
+          onMouseDown={handleMouseDown}
+          style={{ cursor: isDragging ? 'grabbing' : 'grab' }}
+        >
+          <div className={styles.dragHandle}>
+            <span>⋮⋮</span> {/* Drag indicator */}
+          </div>
           <h3>SVG Path Tool</h3>
           <button 
             className={styles.closeButton}

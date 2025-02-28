@@ -62,6 +62,7 @@ const Binder = () => {
   const [svgAnchorLocation, setSvgAnchorLocation] = useState<{latitude: number, longitude: number} | null>(null);
   const [svgRotation, setSvgRotation] = useState(0); // Make sure rotation state exists
   const [showSvgOptions, setShowSvgOptions] = useState(false);
+  const [overlayPosition, setOverlayPosition] = useState({ x: 0, y: 0 });
 
   const updateLocations = (sorted: Array<{ bin: any, distance: number, bearing: number }>) => {
     setNearbyLocations(sorted);
@@ -273,6 +274,10 @@ const Binder = () => {
     setShowSvgPath(value);
   };
 
+  const handleOverlayPositionChange = (position: { x: number, y: number }) => {
+    setOverlayPosition(position);
+  };
+
   // Find the current goal dot and determine SVG navigation mode
   const orderedSvgPoints = [...svgPathPoints].sort((a, b) => a.order - b.order);
   const currentGoalDot = orderedSvgPoints.find(point => !point.completed);
@@ -470,6 +475,9 @@ const Binder = () => {
                   onMinDistanceChange={setSvgMinDistance}
                   onMaxDistanceChange={setSvgMaxDistance}
                   progress={{ completed: completedCount, total: totalCount }}
+                  position={overlayPosition}
+                  onPositionChange={handleOverlayPositionChange}
+                  isDraggable={true}
                 />
               )}
             </div>

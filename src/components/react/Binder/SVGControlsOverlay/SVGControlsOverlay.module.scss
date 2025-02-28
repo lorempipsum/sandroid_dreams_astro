@@ -13,9 +13,11 @@
   background-color: rgba(0, 0, 0, 0.4);
   backdrop-filter: blur(2px);
   pointer-events: all;
+  user-select: none; /* Prevent text selection during drag */
 }
 
 .controlPanel {
+  position: relative; /* Enable positioning */
   background-color: rgba(255, 255, 255, 0.95);
   border-radius: 12px;
   padding: 16px;
@@ -31,12 +33,39 @@
     justify-content: space-between;
     align-items: center;
     margin-bottom: 16px;
+    padding: 4px 0;
+    border-bottom: 1px solid #eee;
+    
+    /* Make the header indicate it's draggable */
+    &:hover {
+      cursor: grab;
+      background-color: #f9f9f9;
+      border-radius: 8px 8px 0 0;
+    }
+    
+    &:active {
+      cursor: grabbing;
+    }
+    
+    .dragHandle {
+      color: #999;
+      font-size: 18px;
+      padding: 0 8px;
+      cursor: grab;
+      user-select: none;
+      
+      &:active {
+        cursor: grabbing;
+      }
+    }
     
     h3 {
       margin: 0;
-      font-size: 20px;
+      font-size: 18px;
       color: $arrowBlue;
       font-weight: 600;
+      flex: 1;
+      text-align: center;
     }
     
     .closeButton {
