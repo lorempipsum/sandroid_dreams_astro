@@ -288,6 +288,19 @@ const Binder = () => {
     setOverlayPosition(position);
   };
 
+  // Add handler to manually mark current goal as completed
+  const handleSkipCurrentGoal = () => {
+    if (!currentGoalDot) return;
+    
+    setSvgPathPoints(prevPoints => 
+      prevPoints.map(point => 
+        point.id === currentGoalDot.id 
+          ? { ...point, completed: true } 
+          : point
+      )
+    );
+  };
+
   // Find the current goal dot and determine SVG navigation mode
   const orderedSvgPoints = [...svgPathPoints].sort((a, b) => a.order - b.order);
   const currentGoalDot = orderedSvgPoints.find(point => !point.completed);
@@ -506,6 +519,17 @@ const Binder = () => {
                 <path d="m 106.15699,104.81898 0.81766,137.66811 102.24487,52.63857 L 106.09742,1.2562312 1.2008898,295.02942 96.460978,247.10502" />
               </svg>
             </AnimatedBobUp>
+            
+            {/* Add skip button below arrow when in SVG navigation mode */}
+            {isSvgNavigationActive && (
+              <button 
+                className={styles.skipGoalButton}
+                onClick={handleSkipCurrentGoal}
+                title="Mark this point as completed without physically reaching it"
+              >
+                Skip Goal
+              </button>
+            )}
             
             {/* Show different information based on mode */}
             {isSvgNavigationActive ? (

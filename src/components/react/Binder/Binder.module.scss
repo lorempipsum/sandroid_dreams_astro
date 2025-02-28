@@ -301,6 +301,41 @@
   font-size: 16px;
 }
 
+.skipGoalButton {
+  margin-top: 12px;
+  padding: 8px 16px;
+  background-color: #ff9800; // Orange color to indicate a different action
+  color: white;
+  border: none;
+  border-radius: 4px;
+  font-weight: 500;
+  font-size: 14px;
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.15);
+  transition: all 0.2s ease;
+  
+  &:hover {
+    background-color: darken(#ff9800, 10%);
+    transform: translateY(-2px);
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.15);
+  }
+  
+  &:active {
+    transform: translateY(0);
+    background-color: darken(#ff9800, 15%);
+  }
+  
+  // Add "skip" icon
+  &::before {
+    content: "⤑";
+    font-size: 16px;
+    margin-right: 6px;
+  }
+}
+
 .map {
   width: 300px;
   height: 300px;
