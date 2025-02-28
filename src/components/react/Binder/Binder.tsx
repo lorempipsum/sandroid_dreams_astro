@@ -393,8 +393,8 @@ const Binder = () => {
               <ZoomControls 
                 zoom={mapZoom} 
                 onZoomChange={setMapZoom} 
-                min={15} 
-                max={19} 
+                min={11} 
+                max={20} 
                 step={1}
                 label="Map Zoom"
               />
