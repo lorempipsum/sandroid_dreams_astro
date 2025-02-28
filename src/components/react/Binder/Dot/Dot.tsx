@@ -17,7 +17,7 @@ interface DotProps {
   mapZoom?: number;
 }
 
-const getDotPosition = (
+export const getDotPosition = (
   distance: number, 
   bearing: number, 
   isNorthLocked: boolean, 

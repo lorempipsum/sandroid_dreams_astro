@@ -90,6 +90,30 @@
   }
 }
 
+.svgDot {
+  background-color: #ff5722; // Different color for SVG path dots
+  opacity: 0.8;
+  
+  &:hover {
+    transform: translate(-50%, -50%) scale(1.5);
+  }
+}
+
+.svgButton {
+  padding: 8px 16px;
+  background-color: $arrowBlue;
+  color: white;
+  border: none;
+  border-radius: 4px;
+  cursor: pointer;
+  font-size: 0.9rem;
+  margin-top: 8px;
+  
+  &:hover {
+    background-color: darken($arrowBlue, 10%);
+  }
+}
+
 .dotInfo {
   position: absolute;
   background-color: white;

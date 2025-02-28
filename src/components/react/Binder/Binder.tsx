@@ -2,7 +2,7 @@ import { useState, useEffect } from 'react';
 import styles from './Binder.module.scss';
 import AnimatedBobUp from '../animations/AnimatedBobUp';
 import Button from '../Button/Button';
-import { calculateBearing, findNearestBin } from '../../../utils/locationUtils';
+import { calculateBearing, calculateDistance, findNearestBin } from '../../../utils/locationUtils';
 import { requestOrientationPermission } from '../../../utils/devicePermissions';
 import { getUniqueTypes, getFacilitiesByType } from '../../../utils/geoJsonLoader';
 import { getCrimeData, type CrimeLocation } from '../../../utils/crimeDataLoader';
@@ -14,8 +14,10 @@ import DataTypeSelector from './DataTypeSelector/DataTypeSelector';
 import InfoRenderer from '../InfoRenderer/InfoRenderer';
 import DistanceDisplay from './DistanceDisplay/DistanceDisplay';
 import { getLocationsForType } from './utils';
-import Dot from './Dot/Dot';
+import Dot, { getDotPosition } from './Dot/Dot';
 import ZoomControls from './ZoomControls/ZoomControls';
+import { processSVGPath, type PathPoint } from '../../../utils/svgPathUtils';
+import SVGImporter from './SVGImporter/SVGImporter';
 
 const DATASOURCES = ['Facilities', 'Crimes', 'Protected Trees', 'Trees'] as const;
 type DataSourceType = typeof DATASOURCES[number];
@@ -48,6 +50,14 @@ const Binder = () => {
     process.env.NODE_ENV === 'development'
   );
   const [mapZoom, setMapZoom] = useState(17); // Default zoom level 17
+  const [svgPathPoints, setSvgPathPoints] = useState<PathPoint[]>([]);
+  const [showSVGImporter, setShowSVGImporter] = useState(false);
+  const [svgMinDistance, setSvgMinDistance] = useState(10); // Default 10m
+  const [svgMaxDistance, setSvgMaxDistance] = useState(20); // Default 20m
+  const [showSvgPath, setShowSvgPath] = useState(false);
+  const [svgMaxPoints] = useState(1000); // Add this state
+  const [currentSvgContent, setCurrentSvgContent] = useState<string | null>(null);
+  const [svgScale, setSvgScale] = useState(1.0); // Default scale is 1x
 
   const updateLocations = (sorted: Array<{ bin: any, distance: number, bearing: number }>) => {
     setNearbyLocations(sorted);
@@ -115,6 +125,20 @@ const Binder = () => {
     loadGeneralTrees();
   }, []);
 
+  // Re-process SVG when parameters change
+  useEffect(() => {
+    if (currentSvgContent && userLocation) {
+      const points = processSVGPath(currentSvgContent, userLocation.latitude, userLocation.longitude, {
+        minDistanceMeters: svgMinDistance,
+        maxDistanceMeters: svgMaxDistance,
+        maxPoints: svgMaxPoints,
+        svgScale: svgScale  // Pass scale factor to processing function
+      });
+      
+      setSvgPathPoints(points);
+    }
+  }, [currentSvgContent, userLocation, svgMinDistance, svgMaxDistance, svgMaxPoints, svgScale]);
+
   const handleOrientation = (event: DeviceOrientationEvent) => {
     const angle = event.webkitCompassHeading || event.alpha || 0;
     setCompass(angle);
@@ -159,6 +183,16 @@ const Binder = () => {
     setCompass(value);
   };
 
+  const handleSVGImport = (svgContent: string) => {
+    if (userLocation) {
+      setCurrentSvgContent(svgContent);
+      // The actual processing will happen in the useEffect
+      setShowSvgPath(true);
+    } else {
+      setError('User location not available. Please enable location services.');
+    }
+  };
+
   return (
     <div onClick={handleBackgroundClick}>
       <div className={styles.titleContainer}>
@@ -187,8 +221,38 @@ const Binder = () => {
             />
             Lock North
           </label>
+          <button 
+            className={styles.svgButton} 
+            onClick={() => setShowSVGImporter(prev => !prev)}
+          >
+            {showSVGImporter ? 'Hide SVG Importer' : 'Import SVG Path'}
+          </button>
+          
+          {svgPathPoints.length > 0 && (
+            <label className={styles.toggleNearby}>
+              <input
+                type="checkbox"
+                checked={showSvgPath}
+                onChange={(e) => setShowSvgPath(e.target.checked)}
+              />
+              Show SVG Path ({svgPathPoints.length} points)
+            </label>
+          )}
         </div>
       </div>
+      
+      {showSVGImporter && (
+        <SVGImporter
+          onSVGImport={handleSVGImport}
+          minDistance={svgMinDistance}
+          maxDistance={svgMaxDistance}
+          onMinDistanceChange={setSvgMinDistance}
+          onMaxDistanceChange={setSvgMaxDistance}
+          maxPoints={svgMaxPoints}
+          svgScale={svgScale}
+          onSvgScaleChange={setSvgScale}
+        />
+      )}
       
       <div className={styles.container}>
         {error && <div className={styles.error}>{error}</div>}
@@ -244,6 +308,26 @@ const Binder = () => {
                   />
                 )
               )}
+              {showSvgPath && svgPathPoints.map((point) => (
+                <div
+                  key={`svg-${point.id}`}
+                  className={`${styles.dot} ${styles.svgDot}`}
+                  style={getDotPosition(
+                    calculateDistance(
+                      userLocation!, 
+                      { latitude: point.latitude, longitude: point.longitude }
+                    ),
+                    calculateBearing(
+                      userLocation!, 
+                      { latitude: point.latitude, longitude: point.longitude }
+                    ),
+                    lockNorth,
+                    compass,
+                    mapZoom
+                  )}
+                  title={`Point ${point.order}`}
+                />
+              ))}
             </div>
             <AnimatedBobUp>
               <svg
