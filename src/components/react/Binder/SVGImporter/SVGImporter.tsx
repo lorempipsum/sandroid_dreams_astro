@@ -90,7 +90,7 @@ const SVGImporter: React.FC<SVGImporterProps> = ({
           <input 
             type="range" 
             min={0.1} 
-            max={5} 
+            max={50} 
             step={0.1}
             value={svgScale}
             onChange={(e) => handleScaleChange(Number(e.target.value))}
