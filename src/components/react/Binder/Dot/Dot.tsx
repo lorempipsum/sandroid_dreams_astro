@@ -26,12 +26,29 @@ const getDotPosition = (
 ) => {
   const radius = 150;
   
-  // Calculate scaling factor based on map zoom:
-  // For zoom 15, we want to show more area (smaller scaling to fit more)
-  // For zoom 19, we want to show less area (larger scaling to show detail)
-  const baseScalingFactor = 1;
-  const zoomScaleAdjustment = Math.pow(2, (17 - mapZoom) / 2); // Exponential scaling
-  const scalingFactor = baseScalingFactor * zoomScaleAdjustment;
+  // Reset the scaling calculations to make zoom level 17 the accurate reference point
+  let scalingFactor;
+  
+  // Simple scaling based on powers of 2 - each zoom level shows twice the area
+  switch (mapZoom) {
+    case 15:
+      scalingFactor = 4.0;  // 4x scale at zoom 15
+      break;
+    case 16:
+      scalingFactor = 2.0;  // 2x scale at zoom 16
+      break;
+    case 17:
+      scalingFactor = 1.0;  // 1x scale (reference) at zoom 17
+      break;
+    case 18:
+      scalingFactor = 0.5;  // 0.5x scale at zoom 18
+      break;
+    case 19:
+      scalingFactor = 0.25; // 0.25x scale at zoom 19
+      break;
+    default:
+      scalingFactor = 1.0;  // Default to reference
+  }
   
   const maxDistance = radius * scalingFactor;
   const rotatedBearing = isNorthLocked ? bearing : bearing - compass;
