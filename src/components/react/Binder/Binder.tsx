@@ -58,6 +58,7 @@ const Binder = () => {
   const [svgMaxPoints] = useState(1000); // Add this state
   const [currentSvgContent, setCurrentSvgContent] = useState<string | null>(null);
   const [svgScale, setSvgScale] = useState(1.0); // Default scale is 1x
+  const [currentGoalIndex, setCurrentGoalIndex] = useState<number>(0);
 
   const updateLocations = (sorted: Array<{ bin: any, distance: number, bearing: number }>) => {
     setNearbyLocations(sorted);
@@ -139,6 +140,33 @@ const Binder = () => {
     }
   }, [currentSvgContent, userLocation, svgMinDistance, svgMaxDistance, svgMaxPoints, svgScale]);
 
+  // Add this effect to check if user is near the current goal dot
+  useEffect(() => {
+    if (userLocation && svgPathPoints.length > 0 && showSvgPath) {
+      // Find the current incomplete dot
+      const currentGoalPoint = svgPathPoints.find(point => !point.completed);
+      
+      if (!currentGoalPoint) return; // All dots completed
+      
+      // Calculate distance to current goal dot
+      const distanceToGoal = calculateDistance(
+        userLocation,
+        { latitude: currentGoalPoint.latitude, longitude: currentGoalPoint.longitude }
+      );
+      
+      // If user is within 5 meters, mark this dot as completed
+      if (distanceToGoal < 5) {
+        setSvgPathPoints(prevPoints => 
+          prevPoints.map(point => 
+            point.id === currentGoalPoint.id 
+              ? { ...point, completed: true } 
+              : point
+          )
+        );
+      }
+    }
+  }, [userLocation, svgPathPoints, showSvgPath]);
+
   const handleOrientation = (event: DeviceOrientationEvent) => {
     const angle = event.webkitCompassHeading || event.alpha || 0;
     setCompass(angle);
@@ -192,6 +220,11 @@ const Binder = () => {
       setError('User location not available. Please enable location services.');
     }
   };
+
+  // Find the current goal dot
+  const currentGoalDot = svgPathPoints.find(point => !point.completed);
+  const completedCount = svgPathPoints.filter(point => point.completed).length;
+  const totalCount = svgPathPoints.length;
 
   return (
     <div onClick={handleBackgroundClick}>
@@ -254,6 +287,18 @@ const Binder = () => {
         />
       )}
       
+      {svgPathPoints.length > 0 && showSvgPath && (
+        <div className={styles.svgProgress}>
+          <span>Progress: {completedCount}/{totalCount} points</span>
+          <div className={styles.progressBar}>
+            <div
+              className={styles.progressFill}
+              style={{ width: `${(completedCount / totalCount) * 100}%` }}
+            />
+          </div>
+        </div>
+      )}
+      
       <div className={styles.container}>
         {error && <div className={styles.error}>{error}</div>}
 
@@ -308,10 +353,15 @@ const Binder = () => {
                   />
                 )
               )}
-              {showSvgPath && svgPathPoints.map((point) => (
+              {showSvgPath && svgPathPoints.map((point, index) => (
                 <div
                   key={`svg-${point.id}`}
-                  className={`${styles.dot} ${styles.svgDot}`}
+                  className={`
+                    ${styles.dot} 
+                    ${styles.svgDot} 
+                    ${point.completed ? styles.completedDot : ''} 
+                    ${point === currentGoalDot ? styles.goalDot : ''}
+                  `}
                   style={getDotPosition(
                     calculateDistance(
                       userLocation!, 
@@ -325,10 +375,20 @@ const Binder = () => {
                     compass,
                     mapZoom
                   )}
-                  title={`Point ${point.order}`}
+                  title={`Point ${point.order}${point.completed ? ' (Completed)' : ''}`}
                 />
               ))}
             </div>
+            
+            {currentGoalDot && userLocation && showSvgPath && (
+              <div className={styles.goalInfo}>
+                <span>Next goal: {Math.round(calculateDistance(
+                  userLocation,
+                  { latitude: currentGoalDot.latitude, longitude: currentGoalDot.longitude }
+                ))}m</span>
+              </div>
+            )}
+            
             <AnimatedBobUp>
               <svg
                 className={styles.arrow}

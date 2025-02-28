@@ -97,6 +97,39 @@
   &:hover {
     transform: translate(-50%, -50%) scale(1.5);
   }
+
+  &.completedDot {
+    background-color: #4CAF50; // Green color for completed dots
+    opacity: 0.6;
+    transform: translate(-50%, -50%) scale(0.8); // Make completed dots smaller
+  }
+  
+  &.goalDot {
+    background-color: #FFC107; // Yellow color for current goal dot
+    opacity: 1;
+    box-shadow: 0 0 10px rgba(255, 193, 7, 0.8);
+    animation: pulse 1.5s infinite;
+    z-index: 5; // Make sure goal dot is on top
+    width: 15px; // Make goal dot larger
+    height: 15px;
+  }
+}
+
+@keyframes pulse {
+  0% {
+    transform: translate(-50%, -50%) scale(1);
+    box-shadow: 0 0 0 0 rgba(255, 193, 7, 0.7);
+  }
+  
+  70% {
+    transform: translate(-50%, -50%) scale(1.2);
+    box-shadow: 0 0 0 10px rgba(255, 193, 7, 0);
+  }
+  
+  100% {
+    transform: translate(-50%, -50%) scale(1);
+    box-shadow: 0 0 0 0 rgba(255, 193, 7, 0);
+  }
 }
 
 .svgButton {
@@ -185,6 +218,38 @@
   display: flex;
   justify-content: flex-end;
   width: 300px; // Match radar width
+}
+
+.svgProgress {
+  width: 300px;
+  margin: 10px 0;
+  font-size: 14px;
+  color: $arrowBlue;
+  
+  .progressBar {
+    height: 6px;
+    background-color: #e0e0e0;
+    border-radius: 3px;
+    margin-top: 5px;
+    overflow: hidden;
+    
+    .progressFill {
+      height: 100%;
+      background-color: #4CAF50;
+      transition: width 0.3s ease-in-out;
+    }
+  }
+}
+
+.goalInfo {
+  background-color: white;
+  border-radius: 8px;
+  padding: 8px 12px;
+  margin-top: 12px;
+  box-shadow: 0 2px 4px rgba(0,0,0,0.1);
+  font-weight: bold;
+  color: $arrowBlue;
+  font-size: 16px;
 }
 
 .map {
