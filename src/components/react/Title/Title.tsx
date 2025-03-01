@@ -74,7 +74,7 @@ export const Title = ({ title }: {title: string}) => {
             Friends
           </a>}
           <a
-            href="/plotting"
+            href="/plotting/everything"
             className={
               styles.subtitleText
             }
