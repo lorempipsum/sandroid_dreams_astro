@@ -1,12 +1,21 @@
+import React, { useState } from 'react';
+import { useSpring, animated } from 'react-spring';
 import Logo from './Logo';
-
 import styles from './Title.module.scss';
 
-
-// styles
-
 export const Title = ({ title }: {title: string}) => {
-  // hrefDO reinstate the friends, about and instagram pages at some point?
+  // Add hover state
+  const [isHovered, setIsHovered] = useState(false);
+  
+  // Create the color wave animation that activates on hover
+  const props = useSpring({
+    // Start from left, move to right on hover
+    backgroundPosition: isHovered ? '200% 0' : '-200% 0',
+    // Make animation faster on hover, immediate on mouse out
+    config: { duration: isHovered ? 1500 : 0 },
+    immediate: !isHovered,
+  });
+  
   const isLinkSectionShown = true;
 
   return (
@@ -17,7 +26,14 @@ export const Title = ({ title }: {title: string}) => {
         href="/"
       >
         <Logo />
-        {title}
+        <animated.span 
+          className={styles.animatedText}
+          style={props}
+          onMouseEnter={() => setIsHovered(true)}
+          onMouseLeave={() => setIsHovered(false)}
+        >
+          {title}
+        </animated.span>
       </a>
       {isLinkSectionShown && (
         <div className={styles.as}>

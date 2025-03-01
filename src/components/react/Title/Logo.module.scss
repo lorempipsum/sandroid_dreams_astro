@@ -1,20 +1,31 @@
 @import "../../../styles/colors.scss";
 
 .logoBox {
-    position: relative;
-    width: 40px;
-    margin: 0 auto;
-    height: 40px;
-    border: 1px solid;
+  position: relative;
+  width: 40px;
+  margin: 0 auto;
+  height: 40px;
+  border: 1px solid transparent;
+  cursor: pointer;
+  transition: border-color 0.3s ease;
+  will-change: transform; // Optimization hint for browsers
+  transform-style: preserve-3d; // Enable 3D transformations
+  
+  &:hover {
+    border-color: $arrowBlue;
+  }
 }
 
 .logoImage {
-    position: absolute;
-    bottom: 0;
-    transform: translateX(-50%);
-    left: 50%;
-    
+  position: absolute;
+  bottom: 0;
+  transform: translateX(-50%);
+  left: 50%;
+  fill: $arrowBlue;
+  color: $arrowBlue;
+  stroke: $arrowBlue;
+  pointer-events: none; // Make sure mouse events go to the container
+  user-select: none; // Prevent selection
 
-    // color it with $arrowBlue
-    filter: hue-rotate(180deg);
+  filter: hue-rotate(180deg); // Invert the color
 }
