@@ -94,6 +94,7 @@ export const Title = ({ title }: {title: string}) => {
             className={
               styles.subtitleText
             }
+            target="_blank"
           >
             Instagram
           </a>
