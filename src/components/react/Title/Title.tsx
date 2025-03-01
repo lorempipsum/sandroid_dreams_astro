@@ -21,11 +21,12 @@ export const Title = ({ title }: {title: string}) => {
   return (
     <div>
       <title>{title}</title>
+
+      <Logo />
       <a
         className={styles.headingStyles}
         href="/"
       >
-        <Logo />
         <animated.span 
           className={styles.animatedText}
           style={props}

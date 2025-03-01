@@ -54,7 +54,7 @@ const Logo = () => {
   };
 
   return (
-    <div>
+    <div className={styles.logoContainer}>
       <animated.div
         ref={logoRef}
         className={styles.logoBox}
@@ -63,7 +63,9 @@ const Logo = () => {
         onMouseMove={handleMouseMove}
         onMouseLeave={handleMouseLeave}
       >
+        <div className={styles.logoImage}>
         <SanderArrow />
+</div>
       </animated.div>
     </div>
   );

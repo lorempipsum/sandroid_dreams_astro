@@ -1,10 +1,11 @@
 @import "../../../styles/colors.scss";
 
+
 .logoBox {
   position: relative;
-  width: 40px;
+  width: 35px;
   margin: 0 auto;
-  height: 40px;
+  height: 45px;
   border: 1px solid $arrowBlue;
   cursor: pointer;
   transition: border-color 0.3s ease;
@@ -17,7 +18,8 @@
 }
 
 .logoImage {
-  position: absolute;
+
+  position: absolute    ;
   bottom: 0;
   transform: translateX(-50%);
   left: 50%;
@@ -26,6 +28,4 @@
   stroke: $arrowBlue;
   pointer-events: none; // Make sure mouse events go to the container
   user-select: none; // Prevent selection
-
-  filter: hue-rotate(180deg); // Invert the color
 }
