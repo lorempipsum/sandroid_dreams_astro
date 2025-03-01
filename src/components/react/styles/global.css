@@ -10,14 +10,13 @@ html {
     font-size: 1rem;
 }
 
+/* We've moved the font styling to global.scss */
 
 h1 {
-    font-family: consolas, monaco, courier, "courier new", fixed-width;
     font-size: 1.5rem;
     text-align: center;
     font-weight: 500;
     margin-top: 1.5rem;
-
 }
 
 .inlineLink {
@@ -26,7 +25,6 @@ h1 {
     text-decoration: underline;
     text-underline-offset: 0.2em;
 }
-
 
 .removeDecoration {
     /* underlining can't be overwritten normally
@@ -41,7 +39,6 @@ p {
     margin-top: 1.9em;
     margin-bottom: 1.9em;
 }
-
 
 .spacer {
     margin-bottom: 50px;

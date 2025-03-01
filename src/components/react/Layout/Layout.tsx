@@ -1,9 +1,10 @@
-
 import { useState } from 'react';
 import Title from '../Title/Title';
-import styles from './Layout.module.css';
+import styles from './Layout.module.scss';
 
-import "../styles/global.css"
+// Update this import path to the correct scss file
+import "../../../styles/global.scss"
+
 interface LayoutProps {
     children: any;
     title: string;

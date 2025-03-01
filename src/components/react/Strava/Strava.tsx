@@ -241,16 +241,9 @@ const Strava = () => {
   return (
     <div>
       <div className={styles.titleContainer}>
-        <h1>SVG Path Navigator</h1>
+        <p>Upload an SVG and turn it into a running path</p>
         <div className={styles.toggleContainer}>
-          <label className={styles.toggleOption}>
-            <input
-              type="checkbox"
-              checked={lockNorth}
-              onChange={(e) => setLockNorth(e.target.checked)}
-            />
-            Lock North
-          </label>
+       
           <button 
             className={styles.svgButton} 
             onClick={handleShowSvgControls}
@@ -269,24 +262,6 @@ const Strava = () => {
               style={{ width: `${(completedCount / totalCount) * 100}%` }}
             />
           </div>
-          
-          <div className={styles.svgControlsRow}>
-            <button 
-              className={styles.svgControlsButton}
-              onClick={handleShowSvgControls}
-              title="Open SVG controls"
-            >
-              ⚙️ SVG Settings
-            </button>
-          </div>
-          
-          <button 
-            className={styles.recenterButton}
-            onClick={handleRecenterSVG}
-            title="Recenter SVG path at your current location"
-          >
-            Recenter SVG
-          </button>
         </div>
       )}
       
@@ -364,9 +339,6 @@ const Strava = () => {
                   onMinDistanceChange={setSvgMinDistance}
                   onMaxDistanceChange={setSvgMaxDistance}
                   progress={{ completed: completedCount, total: totalCount }}
-                  position={overlayPosition}
-                  onPositionChange={handleOverlayPositionChange}
-                  isDraggable={true}
                   totalDistance={svgMetadata.totalDistanceMeters}
                   showSvgPath={showSvgPath}
                   onToggleSvgPath={handleToggleSvgPath}

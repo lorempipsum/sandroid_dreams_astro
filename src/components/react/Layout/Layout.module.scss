@@ -1,7 +1,4 @@
-
-
 .main {
-    font-family: consolas, monaco, courier, "courier new", fixed-width, monospace;
     display: grid;
     margin: 3vh auto auto;
     grid-template-columns:
@@ -71,10 +68,8 @@ p {
 }
 
 pre, code {
-
   overflow-x: auto;
   white-space: pre-wrap;
-  
 }
 
 code span {
