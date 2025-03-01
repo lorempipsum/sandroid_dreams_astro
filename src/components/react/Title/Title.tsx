@@ -38,14 +38,7 @@ export const Title = ({ title }: {title: string}) => {
       </a>
       {isLinkSectionShown && (
         <div className={styles.as}>
-          <a
-            href="/blog"
-            className={
-              styles.subtitleText
-            }
-          >
-            Blog
-          </a>
+        
           <a
             href="/experiments/strava"
             className={
