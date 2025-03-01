@@ -1,7 +1,7 @@
 import React, { useState, useRef } from 'react';
 import { useSpring, animated } from 'react-spring';
 import styles from './Logo.module.scss';
-import logoImage from './logo.svg';
+import SanderArrow from './SanderArrow';
 
 const Logo = () => {
   const [hovered, setHovered] = useState(false);
@@ -9,11 +9,12 @@ const Logo = () => {
   
   // Initialize spring with default values
   const [props, api] = useSpring(() => ({
-    transform: 'scale(1) perspective(500px) rotateX(0deg) rotateY(0deg)',
+    transform: 'scale(1) perspective(20px) rotateX(5deg) rotateY(0deg)',
     filter: 'drop-shadow(0 0 2px rgba(51, 102, 205, 0.3))',
     config: {
-      tension: 300,
-      friction: 15
+      tension: 400,
+      friction: 15,
+      mass: 1,
     }
   }));
   
@@ -31,9 +32,10 @@ const Logo = () => {
     // Apply the rotation based on mouse position
     // Invert y for natural tilt feel
     api.start({
-      transform: `scale(1.15) perspective(500px) rotateX(${-y * 40}deg) rotateY(${x * 40}deg)`,
+      transform: `scale(1.2) perspective(20px) rotateX(${-y * 30}deg) rotateY(${x * 30}deg)`,
       filter: `drop-shadow(${x * 10}px ${y * 10}px 8px rgba(51, 102, 205, 0.3))`,
-      immediate: false
+      immediate: false,
+
     });
   };
   
@@ -45,7 +47,7 @@ const Logo = () => {
     setHovered(false);
     // Reset to default position when the mouse leaves
     api.start({
-      transform: 'scale(1) perspective(500px) rotateX(0deg) rotateY(0deg)',
+      transform: 'scale(1) perspective(20px) rotateX(5deg) rotateY(0deg)',
       filter: 'drop-shadow(0 0 2px rgba(51, 102, 205, 0.1))',
       immediate: false
     });
@@ -61,12 +63,7 @@ const Logo = () => {
         onMouseMove={handleMouseMove}
         onMouseLeave={handleMouseLeave}
       >
-        <img
-          src={logoImage.src}
-          className={styles.logoImage}
-          alt="Logo"
-          draggable={false}
-        />
+        <SanderArrow />
       </animated.div>
     </div>
   );

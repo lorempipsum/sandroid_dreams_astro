@@ -5,12 +5,12 @@
   width: 40px;
   margin: 0 auto;
   height: 40px;
-  border: 1px solid transparent;
+  border: 1px solid $arrowBlue;
   cursor: pointer;
   transition: border-color 0.3s ease;
   will-change: transform; // Optimization hint for browsers
-  transform-style: preserve-3d; // Enable 3D transformations
-  
+  transform-style:preserve-3d;
+
   &:hover {
     border-color: $arrowBlue;
   }
