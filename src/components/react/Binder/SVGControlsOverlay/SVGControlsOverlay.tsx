@@ -19,6 +19,8 @@ interface SVGControlsOverlayProps {
   onToggleSvgPath: (value: boolean) => void;
   totalPoints: number;
   totalDistance?: number;
+  limitVisiblePoints?: boolean;
+  onToggleLimitPoints?: (value: boolean) => void;
 }
 
 const SVGControlsOverlay: React.FC<SVGControlsOverlayProps> = ({
@@ -38,7 +40,9 @@ const SVGControlsOverlay: React.FC<SVGControlsOverlayProps> = ({
   showSvgPath,
   onToggleSvgPath,
   totalPoints,
-  totalDistance = 0
+  totalDistance = 0,
+  limitVisiblePoints = false,
+  onToggleLimitPoints
 }) => {
   const [activeTab, setActiveTab] = useState<'controls' | 'import'>('controls');
   const [svgPreview, setSvgPreview] = useState<string | null>(null);
@@ -185,6 +189,22 @@ const SVGControlsOverlay: React.FC<SVGControlsOverlayProps> = ({
                     <span className={styles.slider}></span>
                   </label>
                 </div>
+                
+                {onToggleLimitPoints && (
+                  <div className={styles.toggleRow}>
+                    <span className={styles.statusText}>
+                    Show Next 3 Points Only
+                    </span>
+                    <label className={styles.switch}>
+                      <input 
+                        type="checkbox" 
+                        checked={limitVisiblePoints}
+                        onChange={(e) => onToggleLimitPoints(e.target.checked)} 
+                      />
+                      <span className={styles.slider}></span>
+                    </label>
+                  </div>
+                )}
                 
                 <span>Progress: {progress.completed}/{progress.total} points</span>
                 <div className={styles.progressBar}>

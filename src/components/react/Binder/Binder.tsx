@@ -1,23 +1,19 @@
 import { useState, useEffect } from 'react';
 import styles from './Binder.module.scss';
-import AnimatedBobUp from '../animations/AnimatedBobUp';
 import Button from '../Button/Button';
-import { calculateBearing, calculateDistance, findNearestBin } from '../../../utils/locationUtils';
+import { calculateBearing, findNearestBin } from '../../../utils/locationUtils';
 import { requestOrientationPermission } from '../../../utils/devicePermissions';
 import { getUniqueTypes, getFacilitiesByType } from '../../../utils/geoJsonLoader';
-import { getCrimeData, type CrimeLocation } from '../../../utils/crimeDataLoader';
-import { getTreeData, type TreeLocation } from '../../../utils/treeDataLoader';
+import { getCrimeData } from '../../../utils/crimeDataLoader';
+import { getTreeData } from '../../../utils/treeDataLoader';
 import { getGeneralTreeData, type GeneralTree } from '../../../utils/generalTreeDataLoader';
 import React from 'react';
 import Map from '../Map/Map';
 import DataTypeSelector from './DataTypeSelector/DataTypeSelector';
-import InfoRenderer from '../InfoRenderer/InfoRenderer';
 import DistanceDisplay from './DistanceDisplay/DistanceDisplay';
 import { getLocationsForType } from './utils';
-import Dot, { getDotPosition } from './Dot/Dot';
+import Dot from './Dot/Dot';
 import ZoomControls from './ZoomControls/ZoomControls';
-import { processSVGPath, type PathPoint, type SVGPathMetadata } from '../../../utils/svgPathUtils';
-import SVGControlsOverlay from './SVGControlsOverlay/SVGControlsOverlay';
 
 const DATASOURCES = ['Facilities', 'Crimes', 'Protected Trees', 'Trees'] as const;
 type DataSourceType = typeof DATASOURCES[number];
@@ -50,24 +46,6 @@ const Binder = () => {
     process.env.NODE_ENV === 'development'
   );
   const [mapZoom, setMapZoom] = useState(17); // Default zoom level 17
-  const [svgPathPoints, setSvgPathPoints] = useState<PathPoint[]>([]);
-  const [showSVGImporter, setShowSVGImporter] = useState(false);
-  const [svgMinDistance, setSvgMinDistance] = useState(10); // Default 10m
-  const [svgMaxDistance, setSvgMaxDistance] = useState(20); // Default 20m
-  const [showSvgPath, setShowSvgPath] = useState(false);
-  const [svgMaxPoints] = useState(1000); // Add this state
-  const [currentSvgContent, setCurrentSvgContent] = useState<string | null>(null);
-  const [svgScale, setSvgScale] = useState(1.0); // Default scale is 1x
-  const [currentGoalIndex, setCurrentGoalIndex] = useState<number>(0);
-  const [svgAnchorLocation, setSvgAnchorLocation] = useState<{latitude: number, longitude: number} | null>(null);
-  const [svgRotation, setSvgRotation] = useState(0); // Make sure rotation state exists
-  const [showSvgOptions, setShowSvgOptions] = useState(false);
-  const [overlayPosition, setOverlayPosition] = useState({ x: 0, y: 0 });
-  const [svgMetadata, setSvgMetadata] = useState<SVGPathMetadata>({ 
-    totalDistanceMeters: 0, 
-    averagePointDistanceMeters: 0, 
-    pointsCount: 0 
-  });
 
   const updateLocations = (sorted: Array<{ bin: any, distance: number, bearing: number }>) => {
     setNearbyLocations(sorted);
@@ -104,8 +82,6 @@ const Binder = () => {
   useEffect(() => {
     if (!userLocation) return;
 
-    
-
     let sorted;
     switch (dataType) {
       case 'facilities':
@@ -134,60 +110,6 @@ const Binder = () => {
     };
     loadGeneralTrees();
   }, []);
-
-  // Re-process SVG when parameters change
-  useEffect(() => {
-    if (!currentSvgContent || (!userLocation && !svgAnchorLocation)) return;
-    
-    // Use either the anchor location (if set) or the current user location
-    const anchorPoint = svgAnchorLocation || userLocation!;
-    
-    const result = processSVGPath(
-      currentSvgContent, 
-      anchorPoint.latitude, 
-      anchorPoint.longitude, 
-      {
-        minDistanceMeters: svgMinDistance,
-        maxDistanceMeters: svgMaxDistance,
-        maxPoints: svgMaxPoints,
-        svgScale: svgScale,
-        svgRotation: svgRotation
-      }
-    );
-    
-    setSvgPathPoints(result.points);
-    setSvgMetadata(result.metadata);
-    
-
-  }, [currentSvgContent, svgAnchorLocation, svgMinDistance, svgMaxDistance, svgMaxPoints, svgScale, svgRotation]);
-
-  // Add this effect to check if user is near the current goal dot
-  useEffect(() => {
-    if (userLocation && svgPathPoints.length > 0 && showSvgPath) {
-      // Use order property to find the next incomplete point
-      const orderedPoints = [...svgPathPoints].sort((a, b) => a.order - b.order);
-      const currentGoalPoint = orderedPoints.find(point => !point.completed);
-      
-      if (!currentGoalPoint) return; // All dots completed
-      
-      // Calculate distance to current goal dot
-      const distanceToGoal = calculateDistance(
-        userLocation,
-        { latitude: currentGoalPoint.latitude, longitude: currentGoalPoint.longitude }
-      );
-      
-      // If user is within 5 meters, mark this dot as completed
-      if (distanceToGoal < 5) {
-        setSvgPathPoints(prevPoints => 
-          prevPoints.map(point => 
-            point.id === currentGoalPoint.id 
-              ? { ...point, completed: true } 
-              : point
-          )
-        );
-      }
-    }
-  }, [userLocation, svgPathPoints, showSvgPath]);
 
   const handleOrientation = (event: DeviceOrientationEvent) => {
     const angle = event.webkitCompassHeading || event.alpha || 0;
@@ -243,81 +165,11 @@ const Binder = () => {
     setUserLocation(mockPosition);
   };
 
-  const handleSVGImport = (svgContent: string) => {
-    if (userLocation) {
-
-      setCurrentSvgContent(svgContent);
-      
-      // Set the anchor point to current user location when SVG is first imported
-      setSvgAnchorLocation({
-        latitude: userLocation.latitude,
-        longitude: userLocation.longitude
-      });
-      
-      // Reset the goal index and ensure path is visible
-      setCurrentGoalIndex(0);
-      setShowSvgPath(true);
-      
-      // Close the overlay after successful import
-      // setShowSvgOptions(false); // Uncomment if you want it to close after import
-    } else {
-      setError('User location not available. Please enable location services.');
-    }
-  };
-
-  const handleRecenterSVG = () => {
-    if (userLocation) {
-      setSvgAnchorLocation({
-        latitude: userLocation.latitude,
-        longitude: userLocation.longitude
-      });
-    }
-  };
-
-  const handleShowSvgControls = () => {
-    setShowSvgOptions(true);
-  };
-
-  const handleToggleSvgPath = (value: boolean) => {
-
-    setShowSvgPath(value);
-  };
-
-  const handleOverlayPositionChange = (position: { x: number, y: number }) => {
-    setOverlayPosition(position);
-  };
-
-  // Add handler to manually mark current goal as completed
-  const handleSkipCurrentGoal = () => {
-    if (!currentGoalDot) return;
-    
-    setSvgPathPoints(prevPoints => 
-      prevPoints.map(point => 
-        point.id === currentGoalDot.id 
-          ? { ...point, completed: true } 
-          : point
-      )
-    );
-  };
-
-  // Find the current goal dot and determine SVG navigation mode
-  const orderedSvgPoints = [...svgPathPoints].sort((a, b) => a.order - b.order);
-  const currentGoalDot = orderedSvgPoints.find(point => !point.completed);
-  const completedCount = svgPathPoints.filter(point => point.completed).length;
-  const totalCount = svgPathPoints.length;
-  const isSvgNavigationActive = showSvgPath && svgPathPoints.length > 0 && currentGoalDot;
-  
   // Calculate bearing based on active navigation mode
   let bearing = 0;
   
   if (userLocation) {
-    if (isSvgNavigationActive && currentGoalDot) {
-      // Point to SVG goal in SVG mode
-      bearing = calculateBearing(
-        userLocation, 
-        { latitude: currentGoalDot.latitude, longitude: currentGoalDot.longitude }
-      );
-    } else if (currentBin) {
+    if (currentBin) {
       // Point to facility otherwise
       bearing = calculateBearing(userLocation, currentBin);
     }
@@ -354,36 +206,8 @@ const Binder = () => {
             />
             Lock North
           </label>
-          <button 
-            className={styles.svgButton} 
-            onClick={handleShowSvgControls}
-          >
-            SVG Path Tools
-          </button>
         </div>
       </div>
-      
-      {svgPathPoints.length > 0 && showSvgPath && (
-        <div className={styles.svgProgress}>
-          <span>Progress: {completedCount}/{totalCount} points</span>
-          <div className={styles.progressBar}>
-            <div
-              className={styles.progressFill}
-              style={{ width: `${(completedCount / totalCount) * 100}%` }}
-            />
-          </div>
-
-          
-          {/* Add recenter button */}
-          <button 
-            className={styles.recenterButton}
-            onClick={handleRecenterSVG}
-            title="Recenter SVG path at your current location"
-          >
-            Recenter SVG
-          </button>
-        </div>
-      )}
       
       <div className={styles.container}>
         {error && <div className={styles.error}>{error}</div>}
@@ -405,8 +229,7 @@ const Binder = () => {
             <div className={styles.radar}>
               <Map 
                 userLocation={userLocation}
-                currentLocation={isSvgNavigationActive && currentGoalDot ? 
-                  { latitude: currentGoalDot.latitude, longitude: currentGoalDot.longitude } : 
+                currentLocation={ 
                   currentBin
                 }
                 compass={compass}
@@ -418,7 +241,7 @@ const Binder = () => {
               />
               
               {/* Only show facility dots when not in SVG navigation mode */}
-              {!isSvgNavigationActive && showAllNearby && (
+              {showAllNearby && (
                 nearbyLocations.map((loc, index) => (
                   <Dot
                     key={loc.bin.id}
@@ -434,7 +257,7 @@ const Binder = () => {
                 ))
               )}
               
-              {!isSvgNavigationActive && !showAllNearby && currentBin && distance && (
+              {!showAllNearby && currentBin && distance && (
                 <Dot
                   loc={{ bin: currentBin, distance, bearing }}
                   isNearest={true}
@@ -446,96 +269,24 @@ const Binder = () => {
                   mapZoom={mapZoom} 
                 />
               )}
-              
-              {/* Always show SVG dots when active */}
-              {showSvgPath && orderedSvgPoints.map((point) => (
-                <div
-                  key={`svg-${point.id}`}
-                  className={`
-                    ${styles.dot} 
-                    ${styles.svgDot} 
-                    ${point.completed ? styles.completedDot : ''} 
-                    ${point === currentGoalDot ? styles.goalDot : ''}
-                  `}
-                  style={getDotPosition(
-                    calculateDistance(
-                      userLocation!, 
-                      { latitude: point.latitude, longitude: point.longitude }
-                    ),
-                    calculateBearing(
-                      userLocation!, 
-                      { latitude: point.latitude, longitude: point.longitude }
-                    ),
-                    lockNorth,
-                    compass,
-                    mapZoom
-                  )}
-                  title={`Point ${point.order}${point.completed ? ' (Completed)' : ''}`}
-                />
-              ))}
-              
-              {/* Show SVG controls overlay when active */}
-              {showSvgOptions && (
-                <SVGControlsOverlay
-                  onClose={() => setShowSvgOptions(false)}
-                  svgScale={svgScale}
-                  onSvgScaleChange={setSvgScale}
-                  svgRotation={svgRotation}
-                  onSvgRotationChange={setSvgRotation}
-                  onRecenter={handleRecenterSVG}
-                  onSVGImport={handleSVGImport}
-                  minDistance={svgMinDistance}
-                  maxDistance={svgMaxDistance}
-                  onMinDistanceChange={setSvgMinDistance}
-                  onMaxDistanceChange={setSvgMaxDistance}
-                  progress={{ completed: completedCount, total: totalCount }}
-                  position={overlayPosition}
-                  onPositionChange={handleOverlayPositionChange}
-                  isDraggable={true}
-                  totalDistance={svgMetadata.totalDistanceMeters}
-                />
-              )}
             </div>
             
-            <AnimatedBobUp>
-              <svg
-                className={styles.arrow}
-                style={{ transform: `rotate(${rotation}deg)` }}
-                viewBox="0 0 210 297"
-                width="100"
-                height="100"
-                fill="none"
-                strokeWidth="6"
-              >
-                <path d="m 106.15699,104.81898 0.81766,137.66811 102.24487,52.63857 L 106.09742,1.2562312 1.2008898,295.02942 96.460978,247.10502" />
-              </svg>
-            </AnimatedBobUp>
+            <svg
+              className={styles.arrow}
+              style={{ transform: `rotate(${rotation}deg)` }}
+              viewBox="0 0 210 297"
+              width="100"
+              height="100"
+              fill="none"
+              strokeWidth="6"
+            >
+              <path d="m 106.15699,104.81898 0.81766,137.66811 102.24487,52.63857 L 106.09742,1.2562312 1.2008898,295.02942 96.460978,247.10502" />
+            </svg>
             
-            {/* Add skip button below arrow when in SVG navigation mode */}
-            {isSvgNavigationActive && (
-              <button 
-                className={styles.skipGoalButton}
-                onClick={handleSkipCurrentGoal}
-                title="Mark this point as completed without physically reaching it"
-              >
-                Skip Goal
-              </button>
-            )}
-            
-            {/* Show different information based on mode */}
-            {isSvgNavigationActive ? (
-              <div className={styles.goalInfo}>
-                <span>Next goal: {Math.round(calculateDistance(
-                  userLocation!,
-                  { latitude: currentGoalDot.latitude, longitude: currentGoalDot.longitude }
-                ))}m</span>
-              </div>
-            ) : (
-              <DistanceDisplay 
-                name={currentBin?.name || ''} 
-                distance={distance} 
-              />
-            )}
+            <DistanceDisplay 
+              name={currentBin?.name || ''} 
+              distance={distance} 
+            />
           </>
         )}
       </div>
