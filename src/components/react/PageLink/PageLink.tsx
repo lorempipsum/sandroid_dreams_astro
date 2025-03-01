@@ -1,6 +1,6 @@
 
 // styles
-import styles from './PageLink.module.css';
+import styles from './PageLink.module.scss';
 
 interface PageLinkProps {
     to: string;

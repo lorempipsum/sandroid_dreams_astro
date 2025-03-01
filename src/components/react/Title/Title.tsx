@@ -1,6 +1,6 @@
 import Logo from './Logo';
 
-import styles from './Title.module.css';
+import styles from './Title.module.scss';
 
 
 // styles

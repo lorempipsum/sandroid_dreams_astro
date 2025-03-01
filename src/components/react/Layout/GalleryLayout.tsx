@@ -3,7 +3,7 @@ import { useState } from 'react';
 import Title from '../Title/Title';
 import styles from './Layout.module.scss';
 
-import "../styles/global.css"
+import "../../../styles/global.scss"
 interface LayoutProps {
     children: any;
     title: string;

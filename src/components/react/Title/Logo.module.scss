@@ -1,3 +1,4 @@
+@import "../../../styles/colors.scss";
 
 .logoBox {
     position: relative;
@@ -12,4 +13,8 @@
     bottom: 0;
     transform: translateX(-50%);
     left: 50%;
+    
+
+    // color it with $arrowBlue
+    filter: hue-rotate(180deg);
 }

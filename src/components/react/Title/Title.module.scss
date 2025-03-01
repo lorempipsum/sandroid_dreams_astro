@@ -1,3 +1,4 @@
+@import "../../../styles/colors.scss";
 
 .subtitleText {
     font-size: 15px;
@@ -12,7 +13,8 @@
 
 
 .subtitleText:hover {
-  border-bottom: 1px solid #888;
+  color: $arrowBlue;
+  border-bottom: 1px solid $arrowBlue;
 }
 
 .squareB {
