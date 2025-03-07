@@ -14,6 +14,14 @@
     &:hover {
     color: (darken($arrowBlue, 10%));
     }
+
+    &:focus-visible {
+    outline: 2px solid $arrowBlue;
+    outline-offset: 4px;
+    color: $arrowBlue;
+
+
+    }
   }
   
   .linkTextStyle:hover {

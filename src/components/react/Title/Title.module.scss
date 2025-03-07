@@ -1,13 +1,23 @@
 @import "../../../styles/colors.scss";
 
 .subtitleText {
-    font-size: 15px;
-    font-weight: 500;
-    max-width: 200px;
-    margin: 10px 5px 60px;
-    color: #888;
-      text-decoration: none;
-      cursor: pointer;
+  font-size: 15px;
+  font-weight: 500;
+  max-width: 200px;
+  margin: 10px 5px 60px;
+  color: #888;
+  text-decoration: none;
+  cursor: pointer;
+
+
+  &:focus-visible {
+    outline: 2px solid $arrowBlue;
+    outline-offset: 4px;
+    color: $arrowBlue;
+
+  
+
+  }
 
 }
 
@@ -18,48 +28,46 @@
 }
 
 .squareB {
-    margin: 0;
-    width: 10px;
-    height: 10px;
-    background: black;
+  margin: 0;
+  width: 10px;
+  height: 10px;
+  background: black;
 }
 
 .squareW {
-    margin: 0;
-    width: 10px;
-    height: 10px;
-    background: white;
+  margin: 0;
+  width: 10px;
+  height: 10px;
+  background: white;
 }
 
 .headingStyles {
-    margin-top: 20px;
-    text-align: center;
-    justify-self: center;
-    font-size: 2em;
-    font-variant: small-caps;
-    text-decoration: none;
-    color: #333;
+  margin-top: 20px;
+  text-align: center;
+  justify-self: center;
+  font-size: 2em;
+  font-variant: small-caps;
+  text-decoration: none;
+  color: #333;
 
 }
 
 .animatedText {
   position: relative;
   color: black;
-  background: linear-gradient(
-    90deg,
-    black 0%,
-    black 45%,
-    $arrowBlue 50%,
-    black 55%,
-    black 100%
-  );
+  background: linear-gradient(90deg,
+      black 0%,
+      black 45%,
+      $arrowBlue 50%,
+      black 55%,
+      black 100%);
   background-size: 200% 100%;
   -webkit-background-clip: text;
   background-clip: text;
   -webkit-text-fill-color: transparent;
   will-change: background-position;
   cursor: pointer; // Add cursor to indicate it's interactive
-  
+
   // Add highlight effect on hover for clearer feedback
   &:hover {
     text-shadow: 0 0 1px rgba(51, 102, 205, 0.2);
