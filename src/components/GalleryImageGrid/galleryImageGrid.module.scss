@@ -218,8 +218,8 @@
 }
 
 :global(.nav-arrow-svg) {
-    width: 20px;
-    height: 20px;
+    width: 32x;
+    height: 32px;
     fill: white;
     stroke: white;
     stroke-width: 1px;
@@ -227,10 +227,7 @@
 
 /* Responsive adjustments for mobile */
 @media (max-width: 600px) {
-    :global(.persistent-nav button) {
-        width: 40px;
-        height: 40px;
-    }
+    
     
     :global(.persistent-prev) {
         left: 0.5rem;
@@ -247,7 +244,6 @@
     top: 50%;
     transform: translateY(-50%);
     background-color: rgba(0, 0, 0, 0.5);
-    border: 1px solid $arrowBlue;
     width: 60px;
     height: 90px;
     border-radius: 12px;  /* Less rounded for a more rectangular shape */
@@ -290,8 +286,8 @@
 }
 
 :global(.nav-arrow-svg) {
-    width: 30px;  /* Larger icon */
-    height: 30px;
+    width: 42px;  /* Larger icon */
+    height: 42px;
     stroke: white;
     stroke-width: 2px;
     stroke-linecap: round;
@@ -319,10 +315,11 @@
 @media (max-width: 768px) {
     :global(.persistent-nav button) {
         width: 52px;
-        height: 46px;
+        height: 70px;
+        border: none;
         border-radius: 10px;
         background-color: rgba(0, 0, 0, 0.6);
-        opacity: 0.9;
+        opacity: 0.66;
     }
     
     :global(.persistent-prev) {
@@ -334,8 +331,8 @@
     }
     
     :global(.nav-arrow-svg) {
-        width: 24px;
-        height: 24px;
+        width: 32px;
+        height: 32px;
     }
 }
 
@@ -343,6 +340,6 @@
 @media (max-width: 480px) {
     :global(.persistent-nav button) {
         width: 46px;
-        height: 42px;
+        height: 70px;
     }
 }
