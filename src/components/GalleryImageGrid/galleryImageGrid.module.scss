@@ -47,7 +47,9 @@
 }
 
 .hiddenBatch {
-    display: none;
+    display: none !important; /* Use !important to ensure it takes precedence */
+    visibility: hidden;       /* Add visibility for extra certainty */
+    opacity: 0;              /* Add opacity as a backup hiding method */
 }
 
 #loadingTrigger {

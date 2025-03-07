@@ -35,19 +35,7 @@ function getDateFromFilename(filename: string) {
 ---
 
 <style>
-    .imageGrid {
-        display: grid;
-        grid-template-columns: repeat(auto-fill, minmax(200px, 1fr));
-        justify-items: center;
-        padding-left: 2rem;
-        padding-right: 2rem;
-        gap: 1rem;
-        margin: 0 auto;
-    }
 
-    .thumbnail {
-        grid-column: span 1;
-    }
 
     .landscape {
         grid-column: span 2;
@@ -62,41 +50,6 @@ function getDateFromFilename(filename: string) {
         }
     }
 
-    /* at lower than 600px, the grid will be 1 column */
-    @media (max-width: 600px) {
-        .imageGrid {
-            grid-template-columns: 100%;
-        }
-        .landscape {
-            grid-column: span 1;
-            margin: 0 auto;
-        }
-    }
-
-    .thumbnail {
-        transition: all 0.354s ease-in-out;
-        box-shadow:
-            rgba(0, 0, 0, 0.25) 0px 0.0625em 0.0625em,
-            rgba(0, 0, 0, 0.25) 0px 0.125em 0.5em,
-            rgba(255, 255, 255, 0.1) 0px 0px 0px 1px inset;
-        opacity: 100%;
-        cursor: pointer;
-        border: 4px solid white;
-
-        img {
-            width: 100%;
-            height: 100%;
-
-            object-fit: cover;
-            margin: 0 auto;
-            display: block;
-        }
-    }
-
-    .thumbnail:hover {
-        opacity: 50%;
-        z-index: 200;
-    }
 
     :global(.lightbox-arrow {
         position: fixed;
@@ -142,106 +95,11 @@ function getDateFromFilename(filename: string) {
         display: none;
     }
 
-    :global(.app-lightbox) {
-        background: rgba(0, 0, 0, 0.9) !important;
-    }
-
-    :global(.app-lightbox img) {
-        max-height: 90vh !important;
-        width: 100%;
-        object-fit: contain;
-    }
-
-    :global(.app-lightbox) {
-        cursor: default !important;
-    }
-
-    :global(.app-lightbox-close) {
-        color: white !important;
-        font-size: 2rem !important;
-    }
-
-    :global(.app-lightbox-nav) {
-        position: fixed;
-        top: 50%;
-        padding: 1rem;
-        transform: translateY(-50%);
-        background: rgba(255, 255, 255, 0.8);
-        border: none;
-        font-size: 3rem;
-        cursor: pointer;
-        z-index: 100222;
-        color: black;
-        transition: background-color 0.2s;
-        height: 100%;
-    }
-
-    :global(.app-lightbox-nav:hover) {
-        background: rgba(255, 255, 255, 1);
-    }
-
-    :global(.app-lightbox-prev) {
-        left: 0;
-
-        span {
-            transform: translateX(100%);
-        }
-    }
-
-    :global(.app-lightbox-next) {
-        right: 0;
-    }
-
-    :global(.persistent-nav) {
-        position: fixed;
-        top: 0;
-        left: 0;
-        width: 100%;
-        height: 100%;
-        pointer-events: none;
-        z-index: 100222;
-        display: none;
-    }
-
-    :global(.persistent-nav.visible) {
-        display: block;
-    }
-
-    :global(.persistent-nav button) {
-        position: fixed;
-        top: 50%;
-        transform: translateY(-50%);
-        background: rgba(255, 255, 255, 0.3);
-        border: none;
-        padding: 1rem;
-        font-size: 2rem;
-        cursor: pointer;
-        pointer-events: auto;
-        height: 5rem;
-        transition: background-color 0.2s;
-        -webkit-tap-highlight-color: transparent;
-    }
-
-    @media (hover: hover) {
-        :global(.persistent-nav button:hover) {
-            background: rgba(255, 255, 255, 1);
-        }
-    }
-
-    :global(.persistent-nav button:active) {
-        background: rgba(255, 255, 255, 0.9);
-    }
-
-    :global(.persistent-prev) {
-        left: 1rem;
-    }
-
-    :global(.persistent-next) {
-        right: 1rem;
-    }
 </style>
 
-<script define:vars={{ allImageData, BATCH_SIZE, totalBatches, styles: { hiddenBatch: styles.hiddenBatch } }}>
+<script define:vars={{ allImageData, BATCH_SIZE, totalBatches, styles }}>
+
+
     function checkImageOrientation(thumbnail) {
         const img = thumbnail.querySelector("img");
 
@@ -266,25 +124,42 @@ function getDateFromFilename(filename: string) {
     }
 
     function showNextBatch() {
-        if (currentBatch >= totalBatches) return;
+        if (currentBatch >= totalBatches) {
+            // Hide loading indicator when we're done
+            document.getElementById("loading-indicator").style.display = "none";
+            return;
+        }
 
+        // Show loading indicator when loading a batch
+        const loadingIndicator = document.getElementById("loading-indicator");
+        loadingIndicator.style.display = "block";
+
+
+        
         const thumbnails = document.querySelectorAll(`.batch-${currentBatch}`);
+
+        
         thumbnails.forEach((thumbnail) => {
-            // Fix: Use the CSS module class name from styles object
+            // Use proper class name for hiding/showing - this is likely the issue
             thumbnail.classList.remove(styles.hiddenBatch);
             checkImageOrientation(thumbnail);
         });
 
         currentBatch++;
         
+        // Hide loading indicator after a short delay
+        setTimeout(() => {
+            loadingIndicator.style.display = "none";
+        }, 300);
+        
         // If we still have more batches and we're near the bottom, load the next batch too
         if (currentBatch < totalBatches) {
             const scrollPosition = window.innerHeight + window.scrollY;
-            const pageBottom = document.documentElement.scrollHeight - 300;
+            const pageBottom = document.documentElement.scrollHeight - 500; // Increased threshold
             
             if (scrollPosition >= pageBottom) {
-                // Load next batch immediately if we're already near the bottom
-                setTimeout(showNextBatch, 100);
+                // Load next batch with a small delay
+                setTimeout(showNextBatch, 300);
             }
         }
     }
@@ -299,7 +174,7 @@ function getDateFromFilename(filename: string) {
         if (currentBatch < totalBatches) {
             showNextBatch();
         }
-    }, 500);
+    }, 800); // Increased delay to ensure DOM is ready
 
     // Enhanced scroll handler with debounce
     let scrollTimeout;
@@ -307,20 +182,21 @@ function getDateFromFilename(filename: string) {
         if (scrollTimeout) return;
 
         scrollTimeout = setTimeout(() => {
-            // Trigger batch loading when user scrolls to 70% of the current view
+            // Trigger batch loading when user scrolls to 80% of the current view
             const scrollPosition = window.innerHeight + window.scrollY;
-            const pageBottom = document.documentElement.scrollHeight - (window.innerHeight * 0.3);
+            const pageBottom = document.documentElement.scrollHeight - (window.innerHeight * 0.2);
 
             if (scrollPosition >= pageBottom) {
                 showNextBatch();
             }
             scrollTimeout = null;
-        }, 100);
+        }, 200); // Increased debounce time
     }
 
     window.addEventListener("scroll", handleScroll);
+    
     // Initial check in case the page isn't tall enough to scroll
-    setTimeout(handleScroll, 300);
+    setTimeout(handleScroll, 600);
 
     function setupLightboxNavigation() {
         let currentIndex = 0;
@@ -460,6 +336,7 @@ function getDateFromFilename(filename: string) {
                             { [styles.hiddenBatch]: batchNumber > 0 },
                         ]}
                         data-lightbox="true"
+                        data-batch={batchNumber}
                         id={`${imageData.path}-thumbnail`}
                     >
                         <Image
@@ -475,8 +352,16 @@ function getDateFromFilename(filename: string) {
         }
     </div>
     
-    {/* Add a loading indicator at the bottom */}
-    <div id="loading-indicator" style="text-align: center; padding: 20px; display: none;">
-        Loading more images...
+    {/* Improved loading indicator */}
+    <div id="loading-indicator" style="text-align: center; padding: 20px; margin-top: 20px; display: none; color: #333;">
+        <div style="display: inline-block; width: 20px; height: 20px; border: 3px solid #3366cd; border-radius: 50%; border-top-color: transparent; animation: spin 1s linear infinite;"></div>
+        <div style="margin-top: 10px;">Loading more images...</div>
     </div>
+
+    <style is:inline>
+        @keyframes spin {
+            0% { transform: rotate(0deg); }
+            100% { transform: rotate(360deg); }
+        }
+    </style>
 </>
