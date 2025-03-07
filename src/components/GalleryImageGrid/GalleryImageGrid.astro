@@ -227,16 +227,27 @@ function getDateFromFilename(filename: string) {
         const navContainer = document.createElement("div");
         navContainer.className = "persistent-nav";
 
+        // Create previous button with improved SVG icon
         const prev = document.createElement("button");
-        prev.innerHTML = "&#10094;"; // Left arrow entity
         prev.setAttribute("aria-label", "Previous image");
         prev.className = "persistent-prev";
+        prev.innerHTML = `
+            <svg class="nav-arrow-svg" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
+                <path d="M15 18l-6-6 6-6" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+            </svg>
+        `;
 
+        // Create next button with improved SVG icon
         const next = document.createElement("button");
-        next.innerHTML = "&#10095;"; // Right arrow entity
         next.setAttribute("aria-label", "Next image");
         next.className = "persistent-next";
+        next.innerHTML = `
+            <svg class="nav-arrow-svg" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
+                <path d="M9 18l6-6-6-6" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+            </svg>
+        `;
 
+        // Add buttons to container
         navContainer.appendChild(prev);
         navContainer.appendChild(next);
         document.body.appendChild(navContainer);
