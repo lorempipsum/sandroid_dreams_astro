@@ -30,8 +30,20 @@
     }
 
     &:hover {
-        opacity: 50%;
+        opacity: 80%;
         z-index: 200;
+        outline: 4px solid $martiniPink;
+
+        border: 0px solid white;
+
+    }
+
+    &:focus-visible {
+        outline: 4px solid $martiniPink;
+        border: 0px solid white;
+        opacity: 80%;
+
+
     }
 }
 
