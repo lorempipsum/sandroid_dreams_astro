@@ -3,10 +3,10 @@ import { useSpring, animated } from 'react-spring';
 import Logo from './Logo';
 import styles from './Title.module.scss';
 
-export const Title = ({ title }: {title: string}) => {
+export const Title = ({ title }: { title: string }) => {
   // Add hover state
   const [isHovered, setIsHovered] = useState(false);
-  
+
   // Create the color wave animation that activates on hover
   const props = useSpring({
     // Start from left, move to right on hover
@@ -15,7 +15,7 @@ export const Title = ({ title }: {title: string}) => {
     config: { duration: isHovered ? 1500 : 0 },
     immediate: !isHovered,
   });
-  
+
   const isLinkSectionShown = true;
 
   return (
@@ -27,7 +27,7 @@ export const Title = ({ title }: {title: string}) => {
         className={styles.headingStyles}
         href="/"
       >
-        <animated.span 
+        <animated.span
           className={styles.animatedText}
           style={props}
           onMouseEnter={() => setIsHovered(true)}
@@ -38,7 +38,22 @@ export const Title = ({ title }: {title: string}) => {
       </a>
       {isLinkSectionShown && (
         <div className={styles.as}>
-        
+          <a
+            href="/blog/worms-3-armageddon-rick-and-morty/"
+            className={
+              styles.subtitleText
+            }
+          >
+            Worms 3 Soundpack
+          </a>
+          <a
+            href="/blog/interactive-art-idea-generator/"
+            className={
+              styles.subtitleText
+            }
+          >
+            Ideagenerator
+          </a>
           <a
             href="/experiments/strava"
             className={
@@ -55,24 +70,24 @@ export const Title = ({ title }: {title: string}) => {
           >
             Binder
           </a>
-          {false && 
-          <a
-            href="/about"
-            className={
-              styles.subtitleText
-            }
-          >
-            About
-          </a>}
-          {false && 
-          <a
-            href="/friends"
-            className={
-              styles.subtitleText
-            }
-          >
-            Friends
-          </a>}
+          {false &&
+            <a
+              href="/about"
+              className={
+                styles.subtitleText
+              }
+            >
+              About
+            </a>}
+          {false &&
+            <a
+              href="/friends"
+              className={
+                styles.subtitleText
+              }
+            >
+              Friends
+            </a>}
           <a
             href="/plotting/everything"
             className={

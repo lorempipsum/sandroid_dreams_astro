@@ -1,7 +1,7 @@
 import { useState } from "react"
 import Button from "../Button/Button"
 
-import styles from "./ideaGenerator.module.css"
+import styles from "./ideaGenerator.module.scss"
 
 const SENSORS = ['Capacative Touch', 'Video Feed', 'Audio Feed', 
     'Distance Sensor', 'Temperature Sensor', 'Humidity Sensor',
