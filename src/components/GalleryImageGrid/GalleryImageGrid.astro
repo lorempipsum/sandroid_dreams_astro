@@ -241,7 +241,7 @@ function getDateFromFilename(filename: string) {
     }
 </style>
 
-<script define:vars={{ allImageData, BATCH_SIZE, totalBatches }}>
+<script define:vars={{ allImageData, BATCH_SIZE, totalBatches, styles: { hiddenBatch: styles.hiddenBatch } }}>
     function checkImageOrientation(thumbnail) {
         const img = thumbnail.querySelector("img");
 
@@ -270,26 +270,46 @@ function getDateFromFilename(filename: string) {
 
         const thumbnails = document.querySelectorAll(`.batch-${currentBatch}`);
         thumbnails.forEach((thumbnail) => {
-            thumbnail.classList.remove("hidden-batch");
+            // Fix: Use the CSS module class name from styles object
+            thumbnail.classList.remove(styles.hiddenBatch);
             checkImageOrientation(thumbnail);
         });
 
         currentBatch++;
+        
+        // If we still have more batches and we're near the bottom, load the next batch too
+        if (currentBatch < totalBatches) {
+            const scrollPosition = window.innerHeight + window.scrollY;
+            const pageBottom = document.documentElement.scrollHeight - 300;
+            
+            if (scrollPosition >= pageBottom) {
+                // Load next batch immediately if we're already near the bottom
+                setTimeout(showNextBatch, 100);
+            }
+        }
     }
 
     let currentBatch = 1;
 
     // Check first batch immediately
     document.querySelectorAll(".batch-0").forEach(checkImageOrientation);
+    
+    // Pre-load the second batch after a short delay
+    setTimeout(() => {
+        if (currentBatch < totalBatches) {
+            showNextBatch();
+        }
+    }, 500);
 
-    // Throttle scroll handler
+    // Enhanced scroll handler with debounce
     let scrollTimeout;
     function handleScroll() {
         if (scrollTimeout) return;
 
         scrollTimeout = setTimeout(() => {
+            // Trigger batch loading when user scrolls to 70% of the current view
             const scrollPosition = window.innerHeight + window.scrollY;
-            const pageBottom = document.documentElement.scrollHeight - 500;
+            const pageBottom = document.documentElement.scrollHeight - (window.innerHeight * 0.3);
 
             if (scrollPosition >= pageBottom) {
                 showNextBatch();
@@ -299,7 +319,8 @@ function getDateFromFilename(filename: string) {
     }
 
     window.addEventListener("scroll", handleScroll);
-    setTimeout(handleScroll, 100);
+    // Initial check in case the page isn't tall enough to scroll
+    setTimeout(handleScroll, 300);
 
     function setupLightboxNavigation() {
         let currentIndex = 0;
@@ -331,11 +352,13 @@ function getDateFromFilename(filename: string) {
         navContainer.className = "persistent-nav";
 
         const prev = document.createElement("button");
-        prev.innerHTML = "<";
+        prev.innerHTML = "&#10094;"; // Left arrow entity
+        prev.setAttribute("aria-label", "Previous image");
         prev.className = "persistent-prev";
 
         const next = document.createElement("button");
-        next.innerHTML = ">";
+        next.innerHTML = "&#10095;"; // Right arrow entity
+        next.setAttribute("aria-label", "Next image");
         next.className = "persistent-next";
 
         navContainer.appendChild(prev);
@@ -343,10 +366,13 @@ function getDateFromFilename(filename: string) {
         document.body.appendChild(navContainer);
 
         function updateThumbnails() {
-            thumbnails = Array.from(document.querySelectorAll(".thumbnail"));
+            // Fix: Use [data-lightbox="true"] to select all thumbnails regardless of CSS module class name
+            thumbnails = Array.from(document.querySelectorAll('[data-lightbox="true"]'));
         }
 
         function navigate(direction) {
+            if (isTransitioning || thumbnails.length === 0) return;
+            
             const nextIndex =
                 (currentIndex + direction + thumbnails.length) %
                 thumbnails.length;
@@ -356,12 +382,23 @@ function getDateFromFilename(filename: string) {
             if (lightbox) {
                 createTransitionClone(lightbox);
                 lightbox.querySelector(".app-lightbox-close")?.click();
-                setTimeout(() => thumbnails[nextIndex].click(), 50);
+                
+                // Add a small delay to ensure lightbox closes before opening again
+                setTimeout(() => {
+                    thumbnails[nextIndex].click();
+                }, 50);
             }
         }
 
-        prev.onclick = () => navigate(-1);
-        next.onclick = () => navigate(1);
+        prev.onclick = (e) => {
+            e.stopPropagation();
+            navigate(-1);
+        };
+        
+        next.onclick = (e) => {
+            e.stopPropagation();
+            navigate(1);
+        };
 
         // Watch for lightbox state
         const lightboxElement = document.querySelector(".app-lightbox");
@@ -411,16 +448,16 @@ function getDateFromFilename(filename: string) {
 <>
     <Lightbox class="app-lightbox" />
 
-    <div class="imageGrid">
+    <div class={styles.imageGrid}>
         {
             allImageData.map((imageData, index) => {
                 const batchNumber = Math.floor(index / BATCH_SIZE);
                 return (
                     <div
                         class:list={[
-                            "thumbnail",
+                            styles.thumbnail,
                             `batch-${batchNumber}`,
-                            { "hidden-batch": batchNumber > 0 },
+                            { [styles.hiddenBatch]: batchNumber > 0 },
                         ]}
                         data-lightbox="true"
                         id={`${imageData.path}-thumbnail`}
@@ -430,11 +467,16 @@ function getDateFromFilename(filename: string) {
                             alt="thumbnail"
                             width={imageData.image.width}
                             height={imageData.image.height}
-                            loading="lazy"
+                            loading={batchNumber === 0 ? "eager" : "lazy"}
                         />
                     </div>
                 );
             })
         }
+    </div>
+    
+    {/* Add a loading indicator at the bottom */}
+    <div id="loading-indicator" style="text-align: center; padding: 20px; display: none;">
+        Loading more images...
     </div>
 </>
