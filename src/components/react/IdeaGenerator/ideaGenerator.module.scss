@@ -1,53 +1,178 @@
+@import '../../../styles/colors.scss';
+
 .central {
     display: flex;
     justify-content: center;
     align-items: center;
-
     flex-direction: column;
     gap: 2rem;
+    width: 100%;
+    max-width: 800px;
+    margin: 0 auto;
+    padding: 2rem 1rem;
+    padding-bottom: 5rem;
 }
 
 .ideaCard {
     position: relative;
-    align-items: center;
+    display: flex;
+    flex-direction: column;
+    justify-content: space-evenly;
 
-    width: 300px;
-    height: 400px;
-    padding: 1rem;
-    border-radius: 10px;
-    border: 2px solid black;
-    box-shadow: 0 0 10px hsla(60, 0%, 46%, 0.816);
+    width: 100%;
+    max-width: 400px;
+
+    padding: 2rem;
+    border-radius: 16px;
+    background: linear-gradient(145deg, #ffffff, #f0f0f0);
+    box-shadow: 
+        rgba(0, 0, 0, 0.1) 0px 10px 20px,
+        rgba(0, 0, 0, 0.06) 0px 6px 6px,
+        inset 0 0 0 2px rgba(255, 255, 255, 0.5);
+    transition: all 0.3s ease;
+    
+    &:hover {
+        transform: translateY(-5px);
+        box-shadow: 
+            rgba(0, 0, 0, 0.15) 0px 15px 25px,
+            rgba(0, 0, 0, 0.08) 0px 10px 10px,
+            inset 0 0 0 2px rgba(255, 255, 255, 0.8);
+    }
 
     .inputs {
-      /* Make each input central horizontally */
         display: flex;
-        flex-direction: column;
+        flex-wrap: wrap;
         justify-content: center;
-        gap: 1rem;
-        text-align: center;
-        font-size: 1.5rem;
-        
-        margin-top: 2rem;
-        margin-bottom: 1rem;
-
+        gap: 0.8rem;
+        margin-bottom: 2rem;
         
         .input {
-            width: 100%;
+            padding: 0.5rem 1rem;
+            border-radius: 30px;
+            font-weight: 600;
+            font-size: 1rem;
+            text-align: center;
+            color: white;
+            box-shadow: 0 3px 6px rgba(0, 0, 0, 0.1);
+            transition: all 0.2s ease;
+            
+            &:nth-child(1) {
+                background-color: $arrowBlue;
+            }
+            
+            &:nth-child(2) {
+                background-color: $objectOrange;
+            }
+            
+            &:nth-child(3) {
+                background-color: $martiniPink;
+            }
+            
+            &:hover {
+                transform: scale(1.05);
+                box-shadow: 0 5px 12px rgba(0, 0, 0, 0.15);
+            }
         }
     }
 
     .idea {
         text-align: center;
-        border: 1px solid black;
-        border-radius: 5px;
+        padding: 1.5rem;
+        border-radius: 12px;
+        background: linear-gradient(to bottom right, rgba(255,255,255,0.8), rgba(240,240,240,0.5));
+        backdrop-filter: blur(5px);
+        border: 1px solid rgba(255,255,255,0.6);
+        box-shadow: 
+            rgba(0, 0, 0, 0.06) 0px 2px 4px,
+            inset 0 0 0 1px rgba(255, 255, 255, 0.7);
+        font-size: 1.2rem;
+        line-height: 1.5;
+        font-weight: 500;
+        color: #333;
+    }
+}
 
+.generateButton {
+    position: relative;
+    padding: 0.8rem 2rem;
+    font-size: 1.1rem;
+    font-weight: 600;
+    color: white;
+    background: linear-gradient(135deg, $martiniPink, darken($martiniPink, 10%));
+    border: none;
+    border-radius: 50px;
+    cursor: pointer;
+    box-shadow: 0 4px 15px rgba($martiniPink, 0.4);
+    transition: all 0.3s ease;
+    outline: none;
+    overflow: hidden;
+    
+    &::before {
+        content: '';
         position: absolute;
-        bottom: 3rem;
-        left: 1rem;
-        right: 1rem;
-        padding: 1rem;
-
-        font-size: 1.1rem;
+        top: 0;
+        left: 0;
+        width: 100%;
+        height: 100%;
+        background: linear-gradient(to right, transparent, rgba(255,255,255,0.2), transparent);
+        transform: translateX(-100%);
+    }
+    
+    &:hover {
+        transform: translateY(-3px);
+        box-shadow: 0 6px 20px rgba($martiniPink, 0.5);
         
+        &::before {
+            transform: translateX(100%);
+            transition: transform 0.8s ease;
+        }
+    }
+    
+    &:active {
+        transform: translateY(1px);
+        box-shadow: 0 2px 10px rgba($martiniPink, 0.3);
+    }
+}
+
+/* Animation for the idea card */
+@keyframes fadeIn {
+    from {
+        opacity: 0;
+        transform: translateY(20px);
+    }
+    to {
+        opacity: 1;
+        transform: translateY(0);
+    }
+}
+
+.fadeIn {
+    animation: fadeIn 0.5s ease forwards;
+}
+
+/* Responsive adjustments */
+@media (max-width: 600px) {
+    .ideaCard {
+        padding: 1.5rem;
+
+        
+        .inputs {
+            gap: 0.6rem;
+            
+            .input {
+                font-size: 0.9rem;
+                padding: 0.4rem 0.8rem;
+            }
+        }
+        
+        .idea {
+            font-size: 1.1rem;
+            padding: 1.2rem;
+        }
+    }
+    
+    .generateButton {
+        padding: 0.7rem 1.8rem;
+        font-size: 1rem;
     }
 }
