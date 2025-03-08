@@ -1,5 +1,10 @@
 ---
 if (Astro.url.pathname === "/") {
-    return Response.redirect(`${Astro.url.origin}/photography/everything`, 307);
+    return new Response(null, {
+        status: 307,
+        headers: {
+            'Location': `${Astro.url.origin}/photography/everything`
+        }
+    });
 }
 ---
