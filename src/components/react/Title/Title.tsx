@@ -105,6 +105,14 @@ export const Title = ({ title }: { title: string }) => {
             Photography
           </a>
           <a
+            href="/photography/inspiration-spring"
+            className={
+              styles.subtitleText
+            }
+          >
+            Spring Moodboard
+          </a>
+          <a
             href="https://instagram.com/sandroid_dreams"
             className={
               styles.subtitleText
