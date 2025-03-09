@@ -4,6 +4,8 @@
 @import url('https://fonts.googleapis.com/css2?family=Space+Mono:wght@400;700&display=swap');
 @import "colors.scss";
 
+
+
 :root {
   // Define font variables
   --font-family-main: 'IBM Plex Mono', monospace;
@@ -81,11 +83,6 @@ p {
     border: 2px dashed red;
 }
 
-/* Reset all margins to ensure consistency in css */
-body, div, dl, dt, dd, ul, ol, li, h1, h2, h3, h4, h5, h6, pre, form, fieldset, p, blockquote, th, td {
-    margin: 0;
-    padding: 0;
-}
 
 html {
     /* show scrollbar regardless of page height */

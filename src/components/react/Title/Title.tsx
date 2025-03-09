@@ -113,6 +113,14 @@ export const Title = ({ title }: { title: string }) => {
             Spring Moodboard
           </a>
           <a
+            href="/blog/bookmarks"
+            className={
+              styles.subtitleText
+            }
+          >
+            Bookmarks
+          </a>
+          <a
             href="https://instagram.com/sandroid_dreams"
             className={
               styles.subtitleText
