@@ -37,7 +37,7 @@ export const Title = ({ title }: { title: string }) => {
         </animated.span>
       </a>
       {isLinkSectionShown && (
-        <div className={styles.as}>
+        <div className={styles.navigation}>
           <a
             href="/blog/worms-3-armageddon-rick-and-morty/"
             className={

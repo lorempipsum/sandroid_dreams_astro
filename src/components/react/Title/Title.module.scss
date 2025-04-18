@@ -4,7 +4,6 @@
   font-size: 15px;
   font-weight: 500;
   max-width: 200px;
-  margin: 10px 5px 60px;
   color: #888;
   text-decoration: none;
   cursor: pointer;
@@ -72,4 +71,17 @@
   &:hover {
     text-shadow: 0 0 1px rgba(51, 102, 205, 0.2);
   }
+}
+
+.navigation {
+
+
+  display: flex;
+
+  flex-wrap: wrap;
+  gap: 10px;
+  justify-content: center;
+
+  -webkit-overflow-scrolling: touch; // Smooth scrolling for iOS
+
 }

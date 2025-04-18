@@ -4,7 +4,7 @@ date: "2025-03-08"
 title: "Spring Moodboard"
 tags: ["photography"]
 ---
-import {Image} from 'astro:assets';
+
 import DummyComponent from '../../components/DummyComponent/DummyComponent.astro';
 import GalleryImageGrid from "../../components/GalleryImageGrid/GalleryImageGrid.astro";
 
@@ -13,6 +13,6 @@ export const images = import.meta.glob(
 
 <DummyComponent />
 
-<h1 style={{ marginBottom: "2rem" }}>Spring Moodboard</h1>
+# {props.title}
 
 <GalleryImageGrid images={images} ></GalleryImageGrid>

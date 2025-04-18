@@ -1,5 +1,6 @@
 ---
 import GalleryLayout from "../components/react/Layout/GalleryLayout.jsx";
+import RootLayout from "./RootLayout.astro";
 const { frontmatter } = Astro.props;
 
 const pageTitle = frontmatter
@@ -9,13 +10,8 @@ const pageTitle = frontmatter
     : Astro.props.title;
 ---
 
-<GalleryLayout title={pageTitle} client:load>
-    <head
-        ><meta
-            charset="utf-8"
-            name="viewport"
-            content="width=device-width"
-        /></head
-    >
-    <slot />
-</GalleryLayout>
+<RootLayout title={pageTitle}>
+    <GalleryLayout title={pageTitle} client:load>
+        <slot />
+    </GalleryLayout>
+</RootLayout>
