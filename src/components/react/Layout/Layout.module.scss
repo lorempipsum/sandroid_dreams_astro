@@ -1,6 +1,6 @@
 .main {
+  margin-top: 16px;
     display: grid;
-    margin: 3vh auto auto;
     grid-template-columns:
     minmax(0, auto) min(800px, 95vw) minmax(0, auto);
 
@@ -61,6 +61,9 @@
   justify-content: center;
 }
 
+body {
+  margin: 0; // reset user agent stylesheet margin
+}
 
 
 p {
