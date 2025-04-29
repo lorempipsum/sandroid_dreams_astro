@@ -4,7 +4,7 @@
   font-size: 15px;
   font-weight: 500;
   max-width: 200px;
-  color: #888;
+  color: #888 !important;
   text-decoration: none;
   cursor: pointer;
 
@@ -13,16 +13,13 @@
     outline: 2px solid $arrowBlue;
     outline-offset: 4px;
     color: $arrowBlue;
-
-  
-
   }
 
 }
 
 
 .subtitleText:hover {
-  color: $arrowBlue;
+  color: $arrowBlue !important;
   border-bottom: 1px solid $arrowBlue;
 }
 

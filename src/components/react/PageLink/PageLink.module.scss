@@ -9,7 +9,7 @@
   
   .linkTextStyle {
     text-decoration: none;
-    color: #333;
+    color: #333; // overwrite default link colour as these will be the only things on the page
 
     &:hover {
     color: (darken($arrowBlue, 10%));
