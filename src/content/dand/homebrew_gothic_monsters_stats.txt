@@ -1,0 +1,1357 @@
+<style>
+  .phb#p1{ text-align:center; }
+  .phb#p1:after{ display:none; }
+</style>
+
+<div style='margin-top:250px;'></div>
+
+# Monsters of Myrtana
+
+<img class="centered-and-cropped" width="500" height="600" 
+  style="border-radius:40%;position:absolute;bottom:220px;right:150px;" src="https://images-wixmp-ed30a86b8c4ca887773594c2.wixmp.com/intermediary/f/618de327-8916-404a-ba44-65cb360d1756/d5n48f0-4ad0e931-3c76-4e16-8671-54cef49fb19e.jpg/v1/fill/w_1032,h_774,q_70,strp/gothic_i__crawler_queen_by_scerg_d5n48f0-pre.jpg" style='position:absolute;bottom:9px;right:-200px;width:800px'>
+
+
+
+<div class='wide'></div>
+<span style="position: absolute; bottom: 60px; left: 0px">
+___
+> ##### Kingdom of Myrtana, united by Rhobar II is great  realm spaning all the tillable land on the continent.
+>#####  It's beautiful meadows and forests bordering only the frozen peaks of Nordmar on the north and the scorching sandy wastes of Varant in the south, ruling over the nearby islands. 
+>#####  In this short treatise we will go through the through the most interesting beasts native to this area. 
+
+
+</span>
+
+\page
+
+# Annelids
+
+### Swamp sharks
+
+Swamp sharks, despite their name are not species of sharks, but rather overgrown carnivore annelids that inhabit marshlands, swamps, mangrove woods and similar flooded areas. 
+
+They may be slow on solid ground, but they are fast as lightning in the water. 
+
+They might not possess any eyes, but esn't mean they would be any less precise bites with their monstrous jawless maws full of tiny razor sharp teeth.
+
+that doThanks to their uncanny ability to blend in the muddy waters of their habitat, they have reputation of appearing seemingly out of thin air in front of unsuspecting victim.
+
+They tend to hunt and rest in groups of less then ten individuals.
+
+```
+```
+  ___
+> ## Swampshark
+>*Large beast, Unaligned *
+> ___
+> - **Armor Class** 11
+> - **Hit Points** 50 (10d10)
+> - **Speed** 10ft., swimming 30ft.
+>___
+>|STR|DEX|CON|INT|WIS|CHA|
+>|:---:|:---:|:---:|:---:|:---:|:---:|
+>|15 (+2)|12 (+1)|10 (+0)|3 (-4)|14 (+2)|1 (-5)|
+>___
+> - **Damage Immunities** Bludgeoning, Piercing, And Slashing From Nonmagical Weapons.
+> - **Senses** Blindsight 120ft.(Blind Beyond This Radius), passive Perception 12
+> - **Challenge** 2 (450 XP)
+> ___
+> ***Skills.*** Stealth +3 
+>
+> ***Swamp Camouflage.*** The swampshark has advantage on Dexterit y (Stealth) checks made to hide in swampy terrain. 
+>
+> ***Ambusher.*** In the first round of a Combat, the Swapshark has advantage on Attack rolls against any creature it has surprised. 
+> ### Actions
+> ***Multiatack..*** Swampshark bites twice.
+>
+> ***Bite.*** *Melee Weapon Attack:* +4 to hit, reach 5ft., one target. *Hit* 13(2k10+2) piercing damage. 
+
+<br>
+
+
+<img class="centered-and-cropped" width="300" height="300" 
+  style="border-radius:90%;position:absolute;bottom:80px;right:50px;" src="https://images-wixmp-ed30a86b8c4ca887773594c2.wixmp.com/intermediary/f/618de327-8916-404a-ba44-65cb360d1756/d5zp44n-90a6f15d-9a47-47cd-863c-ea0e01753a83.jpg/v1/fill/w_1032,h_774,q_70,strp/gothic_i__swamp_by_scerg_d5zp44n-pre.jpg" style='position:absolute;bottom:9px;right:-200px;width:800px'>
+<br>
+<br>
+<br>
+<br>
+<br>
+<br>
+<br>
+<br>
+<br>
+<br>
+<br>
+<br>
+<br>
+<br>
+<br>
+<br>
+<br>
+<br>
+<br>
+<br>
+<br>
+
+*Swampshark.<br>-- scerg *
+\page
+
+
+# Insects
+
+### Minecrawlers
+Minecrawlers appear to be permanently enlarged species of insects akin to ants, or maybe termites. 
+
+They live deep underground, carving their nests into solid stone, through occasionally, they can be spotted above ground when they accidentally dig through the earth to the surface, of when some of their tunnels cave in. 
+
+The *mine* in their name comes from the fact they often breach into mine tunnels, wreaking havoc among the miners. Any mine that had been out of comisson for longer periods of time has more likely then not become fully transforemd into their nests.
+
+Their saliva and mandibles have minor magical properties and thus are sought after by alchemists.
+
+#### Minecrawler drone
+Minecrawler drones are the most numerous and the weakest members of the hive. They carve and maintain the tunnels and farm cave mushrooms. They also can mix crushed stone with their saliva to create rather sturdy reddish material out of which they create ramps and tubes when necessary.
+When forced to fight, they attack with their sharp-pointed front legs.
+#### Minecrawler warrior
+Minecrawler warriors, as the name suggest, are warrior caste of the hive. They protect the nest and the queen. There are some accounts of them devouring flesh of percieved threat to the hive, as well as sustaining themselves on the mushrooms, like their drone brethen do. 
+
+Their shell is somewhat harder and more robust then the shell of the drones. In fact, it's hard enough to make a decent armor of. Together with the fact their front legs have transformed into claws, it makes them appear more crustacean-like and less ant-like.
+
+#### Minecrawler queen
+Minecrawler queen look more or less like the drones, with the exception of their abdomen being incredibely swollen and overgrown, leaving the queen unable to move on it's own, as it is often the case with hive-based insects. To compensate for that, it's front legs are exceptionaly long.
+### Bloodflies
+
+Bloodflies are cat-sized hornet-like flying insects. Not much is known about their social structure, or if they create some sort of hives or nests. They ussually are seen in groups of five to ten. Their primary habitat seems to be marshlands, but they also are often seen in sunny meadows. They sustain themselves on the blood of animals they slay with their poisoned stings.
+
+
+
+<br>
+<br>
+```
+```
+### Field rairers
+
+Research shows these man-sized beatles might be relatives of the minecrawlers. Unlike the minecrawlers, they don't dwell underground, but rather on the surface. They are individualistic herbivores, and only concentrate on one spot when there is enough food for everyone, for example on fields. Especially corn fields.
+
+When in danger, they stand up on their hind four legs and attack with their shrap-pointed front legs. While they may pose danger to unprepared farmer, they are no match for anything else.
+
+### Meatbug
+
+One could hardly call these slightly overgrown rolly-pollies monsters. They are pretty much harmless and defenseless. They seem to be decomposers, since they often appear near filth or dumps. 
+
+They get their name from the fact they have more meat on them then other insects of their size, meat which is eadible and even tasty, considering what the bug sustains on. Given it's also attracted by filth, is known to be a staple of beggar's diet.
+<br>
+___
+> ## Meatbug
+>*Tiny beast, Unaligned*
+> ___
+> - **Armor Class** 1
+> - **Hit Points** 1
+> - **Speed** 5ft.
+>___
+>|STR|DEX|CON|INT|WIS|CHA|
+>|:---:|:---:|:---:|:---:|:---:|:---:|
+>|1 (-5)|3 (-4)|1 (-5)|1 (-5)|1 (-5)|1 (-5)|
+>___
+> - **Damage Immunities** fire
+> - **Senses** passive Perception 9
+> - **Challenge** – (0 XP)
+
+<br>
+<br>
+<br>
+<br>
+<br>
+<br>
+<br>
+<br>
+<br>
+<br>
+<br>
+<br>
+<br>
+<img class="centered-and-cropped" width="300" height="250" 
+  style="border-radius:90%;position:absolute;bottom:70px;right:50px;" src="https://cdnb.artstation.com/p/assets/model3ds/images/014/699/509/large/artur-jones-792e68f07bdf4da8b5a0890d6c9c7182.jpg?1545075985" style='position:absolute;bottom:9px;right:-200px;width:800px'>
+<br>
+*Meatbug.<br>-- Artur Jones*
+
+
+
+\page
+
+
+<br>
+ ___
+> ## Minecrawler drone
+>*Medium beast, Unaligned *
+> ___
+> - **Armor Class** 12
+> - **Hit Points** 15 (3d8+3)
+> - **Speed** 30ft., burrow 20ft.
+>___
+>|STR|DEX|CON|INT|WIS|CHA|
+>|:---:|:---:|:---:|:---:|:---:|:---:|
+>|12 (+1)|10 (+0)|12 (+1)|1 (-5)|8 (-1)|1 (-5)|
+>___
+> - **Damage Resistances** Piercing And Slashing From Nonmagical Weapons.
+> - **Senses** passive Perception 9
+> - **Challenge** 1/2 (100 XP)
+>
+> ### Actions
+> ***Multiatack..*** Minecrawler drone attacks once with it's bite and twice with it's legs.
+>
+> ***Bite.*** *Melee Weapon Attack:* +3 to hit, reach 0ft., one target. *Hit* 3(1d4+1) piercing damage. 
+>
+> ***Legs.*** *Melee Weapon Attack:* +3 to hit, reach 5ft., one target. *Hit* 3(1d4+1) piercing damage. 
+
+<br>
+ ___
+> ## Minecrawler queen
+>*Large beast, Unaligned *
+> ___
+> - **Armor Class** 11
+> - **Hit Points** 60 (12d10)
+> - **Speed** 0ft.
+>___
+>|STR|DEX|CON|INT|WIS|CHA|
+>|:---:|:---:|:---:|:---:|:---:|:---:|
+>|14 (+2)|10 (+0)|11 (+0)|1 (-5)|8 (-1)|1 (-5)|
+>___
+> - **Damage Resistances** Fire, Piercing And Slashing From Nonmagical Weapons.
+> - **Senses** passive Perception 9
+> - **Challenge** 2 (450 XP)
+> 
+>
+> ### Actions
+> ***Multiatack..*** Minecrawler drone attacks twice with it's legs.
+>
+> ***Bite.*** *Melee Weapon Attack:* +4 to hit, reach 0ft., one target. *Hit* 3(1d4+1) piercing damage. 
+>
+> ***Legs.*** *Melee Weapon Attack:* +4 to hit, reach 10ft., one target. *Hit* 15(3d8+1) piercing damage. 
+
+
+```
+```
+<br>
+<br>
+<br>
+<br>
+<br>
+<br>
+<br>
+<br>
+<br>
+<br>
+<br>
+<br>
+<br>
+<br>
+<br>
+<br>
+<br>
+<br>
+<br>
+<br>
+<img class="centered-and-cropped" width="300" height="300" 
+  style="border-radius:90%;position:absolute;top:50px;right:50px;" src="http://3.bp.blogspot.com/-Gqq1dys7Gxg/TlpdMl0MSfI/AAAAAAAAAIw/n2x8ly_kpoo/s1600/minecrawler-alt2.jpg" style='position:absolute;bottom:9px;right:-200px;width:800px'>
+
+*Minecrawler warrior.<br>-- Arcania: Gothic 4*
+
+<br>
+<br>
+<br>
+<br>
+ ___
+> ## Minecrawler warrior
+>*Medium beast, Unaligned *
+> ___
+> - **Armor Class** 15
+> - **Hit Points** 35 (5d8+15)
+> - **Speed** 30ft., burrow 20ft.
+>___
+>|STR|DEX|CON|INT|WIS|CHA|
+>|:---:|:---:|:---:|:---:|:---:|:---:|
+>|14 (+2)|10 (+0)|16 (+3)|1 (-5)|8 (-1)|1 (-5)|
+>___
+> - **Damage Resistances** Piercing, And Slashing From Nonmagical Weapons.
+> - **Senses** passive Perception 9
+> - **Challenge** 2 (450 XP)
+> ___
+> ***Skills.*** Stealth +3 
+>
+> ***Tuneller.*** The minecrawler warrior can Burrow through solid rock at half its Burrow speed and leaves a 8-foot-diameter tunnel in its wake. 
+>
+> ### Actions
+> ***Multiatack..*** Minecrawler drone attacks twice with it's claws.
+>
+> ***Bite.*** *Melee Weapon Attack:* +4 to hit, reach 0ft., one target. *Hit* 5(1d6 + 2) piercing damage. 
+>
+> ***Claws.*** *Melee Weapon Attack:* +4 to hit, reach 10ft., one target. *Hit* 5(1d6 + 2) bludgeoning damage.  
+
+
+\page
+
+<br>
+<br>
+<br>
+<br>
+<br>
+<br>
+<br>
+<br>
+<br>
+<br>
+<br>
+<br>
+<br>
+<br>
+<br>
+<br>
+<br>
+<br>
+<br>
+<br>
+<br>
+<br>
+<br>
+<br>
+<br>
+
+<img class="centered-and-cropped" width="300" height="300" 
+  style="border-radius:0%;position:absolute;top:100px;left:50px;" src="http://oi66.tinypic.com/bf25u1.jpg" style='position:absolute;bottom:9px;right:-200px;width:800px'>
+<p style="text-align:right;">
+*Bloodfly.<br>-- monere-lluvia*</p>
+
+<br>
+<br>
+<br>
+<br>
+<br>
+<br>
+
+___
+> ## Bloodfly
+>*Tiny beast, Unaligned*
+> ___
+> - **Armor Class** 11
+> - **Hit Points** 5(2d4)
+> - **Speed** 5ft., flying 30ft.
+>___
+>|STR|DEX|CON|INT|WIS|CHA|
+>|:---:|:---:|:---:|:---:|:---:|:---:|
+>|3 (-4)|13 (+1)|10 (+0)|1 (-5)|8 (-1)|1 (-5)|
+>___
+> - **Senses** passive Perception 9
+> - **Challenge** 1/8 (25 XP)
+>
+> ### Actions
+>
+> ***Sting.*** *Melee Weapon Attack:* +3 to hit, reach 0ft., one target. *Hit* 3 (1d4 + 1) piercing damage and the target has to succeed on Constitution saving throw (DC = 10) or suffer additional 1d4 poison damage.
+
+
+```
+```
+<br>
+<br>
+<br>
+<br>
+<br>
+<br>
+
+
+___
+> ## Field raider
+>*Medium beast, Unaligned*
+> ___
+> - **Armor Class** 11
+> - **Hit Points** 9(2d8)
+> - **Speed** 20ft.
+>___
+>|STR|DEX|CON|INT|WIS|CHA|
+>|:---:|:---:|:---:|:---:|:---:|:---:|
+>|12 (+1)|13 (+1)|10 (+0)|1 (-5)|8 (-1)|1 (-5)|
+>___
+> - **Senses** passive Perception 9
+> - **Challenge** 1/4 (50 XP)
+>
+> ### Actions
+> ***Multi Attack:.*** Field raider attacks twice with it's legs
+>
+> ***Legs.*** *Melee Weapon Attack:* +3 to hit, reach 5ft., one target. *Hit* 3 (1d4 + 1) piercing damage.
+
+<br>
+<br>
+<br>
+<br>
+<br>
+<br>
+<br>
+<br>
+<br>
+<br>
+<br>
+<br>
+<br>
+<br>
+<br>
+<br>
+<br>
+<br>
+<br>
+<br>
+<img class="centered-and-cropped" width="300" height="300" 
+  style="border-radius:90%;position:absolute;bottom:250px;right:50px;" src="http://2.bp.blogspot.com/-FbKlBEu3Jt4/TlqmNzAehWI/AAAAAAAAALM/kZsR69sZk8A/s1600/fieldraider_011.jpg" style='position:absolute;bottom:9px;right:-200px;width:800px'>
+  <br>
+<br>
+<br>
+<br>
+<p style="text-align:right;">
+*Field raider.<br>-- Arcania: Gothic 4*</p>
+
+<br>
+
+\page
+
+
+# Reptiles
+
+### Lurkers
+These amphibian lizards can be found by any larger body of water. They mainly hunt fishes, but they don't mind changing up their menu by rabbits, deer, or unlucky humanoids. They are not very sociable and larger groups exist only in places of enough water and prey for everyone. 
+
+Their prefered method of hunting is hiding in reeds or tall grass and ambushing unsuspecting prey.
+
+### Snappers
+
+Snappers are man-sized carnivorous reptiles walking on their hind legs. Since their fron legs are atrofied to the point of uselessness and their hind leg talons are not really that sharp, their most potent weapon is their powerful jaw.
+
+While individualy they don't pose much threat, they are rarely found alone. Most of the time they found in groups of five or six members, hunting together and sharing the spoils. 
+
+Snappers are known for the speed of running, as well as their incredible dexterity of movement. They are also known to be quite a nightmare, because while they might not be the best trackers, but once they got their focus on their target, they will follow it to the end of the world. Or at least until they get interested in some better target.
+
+### Dragon snappers
+Dragon snappers are variant of normal snappers, if it's the same species or just closely related one is not known. They are stronger and tougher then normal snappers and are frequently found alone, or leading a pack of normal snappers. 
+
+Their name is quite obviously based on their dragon-kin look, but as far as scholars are concerned, they have no real connection to true dragons, or just dragon-kin.
+
+### Lizard
+
+Lizards, are, carnivorous lizards as big as a horse. If you shortned the legs of the horse, that is. 
+
+They might look slow when calm, but the truth is, they are incredibly fast when they want to be and are able to deliver bite after bite before their prey even notices they moved from their original position. 
+
+They live in warm and humid enviroment, usually by bodies of water in forests of Myrtana, by oasis in Varant, on the beaches, or in the tropical jungle of Jakahaktar. They are usually found in groups of five or more individuals.
+
+### Fire lizards
+Kin to the lizard, Fire lizards are as big, with distinct leathery sail on their back. The fire in their name comes from the fact they live only in scorching hot enviroment, like by active volcanoes, or in deserts of Varant. 
+
+Also, in addition to the dangers they share with lizards, they breathe fire, making them oponent worthy of more experienced monster hunters. Their tongue is valuable as alchemical ingredient for fire-related potions.
+
+
+```
+```
+
+<br>
+<br>
+<br>
+<br>
+<br>
+<br>
+<br>
+<br>
+<br>
+<br>
+<br>
+<br>
+<br>
+<br>
+<br>
+<br>
+<br>
+<br>
+<br>
+<br>
+<img class="centered-and-cropped" width="300" height="300" 
+  style="border-radius:90%;position:absolute;top:50px;right:50px;" src="https://images-wixmp-ed30a86b8c4ca887773594c2.wixmp.com/intermediary/f/edbd3aaa-cd64-4a87-9e96-998d4fc98d6b/d83vyi7-f64c3e95-132a-4440-9e98-adf8b14f860e.jpg/v1/fill/w_1032,h_774,q_70,strp/real_gothic___holidays_2014__10_by_caremey_d83vyi7-pre.jpg" style='position:absolute;bottom:9px;right:-200px;width:800px'>
+
+<p style="text-align:right;">
+*Lurker.<br>-- Caremay*</p>
+
+<br>
+<br>
+<br>
+
+ ___
+> ## Lurker
+>*Medium beast, Unaligned *
+> ___
+> - **Armor Class** 12
+> - **Hit Points** 14 (3d8)
+> - **Speed** 30ft., swimming 35 ft.
+>___
+>|STR|DEX|CON|INT|WIS|CHA|
+>|:---:|:---:|:---:|:---:|:---:|:---:|
+>|14 (+2)|15 (+2)|10 (+0)|3 (-4)|10 (+0)|1 (-5)|
+>___
+> - **Skills** Stealth +4
+> - **Senses** Darkvision 30ft., passive Perception 10
+> - **Challenge** 1/2 (100 XP)
+> ___
+> ***Skills.*** Stealth +4 
+>
+> ***Ambiphian:*** Lurker can breathe water and air.
+>
+> ***Surprise Attack:*** If the lurker surprises a creature and hits it with an Attack during the first round of Combat, the target takes an extra 2 (1d4) damage from the Attack.
+>
+> ### Actions
+>
+> ***Claws.*** *Melee Weapon Attack:* +4 to hit, reach 5ft., one target. *Hit* 7(2d4 + 2) slashing damage. 
+
+
+\page
+<img class="centered-and-cropped" width="300" height="300" 
+  style="border-radius:90%;position:absolute;top:50px;left:50px;" src="https://images-wixmp-ed30a86b8c4ca887773594c2.wixmp.com/intermediary/f/edbd3aaa-cd64-4a87-9e96-998d4fc98d6b/dclyq2e-d5939541-c429-471a-b657-f93da1521231.png/v1/fill/w_1032,h_774,q_70,strp/real_gothic___snappers___holidays_2018___10_by_caremey_dclyq2e-pre.jpg" style='position:absolute;bottom:9px;right:-200px;width:800px'>
+
+<br>
+<br>
+<br>
+<br>
+<br>
+<br>
+<br>
+<br>
+<br>
+
+<br>
+<br>
+<br>
+<br>
+<br>
+<br>
+<br>
+<br>
+<br>
+<br>
+
+<p style="text-align:right;">
+*Snapper.<br>-- Caremay*</p>
+
+<br>
+<br>
+<br>
+
+___
+> ## Snapper
+>*Medium beast, Unaligned *
+> ___
+> - **Armor Class** 14
+> - **Hit Points** 16 (3d8+3)
+> - **Speed** 50ft.
+>___
+>|STR|DEX|CON|INT|WIS|CHA|
+>|:---:|:---:|:---:|:---:|:---:|:---:|
+>|14 (+2)|16 (+3)|12 (+1)|6 (-3)|13 (+2)|1 (-5)|
+>___
+> - **Senses** passive Perception 10
+> - **Challenge** 1/2 (100 XP)
+> ___
+> ***Aggresive*** As a Bonus Action, the snapper can move up to its speed toward a hostile creature that it can see.
+>
+> ***Evasive leap*** When snapper is damaged by melee weapon, as a reaction, it can leap backwads up to 10 feet from the attacker, without a running start. This movement does not provoke attacks of opportunity.
+>
+> ***Leaping bite.*** The snapper can make a contested dexterity check to leap onto a target that is more then 5 ft., but within 35 ft. from it. If snapper wins, the target is knocked prone and the snapper can make one bite Attack against it as a Bonus Action.  If the target wins, the snapper lands harmlessly within 5 ft. of the target.
+>
+> ### Actions
+> ***Multiattack.*** The snapper makes two biting attacks
+>
+> ***Bite.*** *Melee Weapon Attack:* +4 to hit, reach 5ft., one target. *Hit* 5(1d6 + 2) piercing damage. 
+
+
+
+___
+> ## Dragon snapper
+>*Medium beast, Unaligned *
+> ___
+> - **Armor Class** 16
+> - **Hit Points** 35 (5d8+15)
+> - **Speed** 50ft.
+>___
+>|STR|DEX|CON|INT|WIS|CHA|
+>|:---:|:---:|:---:|:---:|:---:|:---:|
+>|14 (+2)|16 (+3)|16 (+3)|6 (-3)|13 (+2)|1 (-5)|
+>___
+> - **Senses** passive Perception 10
+> - **Challenge** 2 (450 XP)
+> ___
+> ***Aggresive*** As a Bonus Action, the snapper can move up to its speed toward a hostile creature that it can see.
+>
+> ***Evasive leap*** When snapper is damaged by melee weapon, as a reaction, it can leap backwads up to 10 feet from the attacker, without a running start. This movement does not provoke attacks of opportunity.
+>
+> ***Leaping bite.*** As bonus action the snapper can make a contested dexterity check to leap onto a target that is more then 5 ft., but within 35 ft. from it. If snapper wins, the target is knocked prone and the snapper can make one bite Attack against it as a Bonus Action.  If the target wins, the snapper lands harmlessly within 5 ft. Of the target.
+>
+> ### Actions
+> ***Multiattack.*** The snapper makes two biting attacks
+>
+> ***Bite.*** *Melee Weapon Attack:* +4 to hit, reach 5ft., one target. *Hit* 8(2d6 + 2) piercing damage. 
+
+
+<br>
+<br>
+<br>
+<br>
+<br>
+<br>
+<br>
+<br>
+<br>
+
+<br>
+<br>
+<br>
+<br>
+<br>
+<br>
+<br>
+<br>
+<br>
+<br>
+<br>
+<p style="text-align:left;">
+*Dragon Snapper.<br>-- Caremay*</p>
+
+<br>
+<br>
+<br>
+
+<img class="centered-and-cropped" width="300" height="300" 
+  style="border-radius:90%;position:absolute;bottom:100px;right:40px;" src="https://images-wixmp-ed30a86b8c4ca887773594c2.wixmp.com/intermediary/f/edbd3aaa-cd64-4a87-9e96-998d4fc98d6b/d7ijx9w-ff2772be-a28f-44c2-ae56-8dda30535795.jpg/v1/fill/w_1032,h_774,q_70,strp/real_gothic___01_05_2014__10_by_caremey_d7ijx9w-pre.jpg" style='position:absolute;bottom:9px;right:-200px;width:800px'>
+
+
+\page
+<img class="centered-and-cropped" width="300" height="300" 
+  style="border-radius:90%;position:absolute;top:50px;left:50px;" src="http://www.gothicz.net/images/g2/bestiar/jester.jpg" style='position:absolute;bottom:9px;right:-200px;width:800px'>
+
+<br>
+<br>
+<br>
+<br>
+<br>
+<br>
+<br>
+<br>
+<br>
+
+<br>
+<br>
+<br>
+<br>
+<br>
+<br>
+<br>
+<br>
+<br>
+<br>
+
+<p style="text-align:right;">
+*Lizard.<br>-- Gothic 2*</p>
+
+<br>
+<br>
+<br>
+
+___
+> ## Lizard
+>*Large beast, Unaligned *
+> ___
+> - **Armor Class** 12
+> - **Hit Points** 16 (2d10+6)
+> - **Speed** 50ft., swimming 30ft.
+>___
+>|STR|DEX|CON|INT|WIS|CHA|
+>|:---:|:---:|:---:|:---:|:---:|:---:|
+>|14 (+2)|16 (+3)|12 (+1)|6 (-3)|13 (+2)|1 (-5)|
+>___
+> - **Senses** Darkvision 20ft., passive Perception 12
+> - **Challenge** 1 (200 XP)
+> ___
+> ***Aggresive*** As a Bonus Action, the snapper can move up to its speed toward a hostile creature that it can see.
+>
+> ### Actions
+> ***Multiattack.*** The lizard makes two biting attacks
+>
+> ***Bite.*** *Melee Weapon Attack:* +4 to hit, reach 5ft., one target. *Hit* 6(1d8 + 2) piercing damage. 
+
+
+
+___
+> ## Fire lizard
+>*Large beast, Unaligned *
+> ___
+> - **Armor Class** 12
+> - **Hit Points** 32 (4d10+12)
+> - **Speed** 30ft.
+>___
+>|STR|DEX|CON|INT|WIS|CHA|
+>|:---:|:---:|:---:|:---:|:---:|:---:|
+>|12 (+1)|16 (+3)|12 (+1)|6 (-3)|13 (+2)|1 (-5)|
+>___
+> - **Damage Resistances** Fire, Piercing And Slashing From Nonmagical Weapons.
+> - **Senses** passive Perception 9
+> - **Challenge** 2 (100 XP)
+> ___
+> ***Aggresive*** As a Bonus Action, the snapper can move up to its speed toward a hostile creature that it can see.
+>
+> ### Actions
+> ***Multiattack.*** The snapper makes two biting attacks
+>
+> ***Bite.*** *Melee Weapon Attack:* +4 to hit, reach 5ft., one target. *Hit* 8(2d6 + 2) slashing damage. 
+>
+> ***Fire breath (Recharge 3-6).***  Each creature in a 15-foot cone must make a Dexterity saving throw. A creature takes 12 (3d6+3) fire damage on a failed save, or half as much damage on a successful one. The fire ignites any flammable objects in the area that aren’t being worn or carried. 
+
+
+<br>
+<br>
+<br>
+<br>
+<br>
+<br>
+<br>
+<br>
+<br>
+<br>
+<br>
+<br>
+<br>
+<br>
+<br>
+<br>
+<br>
+<br>
+<br>
+<br>
+<br>
+
+
+
+<p style="text-align:left;">
+*Fire Lizard.<br>-- monere-lluvia*</p>
+
+<br>
+<br>
+<br>
+
+<img class="centered-and-cropped" width="300" height="300" 
+  style="border-radius:90%;position:absolute;bottom:150px;right:40px;" src="http://oi67.tinypic.com/2rlyq0m.jpg" style='position:absolute;bottom:9px;right:-200px;width:800px'>
+
+\page
+
+# Mammals
+
+### Trolls
+
+Trolls of Myrtana  are not giant-king with supreme regenerative powers, like creatures of the same name found in Forgotten realms. Rather, they are species of giant apes. They are huge, immensly strong, but kinda ungainly, one could even say clumsy. They are not very bright either. 
+
+All in all, they are not really dangerous foe, if one stays sharp and dodges the rather ungraceful punches. That being said, their punch can send unwary hunter flying.
+
+### Shadowbeasts
+
+Shadowbeasts are great animals, body akin to grizzly bear, head and demeneor of a cat and a rhino-like horn on their head. They are individualistic in nature, and highly territorial, with territories spanning serval miles. They tend to sleep in the most secure and dark location their territory offers, which often means caves.
+
+ There are many things that makes them terrifying as none other creatures: Their bone crushing horn, their maw that tasted many hunters and other prey, their paws that can both crush and slash and transform any living object into a pile of meat and bones and shredded skin, their uncanny cat-like grace in movement, but the most terrifying is probably thir custom to take heads of their victims and pile them up in their lairs. 
+ 
+ Some scholars argue that this is sign of intelect, but the majority views it just as some sort of gaining reputuation ritual, like some birds that collect shiny to show off, and still clasiffy Shadowbeasts as ordinary non-thinking creatures.
+
+
+### Molerats
+
+Despite being found in nearly every corner of Myrtana, not much is known about these blind, fur-less, omnivore, small dog-sized rodents. 
+
+Their meat is good, and their fat is of exceptional quality, making it prefered type of fat in medicinal and alchemical recepies. Because of this, molerats are sometimes bred and kept as livestock, not unlike pigs. 
+
+Wild molerats tend to live in packs of four to eight individuals. They tend to create nests for themselves in any cave, or under rocky overhangs, they can find. Despite their blindness, they are day creatures, returning to their nests for the night, carrying in any interesting objects, or excess food they found.
+
+
+```
+```
+
+<br>
+<br>
+<br>
+<br>
+<br>
+<br>
+<br>
+<br>
+<br>
+<br>
+<br>
+<br>
+<br>
+<br>
+<br>
+<br>
+<br>
+<br>
+<br>
+<br>
+<img class="centered-and-cropped" width="300" height="290" 
+  style="border-radius:90%;position:absolute;top:50px;right:50px;" src="http://2.bp.blogspot.com/-J1OIxbEhSn4/TltOoMzOQTI/AAAAAAAAANE/67lBA9z7A_Q/s1600/molerat.jpg" style='position:absolute;bottom:9px;right:-200px;width:800px'>
+
+<p style="text-align:right;">
+*Molerat.<br>-- Arcania: Gothic 4*</p>
+
+<br>
+<br>
+<br>
+
+ ___
+> ## Molerat
+>*Small beast, Unaligned *
+> ___
+> - **Armor Class** 13
+> - **Hit Points** 8 (2d6+2)
+> - **Speed** 20ft., burrow 10ft
+>___
+>|STR|DEX|CON|INT|WIS|CHA|
+>|:---:|:---:|:---:|:---:|:---:|:---:|
+>|10 (+0)|15 (+2)|12 (+1)|2 (-4)|10 (+0)|4 (-3)|
+>
+>___
+>
+> ***Tuneller.*** The molerat can Burrow through solid rock at half its Burrow speed and leaves a 3-foot-diameter tunnel in its wake. 
+>
+>___
+> - **Senses** Blindsight 120ft. (Blind Beyond This Radius), passive Perception 12
+> - **Challenge** 1/4 (50 XP)
+>
+> ### Actions
+>
+> ***Bite.*** *Melee Weapon Attack:* +4 to hit, reach 5ft., one target. *Hit* 2 (1d4) slashing damage. 
+
+\page
+<img class="centered-and-cropped" width="300" height="300" 
+  style="border-radius:90%;position:absolute;top:50px;left:50px;" src="https://images-wixmp-ed30a86b8c4ca887773594c2.wixmp.com/intermediary/f/618de327-8916-404a-ba44-65cb360d1756/d6ifcvp-8bbade96-fc21-4cf2-9629-0bc032db8e98.jpg/v1/fill/w_1032,h_774,q_70,strp/troll_by_scerg_d6ifcvp-pre.jpg" style='position:absolute;bottom:9px;right:-200px;width:800px'>
+
+<br>
+<br>
+<br>
+<br>
+<br>
+<br>
+<br>
+<br>
+<br>
+
+<br>
+<br>
+<br>
+<br>
+<br>
+<br>
+<br>
+<br>
+<br>
+<br>
+
+<p style="text-align:right;">
+*Troll.<br>-- scerg*</p>
+
+<br>
+<br>
+<br>
+
+___
+> ## Troll
+>*Large beast, Unaligned *
+> ___
+> - **Armor Class** 7
+> - **Hit Points** 108 (18d10+18)
+> - **Speed** 30ft.
+>___
+>|STR|DEX|CON|INT|WIS|CHA|
+>|:---:|:---:|:---:|:---:|:---:|:---:|
+>|23 (+6)|1 (-5)|15 (+2)|6 (-3)|8 (-1)|4 (-4)|
+>___
+> - **Damage Resistances** Fire, Cold, Piercing And Slashing From Nonmagical Weapons.
+> - **Senses** passive Perception 9 
+> - **Challenge** 3 (700 XP)
+> ___
+> ***Ungainly*** Troll has -5 to hit creatures of medium size or smaller.
+>
+> ### Actions
+>
+> ***Fist.*** *Melee Weapon Attack:* +9 to hit, reach 10 ft., one target. *Hit:* 21 (3d10 + 6) bludgeoning damage. If creature of medium size, or smaller, is hit by this attack, it has to succeed in DC 20 Strength save or be knocked back 50ft, landing prone.
+
+```
+```
+___
+> ## Shadowbeast
+>*Large beast, Unaligned *
+> ___
+> - **Armor Class** 13 (natural armor)
+> - **Hit Points** 35 (5d10+10)
+> - **Speed** 40ft.
+>___
+>|STR|DEX|CON|INT|WIS|CHA|
+>|:---:|:---:|:---:|:---:|:---:|:---:|
+>|21 (+5)|10 (+1)|15 (+2)|26 (-4)|12 (+1)|6 (-2)|
+>___
+> - **Damage immunities** Bludgeoning, Piercing And Slashing From Nonmagical Weapons.
+> - **Senses** Darkvision 120ft., passive Perception 11 
+> - **Challenge** 3 (700 XP)
+> ___
+> ***Charge***. If the shadowbeast moves at least 20 feet straight toward a target and then hits it with a gore attack on the same turn, the target takes an extra 9 (2d8) bludgeoning damage. If the target is a creature, it must succeed on a DC 15 Strength saving throw or be knocked prone.
+>
+> ***Beast of Shadows***.The shadowbeast has disadvantage to attack rolls, saving throws and perception checks whenever it, or it's target is in direct sunlight.
+>
+>***Keen Smell.*** The Shadowbeast has advantage on Wisdom (Perception) checks that rely on smell. 
+>
+> ### Actions
+> ***Multiattack.*** The shadowbeast makes two attacks: one with its bite and one with its claws.
+>
+> ***Gore.*** *Melee Weapon Attack:* +7 to hit, reach 5 ft., one target. *Hit:* 14 (2d8 + 5) bludgeoning damage. The shadowbeast can't use this attack without charging.
+>
+> ***Bite.*** *Melee Weapon Attack:* +7 to hit, reach 5 ft., one target. *Hit:* 9 (1d8 + 5) piercing damage.
+>
+> ***Claws.*** *Melee Weapon Attack:* +7 to hit, reach 5 ft., one target. *Hit:* 12 (2d6 + 5) slashing damage. 
+
+
+
+
+<br>
+<br>
+<br>
+<br>
+<br>
+<br>
+<br>
+<br>
+<br>
+<br>
+<br>
+<br>
+<br>
+<br>
+<br>
+
+
+
+
+<p style="text-align:left;">
+*Shadowbeast.<br>-- Adromelek*</p>
+
+<br>
+<br>
+<br>
+
+<img class="centered-and-cropped" width="300" height="300" 
+  style="border-radius:90%;position:absolute;bottom:50px;right:40px;" src="https://images-wixmp-ed30a86b8c4ca887773594c2.wixmp.com/intermediary/f/430d9bad-6e74-4bb5-9ca5-39e190e71729/d61snew-c3a2d70f-95dd-484c-8f14-0cf6695e74c2.jpg/v1/fill/w_797,h_1003,q_70,strp/shadowbeast_by_adromelek_d61snew-pre.jpg" style='position:absolute;bottom:0px;right:-200px;width:800px'>
+
+
+\page
+
+# Birds
+
+### Scavangers
+These flightless birds are about as tall as humans,  and can be found on meadows, by rivers, in the woods, and pretty much everywhere in Myrtana. There are some tropic variations on some of the islands, but you won't meet them in frozen Nordmar, nor in perched Varant.
+
+As their name suggest, they are primarily scavangers, but they also are known to hunt for worms in the ground, and able to digest seeds. 
+
+Both their meat and their eggs are perfectly edible, but save for few oddballs, nobody thought about farming them. After all, hens are just as good and there is less trouble in keeping them.
+
+<br>
+<br>
+<br>
+<br>
+
+___
+> ## Scavanger
+>*Medium beast, Unaligned *
+> ___
+> - **Armor Class** 11
+> - **Hit Points** 8 (2d8+2)
+> - **Speed** 30ft.
+>___
+>|STR|DEX|CON|INT|WIS|CHA|
+>|:---:|:---:|:---:|:---:|:---:|:---:|
+>|12 (+1)|10 (+0)|12 (+1)|3 (-4)|8 (-1)|1 (-5)|
+>___
+> - **Senses** passive Perception 9 
+> - **Challenge** 1/8 (25 XP)
+> ### Actions
+>
+> ***Beak.*** *Melee Weapon Attack:* +3 to hit, reach 10 ft., one target. *Hit:* 4(1d6 + 1) slashing damage. 
+
+
+```
+```
+
+<img class="centered-and-cropped" width="350" height="600" 
+  style="border-radius:30%;position:absolute;top:100px;right:20px;" src="https://images-wixmp-ed30a86b8c4ca887773594c2.wixmp.com/intermediary/f/e8ec0011-557a-48eb-9a02-c57540ad9e05/d7kfsva-8afa5346-16c1-433d-b136-b7512b2ed8db.jpg" style='position:absolute;bottom:9px;right:-200px;width:800px'>
+
+<br>
+<br>
+<br>
+<br>
+<br>
+<br>
+<br>
+<br>
+<br>
+<br>
+<br>
+<br>
+<br>
+<br>
+<br>
+<br>
+<br>
+<br>
+<br>
+<br>
+<br>
+<br>
+<br>
+<br>
+<br>
+<br>
+<br>
+<br>
+<br>
+<br>
+<br>
+<br>
+<br>
+<br>
+<br>
+<br>
+<br>
+<br>
+<br>
+<br>
+<br>
+
+<p style="text-align:right;">
+*Scavanger.<br>-- DaedraDagon*</p>
+
+<br>
+<br>
+<br>
+
+
+\page
+
+# Mystical monsters
+
+### Degauth
+
+Degauth, also known simply as demons, are can be found anywhere you could find any other demon. 
+
+However, their relative lack of cognitive capabilities and strong will makes them one of the easier demons to both summon and control. 
+
+They lack much of the trickery and finesse of other demons, being simply otherwordly brutes of immense strengh.
+
+
+### Golems
+
+Golems created by mages of Myrtana are more then just animated statues. Rather, they are crude humanoid figures created out of centrain material, animated and infused with elemental magic.  Deep within their artificial body, there is a gem. This gem is called the golem's heart, and is the source of the elemental magic animating the golem. Once the golem crumbles to pieces, among the rubble, the gem will lie, for anybody to take and use however they seem fit.
+
+#### Stone golems
+Stone golems tend to look like bunch of boulders that had been glued together and animated. Their heart is infused with the earth element.
+
+Stone golems are nearly invulnerable in battle, and can deliver hefty punch, but they are brittle and a good swing with mage or warhammer can take them down.
+
+#### Fire golems
+
+As the name suggest, the fire golem's heart is infused with fire element. Their body is created of coal that had been fused together and is alight. 
+
+Those walking mounds of embers can put their enemies in flames by mere touch, but their weakness is, as one would expect in magical cold.
+
+#### Ice golems
+
+As the name suggest, the fire golem's heart is infused with cold element. Their body is created of icicles and ice.
+
+Weapons are reported to just slide off these walking icicles, however they seem to melt pretty easily.
+
+
+
+> #### Golem hearts
+> Golem heart is nearly indestructible small gem. Fire opal for fire elemental, aquamarine for ice golem and onyx for stone golem.
+> 
+>Aside from golem creation, those gems can be used to cast a simple spell or used as arcane focus.
+>
+> **Fire golem's heart**(fire opal). As a action, a creature holding this gem can cast *firebolt*.
+>
+> **Ice golem's heart**(aquamarine). As a action, a creature holding this gem can cast *frostbite*.
+>
+> **Stone golem's heart**(fire opal). As a action, a creature holding this gem can cast *Gust*.
+>
+>Casting cantrips imbued to the gem counts as object interaction with the gem.
+
+
+<br>
+<br>
+<br>
+<br>
+<br>
+<br>
+<br>
+<br>
+<br>
+<br>
+<br>
+<br>
+<br>
+<br>
+<br>
+<br>
+<br>
+<img class="centered-and-cropped" width="300" height="290" 
+  style="border-radius:90%;position:absolute;top:50px;right:50px;" src="http://www.gothicz.net/images/g1/wall/6_1024x768.jpg" style='position:absolute;bottom:9px;right:-200px;width:800px'>
+
+<p style="text-align:right;">
+*Demon.<br>-- Gothic 2*</p>
+
+<br>
+<br>
+<br>
+
+ ___
+> ## Degauth
+>*Medium fiend, Chaotic evil *
+> ___
+> - **Armor Class** 17
+> - **Hit Points** 75 (15d8+15)
+> - **Speed** 0ft., flying 40ft.
+>___
+>|STR|DEX|CON|INT|WIS|CHA|
+>|:---:|:---:|:---:|:---:|:---:|:---:|
+>|20 (+5)|20 (+5)|15 (+2)|5 (-3)|14 (+2)|13 (+1)|
+>
+>___
+> - **Damage immunities** Bludgeoning, Piercing And Slashing From Nonmagical Weapons.
+> - **Senses** passive Perception 13 
+> - **Languages** Demon speech 
+> - **Challenge** 5 (1800 XP)
+>___
+>
+> ***Magic Resistance.*** The degauth has advantage on saving throws against spells and other magical effects. 
+>
+> ### Actions
+***Multiattack.*** Degauth makes two attacks with it's fists.
+>
+> ***Fist.*** *Melee Weapon Attack:* +6 to hit, reach 5ft., one target. *Hit* 9 (2d4 + 5) bludgeoning damage.
+>
+> ***Fiery fist (Recharge 5-6).*** *Melee spell Attack:* +6 to hit, reach 5ft., one target. *Hit* 23 (4d8+ 5) fire damage.
+
+\page
+
+
+<img class="centered-and-cropped" width="300" height="300" 
+  style="border-radius:90%;position:absolute;top:50px;left:50px;" src="https://vignette.wikia.nocookie.net/gothic/images/d/dc/Kamienny_golem_%28Gothic_II%29_%28by_SpY%29.png/revision/latest/scale-to-width-down/157?cb=20120208021132&path-prefix=pl" style='position:absolute;bottom:9px;right:-200px;width:800px'>
+
+<br>
+<br>
+<br>
+<br>
+<br>
+<br>
+<br>
+<br>
+<br>
+
+<br>
+<br>
+<br>
+<br>
+<br>
+<br>
+<br>
+<br>
+<br>
+<br>
+
+<p style="text-align:right;">
+*Stone golem.<br>-- Gothic 2*</p>
+
+<br>
+<br>
+<br>
+
+___
+> ## Stone golem
+>*Medium construct, Unaligned *
+> ___
+> - **Armor Class** 15
+> - **Hit Points** 45(5d8+25)
+> - **Speed** 20ft.
+>___
+>|STR|DEX|CON|INT|WIS|CHA|
+>|:---:|:---:|:---:|:---:|:---:|:---:|
+>|21 (+5)|10 (+0)|20 (+5)|6 (-3)|11 (+0)|5 (-3)|
+>___
+> - **Damage Imunities** Poison, Necrotic, Psychic, Slashing and Piercing From Nonmagical Weapons
+> - **Condition Immunities** exhaustion, paralyzed, poisoned,
+petrified
+> - **Damage Resistances** Fire, Cold, Acid
+> - **Damage Vulnerabilities** Bludgeoning
+> - **Senses** passive Perception 10 
+> - **Challenge** 5 (1800 XP)
+> ___
+> ***Magic Resistance.*** The golem has advantage on saving throws against spells and other magical effects. 
+>
+> ***Immutable Form:*** The golem is immune to any spell or effect that would alter its form.
+> ### Actions
+>
+> ***Fist.*** *Melee Weapon Attack:* +7 to hit, reach 10 ft., one target. *Hit:* 16 (2d10 + 5) bludgeoning damage. 
+
+```
+```
+___
+> ## Ice golem
+>*Medium construct, Unaligned *
+> ___
+> - **Armor Class** 15
+> - **Hit Points** 45(5d8+25)
+> - **Speed** 20ft.
+>___
+>|STR|DEX|CON|INT|WIS|CHA|
+>|:---:|:---:|:---:|:---:|:---:|:---:|
+>|21 (+5)|10 (+0)|20 (+5)|6 (-3)|11 (+0)|5 (-3)|
+>___
+> - **Damage Imunities** Poison, Cold, Necrotic, Psychic
+> - **Condition Immunities** exhaustion, paralyzed, poisoned,
+petrified
+> - **Damage Resistances** Acid, Bludgeoning, Slashing and Piercing From Nonmagical Weapons
+> - **Damage Vulnerabilities** Fire
+> - **Senses** passive Perception 10 
+> - **Challenge** 5 (1800 XP)
+> ___
+> ***Magic Resistance.*** The golem has advantage on saving throws against spells and other magical effects. 
+>
+> ***Immutable Form:*** The golem is immune to any spell or effect that would alter its form.
+> ### Actions
+>
+> ***Fist.*** *Melee Weapon Attack:* +7 to hit, reach 10 ft., one target. *Hit:* 16 (2d10 + 5) bludgeoning damage. 
+>
+> ***Ice breath (recharge 5-6).*** The golem breathes out cone of freezing air. Each creature in a 60-foot cone must make a DC 15 Dexterity saving throw, or  suffer 25(4d8+5) damage and become paritally encased in ice. Creature encased in ice is considered restrained. As an action, the restrained target can make a DC 15 Strength check, bursting the ice on a success. The ice can also be attacked and destroyed (AC 10; hp 5; vulnerability to fire and bludgeoning damage; immunity to poison and psychic damage).
+
+
+
+<br>
+<br>
+<br>
+<br>
+<br>
+<br>
+<br>
+<br>
+<br>
+<br>
+<br>
+<br>
+<br>
+<br>
+<br>
+
+
+
+
+<p style="text-align:left;">
+*Ice golem.<br>-- Gothic 2*</p>
+
+<br>
+<br>
+<br>
+
+<img class="centered-and-cropped" width="300" height="300" 
+  style="border-radius:90%;position:absolute;bottom:50px;right:40px;" src="https://vignette.wikia.nocookie.net/gothic/images/8/87/Lodowy_golem_g1_%28by_Ossowski21%29.png/revision/latest?cb=20120505204817&path-prefix=pl" style='position:absolute;bottom:0px;right:-200px;width:800px'>
+
+\page
+
+
+<img class="centered-and-cropped" width="300" height="300" 
+  style="border-radius:90%;position:absolute;top:50px;left:50px;" src="https://vignette.wikia.nocookie.net/gothic/images/3/33/Ohniv%C3%BD_golem.jpg/revision/latest?cb=20100109083621&path-prefix=cs" style='position:absolute;bottom:9px;right:-200px;width:800px'>
+
+<br>
+<br>
+<br>
+<br>
+<br>
+<br>
+<br>
+<br>
+<br>
+
+<br>
+<br>
+<br>
+<br>
+<br>
+<br>
+<br>
+<br>
+<br>
+<br>
+
+<p style="text-align:right;">
+*Fire golem.<br>-- Gothic 2*</p>
+
+<br>
+<br>
+<br>
+
+___
+> ## Fire golem
+>*Medium construct, Unaligned *
+> ___
+> - **Armor Class** 15
+> - **Hit Points** 45(5d8+25)
+> - **Speed** 20ft.
+>___
+>|STR|DEX|CON|INT|WIS|CHA|
+>|:---:|:---:|:---:|:---:|:---:|:---:|
+>|15 (+2)|18 (+4)|20 (+5)|6 (-3)|11 (+0)|5 (-3)|
+>___
+> - **Damage Imunities** Poison, Necrotic, Psychic, Fire
+> - **Condition Immunities** exhaustion, paralyzed, poisoned,
+petrified
+> - **Damage Resistances** Acid, Slashing and Piercing From Nonmagical Weapons
+> - **Damage Vulnerabilities** Cold
+> - **Senses** passive Perception 10 
+> - **Challenge** 5 (1800 XP)
+> ___
+> ***Magic Resistance.*** The golem has advantage on saving throws against spells and other magical effects. 
+>
+> ***Immutable Form:*** The golem is immune to any spell or effect that would alter its form.
+> ### Actions
+>
+> ***Fist.*** *Melee Weapon Attack:* +2 to hit, reach 10 ft., one target. *Hit:* 12 (2d10 + 2) bludgeoning damage. 
+>
+> ***Fire orb.*** *Ranged Spell Attack:* +6 to hit, reach 90 ft., one target. *Hit:* Hit: 18 (3d8 + 5) fire damage
+
+```
+```
+
+## Acknowledgements
+
+### I own nothing
+
+Gothic and the bits of lore included in this document is property of Pirhana Bytes, may they have mercy upon me.
+
+D&D is property of Wizards of the costs, all hail to them.
+
+Pictures provided within this manual are property of their respective listed authors.
+
+I came up with the stats of the monsters, based on the stats in the *Gothic 2* by Pirhana bytes.
+
+### The picture on title page...
+
+...depicts Minecrawler queen and the protagonist of *Gothic 1*. The author is someone hiding under the nick *scerg*.
+
+
+
+
+
+
+
+
+
