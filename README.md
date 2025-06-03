@@ -10,7 +10,7 @@ CSS-modules can be used out of the box? Let's try.
 
 Astro has an <Image> and <Picture> component that can be used as such: 
 
-import myImage from "src/path/to/image.jpg";
+import myImage from "src/path/to/image.webp";
 
 <Image src={myImage} ..otherProps />
 <Picture src={myImage} ..otherProps />
@@ -19,7 +19,7 @@ But the annyoing part is that each image has to be imported like above, and thes
 
 Currently I just use full sized images everywhere. To help with the old bandwidth I have converted them to webp with ImageMagick.
 
-Convert all images in a directory to a compress .webp: `mogrify -format webp -quality 80 *.jpg` (https://www.bartvandersanden.com/blog/2022/07/03/webp-imagick/)
+Convert all images in a directory to a compress .webp: `mogrify -format webp -quality 80 *.webp` (https://www.bartvandersanden.com/blog/2022/07/03/webp-imagick/)
 
 
 ## I think I had a like an ALBUM_SRC folder somewhere that was synced to this repo? How do I get images to here again?

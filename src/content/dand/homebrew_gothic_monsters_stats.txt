@@ -8,7 +8,7 @@
 # Monsters of Myrtana
 
 <img class="centered-and-cropped" width="500" height="600" 
-  style="border-radius:40%;position:absolute;bottom:220px;right:150px;" src="https://images-wixmp-ed30a86b8c4ca887773594c2.wixmp.com/intermediary/f/618de327-8916-404a-ba44-65cb360d1756/d5n48f0-4ad0e931-3c76-4e16-8671-54cef49fb19e.jpg/v1/fill/w_1032,h_774,q_70,strp/gothic_i__crawler_queen_by_scerg_d5n48f0-pre.jpg" style='position:absolute;bottom:9px;right:-200px;width:800px'>
+  style="border-radius:40%;position:absolute;bottom:220px;right:150px;" src="https://images-wixmp-ed30a86b8c4ca887773594c2.wixmp.com/intermediary/f/618de327-8916-404a-ba44-65cb360d1756/d5n48f0-4ad0e931-3c76-4e16-8671-54cef49fb19e.webp/v1/fill/w_1032,h_774,q_70,strp/gothic_i__crawler_queen_by_scerg_d5n48f0-pre.webp" style='position:absolute;bottom:9px;right:-200px;width:800px'>
 
 
 
@@ -70,7 +70,7 @@ They tend to hunt and rest in groups of less then ten individuals.
 
 
 <img class="centered-and-cropped" width="300" height="300" 
-  style="border-radius:90%;position:absolute;bottom:80px;right:50px;" src="https://images-wixmp-ed30a86b8c4ca887773594c2.wixmp.com/intermediary/f/618de327-8916-404a-ba44-65cb360d1756/d5zp44n-90a6f15d-9a47-47cd-863c-ea0e01753a83.jpg/v1/fill/w_1032,h_774,q_70,strp/gothic_i__swamp_by_scerg_d5zp44n-pre.jpg" style='position:absolute;bottom:9px;right:-200px;width:800px'>
+  style="border-radius:90%;position:absolute;bottom:80px;right:50px;" src="https://images-wixmp-ed30a86b8c4ca887773594c2.wixmp.com/intermediary/f/618de327-8916-404a-ba44-65cb360d1756/d5zp44n-90a6f15d-9a47-47cd-863c-ea0e01753a83.webp/v1/fill/w_1032,h_774,q_70,strp/gothic_i__swamp_by_scerg_d5zp44n-pre.webp" style='position:absolute;bottom:9px;right:-200px;width:800px'>
 <br>
 <br>
 <br>
@@ -170,7 +170,7 @@ ___
 <br>
 <br>
 <img class="centered-and-cropped" width="300" height="250" 
-  style="border-radius:90%;position:absolute;bottom:70px;right:50px;" src="https://cdnb.artstation.com/p/assets/model3ds/images/014/699/509/large/artur-jones-792e68f07bdf4da8b5a0890d6c9c7182.jpg?1545075985" style='position:absolute;bottom:9px;right:-200px;width:800px'>
+  style="border-radius:90%;position:absolute;bottom:70px;right:50px;" src="https://cdnb.artstation.com/p/assets/model3ds/images/014/699/509/large/artur-jones-792e68f07bdf4da8b5a0890d6c9c7182.webp?1545075985" style='position:absolute;bottom:9px;right:-200px;width:800px'>
 <br>
 *Meatbug.<br>-- Artur Jones*
 
@@ -252,7 +252,7 @@ ___
 <br>
 <br>
 <img class="centered-and-cropped" width="300" height="300" 
-  style="border-radius:90%;position:absolute;top:50px;right:50px;" src="http://3.bp.blogspot.com/-Gqq1dys7Gxg/TlpdMl0MSfI/AAAAAAAAAIw/n2x8ly_kpoo/s1600/minecrawler-alt2.jpg" style='position:absolute;bottom:9px;right:-200px;width:800px'>
+  style="border-radius:90%;position:absolute;top:50px;right:50px;" src="http://3.bp.blogspot.com/-Gqq1dys7Gxg/TlpdMl0MSfI/AAAAAAAAAIw/n2x8ly_kpoo/s1600/minecrawler-alt2.webp" style='position:absolute;bottom:9px;right:-200px;width:800px'>
 
 *Minecrawler warrior.<br>-- Arcania: Gothic 4*
 
@@ -317,7 +317,7 @@ ___
 <br>
 
 <img class="centered-and-cropped" width="300" height="300" 
-  style="border-radius:0%;position:absolute;top:100px;left:50px;" src="http://oi66.tinypic.com/bf25u1.jpg" style='position:absolute;bottom:9px;right:-200px;width:800px'>
+  style="border-radius:0%;position:absolute;top:100px;left:50px;" src="http://oi66.tinypic.com/bf25u1.webp" style='position:absolute;bottom:9px;right:-200px;width:800px'>
 <p style="text-align:right;">
 *Bloodfly.<br>-- monere-lluvia*</p>
 
@@ -399,7 +399,7 @@ ___
 <br>
 <br>
 <img class="centered-and-cropped" width="300" height="300" 
-  style="border-radius:90%;position:absolute;bottom:250px;right:50px;" src="http://2.bp.blogspot.com/-FbKlBEu3Jt4/TlqmNzAehWI/AAAAAAAAALM/kZsR69sZk8A/s1600/fieldraider_011.jpg" style='position:absolute;bottom:9px;right:-200px;width:800px'>
+  style="border-radius:90%;position:absolute;bottom:250px;right:50px;" src="http://2.bp.blogspot.com/-FbKlBEu3Jt4/TlqmNzAehWI/AAAAAAAAALM/kZsR69sZk8A/s1600/fieldraider_011.webp" style='position:absolute;bottom:9px;right:-200px;width:800px'>
   <br>
 <br>
 <br>
@@ -470,7 +470,7 @@ Also, in addition to the dangers they share with lizards, they breathe fire, mak
 <br>
 <br>
 <img class="centered-and-cropped" width="300" height="300" 
-  style="border-radius:90%;position:absolute;top:50px;right:50px;" src="https://images-wixmp-ed30a86b8c4ca887773594c2.wixmp.com/intermediary/f/edbd3aaa-cd64-4a87-9e96-998d4fc98d6b/d83vyi7-f64c3e95-132a-4440-9e98-adf8b14f860e.jpg/v1/fill/w_1032,h_774,q_70,strp/real_gothic___holidays_2014__10_by_caremey_d83vyi7-pre.jpg" style='position:absolute;bottom:9px;right:-200px;width:800px'>
+  style="border-radius:90%;position:absolute;top:50px;right:50px;" src="https://images-wixmp-ed30a86b8c4ca887773594c2.wixmp.com/intermediary/f/edbd3aaa-cd64-4a87-9e96-998d4fc98d6b/d83vyi7-f64c3e95-132a-4440-9e98-adf8b14f860e.webp/v1/fill/w_1032,h_774,q_70,strp/real_gothic___holidays_2014__10_by_caremey_d83vyi7-pre.webp" style='position:absolute;bottom:9px;right:-200px;width:800px'>
 
 <p style="text-align:right;">
 *Lurker.<br>-- Caremay*</p>
@@ -508,7 +508,7 @@ Also, in addition to the dangers they share with lizards, they breathe fire, mak
 
 \page
 <img class="centered-and-cropped" width="300" height="300" 
-  style="border-radius:90%;position:absolute;top:50px;left:50px;" src="https://images-wixmp-ed30a86b8c4ca887773594c2.wixmp.com/intermediary/f/edbd3aaa-cd64-4a87-9e96-998d4fc98d6b/dclyq2e-d5939541-c429-471a-b657-f93da1521231.png/v1/fill/w_1032,h_774,q_70,strp/real_gothic___snappers___holidays_2018___10_by_caremey_dclyq2e-pre.jpg" style='position:absolute;bottom:9px;right:-200px;width:800px'>
+  style="border-radius:90%;position:absolute;top:50px;left:50px;" src="https://images-wixmp-ed30a86b8c4ca887773594c2.wixmp.com/intermediary/f/edbd3aaa-cd64-4a87-9e96-998d4fc98d6b/dclyq2e-d5939541-c429-471a-b657-f93da1521231.png/v1/fill/w_1032,h_774,q_70,strp/real_gothic___snappers___holidays_2018___10_by_caremey_dclyq2e-pre.webp" style='position:absolute;bottom:9px;right:-200px;width:800px'>
 
 <br>
 <br>
@@ -622,12 +622,12 @@ ___
 <br>
 
 <img class="centered-and-cropped" width="300" height="300" 
-  style="border-radius:90%;position:absolute;bottom:100px;right:40px;" src="https://images-wixmp-ed30a86b8c4ca887773594c2.wixmp.com/intermediary/f/edbd3aaa-cd64-4a87-9e96-998d4fc98d6b/d7ijx9w-ff2772be-a28f-44c2-ae56-8dda30535795.jpg/v1/fill/w_1032,h_774,q_70,strp/real_gothic___01_05_2014__10_by_caremey_d7ijx9w-pre.jpg" style='position:absolute;bottom:9px;right:-200px;width:800px'>
+  style="border-radius:90%;position:absolute;bottom:100px;right:40px;" src="https://images-wixmp-ed30a86b8c4ca887773594c2.wixmp.com/intermediary/f/edbd3aaa-cd64-4a87-9e96-998d4fc98d6b/d7ijx9w-ff2772be-a28f-44c2-ae56-8dda30535795.webp/v1/fill/w_1032,h_774,q_70,strp/real_gothic___01_05_2014__10_by_caremey_d7ijx9w-pre.webp" style='position:absolute;bottom:9px;right:-200px;width:800px'>
 
 
 \page
 <img class="centered-and-cropped" width="300" height="300" 
-  style="border-radius:90%;position:absolute;top:50px;left:50px;" src="http://www.gothicz.net/images/g2/bestiar/jester.jpg" style='position:absolute;bottom:9px;right:-200px;width:800px'>
+  style="border-radius:90%;position:absolute;top:50px;left:50px;" src="http://www.gothicz.net/images/g2/bestiar/jester.webp" style='position:absolute;bottom:9px;right:-200px;width:800px'>
 
 <br>
 <br>
@@ -739,7 +739,7 @@ ___
 <br>
 
 <img class="centered-and-cropped" width="300" height="300" 
-  style="border-radius:90%;position:absolute;bottom:150px;right:40px;" src="http://oi67.tinypic.com/2rlyq0m.jpg" style='position:absolute;bottom:9px;right:-200px;width:800px'>
+  style="border-radius:90%;position:absolute;bottom:150px;right:40px;" src="http://oi67.tinypic.com/2rlyq0m.webp" style='position:absolute;bottom:9px;right:-200px;width:800px'>
 
 \page
 
@@ -793,7 +793,7 @@ Wild molerats tend to live in packs of four to eight individuals. They tend to c
 <br>
 <br>
 <img class="centered-and-cropped" width="300" height="290" 
-  style="border-radius:90%;position:absolute;top:50px;right:50px;" src="http://2.bp.blogspot.com/-J1OIxbEhSn4/TltOoMzOQTI/AAAAAAAAANE/67lBA9z7A_Q/s1600/molerat.jpg" style='position:absolute;bottom:9px;right:-200px;width:800px'>
+  style="border-radius:90%;position:absolute;top:50px;right:50px;" src="http://2.bp.blogspot.com/-J1OIxbEhSn4/TltOoMzOQTI/AAAAAAAAANE/67lBA9z7A_Q/s1600/molerat.webp" style='position:absolute;bottom:9px;right:-200px;width:800px'>
 
 <p style="text-align:right;">
 *Molerat.<br>-- Arcania: Gothic 4*</p>
@@ -828,7 +828,7 @@ Wild molerats tend to live in packs of four to eight individuals. They tend to c
 
 \page
 <img class="centered-and-cropped" width="300" height="300" 
-  style="border-radius:90%;position:absolute;top:50px;left:50px;" src="https://images-wixmp-ed30a86b8c4ca887773594c2.wixmp.com/intermediary/f/618de327-8916-404a-ba44-65cb360d1756/d6ifcvp-8bbade96-fc21-4cf2-9629-0bc032db8e98.jpg/v1/fill/w_1032,h_774,q_70,strp/troll_by_scerg_d6ifcvp-pre.jpg" style='position:absolute;bottom:9px;right:-200px;width:800px'>
+  style="border-radius:90%;position:absolute;top:50px;left:50px;" src="https://images-wixmp-ed30a86b8c4ca887773594c2.wixmp.com/intermediary/f/618de327-8916-404a-ba44-65cb360d1756/d6ifcvp-8bbade96-fc21-4cf2-9629-0bc032db8e98.webp/v1/fill/w_1032,h_774,q_70,strp/troll_by_scerg_d6ifcvp-pre.webp" style='position:absolute;bottom:9px;right:-200px;width:800px'>
 
 <br>
 <br>
@@ -943,7 +943,7 @@ ___
 <br>
 
 <img class="centered-and-cropped" width="300" height="300" 
-  style="border-radius:90%;position:absolute;bottom:50px;right:40px;" src="https://images-wixmp-ed30a86b8c4ca887773594c2.wixmp.com/intermediary/f/430d9bad-6e74-4bb5-9ca5-39e190e71729/d61snew-c3a2d70f-95dd-484c-8f14-0cf6695e74c2.jpg/v1/fill/w_797,h_1003,q_70,strp/shadowbeast_by_adromelek_d61snew-pre.jpg" style='position:absolute;bottom:0px;right:-200px;width:800px'>
+  style="border-radius:90%;position:absolute;bottom:50px;right:40px;" src="https://images-wixmp-ed30a86b8c4ca887773594c2.wixmp.com/intermediary/f/430d9bad-6e74-4bb5-9ca5-39e190e71729/d61snew-c3a2d70f-95dd-484c-8f14-0cf6695e74c2.webp/v1/fill/w_797,h_1003,q_70,strp/shadowbeast_by_adromelek_d61snew-pre.webp" style='position:absolute;bottom:0px;right:-200px;width:800px'>
 
 
 \page
@@ -985,7 +985,7 @@ ___
 ```
 
 <img class="centered-and-cropped" width="350" height="600" 
-  style="border-radius:30%;position:absolute;top:100px;right:20px;" src="https://images-wixmp-ed30a86b8c4ca887773594c2.wixmp.com/intermediary/f/e8ec0011-557a-48eb-9a02-c57540ad9e05/d7kfsva-8afa5346-16c1-433d-b136-b7512b2ed8db.jpg" style='position:absolute;bottom:9px;right:-200px;width:800px'>
+  style="border-radius:30%;position:absolute;top:100px;right:20px;" src="https://images-wixmp-ed30a86b8c4ca887773594c2.wixmp.com/intermediary/f/e8ec0011-557a-48eb-9a02-c57540ad9e05/d7kfsva-8afa5346-16c1-433d-b136-b7512b2ed8db.webp" style='position:absolute;bottom:9px;right:-200px;width:800px'>
 
 <br>
 <br>
@@ -1105,7 +1105,7 @@ Weapons are reported to just slide off these walking icicles, however they seem 
 <br>
 <br>
 <img class="centered-and-cropped" width="300" height="290" 
-  style="border-radius:90%;position:absolute;top:50px;right:50px;" src="http://www.gothicz.net/images/g1/wall/6_1024x768.jpg" style='position:absolute;bottom:9px;right:-200px;width:800px'>
+  style="border-radius:90%;position:absolute;top:50px;right:50px;" src="http://www.gothicz.net/images/g1/wall/6_1024x768.webp" style='position:absolute;bottom:9px;right:-200px;width:800px'>
 
 <p style="text-align:right;">
 *Demon.<br>-- Gothic 2*</p>
@@ -1269,7 +1269,7 @@ petrified
 
 
 <img class="centered-and-cropped" width="300" height="300" 
-  style="border-radius:90%;position:absolute;top:50px;left:50px;" src="https://vignette.wikia.nocookie.net/gothic/images/3/33/Ohniv%C3%BD_golem.jpg/revision/latest?cb=20100109083621&path-prefix=cs" style='position:absolute;bottom:9px;right:-200px;width:800px'>
+  style="border-radius:90%;position:absolute;top:50px;left:50px;" src="https://vignette.wikia.nocookie.net/gothic/images/3/33/Ohniv%C3%BD_golem.webp/revision/latest?cb=20100109083621&path-prefix=cs" style='position:absolute;bottom:9px;right:-200px;width:800px'>
 
 <br>
 <br>
