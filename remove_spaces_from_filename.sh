@@ -14,7 +14,7 @@ fi
 
 # Function to process filename
 process_file() {
-    local file, dir, base, newbase
+    local file dir base newbase
     file="$1"
     dir=$(dirname "$file")
     base=$(basename "$file")
