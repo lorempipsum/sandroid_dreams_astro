@@ -13,3 +13,4 @@ fi
 
 echo "✓ No files with spaces found in names"
 exit 0
+
