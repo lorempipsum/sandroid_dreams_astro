@@ -2,7 +2,10 @@ import collisionData from '../assets/bristol-data/Traffic_collisions.json';
 
 export interface CollisionLocation {
   id: string;
-  coordinates: [number, number];
+  name: string;
+  latitude: number;
+  longitude: number;
+  coordinates: [number, number]; // Required for the geojson format
   date: string;
   time: string;
   severity: string;
@@ -26,9 +29,10 @@ export function getCollisionData(): CollisionLocation[] {
 
       return {
         id: `collision-${index}`,
-        name:feature.properties.ACCIDENT_DESCRIPTION,
+        name: feature.properties.ACCIDENT_DESCRIPTION,
         latitude: lat,
         longitude: lng,
+        coordinates: [lng, lat] as [number, number], // Add coordinates in GeoJSON format [lng, lat]
         date: feature.properties.DATE_,
         time: feature.properties.TIME,
         severity: feature.properties.SEVERITY_DESCRIPTION,
@@ -43,5 +47,5 @@ export function getCollisionData(): CollisionLocation[] {
         elderly: feature.properties.OAPS
       };
     })
-    .filter((item): item is CollisionLocation => item !== null); // Remove any null entries
+    .filter((item) => item !== null) as CollisionLocation[]; // Remove any null entries
 }

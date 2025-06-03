@@ -1,5 +1,5 @@
 
-import { useEffect, useState } from 'react';
+import { useEffect, useState, CSSProperties } from 'react';
 import styles from './ImageContainer.module.css';
 
 interface ImageContainerProps {
@@ -9,21 +9,20 @@ interface ImageContainerProps {
 }
 
 const ImageContainer = ({src, id, isExpanded = false}: ImageContainerProps) => {
-    const defaultStyles = {
+    const defaultStyles: CSSProperties = {
         width: "100%",
         height: "auto",
         minHeight: '20vh',
         maxHeight: '70vh',
-        objectFit: 'cover',
+        objectFit: 'cover' as 'cover',
         border: '20px solid white',
         outline: '2px solid whitesmoke',
         transition: 'all 0.6s ease-in-out',
         objectPosition: '33% 33%',
         maxWidth: '100vw',
-
     }
     const [isZoomedView, setIsZoomedView] = useState(isExpanded);
-    const [imgStyles, setImgStyles] = useState({...defaultStyles});
+    const [imgStyles, setImgStyles] = useState<CSSProperties>({...defaultStyles});
 
   
 

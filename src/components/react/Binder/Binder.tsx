@@ -28,7 +28,7 @@ const Binder = () => {
   const [locations, setLocations] = useState(() => getFacilitiesByType(facilityTypes[0]));
   const [currentBin, setCurrentBin] = useState(locations[0]);
   const [error, setError] = useState<string | null>(null);
-  const [showDotInfo, setShowDotInfo] = useState(false);
+  const [showDotInfo, setShowDotInfo] = useState<boolean>(false);
   const [showAllNearby, setShowAllNearby] = useState(false);
   const [nearbyLocations, setNearbyLocations] = useState<Array<{
     bin: typeof locations[0],
@@ -143,7 +143,11 @@ const Binder = () => {
 
   const handleDotClick = (e: React.MouseEvent, binId?: string) => {
     e.stopPropagation(); // Prevent click from bubbling to background
-    setShowDotInfo(binId ? binId : !showDotInfo);
+    if (binId) {
+      setShowDotInfo(true);
+    } else {
+      setShowDotInfo(!showDotInfo);
+    }
   };
 
   const handleDebugCompass = (value: number) => {
@@ -152,7 +156,7 @@ const Binder = () => {
 
   const handleDebugPositionChange = (lat: number, lng: number) => {
     // Create a mock GeolocationCoordinates object
-    const mockPosition: GeolocationCoordinates = {
+    const mockPosition = {
       latitude: lat,
       longitude: lng,
       accuracy: 5,
@@ -160,7 +164,7 @@ const Binder = () => {
       altitudeAccuracy: null,
       heading: null,
       speed: null
-    };
+    } as unknown as GeolocationCoordinates;
     
     setUserLocation(mockPosition);
   };

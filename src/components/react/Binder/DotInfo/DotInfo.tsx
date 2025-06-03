@@ -1,15 +1,15 @@
 import React from 'react';
 import styles from './DotInfo.module.scss';
-import type { CrimeLocation } from '../../../utils/crimeDataLoader';
-import type { TreeLocation } from '../../../utils/treeDataLoader';
-import type { GeneralTree } from '../../../utils/generalTreeDataLoader';
+import type { CrimeLocation } from '../../../../utils/crimeDataLoader';
+import type { TreeLocation } from '../../../../utils/treeDataLoader';
+import type { GeneralTree } from '../../../../utils/generalTreeDataLoader';
 
 interface DotInfoProps {
   location: any;
   distance: number;
   bearing?: number; // Make optional since it wasn't always provided in original
   compass?: number; // Add compass prop
-  dataType: 'facilities' | 'crimes' | 'trees' | 'trees';
+  dataType: 'facilities' | 'crimes' | 'trees' | 'protected trees';
   style?: React.CSSProperties;
   onClick?: (e: React.MouseEvent) => void;
 }

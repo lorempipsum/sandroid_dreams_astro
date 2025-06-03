@@ -5,6 +5,7 @@ export interface Facility {
   properties: {
     TYPE: string;
     SITE_NAME: string;
+    ASSET_ID?: string; // Make it optional since we have a fallback
   };
   geometry: {
     type: string;
@@ -12,7 +13,7 @@ export interface Facility {
   };
 }
 
-export const loadFacilities = (): Facility[] => {
+export const loadFacilities = (): any[] => {
   if (!facilitiesData || !facilitiesData.features) {
     console.error('Failed to load facilities data');
     return [];

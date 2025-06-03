@@ -19,7 +19,7 @@ let noise2D = createNoise2D(prng);
  * You can install it with npm install perlin.js
  *
  */
-function drawLakes(ctx, player) {
+function drawLakes(ctx: CanvasRenderingContext2D, player: { x: number, y: number }) {
   ctx.fillStyle = 'blue';
   for (let x = player.x; x < NUMBER_OF_TILES; x+=TILE_WIDTH) {
     for (let y = player.y; y < NUMBER_OF_TILES; y+=TILE_WIDTH) {
@@ -30,7 +30,7 @@ function drawLakes(ctx, player) {
   }
 }
 
-function fillMapWithGreen (ctx) {
+function fillMapWithGreen (ctx: CanvasRenderingContext2D) {
   ctx.fillStyle = 'green';
   for (let x = 0; x < NUMBER_OF_TILES; x++) {
     for (let y = 0; y < NUMBER_OF_TILES; y++) {
@@ -47,8 +47,12 @@ const Canvas =({reRenderTrigger}: {reRenderTrigger: number}) => {
   noise2D = createNoise2D(alea(reRenderTrigger));
   useEffect(() => {
     const canvas = canvasRef.current;
+    if (!canvas) return;
+    
     const context = canvas.getContext('2d');
-    let animationFrameId;
+    if (!context) return;
+    
+    let animationFrameId: number;
     const render = () => {
        //updateFrameCount(frameCount + 1);
        updatePlayer({ x: frameCount*TILE_WIDTH, y: 0 });
@@ -61,8 +65,8 @@ const Canvas =({reRenderTrigger}: {reRenderTrigger: number}) => {
     };
   }, [frameCount, reRenderTrigger]);
 
-  const canvasRef = useRef(null)
-  const draw = (ctx, frameCount) => {
+  const canvasRef = useRef<HTMLCanvasElement | null>(null)
+  const draw = (ctx: CanvasRenderingContext2D, frameCount: number) => {
     ctx.clearRect(0, 0, ctx.canvas.width, ctx.canvas.height);
 
     fillMapWithGreen(ctx);

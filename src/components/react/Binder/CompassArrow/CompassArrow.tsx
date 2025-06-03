@@ -1,5 +1,5 @@
 import React from 'react';
-import AnimatedBobUp from '../animations/AnimatedBobUp';
+import AnimatedBobUp from '../../animations/AnimatedBobUp';
 import styles from './CompassArrow.module.scss';
 
 interface CompassArrowProps {

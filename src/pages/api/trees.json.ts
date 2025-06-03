@@ -10,12 +10,12 @@ export const GET: APIRoute = async () => {
 
 
     const processedTrees = data.features
-      .filter(feature => 
+      .filter((feature: any) => 
         feature.geometry?.coordinates && 
         Array.isArray(feature.geometry.coordinates) &&
         feature.geometry.coordinates.length === 2
       )
-      .map(feature => ({
+      .map((feature: any) => ({
         id: `tree-${feature.properties.ASSET_ID}`,
         name: feature.properties.COMMON_NAME || feature.properties.SPECIES || 'Unknown Tree',
         latitude: feature.geometry.coordinates[1],

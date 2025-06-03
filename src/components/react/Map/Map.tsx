@@ -1,5 +1,8 @@
 import { useEffect, useRef } from 'react';
 import styles from './Map.module.scss';
+// Import Leaflet types - it's loaded globally via script tag in the layout
+import 'leaflet';
+import L from 'leaflet';
 
 interface MapProps {
   userLocation: GeolocationCoordinates | null;
