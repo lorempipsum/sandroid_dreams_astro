@@ -21,6 +21,19 @@ Currently I just use full sized images everywhere. To help with the old bandwidt
 
 Convert all images in a directory to a compress .webp: `mogrify -format webp -quality 80 *.jpg` (https://www.bartvandersanden.com/blog/2022/07/03/webp-imagick/)
 
+### Git LFS
+
+This repository uses [Git Large File Storage](https://git-lfs.com/) to keep the image assets
+out of the normal Git history. If you plan on cloning the repository or adding images, make sure
+you have Git LFS installed first:
+
+```bash
+git lfs install
+```
+
+New images (such as `*.jpg` or `*.webp`) will automatically be stored with LFS thanks to the
+`.gitattributes` file.
+
 
 ## I think I had a like an ALBUM_SRC folder somewhere that was synced to this repo? How do I get images to here again?
 
