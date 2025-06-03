@@ -28,6 +28,6 @@ process_file() {
 
 # Find and process all files recursively
 export -f process_file
-find "$1" -type f -name "* *" -exec bash -c 'process_file "$0"' {} \;
+find "$1" -type f -name "* *" -exec bash -c 'process_file "$1"' _ {} \;
 
 echo "Filename cleanup complete!"
