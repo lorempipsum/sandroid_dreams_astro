@@ -6,18 +6,23 @@ interface Props {
     image: any;
     alt?: string;
     isExpanded?: boolean;
+    description?: string;
     // TODO: Make it possible to just pass the "rest of the props" through without naming all of them
 }
 
-const { image, alt = "An image", isExpanded } = Astro.props;
+const { image, alt = "An image", isExpanded, description } = Astro.props;
 ---
 
-<div>
-    {
-        (
-            <ImageWrapper isExpanded={isExpanded} client:only>
-                <Image src={image} alt={alt} />
-            </ImageWrapper>
-        )
+<figure>
+    <ImageWrapper isExpanded={isExpanded} client:only>
+        <Image src={image} alt={alt} />
+    </ImageWrapper>
+    {description && <figcaption class="description">{description}</figcaption>}
+</figure>
+
+<style>
+    .description {
+        margin-top: 0.5rem;
+        text-align: center;
     }
-</div>
+</style>
