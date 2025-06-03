@@ -15,7 +15,7 @@ import myImage from "src/path/to/image.jpg";
 <Image src={myImage} ..otherProps />
 <Picture src={myImage} ..otherProps />
 
-But the annyoing part is that each image has to be imported like above, and these can only be used in an astro component, or passed to a React component as a child. 
+But the annoying part is that each image has to be imported like above, and these can only be used in an astro component, or passed to a React component as a child. 
 
 Currently I just use full sized images everywhere. To help with the old bandwidth I have converted them to webp with ImageMagick.
 
