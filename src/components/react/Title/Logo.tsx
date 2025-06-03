@@ -1,5 +1,5 @@
 import React, { useState, useRef } from 'react';
-import { useSpring, animated } from 'react-spring';
+import { useSpring, animated } from '@react-spring/web';
 import styles from './Logo.module.scss';
 import SanderArrow from './SanderArrow';
 
