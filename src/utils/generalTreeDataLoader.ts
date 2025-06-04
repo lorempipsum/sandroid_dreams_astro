@@ -1,10 +1,8 @@
-export interface GeneralTree {
+import type { BaseLocation } from '../types/locations';
+
+export interface GeneralTree extends BaseLocation {
   latinName: string;
   crownWidth: string;
-  id: string;
-  name: string;
-  latitude: number;
-  longitude: number;
   species: string;
   commonName: string;
   height: number;

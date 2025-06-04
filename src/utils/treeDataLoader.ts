@@ -1,10 +1,7 @@
 import treeData from '../assets/bristol-data/Tree_dataset_TPO.json';
+import type { BaseLocation } from '../types/locations';
 
-export interface TreeLocation {
-  id: string;
-  name: string;
-  latitude: number;
-  longitude: number;
+export interface TreeLocation extends BaseLocation {
   reference: string;
   treePreservationOrder: string;
   addressText: string;

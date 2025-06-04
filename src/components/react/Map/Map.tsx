@@ -1,4 +1,5 @@
 import { useEffect, useRef } from 'react';
+import L from 'leaflet';
 import styles from './Map.module.scss';
 
 interface MapProps {

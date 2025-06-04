@@ -19,6 +19,9 @@ import DataTypeSelector from './DataTypeSelector/DataTypeSelector';
 import DistanceDisplay from './DistanceDisplay/DistanceDisplay';
 import { getLocationsForType } from './utils';
 import Dot from './Dot/Dot';
+import type { FacilityLocation } from '../../../utils/geoJsonLoader';
+import type { CrimeLocation } from '../../../utils/crimeDataLoader';
+import type { TreeLocation } from '../../../utils/treeDataLoader';
 import ZoomControls from './ZoomControls/ZoomControls';
 
 const DATASOURCES = [
@@ -29,6 +32,12 @@ const DATASOURCES = [
 ] as const;
 type DataSourceType = (typeof DATASOURCES)[number];
 
+type LocationItem =
+  | FacilityLocation
+  | CrimeLocation
+  | TreeLocation
+  | GeneralTree;
+
 const Binder = () => {
   const [userLocation, setUserLocation] =
     useState<GeolocationCoordinates | null>(null);
@@ -37,19 +46,17 @@ const Binder = () => {
   const [permissionGranted, setPermissionGranted] = useState(false);
   const [facilityTypes] = useState(() => getUniqueTypes());
   const [selectedType, setSelectedType] = useState(facilityTypes[0]);
-  const [locations, setLocations] = useState(() =>
+  const [locations, setLocations] = useState<FacilityLocation[]>(() =>
     getFacilitiesByType(facilityTypes[0])
   );
-  const [currentBin, setCurrentBin] = useState(locations[0]);
+  const [currentBin, setCurrentBin] = useState<LocationItem | null>(
+    locations[0]
+  );
   const [error, setError] = useState<string | null>(null);
-  const [showDotInfo, setShowDotInfo] = useState(false);
+  const [showDotInfo, setShowDotInfo] = useState<string | null>(null);
   const [showAllNearby, setShowAllNearby] = useState(false);
   const [nearbyLocations, setNearbyLocations] = useState<
-    Array<{
-      bin: (typeof locations)[0];
-      distance: number;
-      bearing: number;
-    }>
+    Array<{ bin: LocationItem; distance: number; bearing: number }>
   >([]);
   const [dataType, setDataType] = useState<
     'facilities' | 'crimes' | 'protected trees' | 'trees'
@@ -69,7 +76,7 @@ const Binder = () => {
   const [mapZoom, setMapZoom] = useState(17); // Default zoom level 17
 
   const updateLocations = (
-    sorted: Array<{ bin: any; distance: number; bearing: number }>
+    sorted: Array<{ bin: LocationItem; distance: number; bearing: number }>
   ) => {
     setNearbyLocations(sorted);
     setCurrentBin(sorted[0].bin);
@@ -143,7 +150,10 @@ const Binder = () => {
   }, []);
 
   const handleOrientation = (event: DeviceOrientationEvent) => {
-    const angle = event.webkitCompassHeading || event.alpha || 0;
+    const orientation = event as DeviceOrientationEvent & {
+      webkitCompassHeading?: number;
+    };
+    const angle = orientation.webkitCompassHeading ?? orientation.alpha ?? 0;
     setCompass(angle);
   };
 
@@ -168,12 +178,12 @@ const Binder = () => {
   }, []);
 
   const handleBackgroundClick = () => {
-    setShowDotInfo(false);
+    setShowDotInfo(null);
   };
 
-  const handleDotClick = (e: React.MouseEvent, binId?: string) => {
+  const handleDotClick = (e: React.MouseEvent, binId: string) => {
     e.stopPropagation(); // Prevent click from bubbling to background
-    setShowDotInfo(binId ? binId : !showDotInfo);
+    setShowDotInfo((current) => (current === binId ? null : binId));
   };
 
   const handleDebugCompass = (value: number) => {
@@ -182,7 +192,7 @@ const Binder = () => {
 
   const handleDebugPositionChange = (lat: number, lng: number) => {
     // Create a mock GeolocationCoordinates object
-    const mockPosition: GeolocationCoordinates = {
+    const mockPosition = {
       latitude: lat,
       longitude: lng,
       accuracy: 5,
@@ -190,7 +200,10 @@ const Binder = () => {
       altitudeAccuracy: null,
       heading: null,
       speed: null,
-    };
+      toJSON() {
+        return null;
+      },
+    } as GeolocationCoordinates;
 
     setUserLocation(mockPosition);
   };

@@ -128,7 +128,10 @@ const Strava = () => {
   }, [userLocation, svgPathPoints, showSvgPath]);
 
   const handleOrientation = (event: DeviceOrientationEvent) => {
-    const angle = event.webkitCompassHeading || event.alpha || 0;
+    const orientation = event as DeviceOrientationEvent & {
+      webkitCompassHeading?: number;
+    };
+    const angle = orientation.webkitCompassHeading ?? orientation.alpha ?? 0;
     setCompass(angle);
   };
 
@@ -157,7 +160,7 @@ const Strava = () => {
   };
 
   const handleDebugPositionChange = (lat: number, lng: number) => {
-    const mockPosition: GeolocationCoordinates = {
+    const mockPosition = {
       latitude: lat,
       longitude: lng,
       accuracy: 5,
@@ -165,7 +168,10 @@ const Strava = () => {
       altitudeAccuracy: null,
       heading: null,
       speed: null,
-    };
+      toJSON() {
+        return null;
+      },
+    } as GeolocationCoordinates;
 
     setUserLocation(mockPosition);
   };
