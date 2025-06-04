@@ -1,7 +1,6 @@
 {
-    "search.exclude": {
-        "**/node_modules": false
-    },
-    "[markdown]": {
-    }
+  "search.exclude": {
+    "**/node_modules": false
+  },
+  "[markdown]": {}
 }

@@ -1,11 +1,11 @@
 name: Deploy Astro to GitHub Pages
 on:
-     # Trigger the workflow every time you push to the `master` branch
-      push:
-        branches: [ master ]
-      # Allows you to run this workflow manually from the Actions tab on GitHub.
-      workflow_dispatch:
-    # Allow this job to clone the repo and create a page deployment
+  # Trigger the workflow every time you push to the `master` branch
+  push:
+    branches: [master]
+  # Allows you to run this workflow manually from the Actions tab on GitHub.
+  workflow_dispatch:
+  # Allow this job to clone the repo and create a page deployment
 permissions:
   contents: read
   pages: write
@@ -14,28 +14,28 @@ jobs:
   build:
     runs-on: ubuntu-latest
     steps:
-    - name: Check out your repository using git
-      uses: actions/checkout@v2
+      - name: Check out your repository using git
+        uses: actions/checkout@v2
 
-    - name: Use Node.js 18
-      uses: actions/setup-node@v4
-      with:
-        node-version: '18'
-        cache: 'npm'
+      - name: Use Node.js 18
+        uses: actions/setup-node@v4
+        with:
+          node-version: '18'
+          cache: 'npm'
 
-    # Not using npm? Change `npm ci` to `yarn install` or `pnpm i`
-    - name: Install dependencies
-      run: npm ci
+      # Not using npm? Change `npm ci` to `yarn install` or `pnpm i`
+      - name: Install dependencies
+        run: npm ci
 
-    # Not using npm? Change `npm run build` to `yarn build` or `pnpm run build`
-    - name: Build Astro
-      run: npm run build --if-present
+      # Not using npm? Change `npm run build` to `yarn build` or `pnpm run build`
+      - name: Build Astro
+        run: npm run build --if-present
 
-    - name: Upload artifact
-      uses: actions/upload-pages-artifact@v3
-      with:
-        path: ./dist
-        name: github-pages
+      - name: Upload artifact
+        uses: actions/upload-pages-artifact@v3
+        with:
+          path: ./dist
+          name: github-pages
 
   deploy:
     environment:
