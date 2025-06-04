@@ -1,5 +1,5 @@
 import { useEffect, useRef } from 'react';
-import L from 'leaflet';
+import type * as Leaflet from 'leaflet';
 import styles from './Map.module.scss';
 
 interface MapProps {
@@ -23,38 +23,45 @@ const Map = ({
   onDebugPositionChange,
   mapZoom = 17,
 }: MapProps) => {
-  const mapRef = useRef<L.Map | null>(null);
-  const markerRef = useRef<L.Marker | null>(null);
-  const userMarkerRef = useRef<L.Marker | null>(null);
+  const mapRef = useRef<Leaflet.Map | null>(null);
+  const markerRef = useRef<Leaflet.Marker | null>(null);
+  const userMarkerRef = useRef<Leaflet.Marker | null>(null);
 
   useEffect(() => {
-    if (!mapRef.current && userLocation) {
-      mapRef.current = L.map('map', {
-        zoomControl: false,
-        dragging: false,
-        touchZoom: false,
-        scrollWheelZoom: false,
-        doubleClickZoom: false,
-        boxZoom: false,
-        keyboard: false,
-      }).setView([userLocation.latitude, userLocation.longitude], mapZoom);
+    if (typeof window === 'undefined' || !userLocation) {
+      return;
+    }
 
-      L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
-        maxZoom: 19,
-        attribution: '© OpenStreetMap contributors',
-      }).addTo(mapRef.current);
+    const init = async () => {
+      const leaflet = (await import('leaflet')).default;
+
+      if (!mapRef.current) {
+        mapRef.current = leaflet.map('map', {
+          zoomControl: false,
+          dragging: false,
+          touchZoom: false,
+          scrollWheelZoom: false,
+          doubleClickZoom: false,
+          boxZoom: false,
+          keyboard: false,
+        }).setView([userLocation.latitude, userLocation.longitude], mapZoom);
+
+        leaflet
+          .tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
+            maxZoom: 19,
+            attribution: '© OpenStreetMap contributors',
+          })
+          .addTo(mapRef.current);
 
       // Create user marker with draggable option if in debug mode
-      userMarkerRef.current = L.marker(
-        [userLocation.latitude, userLocation.longitude],
-        {
-          icon: L.divIcon({
+      userMarkerRef.current = leaflet
+        .marker([userLocation.latitude, userLocation.longitude], {
+          icon: leaflet.divIcon({
             className: styles.userMarker,
             html: '<div></div>',
           }),
-          draggable: debugMode, // Make marker draggable in debug mode
-        }
-      )
+          draggable: debugMode,
+        })
         .bindPopup(
           () => {
             const content = document.createElement('div');
@@ -64,11 +71,7 @@ const Map = ({
           <p>Lat: ${userLocation.latitude.toFixed(6)}</p>
           <p>Lng: ${userLocation.longitude.toFixed(6)}</p>
           <p>Accuracy: ${userLocation.accuracy.toFixed(1)}m</p>
-          ${
-            userLocation.altitude
-              ? `<p>Altitude: ${userLocation.altitude.toFixed(1)}m</p>`
-              : ''
-          }
+          ${userLocation.altitude ? `<p>Altitude: ${userLocation.altitude.toFixed(1)}m</p>` : ''}
         `;
             return content;
           },
@@ -88,7 +91,10 @@ const Map = ({
           }
         });
       }
-    }
+      }
+    };
+
+    init();
 
     // Update map rotation based on compass - reset to 0 when locked to north
     if (mapRef.current) {
@@ -113,15 +119,14 @@ const Map = ({
       if (markerRef.current) {
         markerRef.current.remove();
       }
-      markerRef.current = L.marker(
-        [currentLocation.latitude, currentLocation.longitude],
-        {
-          icon: L.divIcon({
+      markerRef.current = leaflet
+        .marker([currentLocation.latitude, currentLocation.longitude], {
+          icon: leaflet.divIcon({
             className: styles.destinationMarker,
             html: '<div></div>',
           }),
-        }
-      ).addTo(mapRef.current);
+        })
+        .addTo(mapRef.current);
     }
 
     // Update zoom level when it changes
