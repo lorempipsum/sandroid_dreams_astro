@@ -1,33 +1,29 @@
 #!/bin/bash
 
-# Directory containing the images
-IMAGE_DIR="/home/sandroid/repos/sandroid_dreams_astro/src/images/photography/bristol"
-# Temporary directory
-TEMP_DIR="/home/sandroid/repos/sandroid_dreams_astro/src/images/photography/bristol/temp"
+# Recursively compress and resize images under src/images.
+# Only processes an image if its width is greater than 1920px.
 
-# Create temp directory if it doesn't exist
-mkdir -p "$TEMP_DIR"
+IMAGE_DIR="src/images"
+MAX_WIDTH=1920
+QUALITY=85
 
-# Counter for processed images
-count=0
+# Find supported image types recursively
+find "$IMAGE_DIR" -type f \( -iname '*.webp' -o -iname '*.jpg' -o -iname '*.jpeg' -o -iname '*.png' \) -print0 |
+while IFS= read -r -d '' img; do
+    width=$(identify -format "%w" "$img" 2>/dev/null)
+    if [ -z "$width" ]; then
+        echo "Skipping $img (unable to determine width)"
+        continue
+    fi
 
-# Process each webp image in the directory
-for img in "$IMAGE_DIR"/*.webp; do
-  if [ -f "$img" ]; then
-    filename=$(basename "$img")
-    echo "Processing $filename..."
-    
-    # Resize to max width 1920px and compress to temporary location
-    convert "$img" -resize "1920x>" -quality 85 "$TEMP_DIR/$filename"
-    
-    # Replace original with compressed version
-    mv "$TEMP_DIR/$filename" "$img"
-    
-    count=$((count+1))
-  fi
+    if [ "$width" -le "$MAX_WIDTH" ]; then
+        echo "Skipping $img (width $width <= $MAX_WIDTH)"
+        continue
+    fi
+
+    echo "Processing $img (width $width > $MAX_WIDTH)..."
+    mogrify -resize "${MAX_WIDTH}x>" -quality "$QUALITY" "$img"
+
 done
 
-# Clean up
-rmdir "$TEMP_DIR"
-
-echo "Finished processing and replacing $count images."
+echo "Finished processing images."
