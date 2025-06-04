@@ -5,7 +5,7 @@ This document summarises the current repository structure and suggests improveme
 ## Current Layout
 
 ```
-/
+/ 
 ├── public/
 ├── src/
 │   ├── assets/
@@ -25,6 +25,13 @@ This document summarises the current repository structure and suggests improveme
 ├── package.json
 └── other configuration files
 ```
+
+## Configuration Highlights
+
+* `astro.config.mjs` sets `site` to `https://sandroid.dev` and uses `react` and `mdx` integrations.
+* `package.json` defines a build script that runs `check-filenames.sh` before `astro build`.
+* `tsconfig.json` extends `astro/tsconfigs/strict` and enables React JSX.
+* `vite.config.ts` stringifies JSON responses by default.
 
 ## Suggestions
 
@@ -51,6 +58,9 @@ This document summarises the current repository structure and suggests improveme
 
 ### 8. Verify configuration files
 * `vite.config.ts`, `tsconfig.json` and `astro.config.mjs` are minimal. Review whether additional settings (alias paths, environment variables) could be centralised to simplify imports and builds.
+
+### 9. Document build workflow
+* `package.json` runs `check-filenames.sh` before building. Adding a short note in the README helps contributors understand this pre-build step.
 
 Implementing these suggestions should improve overall legibility and make it easier for new contributors to understand the repository layout.
 
