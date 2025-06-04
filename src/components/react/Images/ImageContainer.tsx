@@ -12,7 +12,7 @@ const ImageContainer = ({
   id,
   isExpanded = false,
 }: ImageContainerProps) => {
-  const defaultStyles = {
+  const defaultStyles: React.CSSProperties = {
     width: '100%',
     height: 'auto',
     minHeight: '20vh',
@@ -25,7 +25,9 @@ const ImageContainer = ({
     maxWidth: '100vw',
   };
   const [isZoomedView, setIsZoomedView] = useState(isExpanded);
-  const [imgStyles, setImgStyles] = useState({ ...defaultStyles });
+  const [imgStyles, setImgStyles] = useState<React.CSSProperties>({
+    ...defaultStyles,
+  });
 
   useEffect(() => {
     if (isZoomedView === true) {

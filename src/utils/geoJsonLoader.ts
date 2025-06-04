@@ -1,10 +1,13 @@
 import facilitiesData from '../data/facilities.json';
+import type { BaseLocation } from '../types/locations';
 
 export interface Facility {
   type: string;
   properties: {
     TYPE: string;
     SITE_NAME: string;
+    ASSET_ID?: string;
+    [key: string]: any;
   };
   geometry: {
     type: string;
@@ -12,12 +15,14 @@ export interface Facility {
   };
 }
 
+export interface FacilityLocation extends BaseLocation {}
+
 export const loadFacilities = (): Facility[] => {
   if (!facilitiesData || !facilitiesData.features) {
     console.error('Failed to load facilities data');
     return [];
   }
-  return facilitiesData.features;
+  return facilitiesData.features as unknown as Facility[];
 };
 
 export const getUniqueTypes = (): string[] => {
@@ -26,7 +31,7 @@ export const getUniqueTypes = (): string[] => {
   return Array.from(types).sort();
 };
 
-export const getFacilitiesByType = (type: string) => {
+export const getFacilitiesByType = (type: string): FacilityLocation[] => {
   const facilities = loadFacilities();
   return facilities
     .filter(
