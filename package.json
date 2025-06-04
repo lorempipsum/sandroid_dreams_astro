@@ -3,12 +3,13 @@
   "type": "module",
   "version": "0.0.1",
   "scripts": {
-    "check-filenames": "bash check-filenames.sh",
+    "check-filenames": "bash scripts/check-filenames.sh",
     "dev": "astro dev",
     "start": "astro dev",
     "build": "npm run check-filenames && astro build",
     "preview": "astro preview",
-    "astro": "astro"
+    "astro": "astro",
+    "format": "prettier --write ."
   },
   "dependencies": {
     "@astrojs/check": "^0.9.4",
@@ -33,6 +34,7 @@
   },
   "devDependencies": {
     "@types/leaflet": "^1.9.16",
+    "prettier": "^2.8.8",
     "vite-plugin-svgr": "^4.3.0"
   }
 }
