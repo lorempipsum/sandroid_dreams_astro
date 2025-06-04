@@ -91,6 +91,7 @@ const Navigator = () => {
         />
       ) : (
         <>
+          <NavigationArrow rotation={rotation} className={styles.bigArrow} />
           {distance !== null && (
             <div className={styles.distance}>{Math.round(distance)}m</div>
           )}
