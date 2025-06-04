@@ -2,7 +2,6 @@ import { useState, useEffect } from 'react';
 import React from 'react';
 import styles from './Navigator.module.scss';
 import Button from '../Button/Button';
-import Map from '../Map/Map';
 import NavigationArrow from '../NavigationArrow/NavigationArrow';
 import {
   calculateBearing,
@@ -21,8 +20,6 @@ const Navigator = () => {
   } | null>(null);
   const [inputValue, setInputValue] = useState('');
   const [error, setError] = useState<string | null>(null);
-  const [lockNorth, setLockNorth] = useState(false);
-  const [mapZoom, setMapZoom] = useState(17);
 
   const handleOrientation = (event: DeviceOrientationEvent) => {
     const orientation = event as DeviceOrientationEvent & {
@@ -94,16 +91,6 @@ const Navigator = () => {
         />
       ) : (
         <>
-          <div className={styles.radar}>
-            <Map
-              userLocation={userLocation}
-              currentLocation={target}
-              compass={compass}
-              lockNorth={lockNorth}
-              mapZoom={mapZoom}
-            />
-          </div>
-          <NavigationArrow rotation={rotation} />
           {distance !== null && (
             <div className={styles.distance}>{Math.round(distance)}m</div>
           )}

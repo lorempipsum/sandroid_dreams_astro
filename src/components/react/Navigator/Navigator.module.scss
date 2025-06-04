@@ -30,6 +30,10 @@
   border: 1px solid #ffcdd2;
 }
 
+.bigArrow {
+  width: min(80vw, 80vh);
+  height: auto;
+}
 .radar {
   position: relative;
   width: 300px;
