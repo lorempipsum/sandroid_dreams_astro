@@ -4,9 +4,11 @@ export const requestOrientationPermission = async (
   onOrientationChange: OrientationCallback,
   onPermissionGranted: () => void
 ): Promise<void> => {
-  if (typeof DeviceOrientationEvent.requestPermission === 'function') {
+  if (typeof (DeviceOrientationEvent as any).requestPermission === 'function') {
     try {
-      const permission = await DeviceOrientationEvent.requestPermission();
+      const permission = await (
+        DeviceOrientationEvent as any
+      ).requestPermission();
       if (permission === 'granted') {
         window.addEventListener('deviceorientation', onOrientationChange);
         onPermissionGranted();

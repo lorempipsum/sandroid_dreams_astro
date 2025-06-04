@@ -1,10 +1,7 @@
 import crimeData from '../assets/bristol-data/Street_crime_incidents.json';
+import type { BaseLocation } from '../types/locations';
 
-type CrimeLocation = {
-  id: string;
-  name: string;
-  latitude: number;
-  longitude: number;
+type CrimeLocation = BaseLocation & {
   month: string;
   category: string;
   locationType: string;

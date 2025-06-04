@@ -15,12 +15,12 @@ export const GET: APIRoute = async () => {
 
     const processedTrees = data.features
       .filter(
-        (feature) =>
+        (feature: any) =>
           feature.geometry?.coordinates &&
           Array.isArray(feature.geometry.coordinates) &&
           feature.geometry.coordinates.length === 2
       )
-      .map((feature) => ({
+      .map((feature: any) => ({
         id: `tree-${feature.properties.ASSET_ID}`,
         name:
           feature.properties.COMMON_NAME ||

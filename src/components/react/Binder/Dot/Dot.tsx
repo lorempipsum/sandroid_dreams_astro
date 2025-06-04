@@ -2,14 +2,18 @@ import React from 'react';
 import styles from './Dot.module.scss';
 import InfoRenderer from '../../InfoRenderer/InfoRenderer';
 
-interface DotProps {
-  loc: {
-    bin: any;
-    distance: number;
-    bearing: number;
-  };
+import type { BaseLocation } from '../../../../types/locations';
+
+interface DotLocation<T extends BaseLocation> {
+  bin: T;
+  distance: number;
+  bearing: number;
+}
+
+interface DotProps<T extends BaseLocation> {
+  loc: DotLocation<T>;
   isNearest: boolean;
-  showDotInfo?: boolean;
+  showDotInfo?: string | null;
   dataType: string;
   compass: number;
   isNorthLocked: boolean;
@@ -44,7 +48,7 @@ export const getDotPosition = (
   };
 };
 
-const Dot: React.FC<DotProps> = ({
+const Dot = <T extends BaseLocation>({
   loc,
   isNearest,
   showDotInfo,
@@ -53,7 +57,7 @@ const Dot: React.FC<DotProps> = ({
   isNorthLocked,
   onDotClick,
   mapZoom = 17,
-}) => {
+}: DotProps<T>): JSX.Element => {
   const position = getDotPosition(
     loc.distance,
     loc.bearing,

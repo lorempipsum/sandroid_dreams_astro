@@ -25,9 +25,7 @@ export function getCollisionData(): CollisionLocation[] {
 
       return {
         id: `collision-${index}`,
-        name: feature.properties.ACCIDENT_DESCRIPTION,
-        latitude: lat,
-        longitude: lng,
+        coordinates: [lng, lat] as [number, number],
         date: feature.properties.DATE_,
         time: feature.properties.TIME,
         severity: feature.properties.SEVERITY_DESCRIPTION,
@@ -40,7 +38,7 @@ export function getCollisionData(): CollisionLocation[] {
         motorcycles: feature.properties.MCYCLES,
         children: feature.properties.CHILDREN,
         elderly: feature.properties.OAPS,
-      };
+      } as CollisionLocation;
     })
     .filter((item): item is CollisionLocation => item !== null); // Remove any null entries
 }
