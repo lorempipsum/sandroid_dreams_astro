@@ -1,0 +1,10 @@
+@import '../../../styles/colors';
+
+.arrow {
+  width: 100px;
+  height: auto;
+  transform-origin: center;
+  transition: transform 0.1s ease-out;
+  stroke: $arrowBlue;
+  filter: drop-shadow(0 0 4px rgba(51, 102, 205, 0.33));
+}

@@ -53,6 +53,9 @@ export const Title = ({ title }: { title: string }) => {
           <a href="/experiments/binder" className={styles.subtitleText}>
             Binder
           </a>
+          <a href="/experiments/navigator" className={styles.subtitleText}>
+            Navigator
+          </a>
           {false && (
             <a href="/about" className={styles.subtitleText}>
               About
