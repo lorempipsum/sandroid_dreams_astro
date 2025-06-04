@@ -1,4 +1,4 @@
-import React, { useRef, useEffect } from 'react'
+import React, { useRef, useEffect } from 'react';
 import { createNoise2D } from 'simplex-noise';
 import alea from 'alea';
 
@@ -21,16 +21,21 @@ let noise2D = createNoise2D(prng);
  */
 function drawLakes(ctx, player) {
   ctx.fillStyle = 'blue';
-  for (let x = player.x; x < NUMBER_OF_TILES; x+=TILE_WIDTH) {
-    for (let y = player.y; y < NUMBER_OF_TILES; y+=TILE_WIDTH) {
-      if (noise2D(x , y ) > 0.2) {
-        ctx.fillRect(x * TILE_WIDTH - player.x, y * TILE_WIDTH - player.y, TILE_WIDTH, TILE_WIDTH);
+  for (let x = player.x; x < NUMBER_OF_TILES; x += TILE_WIDTH) {
+    for (let y = player.y; y < NUMBER_OF_TILES; y += TILE_WIDTH) {
+      if (noise2D(x, y) > 0.2) {
+        ctx.fillRect(
+          x * TILE_WIDTH - player.x,
+          y * TILE_WIDTH - player.y,
+          TILE_WIDTH,
+          TILE_WIDTH
+        );
       }
     }
   }
 }
 
-function fillMapWithGreen (ctx) {
+function fillMapWithGreen(ctx) {
   ctx.fillStyle = 'green';
   for (let x = 0; x < NUMBER_OF_TILES; x++) {
     for (let y = 0; y < NUMBER_OF_TILES; y++) {
@@ -39,8 +44,7 @@ function fillMapWithGreen (ctx) {
   }
 }
 
-
-const Canvas =({reRenderTrigger}: {reRenderTrigger: number}) => {
+const Canvas = ({ reRenderTrigger }: { reRenderTrigger: number }) => {
   const [player, updatePlayer] = React.useState({ x: 0, y: 0 });
   const [frameCount, updateFrameCount] = React.useState(0);
 
@@ -50,8 +54,8 @@ const Canvas =({reRenderTrigger}: {reRenderTrigger: number}) => {
     const context = canvas.getContext('2d');
     let animationFrameId;
     const render = () => {
-       //updateFrameCount(frameCount + 1);
-       updatePlayer({ x: frameCount*TILE_WIDTH, y: 0 });
+      //updateFrameCount(frameCount + 1);
+      updatePlayer({ x: frameCount * TILE_WIDTH, y: 0 });
       draw(context, frameCount);
       animationFrameId = window.requestAnimationFrame(render);
     };
@@ -61,7 +65,7 @@ const Canvas =({reRenderTrigger}: {reRenderTrigger: number}) => {
     };
   }, [frameCount, reRenderTrigger]);
 
-  const canvasRef = useRef(null)
+  const canvasRef = useRef(null);
   const draw = (ctx, frameCount) => {
     ctx.clearRect(0, 0, ctx.canvas.width, ctx.canvas.height);
 
@@ -69,8 +73,13 @@ const Canvas =({reRenderTrigger}: {reRenderTrigger: number}) => {
     drawLakes(ctx, player);
   };
 
-
-
-  return <canvas className={styles.canvas} width={JSON.stringify(MAP_WIDTH) + "px"} height={JSON.stringify(MAP_WIDTH) + "px"} ref={canvasRef} />;
-}
-export default Canvas
+  return (
+    <canvas
+      className={styles.canvas}
+      width={JSON.stringify(MAP_WIDTH) + 'px'}
+      height={JSON.stringify(MAP_WIDTH) + 'px'}
+      ref={canvasRef}
+    />
+  );
+};
+export default Canvas;

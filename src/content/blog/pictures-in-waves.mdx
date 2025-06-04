@@ -1,20 +1,19 @@
 ---
 layout: '../../layouts/BaseLayout.astro'
-date: "2023-11-21"
-title: "Pictures in Waves"
-tags: ["plotting"]
+date: '2023-11-21'
+title: 'Pictures in Waves'
+tags: ['plotting']
 ---
 
 import DummyComponent from '../../components/DummyComponent/DummyComponent.astro';
 
 import ImageContainer from '../../components/react/Images/ImageContainer.tsx';
-import monaLisa from  '../../images/plotting/pictures-in-waves/monaLisa.webp';
-import plainWaves from  '../../images/plotting/pictures-in-waves/plain-waves.webp';
-import evilFace from  '../../images/plotting/pictures-in-waves/evil-face.webp';
-import cathedral from  '../../images/plotting/pictures-in-waves/cathedral.webp';
-import regularFace from  '../../images/plotting/pictures-in-waves/regular-face.webp';
-import threeDFace from  '../../images/plotting/pictures-in-waves/3d-face.webp';
-
+import monaLisa from '../../images/plotting/pictures-in-waves/monaLisa.webp';
+import plainWaves from '../../images/plotting/pictures-in-waves/plain-waves.webp';
+import evilFace from '../../images/plotting/pictures-in-waves/evil-face.webp';
+import cathedral from '../../images/plotting/pictures-in-waves/cathedral.webp';
+import regularFace from '../../images/plotting/pictures-in-waves/regular-face.webp';
+import threeDFace from '../../images/plotting/pictures-in-waves/3d-face.webp';
 
 # Pictures in Waves
 
@@ -24,25 +23,31 @@ import threeDFace from  '../../images/plotting/pictures-in-waves/3d-face.webp';
 
 Code: https://github.com/lorempipsum/vsketch-plotting/tree/master/pictures-in-waves
 
-This generative art exercise consisted of 2 parts: 
+This generative art exercise consisted of 2 parts:
+
 1. Plotting a bunch of waves / mountains in the form of perlin noise
-2. Drawing an image in lines, by changing the *y* coordinate of the line based on the brightness of the pixel at that point in the image
+2. Drawing an image in lines, by changing the _y_ coordinate of the line based on the brightness of the pixel at that point in the image
 
 The cover image above is of plain waves. That is, only the noise is plotted, no image. The plot is 2D, but made to look 3D via the perspective plugin for vsketch.
 
-Anyway here's some more images: 
+Anyway here's some more images:
 
 An image of the mona lisa. There's no noise added to this one, just the image itself plotted as lines.
+
 <ImageContainer client:only src={monaLisa.src} />
 
-A depth map of a face was used for this one. It is a mix of noise waves and image plotting. 
+A depth map of a face was used for this one. It is a mix of noise waves and image plotting.
+
 <ImageContainer client:only src={regularFace.src} />
 
 A different face, which ended up looking a bit evil.
+
 <ImageContainer client:only src={evilFace.src} />
 
 A cathedral. I like the croissant-like shape of the roof.
+
 <ImageContainer client:only src={cathedral.src} />
 
 This is a 3D model made in blender, overlaid with lines, so not strictly relevant for this technique. But it was inspired by the other images in this series, so I included it here.
+
 <ImageContainer client:only src={threeDFace.src} />

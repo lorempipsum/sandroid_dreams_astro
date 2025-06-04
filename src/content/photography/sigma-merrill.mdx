@@ -1,20 +1,19 @@
 ---
 layout: '../../layouts/FreeLayout.astro'
-date: "2023-11-12"
-title: "Sigma Merrill"
-tags: ["photography"]
+date: '2023-11-12'
+title: 'Sigma Merrill'
+tags: ['photography']
 ---
 
 import DummyComponent from '../../components/DummyComponent/DummyComponent.astro';
-import GalleryImageGrid from "../../components/GalleryImageGrid/GalleryImageGrid.astro";
+import GalleryImageGrid from '../../components/GalleryImageGrid/GalleryImageGrid.astro';
 
 export const images = import.meta.glob(
-    "/src/images/photography/sigma_merrill/*.{jpeg,jpg,png,gif,webp}");
+  '/src/images/photography/sigma_merrill/*.{jpeg,jpg,png,gif,webp}'
+);
 
 <DummyComponent />
 
-
 # {props.title}
 
-<GalleryImageGrid images={images} ></GalleryImageGrid>
-
+<GalleryImageGrid images={images}></GalleryImageGrid>

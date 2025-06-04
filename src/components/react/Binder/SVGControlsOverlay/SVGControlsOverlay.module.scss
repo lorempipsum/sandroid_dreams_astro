@@ -27,7 +27,7 @@
   overflow-y: auto;
   box-shadow: 0 4px 24px rgba(0, 0, 0, 0.25);
   animation: slideIn 0.3s ease-out;
-  
+
   .header {
     display: flex;
     justify-content: space-between;
@@ -35,30 +35,30 @@
     margin-bottom: 16px;
     padding: 4px 0;
     border-bottom: 1px solid #eee;
-    
+
     /* Make the header indicate it's draggable */
     &:hover {
       cursor: grab;
       background-color: #f9f9f9;
       border-radius: 8px 8px 0 0;
     }
-    
+
     &:active {
       cursor: grabbing;
     }
-    
+
     .dragHandle {
       color: #999;
       font-size: 18px;
       padding: 0 8px;
       cursor: grab;
       user-select: none;
-      
+
       &:active {
         cursor: grabbing;
       }
     }
-    
+
     h3 {
       margin: 0;
       font-size: 18px;
@@ -67,7 +67,7 @@
       flex: 1;
       text-align: center;
     }
-    
+
     .closeButton {
       background: none;
       border: none;
@@ -76,18 +76,18 @@
       cursor: pointer;
       padding: 0 4px;
       line-height: 0.8;
-      
+
       &:hover {
         color: #000;
       }
     }
   }
-  
+
   .tabs {
     display: flex;
     margin-bottom: 20px;
     border-bottom: 1px solid #ddd;
-    
+
     .tab {
       flex: 1;
       background: none;
@@ -97,12 +97,12 @@
       color: #666;
       cursor: pointer;
       transition: all 0.2s;
-      
+
       &:hover {
         color: $arrowBlue;
         background-color: rgba(51, 102, 205, 0.05);
       }
-      
+
       &.active {
         color: $arrowBlue;
         font-weight: 500;
@@ -110,39 +110,39 @@
       }
     }
   }
-  
+
   .toggleRow {
     display: flex;
     justify-content: space-between;
     align-items: center;
     margin-bottom: 12px;
-    
+
     .statusText {
       font-weight: 500;
       color: $arrowBlue;
     }
-    
+
     /* Switch styling */
     .switch {
       position: relative;
       display: inline-block;
       width: 46px;
       height: 24px;
-      
+
       input {
         opacity: 0;
         width: 0;
         height: 0;
-        
+
         &:checked + .slider {
           background-color: $arrowBlue;
-          
+
           &:before {
             transform: translateX(22px);
           }
         }
       }
-      
+
       .slider {
         position: absolute;
         cursor: pointer;
@@ -151,27 +151,27 @@
         right: 0;
         bottom: 0;
         background-color: #ccc;
-        transition: .3s;
+        transition: 0.3s;
         border-radius: 24px;
-        
+
         &:before {
           position: absolute;
-          content: "";
+          content: '';
           height: 18px;
           width: 18px;
           left: 3px;
           bottom: 3px;
           background-color: white;
-          transition: .3s;
+          transition: 0.3s;
           border-radius: 50%;
         }
       }
     }
   }
-  
+
   .progressSection {
     margin-bottom: 20px;
-    
+
     span {
       display: block;
       margin-bottom: 4px;
@@ -179,27 +179,27 @@
       color: $arrowBlue;
       font-weight: 500;
     }
-    
+
     .progressBar {
       height: 8px;
       background-color: #e0e0e0;
       border-radius: 4px;
       overflow: hidden;
-      
+
       .progressFill {
         height: 100%;
-        background-color: #4CAF50;
+        background-color: #4caf50;
         transition: width 0.3s ease-in-out;
       }
     }
   }
-  
+
   .controlsGrid {
     display: grid;
     grid-template-columns: 1fr;
     gap: 16px;
     margin-bottom: 20px;
-    
+
     .controlGroup {
       label {
         display: block;
@@ -208,16 +208,16 @@
         margin-bottom: 6px;
         font-weight: 500;
       }
-      
+
       .controlRow {
         display: flex;
         align-items: center;
         gap: 8px;
-        
+
         input {
           flex: 1;
         }
-        
+
         span {
           min-width: 40px;
           text-align: right;
@@ -228,39 +228,39 @@
       }
     }
   }
-  
+
   .statusInfo {
     background-color: #f5f5f5;
     border-radius: 6px;
     padding: 12px;
     margin-bottom: 20px;
-    
+
     .infoRow {
       display: flex;
       justify-content: space-between;
       font-size: 14px;
       margin-bottom: 6px;
-      
+
       &:last-child {
         margin-bottom: 0;
       }
-      
+
       .infoLabel {
         color: #666;
       }
-      
+
       .infoValue {
         font-weight: 500;
         color: #333;
       }
     }
   }
-  
+
   .buttonRow {
     display: flex;
     justify-content: center;
     gap: 12px;
-    
+
     button {
       padding: 10px 16px;
       border-radius: 4px;
@@ -270,21 +270,21 @@
       cursor: pointer;
       font-size: 15px;
       font-weight: 500;
-      
+
       &:hover {
         background-color: darken($arrowBlue, 10%);
       }
-      
+
       &:active {
         transform: translateY(1px);
       }
     }
   }
-  
+
   .importPanel {
     .fileInput {
       margin-bottom: 20px;
-      
+
       label {
         display: block;
         margin-bottom: 8px;
@@ -292,7 +292,7 @@
         font-weight: 500;
         color: #555;
       }
-      
+
       input {
         width: 100%;
         padding: 8px;
@@ -301,16 +301,16 @@
         border-radius: 4px;
       }
     }
-    
+
     .preview {
       margin-bottom: 20px;
-      
+
       h4 {
         margin: 0 0 8px 0;
         font-size: 14px;
         color: #555;
       }
-      
+
       .svgContainer {
         border: 1px solid #ddd;
         border-radius: 4px;
@@ -318,7 +318,7 @@
         background-color: white;
         max-height: 150px;
         overflow: hidden;
-        
+
         svg {
           max-width: 100%;
           max-height: 120px;
@@ -327,7 +327,7 @@
         }
       }
     }
-    
+
     .importNote {
       font-size: 13px;
       color: #666;

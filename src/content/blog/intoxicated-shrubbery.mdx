@@ -1,8 +1,8 @@
 ---
 layout: '../../layouts/BaseLayout.astro'
-date: "2020-12-24"
-title: "Intoxicated Shrubbery"
-tags: ["plotting"]
+date: '2020-12-24'
+title: 'Intoxicated Shrubbery'
+tags: ['plotting']
 ---
 
 import ImageContainer from '../../components/react/Images/ImageContainer.tsx';
@@ -11,7 +11,7 @@ import plottingResult from '../../images/plotting/drunk_trees.webp';
 import initialSketch from '../../images/plotting/intoxicated_shrubbery_sketch.webp';
 import drunkTrees from '../../images/plotting/drunk_trees_closeup.webp';
 
-<TheDoubleImage src1={initialSketch.src} src2={plottingResult.src}/>
+<TheDoubleImage src1={initialSketch.src} src2={plottingResult.src} />
 
 # Intoxicated Shrubbery
 
@@ -24,53 +24,53 @@ smoothly the further you went from the middle.
 Here's the rough sketch I made in the park so I wouldn't forget (I think the drawings on the left are dandelion-inspired
 ideas that are yet to be realized):
 
-
 It's a random walk, starting from the bottom and moving in a random direction at each "step" - except the step size
 is larger if the random choice is directed upwards. The total length ("mass") of each
 branch is decided semi-randomly at the beginning, and is higher near the horizontal center of the page than the edges.
 
-Here's a more detailed breakdown with some code: 
+Here's a more detailed breakdown with some code:
 
-1. Choose a point on the bottom edge of the page to start a branch.
-   
-   ```Java
-   int delta = int(random(-3000,2000));
-   i=0;
-   x= xMax;
-   y = int(HORIZONTAL_CENTER + delta);
-   ```
+1.  Choose a point on the bottom edge of the page to start a branch.
 
-2. Depending on the distance of the point from the horizontal center, choose a random *mass* for the branch. The further
-   from the middle, the smaller the *mass*.
+    ```Java
+    int delta = int(random(-3000,2000));
+    i=0;
+    x= xMax;
+    y = int(HORIZONTAL_CENTER + delta);
+    ```
 
-   ```Java
-    mass = int(random(8, 180 - abs(delta)/12)); // Quick solution with trial and error. You could do better by using a formula for a curve.
-   ```
+2.  Depending on the distance of the point from the horizontal center, choose a random _mass_ for the branch. The further
+    from the middle, the smaller the _mass_.
 
-3. Choose a new point, a random distance away from the last point. The point has a bias towards negative x (up on the
-   sheet), so the branches grow upwards.
+    ```Java
+     mass = int(random(8, 180 - abs(delta)/12)); // Quick solution with trial and error. You could do better by using a formula for a curve.
+    ```
+
+3.  Choose a new point, a random distance away from the last point. The point has a bias towards negative x (up on the
+    sheet), so the branches grow upwards.
 
     ```Java
       x = int(x + spacing*random(-2, 1));
       y = int(y + spacing*random(-1, 1));
     ```
 
-4. Draw a line between the original point and the new point, and increase mass used by 1.
+4.  Draw a line between the original point and the new point, and increase mass used by 1.
 
     ```Java
       i = i + 1;
     ```
 
-5. Repeat steps 3 and 4 until either all the *mass* has been used up, or the branch goes out of bounds of the drawing
-   area.
+5.  Repeat steps 3 and 4 until either all the _mass_ has been used up, or the branch goes out of bounds of the drawing
+    area.
 
-    ```Java
-      if ( x > xMin && x < xMax && y > yMin && y < yMax && i < mass && iterations < MAX_ITERATIONS) {
-          line_clipped(x0, y0, x, y, up);
-          i = i + 1; // increase mass used
-      }
-    ```
-<br />
+        ```Java
+          if ( x > xMin && x < xMax && y > yMin && y < yMax && i < mass && iterations < MAX_ITERATIONS) {
+              line_clipped(x0, y0, x, y, up);
+              i = i + 1; // increase mass used
+          }
+        ```
+
+    <br />
 <ImageContainer src={drunkTrees.src} client:only />
 A close up
 <br />

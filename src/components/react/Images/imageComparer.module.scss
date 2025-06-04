@@ -1,190 +1,169 @@
-
 .imageContainer {
-    margin-bottom: 2rem;
-    position: relative;
-    margin-left: auto;
-    margin-right: auto;
-    width: 100%;
-    aspect-ratio: 4 / 3;
-    height: auto; /* Adjust the container height as needed */
-    justify-content: center;
-    text-align: center;
-    display: flex;
-    align-items: center; /* Center the child both horizontally and vertically */
-    overflow: visible;
-    background-color: black;
-
+  margin-bottom: 2rem;
+  position: relative;
+  margin-left: auto;
+  margin-right: auto;
+  width: 100%;
+  aspect-ratio: 4 / 3;
+  height: auto; /* Adjust the container height as needed */
+  justify-content: center;
+  text-align: center;
+  display: flex;
+  align-items: center; /* Center the child both horizontally and vertically */
+  overflow: visible;
+  background-color: black;
 }
 
 .fullScreen {
-    position: fixed;
-    top: 2.5vh;
-    left: 2.5vw;
-    width: 95vw;
-    height: 95vh;
-    z-index: 1000;
-    display: flex;
-    justify-content: center;
-    align-items: center;
+  position: fixed;
+  top: 2.5vh;
+  left: 2.5vw;
+  width: 95vw;
+  height: 95vh;
+  z-index: 1000;
+  display: flex;
+  justify-content: center;
+  align-items: center;
 }
 
 .fullScreen img {
-    height: 90vh;
-    width: auto;
-    min-width: 95vw;
-    min-height: 95vh;
-    margin: auto;
-   
+  height: 90vh;
+  width: auto;
+  min-width: 95vw;
+  min-height: 95vh;
+  margin: auto;
 }
 
-
 .imageOverlay {
-    width: 100%; /* Adjust the container width as needed */
+  width: 100%; /* Adjust the container width as needed */
 
-    height: 100%;
-    display: flex;
-    position: relative;
-    align-items: center; /* Center the child both horizontally and vertically */
+  height: 100%;
+  display: flex;
+  position: relative;
+  align-items: center; /* Center the child both horizontally and vertically */
 
-    display: flex;
-    justify-content: center;
-
-
+  display: flex;
+  justify-content: center;
 }
 
 .imageWrapper {
-    display: flex; /* Keeps the image and line side by side */
-    position: absolute;
-    top: 0%;
-    width: inherit;
+  display: flex; /* Keeps the image and line side by side */
+  position: absolute;
+  top: 0%;
+  width: inherit;
 
-    height: 100%;
-    overflow: hidden;
-    img:nth-child(2) {
-        transform: translateX(-100%);
-
-    }
-
+  height: 100%;
+  overflow: hidden;
+  img:nth-child(2) {
+    transform: translateX(-100%);
+  }
 }
-  
+
 img {
-    display: block;
-    opacity: 1;
-    width: 100%;
-    max-height: 100%;
-    transition: 0.5s opacity;
-
-
-    
+  display: block;
+  opacity: 1;
+  width: 100%;
+  max-height: 100%;
+  transition: 0.5s opacity;
 }
 
 .invisible {
-    opacity: 0;
+  opacity: 0;
 }
 
 .buttons {
-    transform: translate(-50%, -50%);
+  transform: translate(-50%, -50%);
 
-    display: flex;
-    z-index: 10;
-    position: absolute;
-    bottom: 0;
-    left: 50%;
-
+  display: flex;
+  z-index: 10;
+  position: absolute;
+  bottom: 0;
+  left: 50%;
 }
 
 .closeButton {
-    position: absolute;
-    top: 2rem;
-    right: 2rem;
-    cursor: pointer;
-    z-index: 1001;
-    border: none;
-    aspect-ratio: 1 / 1;
-    border-radius: 50%;
-    width: 2rem;
-    height: 2rem;
-    opacity: 40%;
-    transition-duration: 0.4s;
-    &:hover {
-        opacity: 100%;
-       
-    }
+  position: absolute;
+  top: 2rem;
+  right: 2rem;
+  cursor: pointer;
+  z-index: 1001;
+  border: none;
+  aspect-ratio: 1 / 1;
+  border-radius: 50%;
+  width: 2rem;
+  height: 2rem;
+  opacity: 40%;
+  transition-duration: 0.4s;
+  &:hover {
+    opacity: 100%;
+  }
 
-    &:active {
-        background-color: #4CAF50;
-        color: white;
-    }
+  &:active {
+    background-color: #4caf50;
+    color: white;
+  }
 }
 
 .button {
+  background-color: white;
+  color: black;
+  font-size: 16px;
+  padding: 4px 12px;
+  cursor: pointer;
+  border-radius: 8px;
+  text-align: center;
+  text-decoration: none;
+  display: inline-block;
+  transition-duration: 0.4s;
+  opacity: 40%;
+  &:hover {
+    opacity: 100%;
+  }
 
-    background-color: white;
-    color: black;
-    font-size: 16px;
-    padding: 4px 12px;
-    cursor: pointer;
-    border-radius: 8px;
-    text-align: center;
-    text-decoration: none;
-    display: inline-block;
-    transition-duration: 0.4s;
-    opacity: 40%;
-    &:hover {
-        opacity: 100%;
-       
-    }
-
-    &:active {
-        background-color: #4CAF50;
-        color: white;
-    }
+  &:active {
+    background-color: #4caf50;
+    color: white;
+  }
 }
-
 
 .image1Visible {
-    // second <img> element in the .imageWrapper has the class .invisible
-    // so it is not visible
-    img:nth-child(2) {
-        opacity: 0;
-    }
-  
+  // second <img> element in the .imageWrapper has the class .invisible
+  // so it is not visible
+  img:nth-child(2) {
+    opacity: 0;
+  }
 }
-
 
 .image2Visible {
-    // first <img> element in the .imageWrapper has the class .invisible
-    // so it is not visible
-    img:nth-child(1) {
-        opacity: 0;
-        
-    }
-
-
+  // first <img> element in the .imageWrapper has the class .invisible
+  // so it is not visible
+  img:nth-child(1) {
+    opacity: 0;
+  }
 }
 
-.cover img { 
-    object-fit: cover;
+.cover img {
+  object-fit: cover;
 }
 
 .contain img {
-    object-fit: contain;
+  object-fit: contain;
 }
 
 .fill img {
-    object-fit: fill;
+  object-fit: fill;
 }
 
 .none img {
-    object-fit: none;
+  object-fit: none;
 }
 
 .scale-down img {
-    object-fit: scale-down;
+  object-fit: scale-down;
 }
 
 .buttonSelected {
-    opacity: 100%;
-    background-color: #4CAF50;
-    color: white;
+  opacity: 100%;
+  background-color: #4caf50;
+  color: white;
 }

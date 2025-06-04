@@ -1,18 +1,19 @@
 ---
 layout: '../../layouts/FreeLayout.astro'
-date: "2025-03-08"
-title: "Spring Moodboard"
-tags: ["photography"]
+date: '2025-03-08'
+title: 'Spring Moodboard'
+tags: ['photography']
 ---
 
 import DummyComponent from '../../components/DummyComponent/DummyComponent.astro';
-import GalleryImageGrid from "../../components/GalleryImageGrid/GalleryImageGrid.astro";
+import GalleryImageGrid from '../../components/GalleryImageGrid/GalleryImageGrid.astro';
 
 export const images = import.meta.glob(
-    "/src/images/photography/inspiration/spring/*.{jpeg,jpg,png,gif,webp,webp}");
+  '/src/images/photography/inspiration/spring/*.{jpeg,jpg,png,gif,webp,webp}'
+);
 
 <DummyComponent />
 
 # {props.title}
 
-<GalleryImageGrid images={images} ></GalleryImageGrid>
+<GalleryImageGrid images={images}></GalleryImageGrid>

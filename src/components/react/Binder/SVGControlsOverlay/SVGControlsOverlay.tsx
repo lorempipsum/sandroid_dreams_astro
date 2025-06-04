@@ -42,11 +42,11 @@ const SVGControlsOverlay: React.FC<SVGControlsOverlayProps> = ({
   totalPoints,
   totalDistance = 0,
   limitVisiblePoints = false,
-  onToggleLimitPoints
+  onToggleLimitPoints,
 }) => {
   const [activeTab, setActiveTab] = useState<'controls' | 'import'>('controls');
   const [svgPreview, setSvgPreview] = useState<string | null>(null);
-  
+
   // States to handle dragging
   const [isDragging, setIsDragging] = useState(false);
   const [position, setPosition] = useState({ x: 0, y: 0 });
@@ -71,11 +71,11 @@ const SVGControlsOverlay: React.FC<SVGControlsOverlayProps> = ({
   // Mouse down handler to start dragging
   const handleMouseDown = (e: React.MouseEvent<HTMLDivElement>) => {
     if (!dragRef.current) return;
-    
+
     setIsDragging(true);
     dragStartPos.current = { x: e.clientX, y: e.clientY };
     initialPos.current = position;
-    
+
     // Prevent text selection during drag
     e.preventDefault();
   };
@@ -83,13 +83,13 @@ const SVGControlsOverlay: React.FC<SVGControlsOverlayProps> = ({
   // Mouse move handler to update position during drag
   const handleMouseMove = (e: MouseEvent) => {
     if (!isDragging) return;
-    
+
     const dx = e.clientX - dragStartPos.current.x;
     const dy = e.clientY - dragStartPos.current.y;
-    
+
     setPosition({
       x: initialPos.current.x + dx,
-      y: initialPos.current.y + dy
+      y: initialPos.current.y + dy,
     });
   };
 
@@ -107,7 +107,7 @@ const SVGControlsOverlay: React.FC<SVGControlsOverlayProps> = ({
       window.removeEventListener('mousemove', handleMouseMove);
       window.removeEventListener('mouseup', handleMouseUp);
     }
-    
+
     return () => {
       window.removeEventListener('mousemove', handleMouseMove);
       window.removeEventListener('mouseup', handleMouseUp);
@@ -123,24 +123,24 @@ const SVGControlsOverlay: React.FC<SVGControlsOverlayProps> = ({
   };
 
   return (
-    <div 
-      className={styles.overlay} 
+    <div
+      className={styles.overlay}
       onClick={() => onClose()}
-      style={{ 
-        cursor: isDragging ? 'grabbing' : 'auto'
+      style={{
+        cursor: isDragging ? 'grabbing' : 'auto',
       }}
     >
-      <div 
-        className={styles.controlPanel} 
+      <div
+        className={styles.controlPanel}
         onClick={(e) => e.stopPropagation()}
         ref={dragRef}
-        style={{ 
+        style={{
           transform: `translate(${position.x}px, ${position.y}px)`,
-          cursor: isDragging ? 'grabbing' : 'auto'
+          cursor: isDragging ? 'grabbing' : 'auto',
         }}
       >
-        <div 
-          className={styles.header} 
+        <div
+          className={styles.header}
           onMouseDown={handleMouseDown}
           style={{ cursor: isDragging ? 'grabbing' : 'grab' }}
         >
@@ -148,7 +148,7 @@ const SVGControlsOverlay: React.FC<SVGControlsOverlayProps> = ({
             <span>⋮⋮</span> {/* Drag indicator */}
           </div>
           <h3>SVG Path Tool</h3>
-          <button 
+          <button
             className={styles.closeButton}
             onClick={onClose}
             aria-label="Close controls"
@@ -156,22 +156,26 @@ const SVGControlsOverlay: React.FC<SVGControlsOverlayProps> = ({
             ×
           </button>
         </div>
-        
+
         <div className={styles.tabs}>
-          <button 
-            className={`${styles.tab} ${activeTab === 'controls' ? styles.active : ''}`}
+          <button
+            className={`${styles.tab} ${
+              activeTab === 'controls' ? styles.active : ''
+            }`}
             onClick={() => setActiveTab('controls')}
           >
             Controls
           </button>
-          <button 
-            className={`${styles.tab} ${activeTab === 'import' ? styles.active : ''}`}
+          <button
+            className={`${styles.tab} ${
+              activeTab === 'import' ? styles.active : ''
+            }`}
             onClick={() => setActiveTab('import')}
           >
             Import SVG
           </button>
         </div>
-        
+
         {activeTab === 'controls' && (
           <>
             {progress && (
@@ -181,41 +185,45 @@ const SVGControlsOverlay: React.FC<SVGControlsOverlayProps> = ({
                     {showSvgPath ? 'SVG Path Active' : 'SVG Path Hidden'}
                   </span>
                   <label className={styles.switch}>
-                    <input 
-                      type="checkbox" 
+                    <input
+                      type="checkbox"
                       checked={showSvgPath}
-                      onChange={(e) => onToggleSvgPath(e.target.checked)} 
+                      onChange={(e) => onToggleSvgPath(e.target.checked)}
                     />
                     <span className={styles.slider}></span>
                   </label>
                 </div>
-                
+
                 {onToggleLimitPoints && (
                   <div className={styles.toggleRow}>
                     <span className={styles.statusText}>
-                    Show Next 3 Points Only
+                      Show Next 3 Points Only
                     </span>
                     <label className={styles.switch}>
-                      <input 
-                        type="checkbox" 
+                      <input
+                        type="checkbox"
                         checked={limitVisiblePoints}
-                        onChange={(e) => onToggleLimitPoints(e.target.checked)} 
+                        onChange={(e) => onToggleLimitPoints(e.target.checked)}
                       />
                       <span className={styles.slider}></span>
                     </label>
                   </div>
                 )}
-                
-                <span>Progress: {progress.completed}/{progress.total} points</span>
+
+                <span>
+                  Progress: {progress.completed}/{progress.total} points
+                </span>
                 <div className={styles.progressBar}>
-                  <div 
-                    className={styles.progressFill} 
-                    style={{ width: `${(progress.completed / progress.total) * 100}%` }} 
+                  <div
+                    className={styles.progressFill}
+                    style={{
+                      width: `${(progress.completed / progress.total) * 100}%`,
+                    }}
                   />
                 </div>
               </div>
             )}
-            
+
             <div className={styles.controlsGrid}>
               <div className={styles.controlGroup}>
                 <label>Scale</label>
@@ -231,7 +239,7 @@ const SVGControlsOverlay: React.FC<SVGControlsOverlayProps> = ({
                   <span>{svgScale.toFixed(1)}×</span>
                 </div>
               </div>
-              
+
               {onSvgRotationChange && (
                 <div className={styles.controlGroup}>
                   <label>Rotation</label>
@@ -241,13 +249,15 @@ const SVGControlsOverlay: React.FC<SVGControlsOverlayProps> = ({
                       min="0"
                       max="359"
                       value={svgRotation}
-                      onChange={(e) => onSvgRotationChange(Number(e.target.value))}
+                      onChange={(e) =>
+                        onSvgRotationChange(Number(e.target.value))
+                      }
                     />
                     <span>{svgRotation}°</span>
                   </div>
                 </div>
               )}
-              
+
               <div className={styles.controlGroup}>
                 <label>Min Distance</label>
                 <div className={styles.controlRow}>
@@ -256,12 +266,14 @@ const SVGControlsOverlay: React.FC<SVGControlsOverlayProps> = ({
                     min="1"
                     max="30"
                     value={minDistance}
-                    onChange={(e) => onMinDistanceChange(Number(e.target.value))}
+                    onChange={(e) =>
+                      onMinDistanceChange(Number(e.target.value))
+                    }
                   />
                   <span>{minDistance}m</span>
                 </div>
               </div>
-              
+
               <div className={styles.controlGroup}>
                 <label>Max Distance</label>
                 <div className={styles.controlRow}>
@@ -270,13 +282,15 @@ const SVGControlsOverlay: React.FC<SVGControlsOverlayProps> = ({
                     min="20"
                     max="100"
                     value={maxDistance}
-                    onChange={(e) => onMaxDistanceChange(Number(e.target.value))}
+                    onChange={(e) =>
+                      onMaxDistanceChange(Number(e.target.value))
+                    }
                   />
                   <span>{maxDistance}m</span>
                 </div>
               </div>
             </div>
-            
+
             <div className={styles.statusInfo}>
               <div className={styles.infoRow}>
                 <span className={styles.infoLabel}>Total Points:</span>
@@ -289,38 +303,41 @@ const SVGControlsOverlay: React.FC<SVGControlsOverlayProps> = ({
               {totalDistance > 0 && (
                 <div className={styles.infoRow}>
                   <span className={styles.infoLabel}>Total Length:</span>
-                  <span className={styles.infoValue}>{formatDistance(totalDistance)}</span>
+                  <span className={styles.infoValue}>
+                    {formatDistance(totalDistance)}
+                  </span>
                 </div>
               )}
             </div>
-            
+
             <div className={styles.buttonRow}>
-              <button 
-                className={styles.recenterButton}
-                onClick={onRecenter}
-              >
+              <button className={styles.recenterButton} onClick={onRecenter}>
                 Recenter SVG
               </button>
             </div>
           </>
         )}
-        
+
         {activeTab === 'import' && (
           <div className={styles.importPanel}>
             <div className={styles.fileInput}>
               <label>Select SVG File</label>
               <input type="file" accept=".svg" onChange={handleFileChange} />
             </div>
-            
+
             {svgPreview && (
               <div className={styles.preview}>
                 <h4>Preview:</h4>
-                <div className={styles.svgContainer} dangerouslySetInnerHTML={{ __html: svgPreview }} />
+                <div
+                  className={styles.svgContainer}
+                  dangerouslySetInnerHTML={{ __html: svgPreview }}
+                />
               </div>
             )}
-            
+
             <p className={styles.importNote}>
-              Import an SVG file to create a path to follow. The path will be centered at your current location.
+              Import an SVG file to create a path to follow. The path will be
+              centered at your current location.
             </p>
           </div>
         )}

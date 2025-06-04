@@ -1,11 +1,10 @@
-
 // styles
 import styles from './PageLink.module.scss';
 
 interface PageLinkProps {
-    to: string;
-    text: string;
-    isHidden?: boolean;
+  to: string;
+  text: string;
+  isHidden?: boolean;
 }
 // formerly known as ArticleLink
 const PageLink = ({ to, text, isHidden = false }: PageLinkProps) => {

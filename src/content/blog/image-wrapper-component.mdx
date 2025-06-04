@@ -1,68 +1,71 @@
 ---
 layout: '../../layouts/BaseLayout.astro'
-date: "2023-01-10"
-title: "Image Wrapper Component"
-tags: ["plotting"]
+date: '2023-01-10'
+title: 'Image Wrapper Component'
+tags: ['plotting']
 ---
+
 import TheDoubleImageMkII from '../../components/ImageComponent/TheDoubleImage/TheDoubleImageMkII.astro';
 import ImageWrapperLightBox from '../../components/react/Images/ImageWrapperLightBox.tsx';
 import ImageContainer from '../../components/ImageComponent/ImageContainer.astro';
-import TheDoubleImage from '../../components/ImageComponent/TheDoubleImage/TheDoubleImage.astro'
+import TheDoubleImage from '../../components/ImageComponent/TheDoubleImage/TheDoubleImage.astro';
 import cloudRailway from '../../images/photography/test_photos/cloud_railway.webp';
 import bristol_balloons from '../../images/photography/test_photos/bristol_balloons.webp';
 import bristol_balloons_wide from '../../images/photography/test_photos/bristol_balloons_wide.webp';
 import bwArtsy from '../../images/photography/test_photos/b&w_artsy.webp';
 import really_long_pano_sunset from '../../images/photography/test_photos/really_long_pano_sunset.webp';
-import { Image } from "astro:assets";
+import { Image } from 'astro:assets';
 
-
-<TheDoubleImage src2={bwArtsy.src} src1={bristol_balloons.src}/>
+<TheDoubleImage src2={bwArtsy.src} src1={bristol_balloons.src} />
 
 # Different ways of showing images on this site
 
-I'm making a new image display component for this site and this is some documentation of its different parts. 
+I'm making a new image display component for this site and this is some documentation of its different parts.
 
-Not promise to be current or helpful is made. 
+Not promise to be current or helpful is made.
 
 Starting with
 
-### The Container 
+### The Container
 
-The image is set to be the width of the paragraphs by default. 
+The image is set to be the width of the paragraphs by default.
 
-The max-height of the image is 50vh. 
+The max-height of the image is 50vh.
 
 Object-fit is set to 'cover'. (It would be fun to have it automatically select object-position for which part to zoom into)
 
-
-
 #### With a 4:3 image
 
-<ImageContainer  image={bristol_balloons}   />
+<ImageContainer image={bristol_balloons} />
 
 #### With a Widescreen image
 
-<ImageContainer  image={bristol_balloons_wide}  />
+<ImageContainer image={bristol_balloons_wide} />
 
 #### with a Portrait image
 
-<ImageContainer  image={cloudRailway}  />
+<ImageContainer image={cloudRailway} />
 
 #### with a Fancy B&W image
 
-<ImageContainer  image={bwArtsy}  />
+<ImageContainer image={bwArtsy} />
 
-#### With a really long pano image 
+#### With a really long pano image
 
-<ImageContainer image={really_long_pano_sunset}  />
+<ImageContainer image={really_long_pano_sunset} />
 
-#### The Double Image Mk II 
+#### The Double Image Mk II
 
-<TheDoubleImageMkII images={ import.meta.glob(
-    "/src/images/photography/merrill_vs_olympus/*.{jpeg,jpg,png,gif,webp}")} imageName1={"/src/images/photography/merrill_vs_olympus/olympus-1.webp"} imageName2={"/src/images/photography/merrill_vs_olympus/sigma-1.webp"} />
+<TheDoubleImageMkII
+  images={import.meta.glob(
+    '/src/images/photography/merrill_vs_olympus/*.{jpeg,jpg,png,gif,webp}'
+  )}
+  imageName1={'/src/images/photography/merrill_vs_olympus/olympus-1.webp'}
+  imageName2={'/src/images/photography/merrill_vs_olympus/sigma-1.webp'}
+/>
 
+#### Image container with a Lightbox
 
-
-#### Image container with a Lightbox 
-
-<ImageWrapperLightBox client:only><Image src={bristol_balloons} alt={"Photo of Bristol Balloons"} /> </ImageWrapperLightBox>
+<ImageWrapperLightBox client:only>
+  <Image src={bristol_balloons} alt={'Photo of Bristol Balloons'} />{' '}
+</ImageWrapperLightBox>

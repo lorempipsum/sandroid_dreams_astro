@@ -1,20 +1,18 @@
 ---
 layout: '../../layouts/FreeLayout.astro'
-date: "2024-03-03"
-title: "Cows of Mendip Hills"
-tags: ["photography"]
+date: '2024-03-03'
+title: 'Cows of Mendip Hills'
+tags: ['photography']
 ---
 
 import DummyComponent from '../../components/DummyComponent/DummyComponent.astro';
-import GalleryImageGrid from "../../components/GalleryImageGrid/GalleryImageGrid.astro";
+import GalleryImageGrid from '../../components/GalleryImageGrid/GalleryImageGrid.astro';
 export const images = import.meta.glob(
-    "/src/images/photography/cows_of_mendip_hills/*.{jpeg,jpg,png,gif,webp}");
-
+  '/src/images/photography/cows_of_mendip_hills/*.{jpeg,jpg,png,gif,webp}'
+);
 
 <DummyComponent />
 
-
 # {props.title}
 
-<GalleryImageGrid images={images} ></GalleryImageGrid>
-
+<GalleryImageGrid images={images}></GalleryImageGrid>

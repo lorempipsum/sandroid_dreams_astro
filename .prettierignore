@@ -1,0 +1,8 @@
+src/assets/bristol-data/**
+dist/**
+.astro/**
+.git/**
+.github/**
+node_modules/**
+package-lock.json
+public/**

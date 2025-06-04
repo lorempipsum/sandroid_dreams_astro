@@ -2,95 +2,124 @@ import { useState, useEffect } from 'react';
 import styles from './Strava.module.scss';
 import AnimatedBobUp from '../animations/AnimatedBobUp';
 import Button from '../Button/Button';
-import { calculateBearing, calculateDistance } from '../../../utils/locationUtils';
+import {
+  calculateBearing,
+  calculateDistance,
+} from '../../../utils/locationUtils';
 import { requestOrientationPermission } from '../../../utils/devicePermissions';
 import React from 'react';
 import Map from '../Map/Map';
 import { getDotPosition } from '../Binder/Dot/Dot';
 import ZoomControls from '../Binder/ZoomControls/ZoomControls';
-import { processSVGPath, type PathPoint, type SVGPathMetadata } from '../../../utils/svgPathUtils';
+import {
+  processSVGPath,
+  type PathPoint,
+  type SVGPathMetadata,
+} from '../../../utils/svgPathUtils';
 import SVGControlsOverlay from '../Binder/SVGControlsOverlay/SVGControlsOverlay';
 
 const Strava = () => {
-  const [userLocation, setUserLocation] = useState<GeolocationCoordinates | null>(null);
+  const [userLocation, setUserLocation] =
+    useState<GeolocationCoordinates | null>(null);
   const [compass, setCompass] = useState<number>(0);
   const [permissionGranted, setPermissionGranted] = useState(false);
   const [error, setError] = useState<string | null>(null);
   const [lockNorth, setLockNorth] = useState(false);
-  const [isDebugMode] = useState(() => 
-    typeof window !== 'undefined' && 
-    !('ontouchstart' in window) && 
-    process.env.NODE_ENV === 'development'
+  const [isDebugMode] = useState(
+    () =>
+      typeof window !== 'undefined' &&
+      !('ontouchstart' in window) &&
+      process.env.NODE_ENV === 'development'
   );
   const [mapZoom, setMapZoom] = useState(17); // Default zoom level 17
-  
+
   // SVG-specific state
   const [svgPathPoints, setSvgPathPoints] = useState<PathPoint[]>([]);
   const [svgMinDistance, setSvgMinDistance] = useState(10);
   const [svgMaxDistance, setSvgMaxDistance] = useState(20);
   const [showSvgPath, setShowSvgPath] = useState(true);
   const [svgMaxPoints] = useState(1000);
-  const [currentSvgContent, setCurrentSvgContent] = useState<string | null>(null);
+  const [currentSvgContent, setCurrentSvgContent] = useState<string | null>(
+    null
+  );
   const [svgScale, setSvgScale] = useState(1.0);
   const [currentGoalIndex, setCurrentGoalIndex] = useState<number>(0);
-  const [svgAnchorLocation, setSvgAnchorLocation] = useState<{latitude: number, longitude: number} | null>(null);
+  const [svgAnchorLocation, setSvgAnchorLocation] = useState<{
+    latitude: number;
+    longitude: number;
+  } | null>(null);
   const [svgRotation, setSvgRotation] = useState(0);
   const [showSvgOptions, setShowSvgOptions] = useState(false);
   const [overlayPosition, setOverlayPosition] = useState({ x: 0, y: 0 });
-  const [svgMetadata, setSvgMetadata] = useState<SVGPathMetadata>({ 
-    totalDistanceMeters: 0, 
-    averagePointDistanceMeters: 0, 
-    pointsCount: 0 
+  const [svgMetadata, setSvgMetadata] = useState<SVGPathMetadata>({
+    totalDistanceMeters: 0,
+    averagePointDistanceMeters: 0,
+    pointsCount: 0,
   });
   const [limitVisiblePoints, setLimitVisiblePoints] = useState(false);
 
   // Re-process SVG when parameters change
   useEffect(() => {
     if (!currentSvgContent || (!userLocation && !svgAnchorLocation)) return;
-    
+
     // Use either the anchor location (if set) or the current user location
     const anchorPoint = svgAnchorLocation || userLocation!;
-    
+
     const result = processSVGPath(
-      currentSvgContent, 
-      anchorPoint.latitude, 
-      anchorPoint.longitude, 
+      currentSvgContent,
+      anchorPoint.latitude,
+      anchorPoint.longitude,
       {
         minDistanceMeters: svgMinDistance,
         maxDistanceMeters: svgMaxDistance,
         maxPoints: svgMaxPoints,
         svgScale: svgScale,
-        svgRotation: svgRotation
+        svgRotation: svgRotation,
       }
     );
-    
+
     setSvgPathPoints(result.points);
     setSvgMetadata(result.metadata);
-    
-    console.log(`SVG path total distance: ${result.metadata.totalDistanceMeters.toFixed(2)}m`);
-  }, [currentSvgContent, svgAnchorLocation, svgMinDistance, svgMaxDistance, svgMaxPoints, svgScale, svgRotation, userLocation]);
+
+    console.log(
+      `SVG path total distance: ${result.metadata.totalDistanceMeters.toFixed(
+        2
+      )}m`
+    );
+  }, [
+    currentSvgContent,
+    svgAnchorLocation,
+    svgMinDistance,
+    svgMaxDistance,
+    svgMaxPoints,
+    svgScale,
+    svgRotation,
+    userLocation,
+  ]);
 
   // Check if user is near the current goal dot
   useEffect(() => {
     if (userLocation && svgPathPoints.length > 0 && showSvgPath) {
       // Use order property to find the next incomplete point
-      const orderedPoints = [...svgPathPoints].sort((a, b) => a.order - b.order);
-      const currentGoalPoint = orderedPoints.find(point => !point.completed);
-      
-      if (!currentGoalPoint) return; // All dots completed
-      
-      // Calculate distance to current goal dot
-      const distanceToGoal = calculateDistance(
-        userLocation,
-        { latitude: currentGoalPoint.latitude, longitude: currentGoalPoint.longitude }
+      const orderedPoints = [...svgPathPoints].sort(
+        (a, b) => a.order - b.order
       );
-      
+      const currentGoalPoint = orderedPoints.find((point) => !point.completed);
+
+      if (!currentGoalPoint) return; // All dots completed
+
+      // Calculate distance to current goal dot
+      const distanceToGoal = calculateDistance(userLocation, {
+        latitude: currentGoalPoint.latitude,
+        longitude: currentGoalPoint.longitude,
+      });
+
       // If user is within 5 meters, mark this dot as completed
       if (distanceToGoal < 5) {
-        setSvgPathPoints(prevPoints => 
-          prevPoints.map(point => 
-            point.id === currentGoalPoint.id 
-              ? { ...point, completed: true } 
+        setSvgPathPoints((prevPoints) =>
+          prevPoints.map((point) =>
+            point.id === currentGoalPoint.id
+              ? { ...point, completed: true }
               : point
           )
         );
@@ -104,9 +133,8 @@ const Strava = () => {
   };
 
   const requestPermissions = async () => {
-    await requestOrientationPermission(
-      handleOrientation,
-      () => setPermissionGranted(true)
+    await requestOrientationPermission(handleOrientation, () =>
+      setPermissionGranted(true)
     );
   };
 
@@ -136,22 +164,22 @@ const Strava = () => {
       altitude: null,
       altitudeAccuracy: null,
       heading: null,
-      speed: null
+      speed: null,
     };
-    
+
     setUserLocation(mockPosition);
   };
 
   const handleSVGImport = (svgContent: string) => {
     if (userLocation) {
       setCurrentSvgContent(svgContent);
-      
+
       // Set the anchor point to current user location
       setSvgAnchorLocation({
         latitude: userLocation.latitude,
-        longitude: userLocation.longitude
+        longitude: userLocation.longitude,
       });
-      
+
       // Reset the goal index and ensure path is visible
       setCurrentGoalIndex(0);
       setShowSvgPath(true);
@@ -164,7 +192,7 @@ const Strava = () => {
     if (userLocation) {
       setSvgAnchorLocation({
         latitude: userLocation.latitude,
-        longitude: userLocation.longitude
+        longitude: userLocation.longitude,
       });
     }
   };
@@ -181,61 +209,62 @@ const Strava = () => {
     setLimitVisiblePoints(value);
   };
 
-  const handleOverlayPositionChange = (position: { x: number, y: number }) => {
+  const handleOverlayPositionChange = (position: { x: number; y: number }) => {
     setOverlayPosition(position);
   };
 
   // Add handler to manually mark current goal as completed
   const handleSkipCurrentGoal = () => {
     if (!currentGoalDot) return;
-    
-    setSvgPathPoints(prevPoints => 
-      prevPoints.map(point => 
-        point.id === currentGoalDot.id 
-          ? { ...point, completed: true } 
-          : point
+
+    setSvgPathPoints((prevPoints) =>
+      prevPoints.map((point) =>
+        point.id === currentGoalDot.id ? { ...point, completed: true } : point
       )
     );
   };
 
   // Find the current goal dot and determine SVG navigation mode
   const orderedSvgPoints = [...svgPathPoints].sort((a, b) => a.order - b.order);
-  const currentGoalDot = orderedSvgPoints.find(point => !point.completed);
-  const completedCount = svgPathPoints.filter(point => point.completed).length;
+  const currentGoalDot = orderedSvgPoints.find((point) => !point.completed);
+  const completedCount = svgPathPoints.filter(
+    (point) => point.completed
+  ).length;
   const totalCount = svgPathPoints.length;
-  const isSvgNavigationActive = showSvgPath && svgPathPoints.length > 0 && currentGoalDot;
-  
+  const isSvgNavigationActive =
+    showSvgPath && svgPathPoints.length > 0 && currentGoalDot;
+
   // Calculate bearing to current goal
   let bearing = 0;
-  
+
   if (userLocation && isSvgNavigationActive && currentGoalDot) {
-    bearing = calculateBearing(
-      userLocation, 
-      { latitude: currentGoalDot.latitude, longitude: currentGoalDot.longitude }
-    );
+    bearing = calculateBearing(userLocation, {
+      latitude: currentGoalDot.latitude,
+      longitude: currentGoalDot.longitude,
+    });
   }
-  
+
   // Calculate final rotation with compass adjustment
-  const rotation = compass ? (bearing - compass) : bearing;
+  const rotation = compass ? bearing - compass : bearing;
 
   // Determine which points to render based on limitVisiblePoints setting
   let pointsToRender = orderedSvgPoints;
-  
+
   if (limitVisiblePoints && currentGoalDot) {
     // Find the index of current goal dot
-    const currentGoalIndex = orderedSvgPoints.findIndex(point => point.id === currentGoalDot.id);
-    
+    const currentGoalIndex = orderedSvgPoints.findIndex(
+      (point) => point.id === currentGoalDot.id
+    );
+
     // Select only the next 3 points (including current goal)
     pointsToRender = orderedSvgPoints.slice(
-      currentGoalIndex, 
+      currentGoalIndex,
       currentGoalIndex + 3
     );
-    
+
     // Always include completed points
-    const completedPoints = orderedSvgPoints.filter(point => point.completed);
+    const completedPoints = orderedSvgPoints.filter((point) => point.completed);
     pointsToRender = [...completedPoints, ...pointsToRender];
-    
-  
   }
 
   return (
@@ -243,19 +272,17 @@ const Strava = () => {
       <div className={styles.titleContainer}>
         <p>Upload an SVG and turn it into a running path</p>
         <div className={styles.toggleContainer}>
-       
-          <button 
-            className={styles.svgButton} 
-            onClick={handleShowSvgControls}
-          >
+          <button className={styles.svgButton} onClick={handleShowSvgControls}>
             SVG Path Tools
           </button>
         </div>
       </div>
-      
+
       {svgPathPoints.length > 0 && showSvgPath && (
         <div className={styles.svgProgress}>
-          <span>Progress: {completedCount}/{totalCount} points</span>
+          <span>
+            Progress: {completedCount}/{totalCount} points
+          </span>
           <div className={styles.progressBar}>
             <div
               className={styles.progressFill}
@@ -264,30 +291,38 @@ const Strava = () => {
           </div>
         </div>
       )}
-      
+
       <div className={styles.container}>
         {error && <div className={styles.error}>{error}</div>}
 
         {!permissionGranted ? (
-          <Button id="enable-compass" onClick={requestPermissions} label="Enable Compass" />
+          <Button
+            id="enable-compass"
+            onClick={requestPermissions}
+            label="Enable Compass"
+          />
         ) : (
           <>
             <div className={styles.zoomControls}>
-              <ZoomControls 
-                zoom={mapZoom} 
-                onZoomChange={setMapZoom} 
-                min={11} 
-                max={20} 
+              <ZoomControls
+                zoom={mapZoom}
+                onZoomChange={setMapZoom}
+                min={11}
+                max={20}
                 step={1}
                 label="Map Zoom"
               />
             </div>
             <div className={styles.radar}>
-              <Map 
+              <Map
                 userLocation={userLocation}
-                currentLocation={currentGoalDot ? 
-                  { latitude: currentGoalDot.latitude, longitude: currentGoalDot.longitude } : 
-                  null
+                currentLocation={
+                  currentGoalDot
+                    ? {
+                        latitude: currentGoalDot.latitude,
+                        longitude: currentGoalDot.longitude,
+                      }
+                    : null
                 }
                 compass={compass}
                 lockNorth={lockNorth}
@@ -296,34 +331,38 @@ const Strava = () => {
                 onDebugPositionChange={handleDebugPositionChange}
                 mapZoom={mapZoom}
               />
-              
+
               {/* SVG path dots */}
-              {showSvgPath && userLocation && pointsToRender.map((point) => (
-                <div
-                  key={`svg-${point.id}`}
-                  className={`
+              {showSvgPath &&
+                userLocation &&
+                pointsToRender.map((point) => (
+                  <div
+                    key={`svg-${point.id}`}
+                    className={`
                     ${styles.dot} 
                     ${styles.svgDot} 
                     ${point.completed ? styles.completedDot : ''} 
                     ${point === currentGoalDot ? styles.goalDot : ''}
                   `}
-                  style={getDotPosition(
-                    calculateDistance(
-                      userLocation, 
-                      { latitude: point.latitude, longitude: point.longitude }
-                    ),
-                    calculateBearing(
-                      userLocation, 
-                      { latitude: point.latitude, longitude: point.longitude }
-                    ),
-                    lockNorth,
-                    compass,
-                    mapZoom
-                  )}
-                  title={`Point ${point.order}${point.completed ? ' (Completed)' : ''}`}
-                />
-              ))}
-              
+                    style={getDotPosition(
+                      calculateDistance(userLocation, {
+                        latitude: point.latitude,
+                        longitude: point.longitude,
+                      }),
+                      calculateBearing(userLocation, {
+                        latitude: point.latitude,
+                        longitude: point.longitude,
+                      }),
+                      lockNorth,
+                      compass,
+                      mapZoom
+                    )}
+                    title={`Point ${point.order}${
+                      point.completed ? ' (Completed)' : ''
+                    }`}
+                  />
+                ))}
+
               {/* SVG controls overlay */}
               {showSvgOptions && (
                 <SVGControlsOverlay
@@ -348,7 +387,7 @@ const Strava = () => {
                 />
               )}
             </div>
-            
+
             <AnimatedBobUp>
               <svg
                 className={styles.arrow}
@@ -362,10 +401,10 @@ const Strava = () => {
                 <path d="m 106.15699,104.81898 0.81766,137.66811 102.24487,52.63857 L 106.09742,1.2562312 1.2008898,295.02942 96.460978,247.10502" />
               </svg>
             </AnimatedBobUp>
-            
+
             {/* Add skip button below arrow when in SVG navigation mode */}
             {isSvgNavigationActive && (
-              <button 
+              <button
                 className={styles.skipGoalButton}
                 onClick={handleSkipCurrentGoal}
                 title="Mark this point as completed without physically reaching it"
@@ -373,14 +412,20 @@ const Strava = () => {
                 Skip Goal
               </button>
             )}
-            
+
             {/* Show goal information */}
             {isSvgNavigationActive && userLocation && (
               <div className={styles.goalInfo}>
-                <span>Next goal: {Math.round(calculateDistance(
-                  userLocation,
-                  { latitude: currentGoalDot.latitude, longitude: currentGoalDot.longitude }
-                ))}m</span>
+                <span>
+                  Next goal:{' '}
+                  {Math.round(
+                    calculateDistance(userLocation, {
+                      latitude: currentGoalDot.latitude,
+                      longitude: currentGoalDot.longitude,
+                    })
+                  )}
+                  m
+                </span>
               </div>
             )}
           </>

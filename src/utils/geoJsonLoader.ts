@@ -22,24 +22,25 @@ export const loadFacilities = (): Facility[] => {
 
 export const getUniqueTypes = (): string[] => {
   const facilities = loadFacilities();
-  const types = new Set(facilities.map(f => f.properties.TYPE));
+  const types = new Set(facilities.map((f) => f.properties.TYPE));
   return Array.from(types).sort();
 };
 
 export const getFacilitiesByType = (type: string) => {
   const facilities = loadFacilities();
   return facilities
-    .filter(f => 
-      f?.properties?.TYPE === type && 
-      f?.geometry?.coordinates && 
-      Array.isArray(f.geometry.coordinates) &&
-      f.geometry.coordinates.length === 2
+    .filter(
+      (f) =>
+        f?.properties?.TYPE === type &&
+        f?.geometry?.coordinates &&
+        Array.isArray(f.geometry.coordinates) &&
+        f.geometry.coordinates.length === 2
     )
-    .map(f => ({
+    .map((f) => ({
       latitude: f.geometry.coordinates[1],
       longitude: f.geometry.coordinates[0],
       name: f.properties.SITE_NAME || f.properties.TYPE,
-      id: f.properties.ASSET_ID || `facility-${Math.random()}`
+      id: f.properties.ASSET_ID || `facility-${Math.random()}`,
     }))
-    .filter(f => !isNaN(f.latitude) && !isNaN(f.longitude));
+    .filter((f) => !isNaN(f.latitude) && !isNaN(f.longitude));
 };

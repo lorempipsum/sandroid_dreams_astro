@@ -3,10 +3,16 @@ import styles from './Binder.module.scss';
 import Button from '../Button/Button';
 import { calculateBearing, findNearestBin } from '../../../utils/locationUtils';
 import { requestOrientationPermission } from '../../../utils/devicePermissions';
-import { getUniqueTypes, getFacilitiesByType } from '../../../utils/geoJsonLoader';
+import {
+  getUniqueTypes,
+  getFacilitiesByType,
+} from '../../../utils/geoJsonLoader';
 import { getCrimeData } from '../../../utils/crimeDataLoader';
 import { getTreeData } from '../../../utils/treeDataLoader';
-import { getGeneralTreeData, type GeneralTree } from '../../../utils/generalTreeDataLoader';
+import {
+  getGeneralTreeData,
+  type GeneralTree,
+} from '../../../utils/generalTreeDataLoader';
 import React from 'react';
 import Map from '../Map/Map';
 import DataTypeSelector from './DataTypeSelector/DataTypeSelector';
@@ -15,39 +21,56 @@ import { getLocationsForType } from './utils';
 import Dot from './Dot/Dot';
 import ZoomControls from './ZoomControls/ZoomControls';
 
-const DATASOURCES = ['Facilities', 'Crimes', 'Protected Trees', 'Trees'] as const;
-type DataSourceType = typeof DATASOURCES[number];
+const DATASOURCES = [
+  'Facilities',
+  'Crimes',
+  'Protected Trees',
+  'Trees',
+] as const;
+type DataSourceType = (typeof DATASOURCES)[number];
 
 const Binder = () => {
-  const [userLocation, setUserLocation] = useState<GeolocationCoordinates | null>(null);
+  const [userLocation, setUserLocation] =
+    useState<GeolocationCoordinates | null>(null);
   const [compass, setCompass] = useState<number>(0);
   const [distance, setDistance] = useState<number | null>(null);
   const [permissionGranted, setPermissionGranted] = useState(false);
   const [facilityTypes] = useState(() => getUniqueTypes());
   const [selectedType, setSelectedType] = useState(facilityTypes[0]);
-  const [locations, setLocations] = useState(() => getFacilitiesByType(facilityTypes[0]));
+  const [locations, setLocations] = useState(() =>
+    getFacilitiesByType(facilityTypes[0])
+  );
   const [currentBin, setCurrentBin] = useState(locations[0]);
   const [error, setError] = useState<string | null>(null);
   const [showDotInfo, setShowDotInfo] = useState(false);
   const [showAllNearby, setShowAllNearby] = useState(false);
-  const [nearbyLocations, setNearbyLocations] = useState<Array<{
-    bin: typeof locations[0],
-    distance: number,
-    bearing: number
-  }>>([]);
-  const [dataType, setDataType] = useState<'facilities' | 'crimes' | 'protected trees' | 'trees'>('facilities');
+  const [nearbyLocations, setNearbyLocations] = useState<
+    Array<{
+      bin: (typeof locations)[0];
+      distance: number;
+      bearing: number;
+    }>
+  >([]);
+  const [dataType, setDataType] = useState<
+    'facilities' | 'crimes' | 'protected trees' | 'trees'
+  >('facilities');
   const [crimeLocations] = useState(() => getCrimeData());
   const [treeLocations] = useState(() => getTreeData());
-  const [generalTreeLocations, setGeneralTreeLocations] = useState<GeneralTree[]>([]);
+  const [generalTreeLocations, setGeneralTreeLocations] = useState<
+    GeneralTree[]
+  >([]);
   const [lockNorth, setLockNorth] = useState(false);
-  const [isDebugMode] = useState(() => 
-    typeof window !== 'undefined' && 
-    !('ontouchstart' in window) && 
-    process.env.NODE_ENV === 'development'
+  const [isDebugMode] = useState(
+    () =>
+      typeof window !== 'undefined' &&
+      !('ontouchstart' in window) &&
+      process.env.NODE_ENV === 'development'
   );
   const [mapZoom, setMapZoom] = useState(17); // Default zoom level 17
 
-  const updateLocations = (sorted: Array<{ bin: any, distance: number, bearing: number }>) => {
+  const updateLocations = (
+    sorted: Array<{ bin: any; distance: number; bearing: number }>
+  ) => {
     setNearbyLocations(sorted);
     setCurrentBin(sorted[0].bin);
     setDistance(sorted[0].distance);
@@ -71,7 +94,8 @@ const Binder = () => {
 
   useEffect(() => {
     if (userLocation && locations.length > 0) {
-      const sorted = locations.map(bin => findNearestBin(userLocation, [bin]))
+      const sorted = locations
+        .map((bin) => findNearestBin(userLocation, [bin]))
         .sort((a, b) => a.distance - b.distance)
         .slice(0, 10);
 
@@ -97,11 +121,18 @@ const Binder = () => {
         sorted = getLocationsForType(generalTreeLocations, userLocation);
         break;
     }
-    
+
     if (sorted) {
       updateLocations(sorted);
     }
-  }, [locations, userLocation, dataType, crimeLocations, treeLocations, generalTreeLocations]);
+  }, [
+    locations,
+    userLocation,
+    dataType,
+    crimeLocations,
+    treeLocations,
+    generalTreeLocations,
+  ]);
 
   useEffect(() => {
     const loadGeneralTrees = async () => {
@@ -117,9 +148,8 @@ const Binder = () => {
   };
 
   const requestPermissions = async () => {
-    await requestOrientationPermission(
-      handleOrientation,
-      () => setPermissionGranted(true)
+    await requestOrientationPermission(handleOrientation, () =>
+      setPermissionGranted(true)
     );
   };
 
@@ -159,30 +189,30 @@ const Binder = () => {
       altitude: null,
       altitudeAccuracy: null,
       heading: null,
-      speed: null
+      speed: null,
     };
-    
+
     setUserLocation(mockPosition);
   };
 
   // Calculate bearing based on active navigation mode
   let bearing = 0;
-  
+
   if (userLocation) {
     if (currentBin) {
       // Point to facility otherwise
       bearing = calculateBearing(userLocation, currentBin);
     }
   }
-  
+
   // Calculate final rotation with compass adjustment
-  const rotation = compass ? (bearing - compass) : bearing;
+  const rotation = compass ? bearing - compass : bearing;
 
   return (
     <div onClick={handleBackgroundClick}>
       <div className={styles.titleContainer}>
         <span>Find the closest</span>
-        <DataTypeSelector 
+        <DataTypeSelector
           dataType={dataType}
           onDataTypeChange={(type) => setDataType(type as typeof dataType)}
           facilityTypes={facilityTypes}
@@ -208,30 +238,32 @@ const Binder = () => {
           </label>
         </div>
       </div>
-      
+
       <div className={styles.container}>
         {error && <div className={styles.error}>{error}</div>}
 
         {!permissionGranted ? (
-          <Button id="enable-compass" onClick={requestPermissions} label="Enable Compass" />
+          <Button
+            id="enable-compass"
+            onClick={requestPermissions}
+            label="Enable Compass"
+          />
         ) : (
           <>
             <div className={styles.zoomControls}>
-              <ZoomControls 
-                zoom={mapZoom} 
-                onZoomChange={setMapZoom} 
-                min={11} 
-                max={20} 
+              <ZoomControls
+                zoom={mapZoom}
+                onZoomChange={setMapZoom}
+                min={11}
+                max={20}
                 step={1}
                 label="Map Zoom"
               />
             </div>
             <div className={styles.radar}>
-              <Map 
+              <Map
                 userLocation={userLocation}
-                currentLocation={ 
-                  currentBin
-                }
+                currentLocation={currentBin}
                 compass={compass}
                 lockNorth={lockNorth}
                 debugMode={isDebugMode}
@@ -239,9 +271,9 @@ const Binder = () => {
                 onDebugPositionChange={handleDebugPositionChange} // Add this prop
                 mapZoom={mapZoom}
               />
-              
+
               {/* Only show facility dots when not in SVG navigation mode */}
-              {showAllNearby && (
+              {showAllNearby &&
                 nearbyLocations.map((loc, index) => (
                   <Dot
                     key={loc.bin.id}
@@ -254,9 +286,8 @@ const Binder = () => {
                     onDotClick={handleDotClick}
                     mapZoom={mapZoom}
                   />
-                ))
-              )}
-              
+                ))}
+
               {!showAllNearby && currentBin && distance && (
                 <Dot
                   loc={{ bin: currentBin, distance, bearing }}
@@ -266,11 +297,11 @@ const Binder = () => {
                   compass={compass}
                   isNorthLocked={lockNorth}
                   onDotClick={handleDotClick}
-                  mapZoom={mapZoom} 
+                  mapZoom={mapZoom}
                 />
               )}
             </div>
-            
+
             <svg
               className={styles.arrow}
               style={{ transform: `rotate(${rotation}deg)` }}
@@ -282,10 +313,10 @@ const Binder = () => {
             >
               <path d="m 106.15699,104.81898 0.81766,137.66811 102.24487,52.63857 L 106.09742,1.2562312 1.2008898,295.02942 96.460978,247.10502" />
             </svg>
-            
-            <DistanceDisplay 
-              name={currentBin?.name || ''} 
-              distance={distance} 
+
+            <DistanceDisplay
+              name={currentBin?.name || ''}
+              distance={distance}
             />
           </>
         )}
@@ -295,4 +326,3 @@ const Binder = () => {
 };
 
 export default Binder;
-

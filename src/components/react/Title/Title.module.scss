@@ -1,4 +1,4 @@
-@import "../../../styles/colors.scss";
+@import '../../../styles/colors.scss';
 
 .subtitleText {
   font-size: 15px;
@@ -8,15 +8,12 @@
   text-decoration: none;
   cursor: pointer;
 
-
   &:focus-visible {
     outline: 2px solid $arrowBlue;
     outline-offset: 4px;
     color: $arrowBlue;
   }
-
 }
-
 
 .subtitleText:hover {
   color: $arrowBlue !important;
@@ -45,18 +42,19 @@
   font-variant: small-caps;
   text-decoration: none;
   color: #333;
-
 }
 
 .animatedText {
   position: relative;
   color: black;
-  background: linear-gradient(90deg,
-      black 0%,
-      black 45%,
-      $arrowBlue 50%,
-      black 55%,
-      black 100%);
+  background: linear-gradient(
+    90deg,
+    black 0%,
+    black 45%,
+    $arrowBlue 50%,
+    black 55%,
+    black 100%
+  );
   background-size: 200% 100%;
   -webkit-background-clip: text;
   background-clip: text;
@@ -71,8 +69,6 @@
 }
 
 .navigation {
-
-
   display: flex;
 
   flex-wrap: wrap;
@@ -80,5 +76,4 @@
   justify-content: center;
 
   -webkit-overflow-scrolling: touch; // Smooth scrolling for iOS
-
 }

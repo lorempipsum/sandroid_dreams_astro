@@ -1,44 +1,42 @@
-
 .imageContainer {
-    
-    position: relative;
-    aspect-ratio: 16 / 10;
-    height: auto; /* Adjust the container height as needed */
-    justify-content: center;
-    text-align: center;
-    display: flex; /* Allow image within to be centered and overflow both sides */
-    align-items: center; /* Center the child both horizontally and vertically */
-    padding-top: 1.5rem;
-    padding-bottom: 1.5rem;
+  position: relative;
+  aspect-ratio: 16 / 10;
+  height: auto; /* Adjust the container height as needed */
+  justify-content: center;
+  text-align: center;
+  display: flex; /* Allow image within to be centered and overflow both sides */
+  align-items: center; /* Center the child both horizontally and vertically */
+  padding-top: 1.5rem;
+  padding-bottom: 1.5rem;
 }
 
 .imageContainer img {
-    width: 100%;
-    height: auto;
+  width: 100%;
+  height: auto;
 }
 
 .defaultStyles img {
-    width: 100%;
-    height: auto;
-    min-height: 20vh;
-    max-height: 70vh;
-    object-fit: cover;
-    border: 20px solid white;
-    outline: 2px solid whitesmoke;
-    transition: all 0.6s ease-in-out;
-    object-position: 33% 33%;
-    max-width: 100vw;
+  width: 100%;
+  height: auto;
+  min-height: 20vh;
+  max-height: 70vh;
+  object-fit: cover;
+  border: 20px solid white;
+  outline: 2px solid whitesmoke;
+  transition: all 0.6s ease-in-out;
+  object-position: 33% 33%;
+  max-width: 100vw;
 }
 
 .expandedStyles img {
-    width: 90vw;
-    height: auto;
-    min-height: 20vh;
-    max-height: 90vh;
-    object-fit: cover;
-    transition: all 0.6s ease-in-out;
-    border: 20px solid white;
-    outline: 2px solid whitesmoke;
-    object-position: 66% 33%;
-    max-width: 100vw;
+  width: 90vw;
+  height: auto;
+  min-height: 20vh;
+  max-height: 90vh;
+  object-fit: cover;
+  transition: all 0.6s ease-in-out;
+  border: 20px solid white;
+  outline: 2px solid whitesmoke;
+  object-position: 66% 33%;
+  max-width: 100vw;
 }

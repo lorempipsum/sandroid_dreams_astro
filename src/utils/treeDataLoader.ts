@@ -25,8 +25,8 @@ const parsePoint = (pointStr: string): [number, number] => {
 
 export const getTreeData = (): TreeLocation[] => {
   return treeData.features
-    .filter(feature => feature.properties.POINT) // Ensure point exists
-    .map(feature => {
+    .filter((feature) => feature.properties.POINT) // Ensure point exists
+    .map((feature) => {
       const [longitude, latitude] = parsePoint(feature.properties.POINT);
       return {
         id: feature.properties.REFERENCE,
@@ -42,7 +42,7 @@ export const getTreeData = (): TreeLocation[] => {
         entryDate: feature.properties.ENTRY_DATE,
         treeType: feature.properties.TREE_TYPE,
         shapeArea: feature.properties.ShapeSTArea,
-        shapeLength: feature.properties.ShapeSTLength
+        shapeLength: feature.properties.ShapeSTLength,
       };
     });
 };

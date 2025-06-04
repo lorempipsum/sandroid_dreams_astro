@@ -1,4 +1,3 @@
-
 export interface GeneralTree {
   latinName: string;
   crownWidth: string;

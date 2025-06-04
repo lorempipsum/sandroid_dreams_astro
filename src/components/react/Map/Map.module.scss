@@ -2,13 +2,13 @@
 
 .mapContainer {
   position: absolute;
-  width: 400px;  // Increase base size
+  width: 400px; // Increase base size
   height: 400px; // Increase base size
   overflow: hidden;
   opacity: 0.7;
   pointer-events: none;
-  top: -50px;    // Offset to center
-  left: -50px;   // Offset to center
+  top: -50px; // Offset to center
+  left: -50px; // Offset to center
   transform: scale(0.75); // Scale down to match radar size (300px)
   transform-origin: center center;
 }
@@ -25,12 +25,12 @@
   div {
     width: 12px;
     height: 12px;
-    background-color: #2196F3;
+    background-color: #2196f3;
     border: 2px solid white;
     border-radius: 50%;
     box-shadow: 0 0 6px rgba(0, 0, 0, 0.5);
     transition: transform 0.2s;
-    
+
     &:hover {
       transform: scale(1.2);
       cursor: move;
@@ -66,36 +66,36 @@
     align-items: center;
     gap: 8px;
     margin-bottom: 8px;
-    
+
     label {
       min-width: 70px;
       font-size: 12px;
     }
-    
+
     input {
       flex: 1;
     }
-    
+
     span {
       min-width: 40px;
       text-align: right;
       font-size: 12px;
     }
   }
-  
+
   .debugInfo {
     font-size: 12px;
-    
+
     h4 {
       margin: 0 0 4px 0;
       color: #f44336;
     }
-    
+
     p {
       margin: 0 0 4px 0;
       font-style: italic;
     }
-    
+
     div {
       display: flex;
       justify-content: space-between;

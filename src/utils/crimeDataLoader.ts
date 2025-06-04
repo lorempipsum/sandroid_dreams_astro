@@ -10,15 +10,15 @@ type CrimeLocation = {
   locationType: string;
   outcome: string;
   streetName: string;
-}
+};
 
 const getCrimeData = (): CrimeLocation[] => {
   // Create a Map to store unique coordinates
   const uniqueLocations = new Map();
-  
-  crimeData.features.forEach(feature => {
+
+  crimeData.features.forEach((feature) => {
     const coords = `${feature.geometry.coordinates[0]},${feature.geometry.coordinates[1]}`;
-    
+
     // Only keep the first occurrence of each coordinate
     if (!uniqueLocations.has(coords)) {
       uniqueLocations.set(coords, {
@@ -30,7 +30,7 @@ const getCrimeData = (): CrimeLocation[] => {
         category: feature.properties.CRIME_CATEGORY,
         locationType: feature.properties.LOCATION_TYPE,
         outcome: feature.properties.OUTCOME_CATEGORY,
-        streetName: feature.properties.STREET_NAME
+        streetName: feature.properties.STREET_NAME,
       });
     }
   });

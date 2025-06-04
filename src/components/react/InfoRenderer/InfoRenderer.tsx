@@ -10,7 +10,12 @@ interface InfoRendererProps {
   dataType: string;
 }
 
-const InfoRenderer = ({ location, distance, bearing, dataType }: InfoRendererProps) => {
+const InfoRenderer = ({
+  location,
+  distance,
+  bearing,
+  dataType,
+}: InfoRendererProps) => {
   switch (dataType) {
     case 'crimes': {
       const crime = location as CrimeLocation;
@@ -34,7 +39,9 @@ const InfoRenderer = ({ location, distance, bearing, dataType }: InfoRendererPro
           <p>{Math.round(distance)}m away</p>
           <p>Type: {tree.treeType}</p>
           {tree.notes && <p>Notes: {tree.notes}</p>}
-          {tree.treePreservationOrder && <p>TPO: {tree.treePreservationOrder}</p>}
+          {tree.treePreservationOrder && (
+            <p>TPO: {tree.treePreservationOrder}</p>
+          )}
           {tree.startDate && <p>Protected since: {tree.startDate}</p>}
           <p>Bearing: {Math.round(bearing)}°</p>
         </>

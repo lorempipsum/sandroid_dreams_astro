@@ -10,28 +10,34 @@ interface DataTypeSelectorProps {
   onTypeChange: (type: string) => void;
 }
 
-const DataTypeSelector = ({ 
-  dataType, 
-  onDataTypeChange, 
-  facilityTypes, 
-  selectedType, 
-  onTypeChange 
+const DataTypeSelector = ({
+  dataType,
+  onDataTypeChange,
+  facilityTypes,
+  selectedType,
+  onTypeChange,
 }: DataTypeSelectorProps) => {
   return (
     <div className={styles.selector}>
-      <TypeSelector 
-        selectedType={dataType} 
+      <TypeSelector
+        selectedType={dataType}
         onTypeChange={onDataTypeChange}
-        types={['facilities', 'crimes', 'protected trees', 'trees', 'collisions']}
+        types={[
+          'facilities',
+          'crimes',
+          'protected trees',
+          'trees',
+          'collisions',
+        ]}
       />
       {dataType === 'facilities' && (
         <>
-        <span>of type</span>
-        <TypeSelector 
-          types={facilityTypes}
-          selectedType={selectedType}
-          onTypeChange={onTypeChange}
-        />
+          <span>of type</span>
+          <TypeSelector
+            types={facilityTypes}
+            selectedType={selectedType}
+            onTypeChange={onTypeChange}
+          />
         </>
       )}
     </div>

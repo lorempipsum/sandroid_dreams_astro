@@ -23,10 +23,7 @@ export const Title = ({ title }: { title: string }) => {
       <title>{title}</title>
 
       <Logo />
-      <a
-        className={styles.headingStyles}
-        href="/"
-      >
+      <a className={styles.headingStyles} href="/">
         <animated.span
           className={styles.animatedText}
           style={props}
@@ -40,91 +37,50 @@ export const Title = ({ title }: { title: string }) => {
         <div className={styles.navigation}>
           <a
             href="/blog/worms-3-armageddon-rick-and-morty/"
-            className={
-              styles.subtitleText
-            }
+            className={styles.subtitleText}
           >
             Worms 3 Soundpack
           </a>
           <a
             href="/blog/interactive-art-idea-generator/"
-            className={
-              styles.subtitleText
-            }
+            className={styles.subtitleText}
           >
             Ideagenerator
           </a>
-          <a
-            href="/experiments/strava"
-            className={
-              styles.subtitleText
-            }
-          >
+          <a href="/experiments/strava" className={styles.subtitleText}>
             Strava
           </a>
-          <a
-            href="/experiments/binder"
-            className={
-              styles.subtitleText
-            }
-          >
+          <a href="/experiments/binder" className={styles.subtitleText}>
             Binder
           </a>
-          {false &&
-            <a
-              href="/about"
-              className={
-                styles.subtitleText
-              }
-            >
+          {false && (
+            <a href="/about" className={styles.subtitleText}>
               About
-            </a>}
-          {false &&
-            <a
-              href="/friends"
-              className={
-                styles.subtitleText
-              }
-            >
+            </a>
+          )}
+          {false && (
+            <a href="/friends" className={styles.subtitleText}>
               Friends
-            </a>}
-          <a
-            href="/plotting/everything"
-            className={
-              styles.subtitleText
-            }
-          >
+            </a>
+          )}
+          <a href="/plotting/everything" className={styles.subtitleText}>
             Plotter Art
           </a>
-          <a
-            href="/photography"
-            className={
-              styles.subtitleText
-            }
-          >
+          <a href="/photography" className={styles.subtitleText}>
             Photography
           </a>
           <a
             href="/photography/inspiration-spring"
-            className={
-              styles.subtitleText
-            }
+            className={styles.subtitleText}
           >
             Spring Moodboard
           </a>
-          <a
-            href="/blog/bookmarks"
-            className={
-              styles.subtitleText
-            }
-          >
+          <a href="/blog/bookmarks" className={styles.subtitleText}>
             Bookmarks
           </a>
           <a
             href="https://instagram.com/sandroid_dreams"
-            className={
-              styles.subtitleText
-            }
+            className={styles.subtitleText}
             target="_blank"
           >
             Instagram

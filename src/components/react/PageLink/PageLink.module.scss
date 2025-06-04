@@ -1,29 +1,27 @@
-@import "../../../styles/colors.scss";
+@import '../../../styles/colors.scss';
 
-.link  {
-    text-decoration: none;
-    text-align: center;
-    justify-self: center;
-    margin-top: 20px;
-  }
-  
-  .linkTextStyle {
-    text-decoration: none;
-    color: #333; // overwrite default link colour as these will be the only things on the page
+.link {
+  text-decoration: none;
+  text-align: center;
+  justify-self: center;
+  margin-top: 20px;
+}
 
-    &:hover {
+.linkTextStyle {
+  text-decoration: none;
+  color: #333; // overwrite default link colour as these will be the only things on the page
+
+  &:hover {
     color: (darken($arrowBlue, 10%));
-    }
+  }
 
-    &:focus-visible {
+  &:focus-visible {
     outline: 2px solid $arrowBlue;
     outline-offset: 4px;
     color: $arrowBlue;
-
-
-    }
   }
-  
-  .linkTextStyle:hover {
-    border-bottom: 1px solid (darken($arrowBlue, 10%));
-  }
+}
+
+.linkTextStyle:hover {
+  border-bottom: 1px solid (darken($arrowBlue, 10%));
+}

@@ -1,21 +1,20 @@
 ---
 layout: '../../layouts/FreeLayout.astro'
-date: "2024-03-05"
-title: "Everything"
-tags: ["plotting"]
+date: '2024-03-05'
+title: 'Everything'
+tags: ['plotting']
 ---
-import {Image} from 'astro:assets';
+
+import { Image } from 'astro:assets';
 import DummyComponent from '../../components/DummyComponent/DummyComponent.astro';
-import GalleryImageGrid from "../../components/GalleryImageGrid/GalleryImageGrid.astro";
+import GalleryImageGrid from '../../components/GalleryImageGrid/GalleryImageGrid.astro';
 
 export const images = import.meta.glob(
-    "/src/images/plotter-art/**/*.{jpeg,jpg,png,gif,webp,webp}");
-
+  '/src/images/plotter-art/**/*.{jpeg,jpg,png,gif,webp,webp}'
+);
 
 <DummyComponent />
 
-
 # {props.title}
 
-<GalleryImageGrid images={images} ></GalleryImageGrid>
-
+<GalleryImageGrid images={images}></GalleryImageGrid>

@@ -1,19 +1,19 @@
 ---
 layout: '../../layouts/BaseLayout.astro'
-date: "2020-12-24"
-title: "Pointillism Extended"
-tags: ["plotting"]
+date: '2020-12-24'
+title: 'Pointillism Extended'
+tags: ['plotting']
 ---
 
 import DummyComponent from '../../components/DummyComponent/DummyComponent.astro';
 
 import ImageContainer from '../../components/react/Images/ImageContainer.tsx';
-import panda from  '../../images/plotting/panda.webp';
-import panda_closeup from  '../../images/plotting/panda_closeup.webp';
-import orca from  '../../images/plotting/orca.webp';
-
+import panda from '../../images/plotting/panda.webp';
+import panda_closeup from '../../images/plotting/panda_closeup.webp';
+import orca from '../../images/plotting/orca.webp';
 
 # Pointillstic lines
+
 <DummyComponent />
 
 <ImageContainer client:only src={panda.src} />
@@ -24,81 +24,78 @@ It's evident from afar and even more so close up that this is something a little
 
 <ImageContainer client:only src={panda_closeup.src} />
 
-
-
 After the panda came out looking fabulous I went ahead and plotted some other
 black and white animals:
 
 <ImageContainer client:only src={orca.src} />
 
-Code modified to bias the lines from left to right, to sell the illusion of movement, and give the orca a *slick* look.
+Code modified to bias the lines from left to right, to sell the illusion of movement, and give the orca a _slick_ look.
 
 Full code below without the setup() and helper functions for drawing lines etc.
 I've abstracted those out to a different file, so will not be including them each time.
 
-
 Full code for the sketch:
 
-  ```
-  PImage img;
-  int imageX, imageY, imageW, imageH;
-  int x, y, i=0;
-  int lastX = x;
-  int lastY = y;
-  int direction = 1;
-  boolean done = false;
-  int delay = 250;
+```
+PImage img;
+int imageX, imageY, imageW, imageH;
+int x, y, i=0;
+int lastX = x;
+int lastY = y;
+int direction = 1;
+boolean done = false;
+int delay = 250;
 
-  void draw() {
-    frameRate(99999);
-    int imageCutoff = 1183; // Vertical point to cut the image at. Gotten by printing imageY values while seeing how it's drawn
+void draw() {
+  frameRate(99999);
+  int imageCutoff = 1183; // Vertical point to cut the image at. Gotten by printing imageY values while seeing how it's drawn
 
-    if (i == 0) {
-      x = VERTICAL_CENTER;
-      y = HORIZONTAL_CENTER;
-      img = loadImage("orca1.webp");
-      imageMode(CENTER);
-      imageW = img.width;
-      imageH = img.height;
-      imageX = 0;
-      imageY = 0;
-    }
-
-    imageX = i * (int) random(15,60);
-
-    if (imageX > imageW) {
-      imageX = 0;
-      imageY = imageY + 1;
-      i = 1;
-      stroke(0, 0, 200, 90);
-      x = (int) map(imageX, 0, imageW, xMin, xMax);
-      y = (int) map(imageY, 0, imageH, yMin, yMax);
-      direction = -1 * direction;
-    }
-
-    if (imageY > imageH) {
-      println("DONE!");
-      done = true;
-    }
-
-    color pix = img.get(imageX, imageY);
-    int brightness = (int) brightness(pix);
-
-    if (brightness < 50 && !done) {
-      x = (int) map(imageX, 0, imageW, xMin, xMax);
-      y = (int) map(imageY, 0, imageH, yMin, yMax);
-      //drawPoint(y + 500, x -500, 0);
-      // drawLine(x + 500, y - 500, (int) random(yMin, yMax), xMax, false, 0); start from bottom?
-      int horizontalOffset = 1000;
-      int verticalOffset = 500;
-      int lineLength = 100;
-      int originY = (int) y + verticalOffset;
-      int originX = (int) x - horizontalOffset;
-      line_clipped(originY, originX, originY + (int) random(10, 20), originX + (int) random(lineLength/2, 2*lineLength), true, delay);
-      //line_clipped(y, x, y + (int) random(-10, 20), x + direction*(int) random(50, 100), true, delay);
-      lastY=y;
-      lastX=x;
-    }
-    i = i+1;
+  if (i == 0) {
+    x = VERTICAL_CENTER;
+    y = HORIZONTAL_CENTER;
+    img = loadImage("orca1.webp");
+    imageMode(CENTER);
+    imageW = img.width;
+    imageH = img.height;
+    imageX = 0;
+    imageY = 0;
   }
-  ```
+
+  imageX = i * (int) random(15,60);
+
+  if (imageX > imageW) {
+    imageX = 0;
+    imageY = imageY + 1;
+    i = 1;
+    stroke(0, 0, 200, 90);
+    x = (int) map(imageX, 0, imageW, xMin, xMax);
+    y = (int) map(imageY, 0, imageH, yMin, yMax);
+    direction = -1 * direction;
+  }
+
+  if (imageY > imageH) {
+    println("DONE!");
+    done = true;
+  }
+
+  color pix = img.get(imageX, imageY);
+  int brightness = (int) brightness(pix);
+
+  if (brightness < 50 && !done) {
+    x = (int) map(imageX, 0, imageW, xMin, xMax);
+    y = (int) map(imageY, 0, imageH, yMin, yMax);
+    //drawPoint(y + 500, x -500, 0);
+    // drawLine(x + 500, y - 500, (int) random(yMin, yMax), xMax, false, 0); start from bottom?
+    int horizontalOffset = 1000;
+    int verticalOffset = 500;
+    int lineLength = 100;
+    int originY = (int) y + verticalOffset;
+    int originX = (int) x - horizontalOffset;
+    line_clipped(originY, originX, originY + (int) random(10, 20), originX + (int) random(lineLength/2, 2*lineLength), true, delay);
+    //line_clipped(y, x, y + (int) random(-10, 20), x + direction*(int) random(50, 100), true, delay);
+    lastY=y;
+    lastX=x;
+  }
+  i = i+1;
+}
+```

@@ -10,25 +10,27 @@ interface ZoomControlsProps {
   label?: string;
 }
 
-const ZoomControls: React.FC<ZoomControlsProps> = ({ 
-  zoom, 
+const ZoomControls: React.FC<ZoomControlsProps> = ({
+  zoom,
   onZoomChange,
   min = 0.5,
   max = 2,
   step = 0.25,
-  label = ''
+  label = '',
 }) => {
   return (
     <div className={styles.controls}>
       {label && <span className={styles.label}>{label}</span>}
-      <button 
+      <button
         onClick={() => onZoomChange(Math.max(min, zoom - step))}
         disabled={zoom <= min}
       >
         -
       </button>
-      <span>{label === 'Map Zoom' ? Math.round(zoom) : Math.round(zoom * 100) + '%'}</span>
-      <button 
+      <span>
+        {label === 'Map Zoom' ? Math.round(zoom) : Math.round(zoom * 100) + '%'}
+      </span>
+      <button
         onClick={() => onZoomChange(Math.min(max, zoom + step))}
         disabled={zoom >= max}
       >

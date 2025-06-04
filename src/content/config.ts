@@ -4,7 +4,13 @@ import { defineCollection } from 'astro:content';
 // 2. Define your collection(s)
 
 // List of allowed tag names as string
-const TagsEnum = z.enum(["plotting", "programming", "photography", "art", "blog"]);
+const TagsEnum = z.enum([
+  'plotting',
+  'programming',
+  'photography',
+  'art',
+  'blog',
+]);
 
 const blogCollection = defineCollection({
   type: 'content',
@@ -12,7 +18,7 @@ const blogCollection = defineCollection({
     title: z.string(),
     tags: z.array(TagsEnum),
     date: z.string(),
-  })
+  }),
 });
 const photoCollection = defineCollection({
   schema: z.object({
@@ -33,7 +39,7 @@ const plottingCollection = defineCollection({
 // 3. Export a single `collections` object to register your collection(s)
 //    This key should match your collection directory name in "src/content"
 export const collections = {
-  'blog': blogCollection,
-  'photography': photoCollection,
-  'plotting': plottingCollection,
+  blog: blogCollection,
+  photography: photoCollection,
+  plotting: plottingCollection,
 };

@@ -1,13 +1,13 @@
-
 // Import professional monospace fonts that have an "analogue" feel
 @import url('https://fonts.googleapis.com/css2?family=IBM+Plex+Mono:wght@400;500;600;700&display=swap');
 @import url('https://fonts.googleapis.com/css2?family=Space+Mono:wght@400;700&display=swap');
-@import "colors.scss";
-
+@import 'colors.scss';
 
 // CSS Reset https://www.joshwcomeau.com/css/custom-css-reset/
 /* 1. Use a more-intuitive box-sizing model */
-*, *::before, *::after {
+*,
+*::before,
+*::after {
   box-sizing: border-box;
 }
 
@@ -29,18 +29,31 @@ body {
 }
 
 /* 6. Improve media defaults */
-img, picture, video, canvas, svg {
+img,
+picture,
+video,
+canvas,
+svg {
   display: block;
   max-width: 100%;
 }
 
 /* 7. Inherit fonts for form controls */
-input, button, textarea, select {
+input,
+button,
+textarea,
+select {
   font: inherit;
 }
 
 /* 8. Avoid text overflows */
-p, h1, h2, h3, h4, h5, h6 {
+p,
+h1,
+h2,
+h3,
+h4,
+h5,
+h6 {
   overflow-wrap: break-word;
 }
 
@@ -48,26 +61,31 @@ p, h1, h2, h3, h4, h5, h6 {
 p {
   text-wrap: pretty;
 }
-h1, h2, h3, h4, h5, h6 {
+h1,
+h2,
+h3,
+h4,
+h5,
+h6 {
   text-wrap: balance;
 }
 
 /*
   10. Create a root stacking context
 */
-#root, #__next {
+#root,
+#__next {
   isolation: isolate;
 }
-
-
 
 :root {
   // Define font variables
   --font-family-main: 'IBM Plex Mono', monospace;
   --font-family-headings: 'Space Mono', monospace;
-  
+
   // You can also add additional font variables if needed
-  --font-family-code: 'IBM Plex Mono', Consolas, Monaco, 'Andale Mono', monospace;
+  --font-family-code: 'IBM Plex Mono', Consolas, Monaco, 'Andale Mono',
+    monospace;
 }
 
 body {
@@ -76,14 +94,20 @@ body {
   color: #333;
 }
 
-h1, h2, h3, h4, h5, h6 {
+h1,
+h2,
+h3,
+h4,
+h5,
+h6 {
   font-family: var(--font-family-headings);
   font-weight: 700;
   margin-top: 3rem;
   margin-bottom: 1rem;
 }
 
-code, pre {
+code,
+pre {
   font-family: var(--font-family-code);
 }
 
@@ -94,98 +118,90 @@ code, pre {
   }
 }
 
-
-
 .inlineLink {
-    color: #333;
-    cursor: pointer;
-    text-decoration: underline;
-    text-underline-offset: 0.2em;
+  color: #333;
+  cursor: pointer;
+  text-decoration: underline;
+  text-underline-offset: 0.2em;
 
-    &:hover {
-        color: $arrowBlue;
-    }
+  &:hover {
+    color: $arrowBlue;
+  }
 }
-
 
 .removeDecoration {
-    /* underlining can't be overwritten normally
+  /* underlining can't be overwritten normally
     https://stackoverflow.com/questions/1823341/how-do-i-get-this-css-text-decoration-override-to-work */
-    display: inline-block;
+  display: inline-block;
 }
 
-
 p {
-    line-height: 1.9em;
-    margin-bottom: 1.9em;
+  line-height: 1.9em;
+  margin-bottom: 1.9em;
 }
 
 .spacer {
-    margin-bottom: 50px;
+  margin-bottom: 50px;
 }
 
 .centered {
-        
-        margin-left: auto;
-        margin-right: auto;
+  margin-left: auto;
+  margin-right: auto;
 }
 
 .terminal-screen {
-    width: 300px;
-    height: 200px;
-    border: 2px dashed red;
+  width: 300px;
+  height: 200px;
+  border: 2px dashed red;
 }
 
-
 html {
-    /* show scrollbar regardless of page height */
-    overflow-y: scroll;
-    font-size: 1rem;
+  /* show scrollbar regardless of page height */
+  overflow-y: scroll;
+  font-size: 1rem;
 }
 
 /* We've moved the font styling to global.scss */
 
 h1 {
-    font-size: 2rem;
-    text-align: center;
-    font-weight: 600;
+  font-size: 2rem;
+  text-align: center;
+  font-weight: 600;
 }
-
 
 // links
 a {
-    text-decoration: none;
+  text-decoration: none;
+  color: $arrowBlue;
+  font-weight: 500;
+  transition: color 0.3s ease;
+
+  &:hover {
+    color: (darken($arrowBlue, 10%));
+    border-bottom: 1px solid (darken($arrowBlue, 10%));
+  }
+
+  &:focus-visible {
+    outline: 2px solid $arrowBlue;
+    outline-offset: 4px;
     color: $arrowBlue;
-    font-weight: 500;
-    transition: color 0.3s ease;
+  }
+  &:active {
+    color: (darken($arrowBlue, 20%));
+  }
 
-    &:hover {
-        color: (darken($arrowBlue, 10%));
-        border-bottom: 1px solid (darken($arrowBlue, 10%));
-
-    }
-
-    &:focus-visible {
-        outline: 2px solid $arrowBlue;
-        outline-offset: 4px;
-        color: $arrowBlue;
-    }
-    &:active {
-        color: (darken($arrowBlue, 20%));
-    }
-
-    &:focus {
-        outline: 2px solid $arrowBlue;
-        outline-offset: 4px;
-        color: $arrowBlue;
-    }
+  &:focus {
+    outline: 2px solid $arrowBlue;
+    outline-offset: 4px;
+    color: $arrowBlue;
+  }
 }
 
 // nice list styles
 ul {
   list-style: cambodian; // 29/04/2025 using this list style cause I thought it looked fun
 
-  li { 
+  li {
     margin-bottom: 0.5em;
     line-height: 1.5em;
   }

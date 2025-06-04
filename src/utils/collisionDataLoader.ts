@@ -23,10 +23,9 @@ export function getCollisionData(): CollisionLocation[] {
       const lat = feature.geometry.coordinates[1];
       const lng = feature.geometry.coordinates[0];
 
-
       return {
         id: `collision-${index}`,
-        name:feature.properties.ACCIDENT_DESCRIPTION,
+        name: feature.properties.ACCIDENT_DESCRIPTION,
         latitude: lat,
         longitude: lng,
         date: feature.properties.DATE_,
@@ -40,7 +39,7 @@ export function getCollisionData(): CollisionLocation[] {
         cycles: feature.properties.CYCLES,
         motorcycles: feature.properties.MCYCLES,
         children: feature.properties.CHILDREN,
-        elderly: feature.properties.OAPS
+        elderly: feature.properties.OAPS,
       };
     })
     .filter((item): item is CollisionLocation => item !== null); // Remove any null entries

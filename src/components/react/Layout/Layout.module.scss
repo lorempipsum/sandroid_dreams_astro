@@ -1,8 +1,7 @@
 .main {
   margin-top: 16px;
-    display: grid;
-    grid-template-columns:
-    minmax(0, auto) min(800px, 95vw) minmax(0, auto);
+  display: grid;
+  grid-template-columns: minmax(0, auto) min(800px, 95vw) minmax(0, auto);
 
   /*
   // This makes the page content not jump when the scroll bar appears on the right as long content is loaded.
@@ -29,19 +28,19 @@
   text-align: center;
 }
 .header {
-    grid-column: 2;
-    grid-row: 1;
-    margin-top: 0;
-    text-align: center;
-    justify-self: center;
+  grid-column: 2;
+  grid-row: 1;
+  margin-top: 0;
+  text-align: center;
+  justify-self: center;
 }
 
-.content{
+.content {
   display: flex;
   flex-direction: column;
-    grid-column: 2;
-    grid-row: 2;
-    justify-content: center;
+  grid-column: 2;
+  grid-row: 2;
+  justify-content: center;
 }
 
 .innerContent {
@@ -51,7 +50,6 @@
   flex-direction: column;
   justify-content: center;
 }
-
 
 .fullScreenContent {
   display: flex;
@@ -65,12 +63,12 @@ body {
   margin: 0; // reset user agent stylesheet margin
 }
 
-
 p {
   display: flex;
 }
 
-pre, code {
+pre,
+code {
   overflow-x: auto;
   white-space: pre-wrap;
 }
@@ -82,36 +80,45 @@ code span {
 pre {
   margin: 0 auto;
   padding: 10px;
-    width: 100%;
-    background-color: whitesmoke !important;
-  }
+  width: 100%;
+  background-color: whitesmoke !important;
+}
 
 .divider {
-background: linear-gradient(to right, rgba(255,255,255,0), #ccc, rgba(255,255,255,0));
-height: 1px;
-margin: 2em;
-border-style: dashed;
-/* TODO use a variable for this. Should be the same as the BG colour so it melts into it*/
-border-color: white;
+  background: linear-gradient(
+    to right,
+    rgba(255, 255, 255, 0),
+    #ccc,
+    rgba(255, 255, 255, 0)
+  );
+  height: 1px;
+  margin: 2em;
+  border-style: dashed;
+  /* TODO use a variable for this. Should be the same as the BG colour so it melts into it*/
+  border-color: white;
 }
 
 .dividerUpper {
-background: linear-gradient(to right, rgba(255,255,255,0), #ccc, rgba(255,255,255,0));
-height: 1px;
-margin: 2em;
-border-style: dashed;
-/* TODO use a variable for this. Should be the same as the BG colour so it melts into it*/
-border-color: white;
-opacity: 1;
+  background: linear-gradient(
+    to right,
+    rgba(255, 255, 255, 0),
+    #ccc,
+    rgba(255, 255, 255, 0)
+  );
+  height: 1px;
+  margin: 2em;
+  border-style: dashed;
+  /* TODO use a variable for this. Should be the same as the BG colour so it melts into it*/
+  border-color: white;
+  opacity: 1;
   -webkit-transition: none !important;
   -moz-transition: none !important;
   -o-transition: none !important;
   transition: none !important;
-
 }
 
 .date {
-    text-align: center;
-  color:#524F4F;
+  text-align: center;
+  color: #524f4f;
   font-weight: 500;
 }

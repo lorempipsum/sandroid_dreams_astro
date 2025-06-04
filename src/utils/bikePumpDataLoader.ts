@@ -20,6 +20,6 @@ export function getBikePumpData(): BikePumpLocation[] {
     photo: feature.properties.PHOTO,
     region: feature.properties.REGION,
     latitude: feature.geometry.coordinates[1],
-    longitude: feature.geometry.coordinates[0]
+    longitude: feature.geometry.coordinates[0],
   }));
 }

@@ -1,16 +1,20 @@
 ---
-layout: "../layouts/BaseLayout.astro"
-title: "About"
+layout: '../layouts/BaseLayout.astro'
+title: 'About'
 ---
 
 import ImageContainer from '../components/ImageComponent/ImageContainer.astro';
 import bristol_balloons_wide from '../images/photography/test_photos/bristol_balloons_wide.webp';
-import DummyComponent from '../components/DummyComponent/DummyComponent.astro'
+import DummyComponent from '../components/DummyComponent/DummyComponent.astro';
 
 <DummyComponent />
 
-<ImageContainer image={bristol_balloons_wide} isExpanded={true} alt={"A photo of hot air balloons above Bristol"}/>
+<ImageContainer
+  image={bristol_balloons_wide}
+  isExpanded={true}
+  alt={'A photo of hot air balloons above Bristol'}
+/>
 
-# About 
+# About
 
 Welcome to the About page.

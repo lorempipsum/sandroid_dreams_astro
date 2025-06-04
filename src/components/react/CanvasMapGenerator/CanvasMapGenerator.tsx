@@ -6,11 +6,22 @@ import { useState } from 'react';
 import Button from '../Button/Button';
 
 function CanvasMapGenerator() {
-    const [reRenderTrigger, setRerenderTrigger] = useState(0)
+  const [reRenderTrigger, setRerenderTrigger] = useState(0);
 
-  return (<>
-  <Button id="button-render-new-map" label={"Render new map"} onClick={() => {setRerenderTrigger(reRenderTrigger+1)}}></Button>
-  <div className={styles.canvas}><Canvas reRenderTrigger={reRenderTrigger}  ></Canvas></div></>)
+  return (
+    <>
+      <Button
+        id="button-render-new-map"
+        label={'Render new map'}
+        onClick={() => {
+          setRerenderTrigger(reRenderTrigger + 1);
+        }}
+      ></Button>
+      <div className={styles.canvas}>
+        <Canvas reRenderTrigger={reRenderTrigger}></Canvas>
+      </div>
+    </>
+  );
 }
 
-export default CanvasMapGenerator
+export default CanvasMapGenerator;

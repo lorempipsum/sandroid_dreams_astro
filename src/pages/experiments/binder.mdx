@@ -1,13 +1,14 @@
 ---
-layout: "../../layouts/BaseLayout.astro"
-date: "2020-12-24"
-title: "Binder"
-tags: ["experiment"]
+layout: '../../layouts/BaseLayout.astro'
+date: '2020-12-24'
+title: 'Binder'
+tags: ['experiment']
 ---
-import DummyComponent from '../../components/DummyComponent/DummyComponent.astro'
+
+import DummyComponent from '../../components/DummyComponent/DummyComponent.astro';
 
 <DummyComponent />
 
 import Binder from '../../components/react/Binder/Binder.tsx';
 
-<Binder client:only/>
+<Binder client:only />
