@@ -1,6 +1,6 @@
 import { useState, useEffect } from 'react';
 import styles from './Strava.module.scss';
-import AnimatedBobUp from '../animations/AnimatedBobUp';
+import NavigationArrow from '../NavigationArrow/NavigationArrow';
 import Button from '../Button/Button';
 import {
   calculateBearing,
@@ -394,19 +394,7 @@ const Strava = () => {
               )}
             </div>
 
-            <AnimatedBobUp>
-              <svg
-                className={styles.arrow}
-                style={{ transform: `rotate(${rotation}deg)` }}
-                viewBox="0 0 210 297"
-                width="100"
-                height="100"
-                fill="none"
-                strokeWidth="6"
-              >
-                <path d="m 106.15699,104.81898 0.81766,137.66811 102.24487,52.63857 L 106.09742,1.2562312 1.2008898,295.02942 96.460978,247.10502" />
-              </svg>
-            </AnimatedBobUp>
+            <NavigationArrow rotation={rotation} />
 
             {/* Add skip button below arrow when in SVG navigation mode */}
             {isSvgNavigationActive && (

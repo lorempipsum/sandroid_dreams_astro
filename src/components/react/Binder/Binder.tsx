@@ -15,6 +15,7 @@ import {
 } from '../../../utils/generalTreeDataLoader';
 import React from 'react';
 import Map from '../Map/Map';
+import NavigationArrow from '../NavigationArrow/NavigationArrow';
 import DataTypeSelector from './DataTypeSelector/DataTypeSelector';
 import DistanceDisplay from './DistanceDisplay/DistanceDisplay';
 import { getLocationsForType } from './utils';
@@ -315,17 +316,7 @@ const Binder = () => {
               )}
             </div>
 
-            <svg
-              className={styles.arrow}
-              style={{ transform: `rotate(${rotation}deg)` }}
-              viewBox="0 0 210 297"
-              width="100"
-              height="100"
-              fill="none"
-              strokeWidth="6"
-            >
-              <path d="m 106.15699,104.81898 0.81766,137.66811 102.24487,52.63857 L 106.09742,1.2562312 1.2008898,295.02942 96.460978,247.10502" />
-            </svg>
+            <NavigationArrow rotation={rotation} />
 
             <DistanceDisplay
               name={currentBin?.name || ''}
