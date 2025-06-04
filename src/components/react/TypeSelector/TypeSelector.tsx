@@ -1,4 +1,4 @@
-import { FC } from 'react';
+import type { FC } from 'react';
 import styles from './TypeSelector.module.scss';
 
 interface TypeSelectorProps {
@@ -7,14 +7,18 @@ interface TypeSelectorProps {
   onTypeChange: (type: string) => void;
 }
 
-const TypeSelector: FC<TypeSelectorProps> = ({ types, selectedType, onTypeChange }) => {
+const TypeSelector: FC<TypeSelectorProps> = ({
+  types,
+  selectedType,
+  onTypeChange,
+}) => {
   return (
-    <select 
+    <select
       className={styles.selector}
       value={selectedType}
       onChange={(e) => onTypeChange(e.target.value)}
     >
-      {types.map(type => (
+      {types.map((type) => (
         <option key={type} value={type}>
           {type}
         </option>

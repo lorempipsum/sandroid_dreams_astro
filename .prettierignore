@@ -1,0 +1,5 @@
+node_modules
+public
+.astro
+dist
+src/assets/bristol-data

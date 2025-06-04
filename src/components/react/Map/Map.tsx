@@ -1,4 +1,5 @@
 import { useEffect, useRef } from 'react';
+import * as L from 'leaflet';
 import styles from './Map.module.scss';
 
 interface MapProps {
@@ -12,15 +13,15 @@ interface MapProps {
   mapZoom?: number;
 }
 
-const Map = ({ 
-  userLocation, 
-  currentLocation, 
-  compass, 
+const Map = ({
+  userLocation,
+  currentLocation,
+  compass,
   lockNorth,
   debugMode = false,
   onDebugCompass,
   onDebugPositionChange,
-  mapZoom = 17
+  mapZoom = 17,
 }: MapProps) => {
   const mapRef = useRef<L.Map | null>(null);
   const markerRef = useRef<L.Marker | null>(null);
@@ -36,14 +37,11 @@ const Map = ({
         doubleClickZoom: false,
         boxZoom: false,
         keyboard: false,
-      }).setView(
-        [userLocation.latitude, userLocation.longitude],
-        mapZoom
-      );
+      }).setView([userLocation.latitude, userLocation.longitude], mapZoom);
 
       L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
         maxZoom: 19,
-        attribution: '© OpenStreetMap contributors'
+        attribution: '© OpenStreetMap contributors',
       }).addTo(mapRef.current);
 
       // Create user marker with draggable option if in debug mode
@@ -52,31 +50,34 @@ const Map = ({
         {
           icon: L.divIcon({
             className: styles.userMarker,
-            html: '<div></div>'
+            html: '<div></div>',
           }),
-          draggable: debugMode // Make marker draggable in debug mode
+          draggable: debugMode, // Make marker draggable in debug mode
         }
       )
-      .bindPopup(() => {
-        const content = document.createElement('div');
-        content.className = styles.userPopup;
-        content.innerHTML = `
+        .bindPopup(
+          () => {
+            const content = document.createElement('div');
+            content.className = styles.userPopup;
+            content.innerHTML = `
           <h3>Your Location</h3>
           <p>Lat: ${userLocation.latitude.toFixed(6)}</p>
           <p>Lng: ${userLocation.longitude.toFixed(6)}</p>
           <p>Accuracy: ${userLocation.accuracy.toFixed(1)}m</p>
           ${userLocation.altitude ? `<p>Altitude: ${userLocation.altitude.toFixed(1)}m</p>` : ''}
         `;
-        return content;
-      }, {
-        closeButton: false,
-        className: styles.popup
-      })
-      .addTo(mapRef.current);
+            return content;
+          },
+          {
+            closeButton: false,
+            className: styles.popup,
+          }
+        )
+        .addTo(mapRef.current);
 
       // Add drag end event listener for debug mode
       if (debugMode && onDebugPositionChange) {
-        userMarkerRef.current.on('dragend', function() {
+        userMarkerRef.current.on('dragend', function () {
           const position = userMarkerRef.current?.getLatLng();
           if (position) {
             onDebugPositionChange(position.lat, position.lng);
@@ -88,14 +89,17 @@ const Map = ({
     // Update map rotation based on compass - reset to 0 when locked to north
     if (mapRef.current) {
       const mapContainer = mapRef.current.getContainer();
-      mapContainer.style.transform = lockNorth ? 
-        'rotate(0deg)' : 
-        `rotate(-${compass}deg)`;
+      mapContainer.style.transform = lockNorth
+        ? 'rotate(0deg)'
+        : `rotate(-${compass}deg)`;
     }
 
     // Update user location and center
     if (mapRef.current && userLocation && userMarkerRef.current) {
-      const newLatLng = [userLocation.latitude, userLocation.longitude] as [number, number];
+      const newLatLng = [userLocation.latitude, userLocation.longitude] as [
+        number,
+        number,
+      ];
       userMarkerRef.current.setLatLng(newLatLng);
       mapRef.current.setView(newLatLng, mapZoom, { animate: false });
     }
@@ -110,8 +114,8 @@ const Map = ({
         {
           icon: L.divIcon({
             className: styles.destinationMarker,
-            html: '<div></div>'
-          })
+            html: '<div></div>',
+          }),
         }
       ).addTo(mapRef.current);
     }
@@ -147,7 +151,7 @@ const Map = ({
             />
             <span>{Math.round(compass)}°</span>
           </div>
-          
+
           <div className={styles.debugInfo}>
             <h4>Debug Mode</h4>
             <p>Drag the blue marker to change your position</p>
