@@ -34,6 +34,13 @@
   width: min(80vw, 80vh);
   height: auto;
 }
+.radar {
+  position: relative;
+  width: 300px;
+  height: 300px;
+  border-radius: 50%;
+  border: 2px solid rgba(51, 102, 205, 0.2);
+}
 
 .distance {
   margin-top: 0.5rem;
