@@ -19,3 +19,9 @@ pnpm-debug.log*
 
 # macOS-specific files
 .DS_Store
+# Windows metadata files
+*:Zone.Identifier
+# Dropbox metadata files
+*:com.dropbox.attrs
+# macOS resource forks
+._*
