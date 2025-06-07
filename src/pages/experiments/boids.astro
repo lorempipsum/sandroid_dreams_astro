@@ -1,0 +1,8 @@
+---
+import Layout from "../../../layouts/Layout.astro";
+import Boids from "../../../components/react/Boids/Boids.tsx";
+---
+
+<Layout title="Boids Simulation">
+  <Boids client:only="react" />
+</Layout>
