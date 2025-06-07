@@ -174,13 +174,6 @@ class Boid {
   }
 
 
-  update(maxSpeed: number) { // maxSpeed is now passed to flock
-    // this.velocity.add(this.acceleration);
-    // this.velocity.limit(maxSpeed); // Use maxSpeed parameter here
-    // this.position.add(this.velocity);
-    // this.acceleration.mult(0); // Reset acceleration
-  }
-
   draw(ctx: CanvasRenderingContext2D) {
     ctx.save();
     ctx.translate(this.position.x, this.position.y);
