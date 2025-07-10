@@ -1,4 +1,6 @@
 ---
+import FreeLayout from '../layouts/FreeLayout.astro';
+
 // Fetch images from the Vercel blob API at build time (server-side)
 let images = [];
 let error = null;
@@ -23,22 +25,16 @@ try {
 }
 ---
 
-<html lang="en" client:load>
-  <head>
-    <title>Sketches Gallery</title>
-    <meta name="description" content="A gallery of sketches from Vercel blob storage." />
-  </head>
-  <body>
-    <h1>Sketches Gallery</h1>
-    {loading && <p>Loading images...</p>}
-    {error && <p style="color: red;">{error}</p>}
-    <div style="display: flex; flex-wrap: wrap; gap: 1rem;">
-      {images.map(img => (
-        <div style="max-width: 300px;">
-          <img src={img.url} alt={img.pathname} style="width: 100%; border-radius: 8px;" />
-          <div style="font-size: 0.9em; color: #666;">{img.pathname}</div>
-        </div>
-      ))}
-    </div>
-  </body>
-</html>
+<FreeLayout title="Sketches Gallery" description="A gallery of sketches from Vercel blob storage.">
+  <h1>Sketches Gallery</h1>
+  {loading && <p>Loading images...</p>}
+  {error && <p style="color: red;">{error}</p>}
+  <div style="display: flex; flex-wrap: wrap; gap: 1rem;">
+    {images.map(img => (
+      <div style="max-width: 300px;">
+        <img src={img.url} alt={img.pathname} style="width: 100%; border-radius: 8px;" />
+        <div style="font-size: 0.9em; color: #666;">{img.pathname}</div>
+      </div>
+    ))}
+  </div>
+</FreeLayout>

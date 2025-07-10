@@ -69,7 +69,7 @@ export const Title = ({ title }: { title: string }) => {
           <a href="/plotting/everything" className={styles.subtitleText}>
             Plotter Art
           </a>
-          <a href="/photography" className={styles.subtitleText}>
+          <a href="/photography/everything" className={styles.subtitleText}>
             Photography
           </a>
           <a
