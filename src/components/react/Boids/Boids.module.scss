@@ -1,0 +1,51 @@
+.boidsContainer {
+  width: 100%;
+  height: 100vh; /* Full viewport height */
+  display: flex;
+  flex-direction: column;
+  align-items: center; /* Center controls horizontally */
+  background-color: #e0e0e0; /* Light gray background for the page */
+  padding: 10px;
+  box-sizing: border-box;
+}
+
+.controlsPanel {
+  display: flex;
+  gap: 20px; /* Increased gap for better spacing */
+  flex-wrap: wrap; /* Allow controls to wrap on smaller screens */
+  padding: 15px;
+  background-color: #f8f8f8; /* Slightly off-white for the controls panel */
+  border-radius: 8px;
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+  margin-bottom: 15px;
+  justify-content: center; /* Center control items if they wrap */
+}
+
+.controlItem {
+  display: flex;
+  flex-direction: column; /* Stack label on top of slider */
+  align-items: center; /* Center label and slider */
+  min-width: 180px; /* Minimum width for each control item */
+}
+
+.controlItem label {
+  font-family: Arial, sans-serif;
+  font-size: 0.9em;
+  color: #333;
+  margin-bottom: 8px; /* Space between label and slider */
+}
+
+.controlItem input[type="range"] {
+  width: 100%; /* Make sliders take full width of controlItem */
+  cursor: pointer;
+}
+
+.canvas {
+  flex-grow: 1; /* Canvas takes remaining space */
+  width: 100%;
+  max-width: 1200px; /* Max width for the canvas on large screens */
+  border: 1px solid #ccc; /* Lighter border for the canvas */
+  background-color: #ffffff; /* White background for the canvas */
+  display: block; /* Remove extra space below canvas */
+  border-radius: 4px; /* Slight rounding for canvas corners */
+}
