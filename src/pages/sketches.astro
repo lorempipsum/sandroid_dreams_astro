@@ -1,40 +1,47 @@
 ---
 import FreeLayout from '../layouts/FreeLayout.astro';
+import RemoteGalleryImageGrid from '../components/RemoteGalleryImageGrid/RemoteGalleryImageGrid.astro';
 
 // Fetch images from the Vercel blob API at build time (server-side)
 let images = [];
 let error = null;
 let loading = true;
+
 try {
-  const res = await fetch('https://art-timeline-app.vercel.app/api/images');
-  console.log('Response from blob API:', res);
-  if (!res.ok) {
-    let details = '';
-    try {
-      const errJson = await res.json();
-      details = errJson.error ? `: ${errJson.error}` : '';
-    } catch {}
-    throw new Error(`Failed to fetch images (status ${res.status})${details}`);
-  }
-  const data = await res.json();
-  images = data.blobs || [];
-} catch (e) {
-  error = `Error fetching images: ${e.message}. `;
+    const res = await fetch('https://art-timeline-app.vercel.app/api/images');
+    console.log('Response from blob API:', res);
+    if (!res.ok) {
+        let details = '';
+        try {
+            const errJson = await res.json();
+            details = errJson.error ? `: ${errJson.error}` : '';
+        } catch {}
+        throw new Error(
+            `Failed to fetch images (status ${res.status})${details}`
+        );
+    }
+    const data = await res.json();
+    images = data.blobs || [];
+} catch (e: any) {
+    error = `Error fetching images: ${e.message}. `;
 } finally {
-  loading = false;
+    loading = false;
 }
 ---
 
-<FreeLayout title="Sketches Gallery" description="A gallery of sketches from Vercel blob storage.">
-  <h1>Sketches Gallery</h1>
-  {loading && <p>Loading images...</p>}
-  {error && <p style="color: red;">{error}</p>}
-  <div style="display: flex; flex-wrap: wrap; gap: 1rem;">
-    {images.map(img => (
-      <div style="max-width: 300px;">
-        <img src={img.url} alt={img.pathname} style="width: 100%; border-radius: 8px;" />
-        <div style="font-size: 0.9em; color: #666;">{img.pathname}</div>
-      </div>
-    ))}
-  </div>
+<FreeLayout
+    title="Sketches"
+    description="A gallery of sketches from Vercel blob storage."
+>
+    <h1>Sketches</h1>
+    {loading && <p>Loading images...</p>}
+    {error && <p style="color: red;">{error}</p>}
+
+    {
+        !loading && !error && images.length > 0 && (
+            <RemoteGalleryImageGrid images={images} />
+        )
+    }
+
+    {!loading && !error && images.length === 0 && <p>No sketches found.</p>}
 </FreeLayout>

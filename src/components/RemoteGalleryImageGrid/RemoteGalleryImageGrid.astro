@@ -1,0 +1,368 @@
+---
+import Lightbox from '@julian_cataldo/astro-lightbox';
+import styles from './remoteGalleryImageGrid.module.scss';
+
+const BATCH_SIZE = 20;
+const { images } = Astro.props;
+
+// Convert remote images array to the expected format
+// Each image should have: { url, pathname, uploadedAt }
+const allImageData = images
+    .sort((a: any, b: any) => {
+        // Sort by uploadedAt if available, otherwise by pathname
+        if (a.uploadedAt && b.uploadedAt) {
+            return (
+                new Date(b.uploadedAt).getTime() -
+                new Date(a.uploadedAt).getTime()
+            );
+        }
+        return (
+            getDateFromFilename(b.pathname || b.url).getTime() -
+            getDateFromFilename(a.pathname || a.url).getTime()
+        );
+    })
+    .map((imageData: any, index: number) => ({
+        path: imageData.pathname || `image-${index}`,
+        url: imageData.url,
+        pathname: imageData.pathname || `image-${index}`,
+        // Provide default dimensions to prevent CLS
+        width: 800,
+        height: 600,
+    }));
+
+const totalBatches = Math.ceil(allImageData.length / BATCH_SIZE);
+
+function getDateFromFilename(filename: string) {
+    // Match YYYYMMDD-HH-MM-SS pattern
+    const match = filename.match(/(\d{8})-(\d{2})-(\d{2})-(\d{2})/);
+    if (!match) return new Date(0);
+
+    const [_, date, hours, minutes, seconds] = match;
+    const year = date.slice(0, 4);
+    const month = date.slice(4, 6);
+    const day = date.slice(6, 8);
+
+    return new Date(`${year}-${month}-${day}T${hours}:${minutes}:${seconds}`);
+}
+---
+
+<style>
+    .landscape {
+        grid-column: span 2;
+    }
+
+    .superwide {
+        grid-column: 1 / -1;
+
+        img {
+            width: 95vw !important;
+            height: auto;
+        }
+    }
+
+    #loading-trigger {
+        width: 100%;
+        height: 10px;
+        margin: 2rem 0;
+    }
+
+    .hidden-batch {
+        display: none;
+    }
+</style>
+
+<script define:vars={{ allImageData, BATCH_SIZE, totalBatches, styles }}>
+    function checkImageOrientation(thumbnail) {
+        const img = thumbnail.querySelector('img');
+
+        function setOrientation() {
+            const imageWidth = img.naturalWidth;
+            const imageHeight = img.naturalHeight;
+            const ratio = imageWidth / imageHeight;
+
+            // Reset classes first
+            thumbnail.classList.remove('landscape', 'portrait', 'superwide');
+
+            if (imageWidth > imageHeight) {
+                thumbnail.classList.add('landscape');
+            } else if (imageHeight > imageWidth) {
+                thumbnail.classList.add('portrait');
+            }
+
+            if (ratio > 2) {
+                thumbnail.classList.add('superwide');
+            }
+        }
+
+        if (img.complete) {
+            setOrientation();
+        } else {
+            img.addEventListener('load', setOrientation);
+        }
+    }
+
+    function showNextBatch() {
+        if (currentBatch >= totalBatches) {
+            // Hide loading indicator when we're done
+            document.getElementById('loading-indicator').style.display = 'none';
+            return;
+        }
+
+        // Show loading indicator when loading a batch
+        const loadingIndicator = document.getElementById('loading-indicator');
+        loadingIndicator.style.display = 'block';
+
+        const thumbnails = document.querySelectorAll(`.batch-${currentBatch}`);
+
+        thumbnails.forEach((thumbnail) => {
+            // Use proper class name for hiding/showing - this is likely the issue
+            thumbnail.classList.remove(styles.hiddenBatch);
+            checkImageOrientation(thumbnail);
+        });
+
+        currentBatch++;
+
+        // Hide loading indicator after a short delay
+        setTimeout(() => {
+            loadingIndicator.style.display = 'none';
+        }, 300);
+
+        // If we still have more batches and we're near the bottom, load the next batch too
+        if (currentBatch < totalBatches) {
+            const scrollPosition = window.innerHeight + window.scrollY;
+            const pageBottom = document.documentElement.scrollHeight - 500; // Increased threshold
+
+            if (scrollPosition >= pageBottom) {
+                // Load next batch with a small delay
+                setTimeout(showNextBatch, 300);
+            }
+        }
+    }
+
+    let currentBatch = 1;
+
+    // Check first batch immediately
+    document.querySelectorAll('.batch-0').forEach(checkImageOrientation);
+
+    // Pre-load the second batch after a short delay
+    setTimeout(() => {
+        if (currentBatch < totalBatches) {
+            showNextBatch();
+        }
+    }, 800); // Increased delay to ensure DOM is ready
+
+    // Enhanced scroll handler with debounce
+    let scrollTimeout;
+    function handleScroll() {
+        if (scrollTimeout) return;
+
+        scrollTimeout = setTimeout(() => {
+            // Trigger batch loading when user scrolls to 80% of the current view
+            const scrollPosition = window.innerHeight + window.scrollY;
+            const pageBottom =
+                document.documentElement.scrollHeight -
+                window.innerHeight * 0.2;
+
+            if (scrollPosition >= pageBottom) {
+                showNextBatch();
+            }
+            scrollTimeout = null;
+        }, 200); // Increased debounce time
+    }
+
+    window.addEventListener('scroll', handleScroll);
+
+    // Initial check in case the page isn't tall enough to scroll
+    setTimeout(handleScroll, 600);
+
+    function setupLightboxNavigation() {
+        let currentIndex = 0;
+        let thumbnails = [];
+        let isTransitioning = false;
+
+        function createTransitionClone(lightbox) {
+            isTransitioning = true;
+
+            const clone = lightbox.cloneNode(true);
+            clone.classList.add('lightbox-clone');
+            // Remove close button but keep nav elements
+            clone.querySelector('.app-lightbox-close')?.remove();
+
+            document.body.appendChild(clone);
+
+            requestAnimationFrame(() => {
+                clone.classList.add('fade-out');
+                setTimeout(() => {
+                    clone.remove();
+                    isTransitioning = false;
+                }, 300);
+            });
+
+            return clone;
+        }
+
+        const navContainer = document.createElement('div');
+        navContainer.className = 'persistent-nav';
+
+        // Create previous button with improved SVG icon
+        const prev = document.createElement('button');
+        prev.setAttribute('aria-label', 'Previous image');
+        prev.className = 'persistent-prev';
+        prev.innerHTML = `
+            <svg class="nav-arrow-svg" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
+                <path d="M15 18l-6-6 6-6" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+            </svg>
+        `;
+
+        // Create next button with improved SVG icon
+        const next = document.createElement('button');
+        next.setAttribute('aria-label', 'Next image');
+        next.className = 'persistent-next';
+        next.innerHTML = `
+            <svg class="nav-arrow-svg" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
+                <path d="M9 18l6-6-6-6" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+            </svg>
+        `;
+
+        // Add buttons to container
+        navContainer.appendChild(prev);
+        navContainer.appendChild(next);
+        document.body.appendChild(navContainer);
+
+        function updateThumbnails() {
+            // Fix: Use [data-lightbox="true"] to select all thumbnails regardless of CSS module class name
+            thumbnails = Array.from(
+                document.querySelectorAll('[data-lightbox="true"]')
+            );
+        }
+
+        function navigate(direction) {
+            if (isTransitioning || thumbnails.length === 0) return;
+
+            const nextIndex =
+                (currentIndex + direction + thumbnails.length) %
+                thumbnails.length;
+            currentIndex = nextIndex;
+
+            const lightbox = document.querySelector('.app-lightbox.is-active');
+            if (lightbox) {
+                createTransitionClone(lightbox);
+                lightbox.querySelector('.app-lightbox-close')?.click();
+
+                // Add a small delay to ensure lightbox closes before opening again
+                setTimeout(() => {
+                    thumbnails[nextIndex].click();
+                }, 50);
+            }
+        }
+
+        prev.onclick = (e) => {
+            e.stopPropagation();
+            navigate(-1);
+        };
+
+        next.onclick = (e) => {
+            e.stopPropagation();
+            navigate(1);
+        };
+
+        // Watch for lightbox state
+        const lightboxElement = document.querySelector('.app-lightbox');
+        const observer = new MutationObserver((mutations) => {
+            mutations.forEach((mutation) => {
+                if (
+                    mutation.type === 'attributes' &&
+                    mutation.attributeName === 'class'
+                ) {
+                    const lightbox = mutation.target;
+                    if (lightbox.classList.contains('is-active')) {
+                        updateThumbnails();
+                        navContainer.classList.add('visible');
+                        // Update current index
+                        const lightboxImg = lightbox.querySelector('img');
+                        if (lightboxImg) {
+                            currentIndex = thumbnails.findIndex(
+                                (thumb) =>
+                                    thumb.querySelector('img').src ===
+                                    lightboxImg.src
+                            );
+                        }
+                    } else {
+                        navContainer.classList.remove('visible');
+                        isTransitioning = false;
+                    }
+                }
+            });
+        });
+
+        observer.observe(lightboxElement, {
+            attributes: true,
+            attributeFilter: ['class'],
+        });
+
+        // Handle keyboard navigation
+        document.addEventListener('keydown', (e) => {
+            if (!document.querySelector('.app-lightbox.is-active')) return;
+            if (e.key === 'ArrowLeft') navigate(-1);
+            if (e.key === 'ArrowRight') navigate(1);
+        });
+    }
+
+    window.addEventListener('load', setupLightboxNavigation);
+</script>
+
+<>
+    <Lightbox class="app-lightbox" />
+
+    <div class={styles.imageGrid}>
+        {
+            allImageData.map((imageData: any, index: number) => {
+                const batchNumber = Math.floor(index / BATCH_SIZE);
+                return (
+                    <div
+                        class:list={[
+                            styles.thumbnail,
+                            `batch-${batchNumber}`,
+                            { [styles.hiddenBatch]: batchNumber > 0 },
+                        ]}
+                        data-lightbox="true"
+                        data-batch={batchNumber}
+                        id={`${imageData.path}-thumbnail`}
+                        tabindex="0"
+                    >
+                        <img
+                            src={imageData.url}
+                            alt={imageData.pathname}
+                            width="400"
+                            height="300"
+                            loading={batchNumber === 0 ? 'eager' : 'lazy'}
+                        />
+                    </div>
+                );
+            })
+        }
+    </div>
+
+    {/* Improved loading indicator */}
+    <div
+        id="loading-indicator"
+        style="text-align: center; padding: 20px; margin-top: 20px; display: none; color: #333;"
+    >
+        <div
+            style="display: inline-block; width: 20px; height: 20px; border: 3px solid #3366cd; border-radius: 50%; border-top-color: transparent; animation: spin 1s linear infinite;"
+        >
+        </div>
+        <div style="margin-top: 10px;">Loading more images...</div>
+    </div>
+
+    <style is:inline>
+        @keyframes spin {
+            0% {
+                transform: rotate(0deg);
+            }
+            100% {
+                transform: rotate(360deg);
+            }
+        }
+    </style>
+</>
