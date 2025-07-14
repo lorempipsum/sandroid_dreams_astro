@@ -585,36 +585,11 @@ const FlipbookerApp: React.FC = () => {
   return (
     <div className="flipbooker-app">
       <h1>Flipbooker</h1>
-      <p className='description'>Create smooth flipbook-style animations from your photos</p>
+      <p className='description'>Create smooth flipbook-style videos from your photos</p>
 
       <div className="example-section">
-        <h3>Example Results</h3>
-        <p>See what different types of flipbook animations look like:</p>
         <div className="examples-grid">
-          <div className="example-item">
-            <div className="example-video-container">
-              <video 
-                autoPlay 
-                loop 
-                muted 
-                playsInline
-                className="example-video"
-                poster="/example-portrait-poster.jpg"
-              >
-                <source src="/example-portrait.mp4" type="video/mp4" />
-                <source src="/example-portrait.webm" type="video/webm" />
-                <div className="video-placeholder">
-                  <div className="placeholder-content">
-                    <h4>📸 Portrait Series</h4>
-                    <p>Smooth transitions between portrait photos</p>
-                  </div>
-                </div>
-              </video>
-              <div className="example-caption">
-                Portrait photos with featured frames
-              </div>
-            </div>
-          </div>
+  
 
           <div className="example-item">
             <div className="example-video-container">
@@ -627,17 +602,10 @@ const FlipbookerApp: React.FC = () => {
                 poster="/example-landscape-poster.jpg"
               >
                 <source src="/example-landscape.mp4" type="video/mp4" />
-                <source src="/example-landscape.webm" type="video/webm" />
-                <div className="video-placeholder">
-                  <div className="placeholder-content">
-                    <h4>🌄 Landscape Journey</h4>
-                    <p>Time-lapse style landscape transitions</p>
-                  </div>
-                </div>
+                <source src="/example_flipbook_medium.webm" type="video/webm" />
+             
               </video>
-              <div className="example-caption">
-                Landscape photos with fast transitions
-              </div>
+          
             </div>
           </div>
 
@@ -652,17 +620,12 @@ const FlipbookerApp: React.FC = () => {
                 poster="/example-artistic-poster.jpg"
               >
                 <source src="/example-artistic.mp4" type="video/mp4" />
-                <source src="/example-artistic.webm" type="video/webm" />
+                <source src="/example_flipbook__slow.webm" type="video/webm" />
                 <div className="video-placeholder">
-                  <div className="placeholder-content">
-                    <h4>🎨 Artistic Flow</h4>
-                    <p>Creative photos with slow crossfades</p>
-                  </div>
+      
                 </div>
               </video>
-              <div className="example-caption">
-                Artistic photos with slow, dreamy transitions
-              </div>
+        
             </div>
           </div>
 
@@ -677,17 +640,12 @@ const FlipbookerApp: React.FC = () => {
                 poster="/example-street-poster.jpg"
               >
                 <source src="/example-street.mp4" type="video/mp4" />
-                <source src="/example-street.webm" type="video/webm" />
+                <source src="/example_flipbook_travel.webm" type="video/webm" />
                 <div className="video-placeholder">
-                  <div className="placeholder-content">
-                    <h4>🏙️ Street Photography</h4>
-                    <p>Urban scenes with dynamic pacing</p>
-                  </div>
+         
                 </div>
               </video>
-              <div className="example-caption">
-                Street photos with varied timing
-              </div>
+         
             </div>
           </div>
         </div>
