@@ -42,6 +42,8 @@ const FlipbookerApp: React.FC = () => {
   // Image preloading cache
   const imageCache = useRef<Map<string, HTMLImageElement>>(new Map());
   const [isPreloading, setIsPreloading] = useState<boolean>(false);
+  const [processingProgress, setProcessingProgress] = useState<{current: number, total: number}>({current: 0, total: 0});
+  const [preloadingProgress, setPreloadingProgress] = useState<{current: number, total: number}>({current: 0, total: 0});
 
   // Spring animation for crossfade - separate opacity for each canvas
   const [{ frontOpacity, backOpacity }, api] = useSpring(() => ({
@@ -121,15 +123,17 @@ const FlipbookerApp: React.FC = () => {
 
   // Preload images for smoother playback
   const preloadImages = useCallback(async (imageList: ImageData[]) => {
-    setIsPreloading(true);
     const cache = imageCache.current;
     
-    // Clear old cache
+    // Clear old cache and set up preloading progress
     cache.clear();
+    setPreloadingProgress({current: 0, total: imageList.length});
     
     try {
       // Preload images in batches to avoid overwhelming the browser
       const batchSize = 5;
+      let completedCount = 0;
+      
       for (let i = 0; i < imageList.length; i += batchSize) {
         const batch = imageList.slice(i, i + batchSize);
         
@@ -138,10 +142,14 @@ const FlipbookerApp: React.FC = () => {
             const img = new Image();
             img.onload = () => {
               cache.set(imageData.id, img);
+              completedCount++;
+              setPreloadingProgress({current: completedCount, total: imageList.length});
               resolve();
             };
             img.onerror = () => {
               console.warn('Failed to preload image:', imageData.id);
+              completedCount++;
+              setPreloadingProgress({current: completedCount, total: imageList.length});
               resolve();
             };
             // Use preview images for caching
@@ -156,6 +164,8 @@ const FlipbookerApp: React.FC = () => {
       console.warn('Error during image preloading:', error);
     } finally {
       setIsPreloading(false);
+      setProcessingProgress({current: 0, total: 0});
+      setPreloadingProgress({current: 0, total: 0});
     }
   }, []);
 
@@ -170,11 +180,19 @@ const FlipbookerApp: React.FC = () => {
     const files = event.target.files;
     if (!files) return;
 
+    setIsPreloading(true);
+    const totalFiles = files.length;
+    setProcessingProgress({current: 0, total: totalFiles});
+    setPreloadingProgress({current: 0, total: 0});
+    
     const newImages: ImageData[] = [];
     
     for (let i = 0; i < files.length; i++) {
       const file = files[i];
       const id = `${Date.now()}-${i}`;
+      
+      // Update processing progress
+      setProcessingProgress({current: i + 1, total: totalFiles});
       
       // Create full resolution version
       const originalUrl = URL.createObjectURL(file);
@@ -203,6 +221,18 @@ const FlipbookerApp: React.FC = () => {
     }
 
     setImages(prev => [...prev, ...newImages]);
+    
+    // Reset processing progress and start preloading
+    setProcessingProgress({current: totalFiles, total: totalFiles});
+    
+    // Preload the new images
+    if (newImages.length > 0) {
+      await preloadImages(newImages);
+    } else {
+      setIsPreloading(false);
+      setProcessingProgress({current: 0, total: 0});
+      setPreloadingProgress({current: 0, total: 0});
+    }
   }, [settings.previewQuality, settings.maxPreviewSize, resizeImage]);
 
   const removeImage = useCallback((id: string) => {
@@ -593,7 +623,28 @@ const FlipbookerApp: React.FC = () => {
           
           {isPreloading && (
             <div className="loading-indicator">
-              <span>Optimizing images for smooth playback...</span>
+              {processingProgress.total > 0 && (
+                <div className="progress-section">
+                  <span>Converting images: {processingProgress.current} / {processingProgress.total}</span>
+                  <div className="progress-bar">
+                    <div 
+                      className="progress-fill" 
+                      style={{ width: `${(processingProgress.current / processingProgress.total) * 100}%` }}
+                    ></div>
+                  </div>
+                </div>
+              )}
+              {preloadingProgress.total > 0 && (
+                <div className="progress-section">
+                  <span>Caching images: {preloadingProgress.current} / {preloadingProgress.total}</span>
+                  <div className="progress-bar">
+                    <div 
+                      className="progress-fill preloading" 
+                      style={{ width: `${(preloadingProgress.current / preloadingProgress.total) * 100}%` }}
+                    ></div>
+                  </div>
+                </div>
+              )}
             </div>
           )}
         </div>
