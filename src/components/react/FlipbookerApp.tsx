@@ -28,14 +28,20 @@ const FlipbookerApp: React.FC = () => {
   
   const intervalRef = useRef<NodeJS.Timeout | null>(null);
   const canvasRef = useRef<HTMLCanvasElement>(null);
+  const canvasBackRef = useRef<HTMLCanvasElement>(null);
   const mediaRecorderRef = useRef<MediaRecorder | null>(null);
   const recordedChunksRef = useRef<Blob[]>([]);
+  const [isTransitioning, setIsTransitioning] = useState<boolean>(false);
 
-  // Spring animation for image opacity
+  // Spring animation for image opacity - using animated style
   const [{ opacity }, api] = useSpring(() => ({
     opacity: 1,
     config: { duration: settings.transitionDuration },
   }));
+
+  const animatedStyle = {
+    opacity: opacity,
+  };
 
   const handleFileSelect = useCallback((event: React.ChangeEvent<HTMLInputElement>) => {
     const files = event.target.files;
@@ -91,24 +97,29 @@ const FlipbookerApp: React.FC = () => {
   }, [images, settings]);
 
   const nextImage = useCallback(() => {
-    if (images.length === 0) return;
+    if (images.length === 0 || isTransitioning) return;
     
+    setIsTransitioning(true);
     const nextIndex = (currentImageIndex + 1) % images.length;
     
-    // Trigger fade out
+    // Start fade out
     api.start({
       opacity: 0,
       config: { duration: settings.transitionDuration / 2 },
       onRest: () => {
+        // Switch to new image
         setCurrentImageIndex(nextIndex);
-        // Trigger fade in
+        // Start fade in
         api.start({
           opacity: 1,
           config: { duration: settings.transitionDuration / 2 },
+          onRest: () => {
+            setIsTransitioning(false);
+          },
         });
       },
     });
-  }, [currentImageIndex, images.length, api, settings.transitionDuration]);
+  }, [currentImageIndex, images.length, api, settings.transitionDuration, isTransitioning]);
 
   // Effect to handle continuous playback
   useEffect(() => {
@@ -330,21 +341,13 @@ const FlipbookerApp: React.FC = () => {
         <div className="preview-section">
           <h3>Preview</h3>
           <div className="canvas-container">
-            <canvas
+            <animated.canvas
               ref={canvasRef}
               width="800"
               height="600"
               className="preview-canvas"
+              style={animatedStyle}
             />
-            {currentImage && (
-              <animated.div
-                className="image-overlay"
-                style={{
-                  opacity,
-                  backgroundImage: `url(${currentImage.url})`,
-                }}
-              />
-            )}
           </div>
           {images.length > 0 && (
             <div className="current-image-info">

@@ -174,18 +174,7 @@
   height: auto;
   display: block;
   background: #000;
-}
-
-.image-overlay {
-  position: absolute;
-  top: 0;
-  left: 0;
-  right: 0;
-  bottom: 0;
-  background-size: contain;
-  background-repeat: no-repeat;
-  background-position: center;
-  pointer-events: none;
+  transition: opacity 0.1s ease;
 }
 
 .current-image-info {
