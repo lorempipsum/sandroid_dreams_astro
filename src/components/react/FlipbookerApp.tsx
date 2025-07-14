@@ -511,8 +511,8 @@ const FlipbookerApp: React.FC = () => {
   return (
     <div className="flipbooker-app">
       <h1>Flipbooker</h1>
-      <p>Create smooth flipbook-style animations from your photos</p>
-      
+      <p className='description'>Create smooth flipbook-style animations from your photos</p>
+
       <div className="controls-section">
         <div className="file-input-section">
           <label htmlFor="image-input" className="file-input-label">

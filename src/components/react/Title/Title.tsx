@@ -41,21 +41,10 @@ export const Title = ({ title }: { title: string }) => {
           >
             Worms 3 Soundpack
           </a>
-          <a
-            href="/blog/interactive-art-idea-generator/"
-            className={styles.subtitleText}
-          >
-            Ideagenerator
+          <a href="/experiments/flipbooker" className={styles.subtitleText}>
+            Flipbooker
           </a>
-          <a href="/experiments/strava" className={styles.subtitleText}>
-            Strava
-          </a>
-          <a href="/experiments/binder" className={styles.subtitleText}>
-            Binder
-          </a>
-          <a href="/experiments/navigator" className={styles.subtitleText}>
-            Navigator
-          </a>
+
           {false && (
             <a href="/about" className={styles.subtitleText}>
               About
@@ -66,20 +55,14 @@ export const Title = ({ title }: { title: string }) => {
               Friends
             </a>
           )}
-          <a href="/sketches" className={styles.subtitleText}>
-            Sketches
+          <a href="/doodles" className={styles.subtitleText}>
+            Doodles
           </a>
           <a href="/plotting/everything" className={styles.subtitleText}>
             Plotter Art
           </a>
           <a href="/photography/everything" className={styles.subtitleText}>
             Photography
-          </a>
-          <a
-            href="/photography/inspiration-spring"
-            className={styles.subtitleText}
-          >
-            Spring Moodboard
           </a>
           <a href="/blog/bookmarks" className={styles.subtitleText}>
             Bookmarks

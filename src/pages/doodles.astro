@@ -30,12 +30,12 @@ try {
 ---
 
 <FreeLayout
-    title="Sketches"
-    description="A gallery of sketches from Vercel blob storage."
+    title="Doodles"
+    description="A gallery of doodles from Vercel blob storage."
 >
-    <h1>Sketches</h1>
-    <p style="text-align: center;">
-        Photos of sketches and doodles from various sketchbooks over the years.
+    <h1>Doodles</h1>
+    <p style="text-align: center; margin: 1rem auto 2rem auto;">
+        Doodles and sketches from various sketchbooks over the years.
     </p>
     {loading && <p>Loading images...</p>}
     {error && <p style="color: red;">{error}</p>}
@@ -46,5 +46,5 @@ try {
         )
     }
 
-    {!loading && !error && images.length === 0 && <p>No sketches found.</p>}
+    {!loading && !error && images.length === 0 && <p>No doodles found.</p>}
 </FreeLayout>
