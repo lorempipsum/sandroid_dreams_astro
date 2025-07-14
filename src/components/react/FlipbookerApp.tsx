@@ -25,8 +25,8 @@ const FlipbookerApp: React.FC = () => {
   const [currentImageIndex, setCurrentImageIndex] = useState<number>(0);
   const [isPlaying, setIsPlaying] = useState<boolean>(false);
   const [settings, setSettings] = useState<FlipbookSettings>({
-    baseDuration: 50,
-    featuredDuration: 300,
+    baseDuration: 50, // Increased from 50ms to 200ms for more noticeable easing
+    featuredDuration: 150, // Increased from 300ms to 1000ms
     transitionDuration: 40,
     previewQuality: 'medium',
     maxPreviewSize: 800,
@@ -266,19 +266,90 @@ const FlipbookerApp: React.FC = () => {
       return settings.featuredDuration;
     }
 
-    // Check if we're approaching or leaving a featured image
-    const nextImage = images[index + 1];
-    const prevImage = images[index - 1];
+    // Calculate easing influence from all featured images
+    let totalEasingInfluence = 0;
+    const maxEasingDistance = 6; // Ease within 6 images of any featured image
     
-    const isBeforeFeatured = nextImage?.isFeatured;
-    const isAfterFeatured = prevImage?.isFeatured;
-
-    if (isBeforeFeatured || isAfterFeatured) {
-      // Gradually slow down/speed up
-      return settings.baseDuration * 1.5;
+    for (let i = 0; i < images.length; i++) {
+      if (images[i]?.isFeatured) {
+        const distance = Math.abs(i - index);
+        
+        if (distance <= maxEasingDistance && distance > 0) {
+          // Use a smooth cubic easing curve for very gradual transitions
+          const normalizedDistance = distance / maxEasingDistance; // 0 to 1
+          // Cubic ease-in-out curve: more gradual at the edges
+          const t = normalizedDistance;
+          const influence = t < 0.5 
+            ? 4 * t * t * t 
+            : 1 - Math.pow(-2 * t + 2, 3) / 2;
+          
+          // Invert so closer = more influence
+          const easingInfluence = 1 - influence;
+          totalEasingInfluence = Math.max(totalEasingInfluence, easingInfluence);
+        }
+      }
     }
 
+    // Apply easing with smooth interpolation
+    if (totalEasingInfluence > 0) {
+      const maxSlowdown = 2.8; // Maximum slowdown multiplier  
+      const easingMultiplier = 1 + (totalEasingInfluence * (maxSlowdown - 1));
+      const finalDuration = Math.round(settings.baseDuration * easingMultiplier);
+      
+      // Debug logging to see actual values
+      console.log(`Image ${index}: influence=${totalEasingInfluence.toFixed(2)}, multiplier=${easingMultiplier.toFixed(2)}, duration=${finalDuration}ms`);
+      
+      return finalDuration;
+    }
+
+    console.log(`Image ${index}: base duration=${settings.baseDuration}ms`);
     return settings.baseDuration;
+  }, [images, settings]);
+
+  const calculateTransitionDuration = useCallback((index: number): number => {
+    const image = images[index];
+    if (!image) return settings.transitionDuration;
+
+    if (image.isFeatured) {
+      return settings.transitionDuration; // Keep normal transition for featured images
+    }
+
+    // Calculate easing influence from all featured images (same logic as duration)
+    let totalEasingInfluence = 0;
+    const maxEasingDistance = 6; // Ease within 6 images of any featured image
+    
+    for (let i = 0; i < images.length; i++) {
+      if (images[i]?.isFeatured) {
+        const distance = Math.abs(i - index);
+        
+        if (distance <= maxEasingDistance && distance > 0) {
+          // Use a smooth cubic easing curve for very gradual transitions
+          const normalizedDistance = distance / maxEasingDistance; // 0 to 1
+          // Cubic ease-in-out curve: more gradual at the edges
+          const t = normalizedDistance;
+          const influence = t < 0.5 
+            ? 4 * t * t * t 
+            : 1 - Math.pow(-2 * t + 2, 3) / 2;
+          
+          // Invert so closer = more influence
+          const easingInfluence = 1 - influence;
+          totalEasingInfluence = Math.max(totalEasingInfluence, easingInfluence);
+        }
+      }
+    }
+
+    // Apply easing with smooth interpolation (same multiplier as duration)
+    if (totalEasingInfluence > 0) {
+      const maxSlowdown = 2.8; // Same as duration multiplier
+      const easingMultiplier = 1 + (totalEasingInfluence * (maxSlowdown - 1));
+      const finalTransitionDuration = Math.round(settings.transitionDuration * easingMultiplier);
+      
+      console.log(`Image ${index}: transition duration scaled to ${finalTransitionDuration}ms (${easingMultiplier.toFixed(2)}x)`);
+      
+      return finalTransitionDuration;
+    }
+
+    return settings.transitionDuration;
   }, [images, settings]);
 
   const drawImageToCanvas = useCallback((canvas: HTMLCanvasElement, imageData: ImageData) => {
@@ -400,11 +471,14 @@ const FlipbookerApp: React.FC = () => {
         
         backCtx.drawImage(img, drawX, drawY, drawWidth, drawHeight);
         
+        // Calculate the scaled transition duration for this image
+        const scaledTransitionDuration = calculateTransitionDuration(currentImageIndex);
+        
         // Now start the crossfade: front canvas fades out, back canvas fades in
         api.start({
           frontOpacity: 0,
           backOpacity: 1,
-          config: { duration: settings.transitionDuration },
+          config: { duration: scaledTransitionDuration },
           onRest: () => {
             // After transition, copy the back canvas content to front canvas
             setCurrentImageIndex(nextIndex);
@@ -445,7 +519,7 @@ const FlipbookerApp: React.FC = () => {
         img.src = images[nextIndex].previewUrl; // Use preview for display performance
       }
     }
-  }, [currentImageIndex, images, api, settings.transitionDuration, isTransitioning]);
+  }, [currentImageIndex, images, api, calculateTransitionDuration, isTransitioning]);
 
   // Effect to handle continuous playback
   useEffect(() => {
@@ -512,6 +586,112 @@ const FlipbookerApp: React.FC = () => {
     <div className="flipbooker-app">
       <h1>Flipbooker</h1>
       <p className='description'>Create smooth flipbook-style animations from your photos</p>
+
+      <div className="example-section">
+        <h3>Example Results</h3>
+        <p>See what different types of flipbook animations look like:</p>
+        <div className="examples-grid">
+          <div className="example-item">
+            <div className="example-video-container">
+              <video 
+                autoPlay 
+                loop 
+                muted 
+                playsInline
+                className="example-video"
+                poster="/example-portrait-poster.jpg"
+              >
+                <source src="/example-portrait.mp4" type="video/mp4" />
+                <source src="/example-portrait.webm" type="video/webm" />
+                <div className="video-placeholder">
+                  <div className="placeholder-content">
+                    <h4>📸 Portrait Series</h4>
+                    <p>Smooth transitions between portrait photos</p>
+                  </div>
+                </div>
+              </video>
+              <div className="example-caption">
+                Portrait photos with featured frames
+              </div>
+            </div>
+          </div>
+
+          <div className="example-item">
+            <div className="example-video-container">
+              <video 
+                autoPlay 
+                loop 
+                muted 
+                playsInline
+                className="example-video"
+                poster="/example-landscape-poster.jpg"
+              >
+                <source src="/example-landscape.mp4" type="video/mp4" />
+                <source src="/example-landscape.webm" type="video/webm" />
+                <div className="video-placeholder">
+                  <div className="placeholder-content">
+                    <h4>🌄 Landscape Journey</h4>
+                    <p>Time-lapse style landscape transitions</p>
+                  </div>
+                </div>
+              </video>
+              <div className="example-caption">
+                Landscape photos with fast transitions
+              </div>
+            </div>
+          </div>
+
+          <div className="example-item">
+            <div className="example-video-container">
+              <video 
+                autoPlay 
+                loop 
+                muted 
+                playsInline
+                className="example-video"
+                poster="/example-artistic-poster.jpg"
+              >
+                <source src="/example-artistic.mp4" type="video/mp4" />
+                <source src="/example-artistic.webm" type="video/webm" />
+                <div className="video-placeholder">
+                  <div className="placeholder-content">
+                    <h4>🎨 Artistic Flow</h4>
+                    <p>Creative photos with slow crossfades</p>
+                  </div>
+                </div>
+              </video>
+              <div className="example-caption">
+                Artistic photos with slow, dreamy transitions
+              </div>
+            </div>
+          </div>
+
+          <div className="example-item">
+            <div className="example-video-container">
+              <video 
+                autoPlay 
+                loop 
+                muted 
+                playsInline
+                className="example-video"
+                poster="/example-street-poster.jpg"
+              >
+                <source src="/example-street.mp4" type="video/mp4" />
+                <source src="/example-street.webm" type="video/webm" />
+                <div className="video-placeholder">
+                  <div className="placeholder-content">
+                    <h4>🏙️ Street Photography</h4>
+                    <p>Urban scenes with dynamic pacing</p>
+                  </div>
+                </div>
+              </video>
+              <div className="example-caption">
+                Street photos with varied timing
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
 
       <div className="controls-section">
         <div className="file-input-section">
