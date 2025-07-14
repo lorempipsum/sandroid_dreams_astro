@@ -130,19 +130,24 @@
   background: #c82333;
 }
 
-.control-button.record {
-  background: #6f42c1;
-  color: white;
+.loading-indicator {
+  margin-top: 10px;
+  padding: 8px 12px;
+  background-color: #f0f8ff;
+  border: 1px solid #3498db;
+  border-radius: 4px;
+  color: #2c3e50;
+  font-size: 14px;
+  text-align: center;
 }
 
-.control-button.record:hover:not(:disabled) {
-  background: #5a2d91;
+.loading-indicator span {
+  animation: loading-pulse 1.5s ease-in-out infinite alternate;
 }
 
-.control-button.recording {
-  background: #e74c3c;
-  color: white;
-  animation: pulse 1.5s infinite;
+@keyframes loading-pulse {
+  from { opacity: 0.6; }
+  to { opacity: 1; }
 }
 
 @keyframes pulse {

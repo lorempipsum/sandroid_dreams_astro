@@ -6,14 +6,18 @@ interface ImageData {
   id: string;
   file: File;
   url: string;
+  previewUrl: string; // Smaller version for preview
   isFeatured: boolean;
+  originalWidth: number;
+  originalHeight: number;
 }
 
 interface FlipbookSettings {
   baseDuration: number; // base duration in ms
   featuredDuration: number; // duration for featured images in ms
   transitionDuration: number; // fade transition duration in ms
-  videoQuality: 'high' | 'medium' | 'low'; // video recording quality
+  previewQuality: 'high' | 'medium' | 'low'; // preview quality for performance
+  maxPreviewSize: number; // max width/height for preview images
 }
 
 const FlipbookerApp: React.FC = () => {
@@ -24,20 +28,20 @@ const FlipbookerApp: React.FC = () => {
     baseDuration: 50,
     featuredDuration: 300,
     transitionDuration: 40,
-    videoQuality: 'high',
+    previewQuality: 'medium',
+    maxPreviewSize: 800,
   });
-  const [isRecording, setIsRecording] = useState<boolean>(false);
   
   const intervalRef = useRef<NodeJS.Timeout | null>(null);
   const canvasRef = useRef<HTMLCanvasElement>(null);
   const canvasBackRef = useRef<HTMLCanvasElement>(null);
-  const compositeCanvasRef = useRef<HTMLCanvasElement>(null);
-  const mediaRecorderRef = useRef<MediaRecorder | null>(null);
-  const recordedChunksRef = useRef<Blob[]>([]);
   const [isTransitioning, setIsTransitioning] = useState<boolean>(false);
-  const animationFrameRef = useRef<number | null>(null);
   const [currentFrontOpacity, setCurrentFrontOpacity] = useState<number>(1);
   const [currentBackOpacity, setCurrentBackOpacity] = useState<number>(0);
+  
+  // Image preloading cache
+  const imageCache = useRef<Map<string, HTMLImageElement>>(new Map());
+  const [isPreloading, setIsPreloading] = useState<boolean>(false);
 
   // Spring animation for crossfade - separate opacity for each canvas
   const [{ frontOpacity, backOpacity }, api] = useSpring(() => ({
@@ -63,19 +67,143 @@ const FlipbookerApp: React.FC = () => {
     opacity: backOpacity,
   };
 
-  const handleFileSelect = useCallback((event: React.ChangeEvent<HTMLInputElement>) => {
+  // Image processing utilities with optimizations
+  const resizeImage = useCallback((file: File, maxSize: number, quality: number = 0.8): Promise<{url: string, width: number, height: number}> => {
+    return new Promise((resolve) => {
+      const img = new Image();
+      img.onload = () => {
+        // Skip resizing if image is already small enough
+        if (img.width <= maxSize && img.height <= maxSize) {
+          resolve({ url: URL.createObjectURL(file), width: img.width, height: img.height });
+          return;
+        }
+
+        const canvas = document.createElement('canvas');
+        const ctx = canvas.getContext('2d');
+        if (!ctx) {
+          resolve({ url: URL.createObjectURL(file), width: img.width, height: img.height });
+          return;
+        }
+
+        // Calculate new dimensions
+        const ratio = Math.min(maxSize / img.width, maxSize / img.height);
+        const newWidth = Math.floor(img.width * ratio);
+        const newHeight = Math.floor(img.height * ratio);
+
+        canvas.width = newWidth;
+        canvas.height = newHeight;
+
+        // Use smoother scaling for better quality
+        ctx.imageSmoothingEnabled = true;
+        ctx.imageSmoothingQuality = 'high';
+        
+        // Draw and compress
+        ctx.drawImage(img, 0, 0, newWidth, newHeight);
+        
+        canvas.toBlob((blob) => {
+          if (blob) {
+            resolve({ 
+              url: URL.createObjectURL(blob), 
+              width: newWidth, 
+              height: newHeight 
+            });
+          } else {
+            resolve({ url: URL.createObjectURL(file), width: img.width, height: img.height });
+          }
+        }, 'image/jpeg', quality);
+      };
+      img.onerror = () => {
+        resolve({ url: URL.createObjectURL(file), width: 0, height: 0 });
+      };
+      img.src = URL.createObjectURL(file);
+    });
+  }, []);
+
+  // Preload images for smoother playback
+  const preloadImages = useCallback(async (imageList: ImageData[]) => {
+    setIsPreloading(true);
+    const cache = imageCache.current;
+    
+    // Clear old cache
+    cache.clear();
+    
+    try {
+      // Preload images in batches to avoid overwhelming the browser
+      const batchSize = 5;
+      for (let i = 0; i < imageList.length; i += batchSize) {
+        const batch = imageList.slice(i, i + batchSize);
+        
+        await Promise.all(batch.map(imageData => {
+          return new Promise<void>((resolve) => {
+            const img = new Image();
+            img.onload = () => {
+              cache.set(imageData.id, img);
+              resolve();
+            };
+            img.onerror = () => {
+              console.warn('Failed to preload image:', imageData.id);
+              resolve();
+            };
+            // Use preview images for caching
+            img.src = imageData.previewUrl;
+          });
+        }));
+        
+        // Small delay between batches to keep UI responsive
+        await new Promise(resolve => setTimeout(resolve, 10));
+      }
+    } catch (error) {
+      console.warn('Error during image preloading:', error);
+    } finally {
+      setIsPreloading(false);
+    }
+  }, []);
+
+  // Preload images when they change
+  useEffect(() => {
+    if (images.length > 0) {
+      preloadImages(images); // Preload preview images
+    }
+  }, [images, preloadImages]);
+
+  const handleFileSelect = useCallback(async (event: React.ChangeEvent<HTMLInputElement>) => {
     const files = event.target.files;
     if (!files) return;
 
-    const newImages: ImageData[] = Array.from(files).map((file, index) => ({
-      id: `${Date.now()}-${index}`,
-      file,
-      url: URL.createObjectURL(file),
-      isFeatured: false,
-    }));
+    const newImages: ImageData[] = [];
+    
+    for (let i = 0; i < files.length; i++) {
+      const file = files[i];
+      const id = `${Date.now()}-${i}`;
+      
+      // Create full resolution version
+      const originalUrl = URL.createObjectURL(file);
+      
+      // Create preview version based on settings
+      const qualityMap = { high: 0.9, medium: 0.7, low: 0.5 };
+      const quality = qualityMap[settings.previewQuality];
+      const previewResult = await resizeImage(file, settings.maxPreviewSize, quality);
+      
+      // Get original dimensions
+      const originalDimensions = await new Promise<{width: number, height: number}>((resolve) => {
+        const img = new Image();
+        img.onload = () => resolve({ width: img.width, height: img.height });
+        img.src = originalUrl;
+      });
+      
+      newImages.push({
+        id,
+        file,
+        url: originalUrl,
+        previewUrl: previewResult.url,
+        isFeatured: false,
+        originalWidth: originalDimensions.width,
+        originalHeight: originalDimensions.height,
+      });
+    }
 
     setImages(prev => [...prev, ...newImages]);
-  }, []);
+  }, [settings.previewQuality, settings.maxPreviewSize, resizeImage]);
 
   const removeImage = useCallback((id: string) => {
     setImages(prev => {
@@ -127,6 +255,34 @@ const FlipbookerApp: React.FC = () => {
     const ctx = canvas.getContext('2d');
     if (!ctx) return;
 
+    // Try to use preloaded image first for better performance
+    const cachedImg = imageCache.current.get(imageData.id);
+    if (cachedImg) {
+      // Use cached image for faster rendering
+      ctx.clearRect(0, 0, canvas.width, canvas.height);
+      
+      const canvasAspect = canvas.width / canvas.height;
+      const imgAspect = cachedImg.width / cachedImg.height;
+      
+      let drawWidth, drawHeight, drawX, drawY;
+      
+      if (imgAspect > canvasAspect) {
+        drawWidth = canvas.width;
+        drawHeight = canvas.width / imgAspect;
+        drawX = 0;
+        drawY = (canvas.height - drawHeight) / 2;
+      } else {
+        drawHeight = canvas.height;
+        drawWidth = canvas.height * imgAspect;
+        drawX = (canvas.width - drawWidth) / 2;
+        drawY = 0;
+      }
+      
+      ctx.drawImage(cachedImg, drawX, drawY, drawWidth, drawHeight);
+      return;
+    }
+
+    // Fallback to loading image if not cached
     const img = new Image();
     img.onload = () => {
       // Clear canvas
@@ -159,56 +315,21 @@ const FlipbookerApp: React.FC = () => {
       console.warn('Failed to load image:', imageData.id, error);
     };
     
-    // Set the image source
-    if (imageData.url) {
-      img.src = imageData.url;
+    // Use preview resolution for display
+    if (imageData.previewUrl) {
+      img.src = imageData.previewUrl;
     }
   }, []);
 
-  // Composite the front and back canvases with their opacities for recording
-  const updateCompositeCanvas = useCallback(() => {
-    if (!compositeCanvasRef.current || !canvasRef.current || !canvasBackRef.current) return;
-
-    const compositeCtx = compositeCanvasRef.current.getContext('2d');
-    if (!compositeCtx) return;
-
-    const frontCanvas = canvasRef.current;
-    const backCanvas = canvasBackRef.current;
-
-    // Clear composite canvas
-    compositeCtx.clearRect(0, 0, compositeCanvasRef.current.width, compositeCanvasRef.current.height);
-
-    // Always draw the back canvas first (it might have the new image during transition)
-    compositeCtx.globalAlpha = currentBackOpacity;
-    compositeCtx.drawImage(backCanvas, 0, 0);
-
-    // Then draw the front canvas on top
-    compositeCtx.globalAlpha = currentFrontOpacity;
-    compositeCtx.drawImage(frontCanvas, 0, 0);
-
-    // Reset global alpha
-    compositeCtx.globalAlpha = 1;
-  }, [currentFrontOpacity, currentBackOpacity]);
-
-  // Continuously update composite canvas during recording
-  useEffect(() => {
-    if (!isRecording) return;
-
-    const animate = () => {
-      updateCompositeCanvas();
-      animationFrameRef.current = requestAnimationFrame(animate);
+  // Canvas dimensions based on context
+  const getCanvasDimensions = useCallback(() => {
+    const qualityMap = {
+      high: { width: 1280, height: 720 },
+      medium: { width: 854, height: 480 },
+      low: { width: 640, height: 360 }
     };
-
-    // Start the animation loop immediately
-    animationFrameRef.current = requestAnimationFrame(animate);
-
-    return () => {
-      if (animationFrameRef.current) {
-        cancelAnimationFrame(animationFrameRef.current);
-        animationFrameRef.current = null;
-      }
-    };
-  }, [isRecording, updateCompositeCanvas]);
+    return qualityMap[settings.previewQuality];
+  }, [settings.previewQuality]);
 
   const nextImage = useCallback(() => {
     if (images.length === 0 || isTransitioning) return;
@@ -222,8 +343,10 @@ const FlipbookerApp: React.FC = () => {
       const backCtx = backCanvas.getContext('2d');
       if (!backCtx) return;
 
-      const img = new Image();
-      img.onload = () => {
+      // Try to use cached image first
+      const cachedImg = imageCache.current.get(images[nextIndex].id);
+      
+      const drawImageToBackCanvas = (img: HTMLImageElement) => {
         // Clear and draw the new image to back canvas
         backCtx.clearRect(0, 0, backCanvas.width, backCanvas.height);
         
@@ -277,13 +400,20 @@ const FlipbookerApp: React.FC = () => {
           },
         });
       };
-      
-      img.onerror = (error) => {
-        console.warn('Failed to load next image:', images[nextIndex]?.id, error);
-        setIsTransitioning(false);
-      };
-      
-      img.src = images[nextIndex].url;
+
+      if (cachedImg) {
+        // Use cached image immediately
+        drawImageToBackCanvas(cachedImg);
+      } else {
+        // Load image if not cached
+        const img = new Image();
+        img.onload = () => drawImageToBackCanvas(img);
+        img.onerror = (error) => {
+          console.warn('Failed to load next image:', images[nextIndex]?.id, error);
+          setIsTransitioning(false);
+        };
+        img.src = images[nextIndex].previewUrl; // Use preview for display performance
+      }
     }
   }, [currentImageIndex, images, api, settings.transitionDuration, isTransitioning]);
 
@@ -316,86 +446,6 @@ const FlipbookerApp: React.FC = () => {
     }
   }, []);
 
-  const startRecording = useCallback(async () => {
-    if (!compositeCanvasRef.current) return;
-
-    const canvas = compositeCanvasRef.current;
-    
-    // Quality settings based on user preference
-    const qualitySettings = {
-      high: { fps: 60, bitrate: 10000000 }, // 10 Mbps
-      medium: { fps: 30, bitrate: 5000000 }, // 5 Mbps
-      low: { fps: 24, bitrate: 2000000 }, // 2 Mbps
-    };
-    
-    const { fps, bitrate } = qualitySettings[settings.videoQuality];
-    const stream = canvas.captureStream(fps);
-    
-    recordedChunksRef.current = [];
-    
-    // Try different codecs for better quality, with fallbacks
-    let options;
-    if (MediaRecorder.isTypeSupported('video/webm;codecs=vp9')) {
-      options = {
-        mimeType: 'video/webm;codecs=vp9',
-        videoBitsPerSecond: bitrate,
-      };
-    } else if (MediaRecorder.isTypeSupported('video/webm;codecs=vp8')) {
-      options = {
-        mimeType: 'video/webm;codecs=vp8',
-        videoBitsPerSecond: bitrate,
-      };
-    } else if (MediaRecorder.isTypeSupported('video/mp4')) {
-      options = {
-        mimeType: 'video/mp4',
-        videoBitsPerSecond: bitrate,
-      };
-    } else {
-      options = {
-        videoBitsPerSecond: bitrate,
-      };
-    }
-    
-    mediaRecorderRef.current = new MediaRecorder(stream, options);
-
-    mediaRecorderRef.current.ondataavailable = (event) => {
-      if (event.data.size > 0) {
-        recordedChunksRef.current.push(event.data);
-      }
-    };
-
-    mediaRecorderRef.current.onstop = () => {
-      const blob = new Blob(recordedChunksRef.current, {
-        type: 'video/webm',
-      });
-      const url = URL.createObjectURL(blob);
-      const a = document.createElement('a');
-      a.href = url;
-      a.download = 'flipbook.webm';
-      a.click();
-      URL.revokeObjectURL(url);
-    };
-
-    mediaRecorderRef.current.start();
-    setIsRecording(true);
-    startFlipbook();
-  }, [startFlipbook, settings.videoQuality]);
-
-  const stopRecording = useCallback(() => {
-    if (mediaRecorderRef.current && isRecording) {
-      mediaRecorderRef.current.stop();
-      setIsRecording(false);
-      
-      // Stop the animation loop
-      if (animationFrameRef.current) {
-        cancelAnimationFrame(animationFrameRef.current);
-        animationFrameRef.current = null;
-      }
-      
-      stopFlipbook();
-    }
-  }, [isRecording, stopFlipbook]);
-
   // Draw current image to front canvas initially
   useEffect(() => {
     if (!canvasRef.current || images.length === 0) return;
@@ -403,14 +453,8 @@ const FlipbookerApp: React.FC = () => {
     const currentImage = images[currentImageIndex];
     if (!currentImage) return;
 
-    // Only draw to front canvas initially
     drawImageToCanvas(canvasRef.current, currentImage);
   }, [currentImageIndex, images, drawImageToCanvas]);
-
-  // Update composite canvas whenever canvases or opacities change
-  useEffect(() => {
-    updateCompositeCanvas();
-  }, [updateCompositeCanvas, currentImageIndex, currentFrontOpacity, currentBackOpacity]);
 
   // Cleanup - only on component unmount
   useEffect(() => {
@@ -418,13 +462,13 @@ const FlipbookerApp: React.FC = () => {
       if (intervalRef.current) {
         clearTimeout(intervalRef.current);
       }
-      if (animationFrameRef.current) {
-        cancelAnimationFrame(animationFrameRef.current);
-      }
+      // Clear image cache
+      imageCache.current.clear();
       // Only revoke URLs on unmount
       images.forEach(img => {
         try {
           URL.revokeObjectURL(img.url);
+          URL.revokeObjectURL(img.previewUrl);
         } catch (error) {
           // Ignore errors when revoking URLs
         }
@@ -437,7 +481,7 @@ const FlipbookerApp: React.FC = () => {
   return (
     <div className="flipbooker-app">
       <h1>Flipbooker</h1>
-      <p>Create flipbook-style videos from your photos</p>
+      <p>Create smooth flipbook-style animations from your photos</p>
       
       <div className="controls-section">
         <div className="file-input-section">
@@ -506,18 +550,34 @@ const FlipbookerApp: React.FC = () => {
           </div>
           <div className="setting">
             <label>
-              Video Quality:
+              Preview Quality:
               <select
-                value={settings.videoQuality}
+                value={settings.previewQuality}
                 onChange={(e) => setSettings(prev => ({
                   ...prev,
-                  videoQuality: e.target.value as 'high' | 'medium' | 'low'
+                  previewQuality: e.target.value as 'high' | 'medium' | 'low'
                 }))}
               >
-                <option value="high">High (10 Mbps, 60 FPS)</option>
-                <option value="medium">Medium (5 Mbps, 30 FPS)</option>
-                <option value="low">Low (2 Mbps, 24 FPS)</option>
+                <option value="high">High (720p) - Better quality</option>
+                <option value="medium">Medium (480p) - Balanced</option>
+                <option value="low">Low (360p) - Better performance</option>
               </select>
+            </label>
+          </div>
+          <div className="setting">
+            <label>
+              Max Preview Size:
+              <input
+                type="number"
+                value={settings.maxPreviewSize}
+                onChange={(e) => setSettings(prev => ({
+                  ...prev,
+                  maxPreviewSize: parseInt(e.target.value) || 800
+                }))}
+                min="400"
+                max="1920"
+                step="100"
+              />
             </label>
           </div>
         </div>
@@ -525,19 +585,17 @@ const FlipbookerApp: React.FC = () => {
         <div className="playback-controls">
           <button
             onClick={isPlaying ? stopFlipbook : startFlipbook}
-            disabled={images.length === 0}
+            disabled={images.length === 0 || isPreloading}
             className={`control-button ${isPlaying ? 'stop' : 'play'}`}
           >
-            {isPlaying ? 'Stop' : 'Play'} Flipbook
+            {isPreloading ? 'Loading Images...' : isPlaying ? 'Stop' : 'Play'} Flipbook
           </button>
           
-          <button
-            onClick={isRecording ? stopRecording : startRecording}
-            disabled={images.length === 0}
-            className={`control-button ${isRecording ? 'recording' : 'record'}`}
-          >
-            {isRecording ? 'Stop Recording' : 'Record Video'}
-          </button>
+          {isPreloading && (
+            <div className="loading-indicator">
+              <span>Optimizing images for smooth playback...</span>
+            </div>
+          )}
         </div>
       </div>
 
@@ -547,24 +605,17 @@ const FlipbookerApp: React.FC = () => {
           <div className="canvas-container">
             <animated.canvas
               ref={canvasRef}
-              width="1920"
-              height="1080"
+              width={getCanvasDimensions().width}
+              height={getCanvasDimensions().height}
               className="preview-canvas front-canvas"
               style={frontCanvasStyle}
             />
             <animated.canvas
               ref={canvasBackRef}
-              width="1920"
-              height="1080"
+              width={getCanvasDimensions().width}
+              height={getCanvasDimensions().height}
               className="preview-canvas back-canvas"
               style={backCanvasStyle}
-            />
-            {/* Hidden composite canvas for recording */}
-            <canvas
-              ref={compositeCanvasRef}
-              width="1920"
-              height="1080"
-              style={{ display: 'none' }}
             />
           </div>
           {images.length > 0 && (
