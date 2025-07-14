@@ -80,6 +80,16 @@
   font-size: 14px;
 }
 
+.setting select {
+  margin-top: 0.5rem;
+  padding: 8px 12px;
+  border: 1px solid #ddd;
+  border-radius: 4px;
+  font-size: 14px;
+  background: white;
+  cursor: pointer;
+}
+
 .playback-controls {
   display: flex;
   flex-direction: column;
@@ -174,7 +184,17 @@
   height: auto;
   display: block;
   background: #000;
-  transition: opacity 0.1s ease;
+}
+
+.back-canvas {
+  position: absolute;
+  top: 0;
+  left: 0;
+}
+
+.front-canvas {
+  position: relative;
+  z-index: 1;
 }
 
 .current-image-info {
