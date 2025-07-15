@@ -23,7 +23,7 @@ const FlipbookerApp: React.FC = () => {
   const [currentImageIndex, setCurrentImageIndex] = useState<number>(0);
   const [settings, setSettings] = useState<FlipbookSettings>({
     baseDuration: 50,
-    featuredDuration: 150,
+    featuredDuration: 100,
     transitionDuration: 40,
     previewQuality: 'medium',
     maxPreviewSize: 800,

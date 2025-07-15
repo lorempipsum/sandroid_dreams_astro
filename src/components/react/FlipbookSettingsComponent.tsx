@@ -41,9 +41,9 @@ const FlipbookSettingsComponent: React.FC<FlipbookSettingsProps> = ({
             type="number"
             value={settings.featuredDuration}
             onChange={(e) => handleSettingChange('featuredDuration', parseInt(e.target.value) || 800)}
-            min="100"
+            min="50"
             max="5000"
-            step="20"
+            step="10"
           />
         </label>
       </div>
