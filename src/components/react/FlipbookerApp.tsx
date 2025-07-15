@@ -9,6 +9,7 @@ import FlipbookSettingsComponent from './FlipbookSettingsComponent';
 import PlaybackControls from './PlaybackControls';
 import PreviewCanvas from './PreviewCanvas';
 import ImageGrid from './ImageGrid';
+import VideoExport from './VideoExport';
 
 // Types and hooks
 import type { ImageData, FlipbookSettings, ProgressInfo } from './types';
@@ -234,6 +235,13 @@ const FlipbookerApp: React.FC = () => {
             <FlipbookSettingsComponent 
               settings={settings} 
               onSettingsChange={setSettings} 
+            />
+            
+            <VideoExport
+              images={images}
+              settings={settings}
+              calculateDuration={calculateDuration}
+              calculateTransitionDuration={calculateTransitionDuration}
             />
           </div>
         </div>
