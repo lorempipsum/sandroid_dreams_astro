@@ -214,6 +214,7 @@ const FlipbookerApp: React.FC = () => {
               currentImageIndex={currentImageIndex}
               onToggleFeatured={toggleFeatured}
               onRemoveImage={removeImage}
+              onImageChange={handleImageClick}
             />
             
             <div className={styles.playbackSection}>

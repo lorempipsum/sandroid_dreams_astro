@@ -13,6 +13,7 @@ interface PreviewCanvasProps {
   currentImageIndex: number;
   onToggleFeatured: (id: string) => void;
   onRemoveImage: (id: string) => void;
+  onImageChange: (index: number) => void;
 }
 
 const PreviewCanvas: React.FC<PreviewCanvasProps> = ({
@@ -24,7 +25,8 @@ const PreviewCanvas: React.FC<PreviewCanvasProps> = ({
   images,
   currentImageIndex,
   onToggleFeatured,
-  onRemoveImage
+  onRemoveImage,
+  onImageChange
 }) => {
   const currentImage = images[currentImageIndex];
 
@@ -66,6 +68,34 @@ const PreviewCanvas: React.FC<PreviewCanvasProps> = ({
           </div>
         )}
       </div>
+      
+      {images.length > 1 && (
+        <div className={styles.scrubberContainer}>
+          <div className={styles.scrubberLabel}>
+            <span>Frame {currentImageIndex + 1}</span>
+            <span>{images.length} total</span>
+          </div>
+          <input
+            type="range"
+            min="0"
+            max={images.length - 1}
+            value={currentImageIndex}
+            onChange={(e) => onImageChange(parseInt(e.target.value))}
+            className={styles.scrubber}
+          />
+          <div className={styles.scrubberTicks}>
+            {images.map((image, index) => (
+              <div
+                key={image.id}
+                className={`${styles.tick} ${index === currentImageIndex ? styles.active : ''} ${image.isFeatured ? styles.featured : ''}`}
+                style={{ left: `${(index / (images.length - 1)) * 100}%` }}
+                onClick={() => onImageChange(index)}
+              />
+            ))}
+          </div>
+        </div>
+      )}
+      
       {images.length > 0 && (
         <div className={styles.currentImageInfo}>
           <p>

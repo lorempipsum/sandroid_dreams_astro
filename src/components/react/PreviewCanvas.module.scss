@@ -94,3 +94,92 @@
   background: rgba(220, 53, 69, 0.2);
   transform: scale(1.1);
 }
+
+.scrubberContainer {
+  margin-top: 1rem;
+  padding: 0 0.5rem;
+}
+
+.scrubberLabel {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 0.5rem;
+  font-size: 14px;
+  color: #666;
+  font-weight: 500;
+}
+
+.scrubber {
+  width: 100%;
+  height: 6px;
+  border-radius: 3px;
+  background: #e9ecef;
+  outline: none;
+  appearance: none;
+  cursor: pointer;
+  margin-bottom: 0.5rem;
+}
+
+.scrubber::-webkit-slider-thumb {
+  appearance: none;
+  width: 18px;
+  height: 18px;
+  border-radius: 50%;
+  background: #007bff;
+  cursor: pointer;
+  border: 2px solid white;
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.2);
+  transition: all 0.2s;
+}
+
+.scrubber::-webkit-slider-thumb:hover {
+  background: #0056b3;
+  transform: scale(1.1);
+}
+
+.scrubber::-moz-range-thumb {
+  width: 18px;
+  height: 18px;
+  border-radius: 50%;
+  background: #007bff;
+  cursor: pointer;
+  border: 2px solid white;
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.2);
+  transition: all 0.2s;
+}
+
+.scrubberTicks {
+  position: relative;
+  height: 8px;
+  margin: 0 9px; // Half of thumb width to align with scrubber
+}
+
+.tick {
+  position: absolute;
+  width: 4px;
+  height: 8px;
+  background: #dee2e6;
+  border-radius: 2px;
+  cursor: pointer;
+  transition: all 0.2s;
+  transform: translateX(-50%);
+}
+
+.tick.active {
+  background: #007bff;
+  height: 12px;
+  width: 6px;
+}
+
+.tick.featured {
+  background: #ffc107;
+}
+
+.tick.active.featured {
+  background: #ff6b35;
+}
+
+.tick:hover {
+  transform: translateX(-50%) scale(1.2);
+}
