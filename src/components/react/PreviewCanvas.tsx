@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useRef, useLayoutEffect, useState } from 'react';
 import { animated } from '@react-spring/web';
 import type { ImageData } from './types';
 import styles from './PreviewCanvas.module.scss';
@@ -32,6 +32,34 @@ const PreviewCanvas: React.FC<PreviewCanvasProps> = ({
 }) => {
   const currentImage = images[currentImageIndex];
 
+  // Store fullscreen canvas size in state, recalc only on fullscreen or resize
+  const [fullscreenCanvasSize, setFullscreenCanvasSize] = useState(() => ({
+    width: canvasDimensions.width,
+    height: canvasDimensions.height
+  }));
+  useLayoutEffect(() => {
+    if (!isFullscreen) {
+      setFullscreenCanvasSize({ width: canvasDimensions.width, height: canvasDimensions.height });
+      return;
+    }
+    function calcSize() {
+      const border = 40;
+      const maxW = window.innerWidth - border;
+      const maxH = window.innerHeight - border;
+      const aspect = canvasDimensions.width / canvasDimensions.height;
+      let width = Math.floor(maxW);
+      let height = Math.floor(width / aspect);
+      if (height > maxH) {
+        height = Math.floor(maxH);
+        width = Math.floor(height * aspect);
+      }
+      setFullscreenCanvasSize({ width, height });
+    }
+    calcSize();
+    window.addEventListener('resize', calcSize);
+    return () => window.removeEventListener('resize', calcSize);
+  }, [isFullscreen, canvasDimensions.width, canvasDimensions.height]);
+
   // Fullscreen styles
   const fullscreenPreviewStyle = isFullscreen ? {
     position: 'fixed' as const,
@@ -64,29 +92,39 @@ const PreviewCanvas: React.FC<PreviewCanvasProps> = ({
       <div className={styles.canvasContainer} style={fullscreenCanvasStyle}>
         <animated.canvas
           ref={canvasRef}
-          width={canvasDimensions.width}
-          height={canvasDimensions.height}
+          width={fullscreenCanvasSize.width}
+          height={fullscreenCanvasSize.height}
           className={`${styles.previewCanvas} ${styles.frontCanvas}`}
-          style={isFullscreen ? {
-            width: '100vw',
-            height: '100vh',
-            objectFit: 'contain',
-            display: 'block'
-          } : frontCanvasStyle}
+          style={{
+            ...(isFullscreen ? {
+              position: 'absolute' as const,
+              top: 0,
+              left: 0,
+              width: fullscreenCanvasSize.width,
+              height: fullscreenCanvasSize.height,
+              borderRadius: '32px',
+              background: '#000',
+            } : {}),
+            ...frontCanvasStyle
+          }}
         />
         <animated.canvas
           ref={canvasBackRef}
-          width={canvasDimensions.width}
-          height={canvasDimensions.height}
+          width={fullscreenCanvasSize.width}
+          height={fullscreenCanvasSize.height}
           className={`${styles.previewCanvas} ${styles.backCanvas}`}
-          style={isFullscreen ? {
-            position: 'absolute' as const,
-            top: 0,
-            left: 0,
-            width: '100vw',
-            height: '100vh',
-            objectFit: 'contain'
-          } : backCanvasStyle}
+          style={{
+            ...(isFullscreen ? {
+              position: 'absolute' as const,
+              top: 0,
+              left: 0,
+              width: fullscreenCanvasSize.width,
+              height: fullscreenCanvasSize.height,
+              borderRadius: '32px',
+              background: '#000',
+            } : {}),
+            ...backCanvasStyle
+          }}
         />
         {currentImage && !isFullscreen && (
           <div className={styles.previewControls}>
@@ -140,6 +178,21 @@ const PreviewCanvas: React.FC<PreviewCanvasProps> = ({
             {currentImage?.isFeatured && ' (Featured)'}
           </p>
         </div>
+      )}
+      {isFullscreen && (
+        <div style={{
+          position: 'absolute',
+          top: 0,
+          left: 0,
+          width: fullscreenCanvasSize.width,
+          height: fullscreenCanvasSize.height,
+          border: '16px solid white',
+          borderRadius: '32px',
+          pointerEvents: 'none',
+          boxSizing: 'border-box',
+          zIndex: 10,
+          overflow: 'hidden',
+        }} />
       )}
     </div>
   );
