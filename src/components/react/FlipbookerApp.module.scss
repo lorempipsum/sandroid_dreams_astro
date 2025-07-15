@@ -65,6 +65,90 @@
   min-width: 300px;
 }
 
+/* Error handling and manual guide styles */
+.errorActions {
+  display: flex;
+  gap: 0.5rem;
+  margin-top: 1rem;
+  flex-wrap: wrap;
+}
+
+.manualGuide {
+  margin-top: 1.5rem;
+  padding: 1rem;
+  background: #f0f8ff;
+  border-left: 4px solid #007bff;
+  border-radius: 4px;
+  
+  h5 {
+    margin: 0 0 1rem 0;
+    color: #333;
+    font-size: 1.1rem;
+  }
+  
+  h6 {
+    margin: 1rem 0 0.5rem 0;
+    color: #555;
+    font-size: 1rem;
+  }
+  
+  p {
+    margin: 0.5rem 0;
+    color: #666;
+    text-align: left;
+  }
+  
+  ol {
+    margin: 0.5rem 0 1rem 1.5rem;
+    color: #666;
+    
+    li {
+      margin: 0.25rem 0;
+      text-align: left;
+    }
+  }
+  
+  code {
+    background: #e9ecef;
+    padding: 0.2rem 0.4rem;
+    border-radius: 3px;
+    font-family: 'Courier New', monospace;
+    font-size: 0.9em;
+  }
+}
+
+/* WebCodecs fallback info styles */
+.fallbackInfo {
+  margin-top: 1.5rem;
+  padding: 1rem;
+  background: #fff3cd;
+  border-left: 4px solid #ffc107;
+  border-radius: 4px;
+  
+  h5 {
+    margin: 0 0 0.5rem 0;
+    color: #856404;
+    font-size: 1rem;
+  }
+  
+  p {
+    margin: 0.5rem 0;
+    color: #856404;
+    text-align: left;
+  }
+  
+  ul {
+    margin: 0.5rem 0;
+    padding-left: 1.5rem;
+    color: #856404;
+    
+    li {
+      margin: 0.25rem 0;
+      text-align: left;
+    }
+  }
+}
+
 /* Responsive design */
 @media (max-width: 1200px) {
   .previewAndControls {

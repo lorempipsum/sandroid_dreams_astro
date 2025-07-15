@@ -16,6 +16,8 @@
     "@astrojs/check": "^0.9.4",
     "@astrojs/mdx": "^4.1.0",
     "@astrojs/react": "^4.2.1",
+    "@ffmpeg/ffmpeg": "^0.12.15",
+    "@ffmpeg/util": "^0.12.2",
     "@julian_cataldo/astro-lightbox": "^0.10.11",
     "@react-spring/web": "^9.7.5",
     "@types/react": "^18.2.23",
@@ -24,6 +26,7 @@
     "alea": "^1.0.1",
     "astro": "^5.4.2",
     "leaflet": "^1.9.4",
+    "mp4-muxer": "^5.2.2",
     "path": "^0.12.7",
     "perlin.js": "^1.0.0",
     "react": "^18.2.0",
@@ -31,7 +34,8 @@
     "react-spring": "^9.7.3",
     "sass": "^1.68.0",
     "simplex-noise": "^4.0.1",
-    "typescript": "^5.2.2"
+    "typescript": "^5.2.2",
+    "webm-muxer": "^5.1.4"
   },
   "devDependencies": {
     "@playwright/test": "^1.52.0",

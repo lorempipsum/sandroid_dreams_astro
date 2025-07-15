@@ -9,7 +9,6 @@ import FlipbookSettingsComponent from './FlipbookSettingsComponent';
 import PlaybackControls from './PlaybackControls';
 import PreviewCanvas from './PreviewCanvas';
 import ImageGrid from './ImageGrid';
-import VideoExport from './VideoExport';
 
 // Types and hooks
 import type { ImageData, FlipbookSettings, ProgressInfo } from './types';
@@ -22,6 +21,7 @@ import { useFlipbookPlayback } from './useFlipbookPlayback';
 const FlipbookerApp: React.FC = () => {
   const [images, setImages] = useState<ImageData[]>([]);
   const [currentImageIndex, setCurrentImageIndex] = useState<number>(0);
+  const [isClient, setIsClient] = useState(false);
   const [settings, setSettings] = useState<FlipbookSettings>({
     baseDuration: 50,
     featuredDuration: 100,
@@ -30,6 +30,11 @@ const FlipbookerApp: React.FC = () => {
     maxPreviewSize: 800,
   });
   const [processingProgress, setProcessingProgress] = useState<ProgressInfo>({current: 0, total: 0});
+
+  // Check if we're on the client side
+  useEffect(() => {
+    setIsClient(typeof window !== 'undefined');
+  }, []);
 
   // Hooks
   const { resizeImage } = useImageProcessing();
@@ -235,13 +240,6 @@ const FlipbookerApp: React.FC = () => {
             <FlipbookSettingsComponent 
               settings={settings} 
               onSettingsChange={setSettings} 
-            />
-            
-            <VideoExport
-              images={images}
-              settings={settings}
-              calculateDuration={calculateDuration}
-              calculateTransitionDuration={calculateTransitionDuration}
             />
           </div>
         </div>
