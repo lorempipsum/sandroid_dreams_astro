@@ -197,35 +197,43 @@ const FlipbookerApp: React.FC = () => {
 
       <ExampleVideos />
 
-      <div className={styles.controlsSection}>
+      <div className={styles.fileUploadSection}>
         <FileUpload onFileSelect={handleFileSelect} />
-
-        <FlipbookSettingsComponent 
-          settings={settings} 
-          onSettingsChange={setSettings} 
-        />
-
-        <PlaybackControls
-          isPlaying={isPlaying}
-          imagesLength={images.length}
-          isPreloading={isPreloading}
-          processingProgress={processingProgress}
-          preloadingProgress={preloadingProgress}
-          onPlayClick={startFlipbook}
-          onStopClick={stopFlipbook}
-        />
       </div>
 
       <div className={styles.mainContent}>
-        <PreviewCanvas
-          canvasRef={canvasRef}
-          canvasBackRef={canvasBackRef}
-          frontCanvasStyle={frontCanvasStyle}
-          backCanvasStyle={backCanvasStyle}
-          canvasDimensions={getCanvasDimensions()}
-          images={images}
-          currentImageIndex={currentImageIndex}
-        />
+        <div className={styles.previewAndControls}>
+          <div className={styles.previewSection}>
+            <PreviewCanvas
+              canvasRef={canvasRef}
+              canvasBackRef={canvasBackRef}
+              frontCanvasStyle={frontCanvasStyle}
+              backCanvasStyle={backCanvasStyle}
+              canvasDimensions={getCanvasDimensions()}
+              images={images}
+              currentImageIndex={currentImageIndex}
+            />
+            
+            <div className={styles.playbackSection}>
+              <PlaybackControls
+                isPlaying={isPlaying}
+                imagesLength={images.length}
+                isPreloading={isPreloading}
+                processingProgress={processingProgress}
+                preloadingProgress={preloadingProgress}
+                onPlayClick={startFlipbook}
+                onStopClick={stopFlipbook}
+              />
+            </div>
+          </div>
+          
+          <div className={styles.controlsPanel}>
+            <FlipbookSettingsComponent 
+              settings={settings} 
+              onSettingsChange={setSettings} 
+            />
+          </div>
+        </div>
 
         <ImageGrid
           images={images}

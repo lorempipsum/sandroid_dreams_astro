@@ -14,12 +14,18 @@
 
 .imagesGrid {
   display: grid;
-  grid-template-columns: 1fr;
+  grid-template-columns: repeat(auto-fill, minmax(200px, 1fr));
   gap: 1rem;
 }
 
 @media (max-width: 768px) {
   .imagesGrid {
     grid-template-columns: repeat(auto-fill, minmax(150px, 1fr));
+  }
+}
+
+@media (max-width: 480px) {
+  .imagesGrid {
+    grid-template-columns: repeat(auto-fill, minmax(120px, 1fr));
   }
 }
