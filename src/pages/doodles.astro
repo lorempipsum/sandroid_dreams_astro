@@ -9,7 +9,6 @@ let loading = true;
 
 try {
     const res = await fetch('https://art-timeline-app.vercel.app/api/images');
-    console.log('Response from blob API:', res);
     if (!res.ok) {
         let details = '';
         try {

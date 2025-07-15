@@ -36,17 +36,13 @@ export const useFlipbookTiming = (images: ImageData[], settings: FlipbookSetting
 
     // Apply easing with smooth interpolation
     if (totalEasingInfluence > 0) {
-      const maxSlowdown = 2.8; // Maximum slowdown multiplier  
+      const maxSlowdown = settings.featuredDuration / settings.baseDuration; // Maximum slowdown multiplier  
       const easingMultiplier = 1 + (totalEasingInfluence * (maxSlowdown - 1));
       const finalDuration = Math.round(settings.baseDuration * easingMultiplier);
-      
-      // Debug logging to see actual values
-      console.log(`Image ${index}: influence=${totalEasingInfluence.toFixed(2)}, multiplier=${easingMultiplier.toFixed(2)}, duration=${finalDuration}ms`);
-      
+            
       return finalDuration;
     }
 
-    console.log(`Image ${index}: base duration=${settings.baseDuration}ms`);
     return settings.baseDuration;
   }, [images, settings]);
 
@@ -84,11 +80,10 @@ export const useFlipbookTiming = (images: ImageData[], settings: FlipbookSetting
 
     // Apply easing with smooth interpolation (same multiplier as duration)
     if (totalEasingInfluence > 0) {
-      const maxSlowdown = 2.8; // Same as duration multiplier
+      const maxSlowdown = settings.featuredDuration / settings.baseDuration; // Same as duration multiplier
       const easingMultiplier = 1 + (totalEasingInfluence * (maxSlowdown - 1));
       const finalTransitionDuration = Math.round(settings.transitionDuration * easingMultiplier);
       
-      console.log(`Image ${index}: transition duration scaled to ${finalTransitionDuration}ms (${easingMultiplier.toFixed(2)}x)`);
       
       return finalTransitionDuration;
     }

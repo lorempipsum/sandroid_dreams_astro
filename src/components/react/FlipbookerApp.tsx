@@ -184,6 +184,12 @@ const FlipbookerApp: React.FC = () => {
     ));
   }, []);
 
+  const handleImageClick = useCallback((index: number) => {
+    if (index >= 0 && index < images.length) {
+      setCurrentImageIndex(index);
+    }
+  }, [images.length]);
+
   return (
     <div className={styles.app}>
       <h1>Flipbooker</h1>
@@ -226,6 +232,7 @@ const FlipbookerApp: React.FC = () => {
           currentImageIndex={currentImageIndex}
           onToggleFeatured={toggleFeatured}
           onRemoveImage={removeImage}
+          onImageClick={handleImageClick}
         />
       </div>
     </div>

@@ -8,6 +8,7 @@ interface ImageItemProps {
   isCurrentImage: boolean;
   onToggleFeatured: (id: string) => void;
   onRemove: (id: string) => void;
+  onClick: (index: number) => void;
 }
 
 const ImageItem: React.FC<ImageItemProps> = ({
@@ -15,7 +16,8 @@ const ImageItem: React.FC<ImageItemProps> = ({
   index,
   isCurrentImage,
   onToggleFeatured,
-  onRemove
+  onRemove,
+  onClick
 }) => {
   const itemClasses = [
     styles.imageItem,
@@ -25,7 +27,12 @@ const ImageItem: React.FC<ImageItemProps> = ({
 
   return (
     <div className={itemClasses}>
-      <img src={image.url} alt={`Image ${index + 1}`} />
+      <img 
+        src={image.url} 
+        alt={`Image ${index + 1}`} 
+        onClick={() => onClick(index)}
+        style={{ cursor: 'pointer' }}
+      />
       <div className={styles.imageControls}>
         <button
           onClick={() => onToggleFeatured(image.id)}

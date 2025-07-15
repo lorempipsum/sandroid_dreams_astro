@@ -8,13 +8,15 @@ interface ImageGridProps {
   currentImageIndex: number;
   onToggleFeatured: (id: string) => void;
   onRemoveImage: (id: string) => void;
+  onImageClick: (index: number) => void;
 }
 
 const ImageGrid: React.FC<ImageGridProps> = ({
   images,
   currentImageIndex,
   onToggleFeatured,
-  onRemoveImage
+  onRemoveImage,
+  onImageClick
 }) => {
   return (
     <div className={styles.imagesSection}>
@@ -28,6 +30,7 @@ const ImageGrid: React.FC<ImageGridProps> = ({
             isCurrentImage={index === currentImageIndex}
             onToggleFeatured={onToggleFeatured}
             onRemove={onRemoveImage}
+            onClick={onImageClick}
           />
         ))}
       </div>
