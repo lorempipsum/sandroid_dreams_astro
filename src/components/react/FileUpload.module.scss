@@ -1,0 +1,26 @@
+.fileInputSection {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+
+.fileInputLabel {
+  background: #007bff;
+  color: white;
+  padding: 12px 24px;
+  border-radius: 8px;
+  cursor: pointer;
+  transition: background-color 0.2s;
+  font-weight: 500;
+  text-align: center;
+  display: inline-block;
+  margin-bottom: 0.5rem;
+}
+
+.fileInputLabel:hover {
+  background: #0056b3;
+}
+
+.fileInput {
+  display: none;
+}

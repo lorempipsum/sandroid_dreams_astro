@@ -1,0 +1,46 @@
+.previewSection {
+  background: #f8f9fa;
+  border-radius: 12px;
+  padding: 1.5rem;
+}
+
+.previewSection h3 {
+  margin-top: 0;
+  margin-bottom: 1rem;
+  text-align: center;
+}
+
+.canvasContainer {
+  position: relative;
+  width: 100%;
+  max-width: 800px;
+  margin: 0 auto;
+  border-radius: 8px;
+  overflow: hidden;
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+}
+
+.previewCanvas {
+  width: 100%;
+  height: auto;
+  display: block;
+  background: #000;
+}
+
+.backCanvas {
+  position: absolute;
+  top: 0;
+  left: 0;
+}
+
+.frontCanvas {
+  position: relative;
+  z-index: 1;
+}
+
+.currentImageInfo {
+  text-align: center;
+  margin-top: 1rem;
+  font-weight: 500;
+  color: #555;
+}
