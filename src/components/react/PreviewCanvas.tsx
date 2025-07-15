@@ -32,22 +32,61 @@ const PreviewCanvas: React.FC<PreviewCanvasProps> = ({
 }) => {
   const currentImage = images[currentImageIndex];
 
+  // Fullscreen styles
+  const fullscreenPreviewStyle = isFullscreen ? {
+    position: 'fixed' as const,
+    top: 0,
+    left: 0,
+    width: '100vw',
+    height: '100vh',
+    background: '#000',
+    zIndex: 1000,
+    padding: 0,
+    margin: 0,
+    borderRadius: 0,
+    display: 'flex',
+    alignItems: 'center',
+    justifyContent: 'center'
+  } : {};
+
+  const fullscreenCanvasStyle = isFullscreen ? {
+    position: 'relative' as const,
+    width: '100%',
+    height: '100%',
+    display: 'flex',
+    alignItems: 'center',
+    justifyContent: 'center',
+    background: '#000'
+  } : {};
+
   return (
-    <div className={styles.previewSection}>
-      <div className={styles.canvasContainer}>
+    <div className={styles.previewSection} style={fullscreenPreviewStyle}>
+      <div className={styles.canvasContainer} style={fullscreenCanvasStyle}>
         <animated.canvas
           ref={canvasRef}
           width={canvasDimensions.width}
           height={canvasDimensions.height}
           className={`${styles.previewCanvas} ${styles.frontCanvas}`}
-          style={frontCanvasStyle}
+          style={isFullscreen ? {
+            width: '100vw',
+            height: '100vh',
+            objectFit: 'contain',
+            display: 'block'
+          } : frontCanvasStyle}
         />
         <animated.canvas
           ref={canvasBackRef}
           width={canvasDimensions.width}
           height={canvasDimensions.height}
           className={`${styles.previewCanvas} ${styles.backCanvas}`}
-          style={backCanvasStyle}
+          style={isFullscreen ? {
+            position: 'absolute' as const,
+            top: 0,
+            left: 0,
+            width: '100vw',
+            height: '100vh',
+            objectFit: 'contain'
+          } : backCanvasStyle}
         />
         {currentImage && !isFullscreen && (
           <div className={styles.previewControls}>
@@ -68,7 +107,7 @@ const PreviewCanvas: React.FC<PreviewCanvasProps> = ({
           </div>
         )}
       </div>
-      {images.length > 1 && (
+      {images.length > 1 && !isFullscreen && (
         <div className={styles.scrubberContainer}>
           <div className={styles.scrubberLabel}>
             <span>Frame {currentImageIndex + 1}</span>
@@ -94,7 +133,7 @@ const PreviewCanvas: React.FC<PreviewCanvasProps> = ({
           </div>
         </div>
       )}
-      {images.length > 0 && (
+      {images.length > 0 && !isFullscreen && (
         <div className={styles.currentImageInfo}>
           <p>
             Image {currentImageIndex + 1} of {images.length}
