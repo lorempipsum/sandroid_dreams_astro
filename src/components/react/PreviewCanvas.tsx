@@ -35,11 +35,13 @@ const PreviewCanvas: React.FC<PreviewCanvasProps> = ({
   // Store fullscreen canvas size in state, recalc only on fullscreen or resize
   const [fullscreenCanvasSize, setFullscreenCanvasSize] = useState(() => ({
     width: canvasDimensions.width,
-    height: canvasDimensions.height
+    height: canvasDimensions.height,
+    offsetX: 0,
+    offsetY: 0
   }));
   useLayoutEffect(() => {
     if (!isFullscreen) {
-      setFullscreenCanvasSize({ width: canvasDimensions.width, height: canvasDimensions.height });
+      setFullscreenCanvasSize({ width: canvasDimensions.width, height: canvasDimensions.height, offsetX: 0, offsetY: 0 });
       return;
     }
     function calcSize() {
@@ -53,7 +55,10 @@ const PreviewCanvas: React.FC<PreviewCanvasProps> = ({
         height = Math.floor(maxH);
         width = Math.floor(height * aspect);
       }
-      setFullscreenCanvasSize({ width, height });
+      // Calculate centering offset
+      const offsetX = Math.floor((maxW - width) / 2);
+      const offsetY = Math.floor((maxH - height) / 2);
+      setFullscreenCanvasSize({ width, height, offsetX, offsetY });
     }
     calcSize();
     window.addEventListener('resize', calcSize);
@@ -98,8 +103,8 @@ const PreviewCanvas: React.FC<PreviewCanvasProps> = ({
           style={{
             ...(isFullscreen ? {
               position: 'absolute' as const,
-              top: 0,
-              left: 0,
+              top: fullscreenCanvasSize.offsetY + 20,
+              left: fullscreenCanvasSize.offsetX + 20,
               width: fullscreenCanvasSize.width,
               height: fullscreenCanvasSize.height,
               borderRadius: '32px',
@@ -116,8 +121,8 @@ const PreviewCanvas: React.FC<PreviewCanvasProps> = ({
           style={{
             ...(isFullscreen ? {
               position: 'absolute' as const,
-              top: 0,
-              left: 0,
+              top: fullscreenCanvasSize.offsetY + 20,
+              left: fullscreenCanvasSize.offsetX + 20,
               width: fullscreenCanvasSize.width,
               height: fullscreenCanvasSize.height,
               borderRadius: '32px',
@@ -178,22 +183,21 @@ const PreviewCanvas: React.FC<PreviewCanvasProps> = ({
             {currentImage?.isFeatured && ' (Featured)'}
           </p>
         </div>
-      )}
-      {isFullscreen && (
-        <div style={{
-          position: 'absolute',
-          top: 0,
-          left: 0,
-          width: fullscreenCanvasSize.width,
-          height: fullscreenCanvasSize.height,
-          border: '16px solid white',
-          borderRadius: '32px',
-          pointerEvents: 'none',
-          boxSizing: 'border-box',
-          zIndex: 10,
-          overflow: 'hidden',
-        }} />
-      )}
+      )}        {isFullscreen && (
+          <div style={{
+            position: 'absolute',
+            top: fullscreenCanvasSize.offsetY + 20,
+            left: fullscreenCanvasSize.offsetX + 20,
+            width: fullscreenCanvasSize.width,
+            height: fullscreenCanvasSize.height,
+            border: '16px solid white',
+            borderRadius: '32px',
+            pointerEvents: 'none',
+            boxSizing: 'border-box',
+            zIndex: 10,
+            overflow: 'hidden',
+          }} />
+        )}
     </div>
   );
 };
