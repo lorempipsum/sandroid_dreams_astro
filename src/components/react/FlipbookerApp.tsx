@@ -212,6 +212,8 @@ const FlipbookerApp: React.FC = () => {
               canvasDimensions={getCanvasDimensions()}
               images={images}
               currentImageIndex={currentImageIndex}
+              onToggleFeatured={toggleFeatured}
+              onRemoveImage={removeImage}
             />
             
             <div className={styles.playbackSection}>

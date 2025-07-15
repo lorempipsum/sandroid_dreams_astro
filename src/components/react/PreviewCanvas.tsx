@@ -11,6 +11,8 @@ interface PreviewCanvasProps {
   canvasDimensions: { width: number; height: number };
   images: ImageData[];
   currentImageIndex: number;
+  onToggleFeatured: (id: string) => void;
+  onRemoveImage: (id: string) => void;
 }
 
 const PreviewCanvas: React.FC<PreviewCanvasProps> = ({
@@ -20,7 +22,9 @@ const PreviewCanvas: React.FC<PreviewCanvasProps> = ({
   backCanvasStyle,
   canvasDimensions,
   images,
-  currentImageIndex
+  currentImageIndex,
+  onToggleFeatured,
+  onRemoveImage
 }) => {
   const currentImage = images[currentImageIndex];
 
@@ -42,6 +46,25 @@ const PreviewCanvas: React.FC<PreviewCanvasProps> = ({
           className={`${styles.previewCanvas} ${styles.backCanvas}`}
           style={backCanvasStyle}
         />
+        
+        {currentImage && (
+          <div className={styles.previewControls}>
+            <button
+              onClick={() => onToggleFeatured(currentImage.id)}
+              className={`${styles.featureButton} ${currentImage.isFeatured ? styles.featured : ''}`}
+              title={currentImage.isFeatured ? 'Remove from featured' : 'Mark as featured'}
+            >
+              ⭐
+            </button>
+            <button
+              onClick={() => onRemoveImage(currentImage.id)}
+              className={styles.removeButton}
+              title="Delete image"
+            >
+              ×
+            </button>
+          </div>
+        )}
       </div>
       {images.length > 0 && (
         <div className={styles.currentImageInfo}>
