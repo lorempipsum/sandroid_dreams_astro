@@ -14,6 +14,7 @@ interface PreviewCanvasProps {
   onToggleFeatured: (id: string) => void;
   onRemoveImage: (id: string) => void;
   onImageChange: (index: number) => void;
+  isFullscreen?: boolean;
 }
 
 const PreviewCanvas: React.FC<PreviewCanvasProps> = ({
@@ -26,13 +27,13 @@ const PreviewCanvas: React.FC<PreviewCanvasProps> = ({
   currentImageIndex,
   onToggleFeatured,
   onRemoveImage,
-  onImageChange
+  onImageChange,
+  isFullscreen = false
 }) => {
   const currentImage = images[currentImageIndex];
 
   return (
     <div className={styles.previewSection}>
-      <h3>Preview</h3>
       <div className={styles.canvasContainer}>
         <animated.canvas
           ref={canvasRef}
@@ -48,8 +49,7 @@ const PreviewCanvas: React.FC<PreviewCanvasProps> = ({
           className={`${styles.previewCanvas} ${styles.backCanvas}`}
           style={backCanvasStyle}
         />
-        
-        {currentImage && (
+        {currentImage && !isFullscreen && (
           <div className={styles.previewControls}>
             <button
               onClick={() => onToggleFeatured(currentImage.id)}
@@ -68,7 +68,6 @@ const PreviewCanvas: React.FC<PreviewCanvasProps> = ({
           </div>
         )}
       </div>
-      
       {images.length > 1 && (
         <div className={styles.scrubberContainer}>
           <div className={styles.scrubberLabel}>
@@ -95,7 +94,6 @@ const PreviewCanvas: React.FC<PreviewCanvasProps> = ({
           </div>
         </div>
       )}
-      
       {images.length > 0 && (
         <div className={styles.currentImageInfo}>
           <p>

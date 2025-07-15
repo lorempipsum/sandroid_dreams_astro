@@ -30,6 +30,7 @@ const FlipbookerApp: React.FC = () => {
     maxPreviewSize: 800,
   });
   const [processingProgress, setProcessingProgress] = useState<ProgressInfo>({current: 0, total: 0});
+  const [isFullscreen, setIsFullscreen] = useState(false);
 
   // Check if we're on the client side
   useEffect(() => {
@@ -196,6 +197,31 @@ const FlipbookerApp: React.FC = () => {
     }
   }, [images.length]);
 
+  // Fullscreen handlers
+  const handleEnterFullscreen = () => {
+    setIsFullscreen(true);
+    // Try to request fullscreen on the canvas container
+    const elem = document.getElementById('flipbook-preview-fullscreen');
+    if (elem && elem.requestFullscreen) {
+      elem.requestFullscreen();
+    }
+  };
+  const handleExitFullscreen = () => {
+    setIsFullscreen(false);
+    if (document.fullscreenElement) {
+      document.exitFullscreen();
+    }
+  };
+  useEffect(() => {
+    const onFullscreenChange = () => {
+      if (!document.fullscreenElement) {
+        setIsFullscreen(false);
+      }
+    };
+    document.addEventListener('fullscreenchange', onFullscreenChange);
+    return () => document.removeEventListener('fullscreenchange', onFullscreenChange);
+  }, []);
+
   return (
     <div className={styles.app}>
       <h1>Flipbooker</h1>
@@ -210,19 +236,21 @@ const FlipbookerApp: React.FC = () => {
       <div className={styles.mainContent}>
         <div className={styles.previewAndControls}>
           <div className={styles.previewSection}>
-            <PreviewCanvas
-              canvasRef={canvasRef}
-              canvasBackRef={canvasBackRef}
-              frontCanvasStyle={frontCanvasStyle}
-              backCanvasStyle={backCanvasStyle}
-              canvasDimensions={getCanvasDimensions()}
-              images={images}
-              currentImageIndex={currentImageIndex}
-              onToggleFeatured={toggleFeatured}
-              onRemoveImage={removeImage}
-              onImageChange={handleImageClick}
-            />
-            
+            <div id="flipbook-preview-fullscreen">
+              <PreviewCanvas
+                canvasRef={canvasRef}
+                canvasBackRef={canvasBackRef}
+                frontCanvasStyle={frontCanvasStyle}
+                backCanvasStyle={backCanvasStyle}
+                canvasDimensions={getCanvasDimensions()}
+                images={images}
+                currentImageIndex={currentImageIndex}
+                onToggleFeatured={toggleFeatured}
+                onRemoveImage={removeImage}
+                onImageChange={handleImageClick}
+                isFullscreen={isFullscreen}
+              />
+            </div>
             <div className={styles.playbackSection}>
               <PlaybackControls
                 isPlaying={isPlaying}
@@ -233,6 +261,17 @@ const FlipbookerApp: React.FC = () => {
                 onPlayClick={startFlipbook}
                 onStopClick={stopFlipbook}
               />
+            </div>
+            <div style={{textAlign: 'center', marginTop: '1rem'}}>
+              {!isFullscreen ? (
+                <button onClick={handleEnterFullscreen} className={styles.fullscreenButton}>
+                  Fullscreen for Recording
+                </button>
+              ) : (
+                <button onClick={handleExitFullscreen} className={styles.fullscreenButton}>
+                  Exit Fullscreen
+                </button>
+              )}
             </div>
           </div>
           
