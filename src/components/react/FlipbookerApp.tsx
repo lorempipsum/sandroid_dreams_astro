@@ -200,27 +200,11 @@ const FlipbookerApp: React.FC = () => {
   // Fullscreen handlers
   const handleEnterFullscreen = () => {
     setIsFullscreen(true);
-    // Try to request fullscreen on the canvas container
-    const elem = document.getElementById('flipbook-preview-fullscreen');
-    if (elem && elem.requestFullscreen) {
-      elem.requestFullscreen();
-    }
   };
+  
   const handleExitFullscreen = () => {
     setIsFullscreen(false);
-    if (document.fullscreenElement) {
-      document.exitFullscreen();
-    }
   };
-  useEffect(() => {
-    const onFullscreenChange = () => {
-      if (!document.fullscreenElement) {
-        setIsFullscreen(false);
-      }
-    };
-    document.addEventListener('fullscreenchange', onFullscreenChange);
-    return () => document.removeEventListener('fullscreenchange', onFullscreenChange);
-  }, []);
 
   return (
     <div className={styles.app}>
@@ -236,21 +220,19 @@ const FlipbookerApp: React.FC = () => {
       <div className={styles.mainContent}>
         <div className={styles.previewAndControls}>
           <div className={styles.previewSection}>
-            <div id="flipbook-preview-fullscreen">
-              <PreviewCanvas
-                canvasRef={canvasRef}
-                canvasBackRef={canvasBackRef}
-                frontCanvasStyle={frontCanvasStyle}
-                backCanvasStyle={backCanvasStyle}
-                canvasDimensions={getCanvasDimensions()}
-                images={images}
-                currentImageIndex={currentImageIndex}
-                onToggleFeatured={toggleFeatured}
-                onRemoveImage={removeImage}
-                onImageChange={handleImageClick}
-                isFullscreen={isFullscreen}
-              />
-            </div>
+            <PreviewCanvas
+              canvasRef={canvasRef}
+              canvasBackRef={canvasBackRef}
+              frontCanvasStyle={frontCanvasStyle}
+              backCanvasStyle={backCanvasStyle}
+              canvasDimensions={getCanvasDimensions()}
+              images={images}
+              currentImageIndex={currentImageIndex}
+              onToggleFeatured={toggleFeatured}
+              onRemoveImage={removeImage}
+              onImageChange={handleImageClick}
+              isFullscreen={isFullscreen}
+            />
             <div className={styles.playbackSection}>
               <PlaybackControls
                 isPlaying={isPlaying}
