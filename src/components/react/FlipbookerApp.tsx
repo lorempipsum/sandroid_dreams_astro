@@ -206,6 +206,18 @@ const FlipbookerApp: React.FC = () => {
     setIsFullscreen(false);
   };
 
+  // Escape key handler for fullscreen
+  useEffect(() => {
+    if (!isFullscreen) return;
+    const handleKeyDown = (e: KeyboardEvent) => {
+      if (e.key === 'Escape') {
+        setIsFullscreen(false);
+      }
+    };
+    window.addEventListener('keydown', handleKeyDown);
+    return () => window.removeEventListener('keydown', handleKeyDown);
+  }, [isFullscreen]);
+
   return (
     <div className={styles.app}>
       <h1>Flipbooker</h1>
@@ -244,7 +256,7 @@ const FlipbookerApp: React.FC = () => {
                 onStopClick={stopFlipbook}
               />
             </div>
-            <div style={{textAlign: 'center', marginTop: '1rem'}}>
+            <div className={styles.fullscreenExitWrapper} style={isFullscreen ? {position: 'fixed', top: 16, right: 16, zIndex: 10000} : {textAlign: 'center', marginTop: '1rem'}}>
               {!isFullscreen ? (
                 <button onClick={handleEnterFullscreen} className={styles.fullscreenButton}>
                   Fullscreen for Recording

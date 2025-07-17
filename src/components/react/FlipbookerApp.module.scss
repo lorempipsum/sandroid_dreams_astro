@@ -168,6 +168,19 @@
   background: #444;
 }
 
+.fullscreenExitWrapper {
+  text-align: center;
+  margin-top: 1rem;
+}
+
+.fullscreenExitWrapper[style*="position: fixed"] {
+  position: fixed !important;
+  top: 16px !important;
+  right: 16px !important;
+  z-index: 10000 !important;
+  margin-top: 0 !important;
+}
+
 /* Responsive design */
 @media (max-width: 1200px) {
   .previewAndControls {
