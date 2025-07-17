@@ -1,6 +1,7 @@
 ---
-import Layout from "../components/react/Layout/Layout.tsx";
-import RootLayout from "./RootLayout.astro";
+import Layout from '../components/react/Layout/Layout.tsx';
+import RootLayout from './RootLayout.astro';
+import styles from './BaseLayout.module.scss';
 const { frontmatter } = Astro.props;
 
 const pageTitle = frontmatter
@@ -12,6 +13,8 @@ const pageTitle = frontmatter
 
 <RootLayout title={pageTitle}>
     <Layout title={pageTitle} client:load>
-        <slot />
+        <div class={styles.baseLayoutBottomMargin}>
+            <slot />
+        </div>
     </Layout>
 </RootLayout>

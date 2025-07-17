@@ -2,23 +2,36 @@
 layout: '../../layouts/BaseLayout.astro'
 date: '2016-10-25'
 title: 'Worms 3 Armageddon Rick and Morty soundpack'
-tags: ['programming']
+tags: ['programming', 'gaming', 'audio']
 ---
 
 import DummyComponent from '../../components/DummyComponent/DummyComponent.astro';
+import Button from '../../components/react/Button/Button.tsx';
+import styles from './worms-3-armageddon-rick-and-morty.module.scss';
 
 <DummyComponent />
 
-# Worms 3 Armageddon Rick and Morty soundpack
+# Worms 3 Armageddon Rick and Morty Soundpack
 
-Download: https://github.com/lorempipsum/rick-and-morty-w3a-soundpack
+<div class={styles.videoContainer}>
+  <iframe
+    width="100%"
+    height="400"
+    src="https://www.youtube.com/embed/yyEXBwAfnYI?si=x093dvUF7tAM7IQ3"
+    title="Rick and Morty Worms 3 Armageddon Soundpack Demo"
+    frameborder="0"
+    allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share"
+    allowfullscreen
+  ></iframe>
+</div>
 
-<iframe
-  width="560"
-  height="315"
-  src="https://www.youtube.com/embed/yyEXBwAfnYI?si=x093dvUF7tAM7IQ3"
-  title="YouTube video player"
-  frameborder="0"
-  allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share"
-  allowfullscreen
-></iframe>
+## What is this?
+
+Worms 3 Armageddon allows you to replace voice lines and sound effects. This is a Rick and Morty soundpack I made way back in 2015. All worms are Mortys, and all announcements are from Rick and Morty. 
+
+### Installation 
+
+1. Download the soundpack from <a target="_blank" href="https://github.com/lorempipsum/rick-and-morty-w3a-soundpack">here</a>.
+2. Extract the files to your Worms 3 Armageddon installation directory.
+3. Launch the game and enjoy the new sounds!
+
