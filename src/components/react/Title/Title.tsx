@@ -67,6 +67,9 @@ export const Title = ({ title }: { title: string }) => {
           <a href="/blog/bookmarks" className={styles.subtitleText}>
             Bookmarks
           </a>
+          <a href="/components" className={styles.subtitleText}>
+            Components
+          </a>
           <a
             href="https://instagram.com/sandroid_dreams"
             className={styles.subtitleText}
