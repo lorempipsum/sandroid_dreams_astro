@@ -1,27 +1,99 @@
 ---
 import BaseLayout from '../layouts/BaseLayout.astro';
-import InteractiveComponentShowcase from '../components/react/InteractiveComponentShowcase.tsx';
+import { readdir } from 'fs/promises';
+import { join } from 'path';
+import styles from './_components.module.scss';
 
 const title = 'Components';
+
+// Function to recursively get all component files
+async function getComponents(dir: string, basePath: string = ''): Promise<Array<{name: string, path: string, type: string}>> {
+  const components: Array<{name: string, path: string, type: string}> = [];
+  
+  try {
+    const entries = await readdir(dir, { withFileTypes: true });
+    
+    for (const entry of entries) {
+      const fullPath = join(dir, entry.name);
+      const relativePath = basePath ? `${basePath}/${entry.name}` : entry.name;
+      
+      if (entry.isDirectory()) {
+        // Recursively search subdirectories
+        const subComponents = await getComponents(fullPath, relativePath);
+        components.push(...subComponents);
+      } else if (entry.isFile()) {
+        // Check if it's a component file
+        if (entry.name.endsWith('.astro') || entry.name.endsWith('.tsx')) {
+          const type = entry.name.endsWith('.astro') ? 'Astro' : 'React (TSX)';
+          const name = entry.name.replace(/\.(astro|tsx)$/, '');
+          components.push({
+            name,
+            path: relativePath,
+            type
+          });
+        }
+      }
+    }
+  } catch (error) {
+    console.error('Error reading components directory:', error);
+  }
+  
+  return components;
+}
+
+// Get components from the components directory
+const componentsDir = join(process.cwd(), 'src', 'components');
+const allComponents = await getComponents(componentsDir);
+
+// Sort components by type, then by name
+allComponents.sort((a, b) => {
+  if (a.type !== b.type) {
+    return a.type.localeCompare(b.type);
+  }
+  return a.name.localeCompare(b.name);
+});
+
+// Group components by type
+const componentsByType = allComponents.reduce((acc, component) => {
+  if (!acc[component.type]) {
+    acc[component.type] = [];
+  }
+  acc[component.type].push(component);
+  return acc;
+}, {} as Record<string, typeof allComponents>);
 ---
 
 <BaseLayout title={title}>
-  <div style="max-width: 1200px; margin: 0 auto; padding: 1rem;">
+  <div class={styles.container}>
     <h1>Components</h1>
-    <p style="margin-bottom: 2rem; color: #666; font-size: 1.1rem;">
-      Interactive showcase of components used throughout the site. 
-      Try changing the props to see how each component behaves!
+    <p class={styles.description}>
+      This page lists all the components used throughout the site. 
+      Total: <strong>{allComponents.length} components</strong>
     </p>
 
-    <InteractiveComponentShowcase client:load />
-
-    <div style="margin-top: 3rem; padding: 1.5rem; background: #f8f9fa; border-radius: 8px; border: 1px solid #e0e0e0;">
-      <h2 style="margin: 0 0 1rem 0; color: #333;">More Components Coming Soon</h2>
-      <p style="margin: 0; color: #666;">
-        This is a demonstration of interactive component documentation. 
-        More components will be added to this showcase over time, each with 
-        their own interactive controls and live previews.
-      </p>
-    </div>
+    {Object.entries(componentsByType).map(([type, components]) => (
+      <section class={styles.section}>
+        <h2 class={styles.sectionTitle}>
+          {type} Components ({components.length})
+        </h2>
+        <div class={styles.componentGrid}>
+          {components.map(component => (
+            <div class={styles.componentCard}>
+              <div class={styles.componentHeader}>
+                <h3 class={styles.componentName}>
+                  {component.name}
+                </h3>
+                <code class={styles.componentType}>
+                  {component.type}
+                </code>
+              </div>
+              <p class={styles.componentPath}>
+                src/components/{component.path}
+              </p>
+            </div>
+          ))}
+        </div>
+      </section>
+    ))}
   </div>
 </BaseLayout>
