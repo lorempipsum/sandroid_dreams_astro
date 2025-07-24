@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from 'react';
 import SunCalc from 'suncalc';
-import { Observer, EclipticLongitude, SearchMoonPhase, MoonPhase } from 'astronomy-engine';
+import { Observer, EclipticLongitude, SearchMoonPhase, MoonPhase } from './Astronomy';
 import './MoonPhotographyApp.module.scss';
 
 interface AstronomicalEvent {
