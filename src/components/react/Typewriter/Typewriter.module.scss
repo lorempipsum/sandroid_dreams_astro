@@ -9,35 +9,74 @@
   font-weight: 700;
   letter-spacing: 0.01em;
 }
-.type {
+
+/* Typing stage with fixed cursor */
+.stage {
   position: relative;
-  min-height: 2.25rem;
-  font-family: ui-monospace, SFMono-Regular, Menlo, Monaco, Consolas, 'Liberation Mono', 'Courier New', monospace;
-  font-size: 1.25rem;
-  line-height: 1.8rem;
+  height: min(60vh, 480px);
+  min-height: 260px;
+  border: 1px solid color-mix(in oklab, currentColor 25%, transparent);
+  background: color-mix(in oklab, currentColor 6%, transparent);
+  border-radius: 8px;
+  overflow: hidden;
+}
+
+/* The flowing text layer we translate to keep the end anchored under the cursor */
+.layer {
+  position: absolute;
+  left: 0;
+  top: 0;
+  padding: 1rem;
   white-space: pre-wrap;
   word-break: break-word;
-  padding-right: 0.5rem;
+  font-family: ui-monospace, SFMono-Regular, Menlo, Monaco, Consolas, 'Liberation Mono', 'Courier New', monospace;
+  font-size: 1.1rem;
+  line-height: 1.8rem;
+  will-change: transform;
 }
-.type::after {
-  content: '';
+
+/* Hidden measurement layer: same metrics, no transform */
+.measureLayer {
   position: absolute;
-  right: 0;
+  left: 0;
+  top: 0;
+  padding: 1rem;
+  white-space: pre-wrap;
+  word-break: break-word;
+  font-family: ui-monospace, SFMono-Regular, Menlo, Monaco, Consolas, 'Liberation Mono', 'Courier New', monospace;
+  font-size: 1.1rem;
+  line-height: 1.8rem;
+  visibility: hidden;
+  pointer-events: none;
+}
+
+/* Keep for compatibility with previous styles when rendering text */
+.type { @extend .layer; }
+
+.cursor {
+  position: absolute;
   width: 2px;
   height: 1.2em;
   background: currentColor;
   animation: blink 1s steps(2, start) infinite;
-  transform: translateX(2px) translateY(0.2em);
 }
+
 @keyframes blink { 50% { opacity: 0; } }
 
 .controls {
   display: grid;
-  grid-template-columns: 1fr 140px auto;
+  grid-template-columns: auto;
   gap: 0.75rem;
-  align-items: end;
+  align-items: center;
   margin-top: 1rem;
 }
+
+.hint {
+  font-size: 0.9rem;
+  opacity: 0.8;
+}
+
+/* Inputs/buttons kept for potential future controls */
 label {
   display: grid;
   gap: 0.35rem;
@@ -69,6 +108,5 @@ button:hover {
 }
 
 @media (max-width: 640px) {
-  .controls { grid-template-columns: 1fr 1fr; }
-  button { grid-column: span 2; }
+  .controls { grid-template-columns: 1fr; }
 }

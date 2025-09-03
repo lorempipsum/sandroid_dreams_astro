@@ -1,108 +1,121 @@
-import React, { useCallback, useEffect, useRef, useState } from 'react';
+import React, { useCallback, useEffect, useLayoutEffect, useMemo, useRef, useState } from 'react';
 import styles from './Typewriter.module.scss';
 
 const clamp = (n: number, min: number, max: number) => Math.min(max, Math.max(min, n));
 
-const useRafLoop = (cb: (t: number) => void) => {
-  const rafId = useRef<number | null>(null);
-  const loop = useCallback((t: number) => {
-    cb(t);
-    rafId.current = requestAnimationFrame(loop);
-  }, [cb]);
+export default function Typewriter() {
+  const stageRef = useRef<HTMLDivElement>(null);
+  const layerRef = useRef<HTMLDivElement>(null);
+  const measureRef = useRef<HTMLDivElement>(null);
 
-  const start = useCallback(() => {
-    if (rafId.current != null) return;
-    rafId.current = requestAnimationFrame(loop);
-  }, [loop]);
+  const [text, setText] = useState('');
+  const [anchor, setAnchor] = useState<{ x: number; y: number } | null>(null);
+  const [offset, setOffset] = useState({ x: 0, y: 0 });
 
-  const stop = useCallback(() => {
-    if (rafId.current != null) cancelAnimationFrame(rafId.current);
-    rafId.current = null;
+  const cursor = useMemo(() => anchor ?? { x: 40, y: 40 }, [anchor]);
+
+  // Establish the anchor (fixed cursor location) after first layout
+  useLayoutEffect(() => {
+    const stage = stageRef.current;
+    if (!stage) return;
+    const rect = stage.getBoundingClientRect();
+    const fixed = { x: rect.left + 40, y: rect.top + rect.height - 40 };
+    setAnchor(fixed);
   }, []);
 
-  useEffect(() => stop, [stop]);
+  const measureCaret = useCallback(() => {
+    const measureEl = measureRef.current;
+    if (!measureEl) return { x: 0, y: 0 };
 
-  return { start, stop };
-};
+    // Render text in measure layer and put a marker span at the end
+    measureEl.textContent = '';
+    const tNode = document.createTextNode(text);
+    const marker = document.createElement('span');
+    marker.textContent = '\u200b';
+    measureEl.appendChild(tNode);
+    measureEl.appendChild(marker);
 
-export default function Typewriter() {
-  const [text, setText] = useState('Dream in code. Code your dreams.');
-  const [speed, setSpeed] = useState(60);
-  const [frame, setFrame] = useState(0);
+    const rect = marker.getBoundingClientRect();
+    const x = rect.left;
+    const y = rect.top;
 
-  const lastRef = useRef(0);
-  const phaseRef = useRef<'type' | 'erase'>('type');
+    return { x, y };
+  }, [text]);
 
-  const onLoop = useCallback((ts: number) => {
-    // Initialize last timestamp on first frame so delta can accumulate
-    if (lastRef.current === 0) {
-      lastRef.current = ts;
-      return; // wait until next frame to accumulate delta
-    }
+  // Recompute transform offset so that the caret (end of text) is under the fixed cursor
+  const updateOffset = useCallback(() => {
+    const stage = stageRef.current;
+    if (!stage || !anchor) return;
 
-    const delta = ts - lastRef.current;
-    const ms = clamp(speed, 10, 500);
+    const caret = measureCaret();
+    const stageRect = stage.getBoundingClientRect();
+    const caretLocal = { x: caret.x - stageRect.left, y: caret.y - stageRect.top };
+    const desiredLocal = { x: cursor.x - stageRect.left, y: cursor.y - stageRect.top };
 
-    if (delta >= ms) {
-      lastRef.current = ts;
-      if (phaseRef.current === 'type') {
-        setFrame((f) => {
-          const next = Math.min(f + 1, text.length);
-          if (next === text.length) {
-            // small hold then switch to erase
-            setTimeout(() => {
-              phaseRef.current = 'erase';
-              lastRef.current = 0;
-            }, Math.max(400, ms * 6));
-          }
-          return next;
-        });
-      } else {
-        setFrame((f) => {
-          const next = Math.max(0, f - 1);
-          if (next === 0) {
-            phaseRef.current = 'type';
-            lastRef.current = 0;
-          }
-          return next;
-        });
+    setOffset({ x: desiredLocal.x - caretLocal.x, y: desiredLocal.y - caretLocal.y });
+  }, [anchor, cursor.x, cursor.y, measureCaret]);
+
+  useLayoutEffect(() => { updateOffset(); }, [text, updateOffset]);
+
+  // Handle key input globally
+  useEffect(() => {
+    const handler = (e: KeyboardEvent) => {
+      if (e.key.length === 1 && !e.metaKey && !e.ctrlKey && !e.altKey) {
+        setText((t) => t + e.key);
+        e.preventDefault();
+      } else if (e.key === 'Backspace') {
+        setText((t) => t.slice(0, -1));
+        e.preventDefault();
+      } else if (e.key === 'Enter') {
+        setText((t) => t + '\n');
+        e.preventDefault();
+      } else if (e.key === 'Tab') {
+        setText((t) => t + '  ');
+        e.preventDefault();
       }
-    }
-  }, [speed, text.length]);
+    };
 
-  const { start, stop } = useRafLoop(onLoop);
+    window.addEventListener('keydown', handler);
+    return () => window.removeEventListener('keydown', handler);
+  }, []);
 
-  useEffect(() => { start(); return stop; }, [start, stop]);
-  useEffect(() => { setFrame(0); phaseRef.current = 'type'; lastRef.current = 0; }, [text, speed]);
+  useEffect(() => {
+    const onResize = () => updateOffset();
+    window.addEventListener('resize', onResize);
+    return () => window.removeEventListener('resize', onResize);
+  }, [updateOffset]);
 
   return (
     <section className={styles.container}>
       <h2 className={styles.title}>Typewriter</h2>
-      <p className={styles.type} aria-live="polite">{text.slice(0, frame)}</p>
+
+      <div className={styles.stage} ref={stageRef} aria-live="polite">
+        {/* Visible layer (translated) */}
+        <div
+          ref={layerRef}
+          className={styles.layer}
+          style={{ transform: `translate(${offset.x}px, ${offset.y}px)` }}
+        >
+          {text}
+        </div>
+
+        {/* Hidden measurement layer (same metrics, no transform) */}
+        <div ref={measureRef} className={styles.measureLayer} aria-hidden>
+          {text}
+        </div>
+
+        {/* Fixed-position blinking cursor anchored within stage */}
+        <div
+          className={styles.cursor}
+          style={{
+            left: `${cursor.x - (stageRef.current?.getBoundingClientRect().left ?? 0)}px`,
+            top: `${cursor.y - (stageRef.current?.getBoundingClientRect().top ?? 0)}px`,
+          }}
+        />
+      </div>
 
       <div className={styles.controls}>
-        <label>
-          Text
-          <input
-            type="text"
-            value={text}
-            onChange={(e) => setText(e.target.value)}
-          />
-        </label>
-        <label>
-          Speed (ms)
-          <input
-            type="number"
-            min={10}
-            max={500}
-            step={10}
-            value={speed}
-            onChange={(e) => setSpeed(clamp(Number(e.target.value || 60), 10, 500))}
-          />
-        </label>
-        <button type="button" onClick={() => { setFrame(0); phaseRef.current = 'type'; lastRef.current = 0; }}>
-          Restart
-        </button>
+        <div className={styles.hint}>Start typing. Enter for new line. Backspace to delete. Cursor stays anchored.</div>
       </div>
     </section>
   );
