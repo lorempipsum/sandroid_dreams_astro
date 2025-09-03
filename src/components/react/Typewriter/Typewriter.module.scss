@@ -1,39 +1,21 @@
 .container {
-  /* Full width, no max-width box */
   width: 100%;
   margin: 0;
   padding: 2rem 0 3rem;
 }
-.title {
-  display: none; /* hide title to keep page clean/white */
-}
+.title { display: none; }
 
-/* Typing stage without any box visuals */
 .stage {
   position: relative;
   width: 100%;
   height: min(70vh, 520px);
   min-height: 260px;
-  /* no border, no background to keep page white */
   overflow: hidden;
 }
 
-/* The flowing text layer we translate to keep the end anchored under the cursor */
-.layer {
-  position: absolute;
-  left: 0;
-  top: 0;
-  width: 100%;
-  padding: 1rem;
-  white-space: pre-wrap;
-  word-break: break-word;
-  font-family: ui-monospace, SFMono-Regular, Menlo, Monaco, Consolas, 'Liberation Mono', 'Courier New', monospace;
-  font-size: 1.1rem;
-  line-height: 1.8rem;
-  will-change: transform;
-}
-
-/* Hidden measurement layer: same metrics, no transform, wraps at stage width */
+/* committed (frozen) text */
+.committedLayer,
+.currentLayer,
 .measureLayer {
   position: absolute;
   left: 0;
@@ -45,12 +27,17 @@
   font-family: ui-monospace, SFMono-Regular, Menlo, Monaco, Consolas, 'Liberation Mono', 'Courier New', monospace;
   font-size: 1.1rem;
   line-height: 1.8rem;
+}
+
+.committedLayer { will-change: transform; }
+.currentLayer { will-change: transform; }
+
+.measureLayer {
   visibility: hidden;
   pointer-events: none;
 }
 
-/* Keep for compatibility with previous styles when rendering text */
-.type { @extend .layer; }
+.type { @extend .currentLayer; }
 
 .cursor {
   position: absolute;
@@ -70,10 +57,7 @@
   margin-top: 0.5rem;
 }
 
-.hint {
-  font-size: 0.9rem;
-  opacity: 0.7;
-}
+.hint { font-size: 0.9rem; opacity: 0.7; }
 
 /* Inputs/buttons kept for potential future controls */
 label {

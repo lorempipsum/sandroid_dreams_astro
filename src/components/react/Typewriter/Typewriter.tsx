@@ -1,40 +1,54 @@
 import React, { useCallback, useEffect, useLayoutEffect, useMemo, useRef, useState } from 'react';
 import styles from './Typewriter.module.scss';
 
-export default function Typewriter() {
-  const stageRef = useRef<HTMLDivElement>(null);
-  const layerRef = useRef<HTMLDivElement>(null);
-  const measureRef = useRef<HTMLDivElement>(null);
-
-  const [text, setText] = useState('');
-  const [offset, setOffset] = useState({ x: 0, y: 0 });
-
-  // Cursor anchor: right edge (padding 16) and near bottom (padding 16)
-  const getAnchor = useCallback(() => {
+// Compute anchor at right-bottom padding of the stage
+const useAnchor = (stageRef: React.RefObject<HTMLDivElement>) => {
+  return useCallback(() => {
     const stage = stageRef.current;
     if (!stage) return { x: 0, y: 0 };
     const rect = stage.getBoundingClientRect();
-    const padding = 16; // should match stage/layer padding visually
+    const padding = 16;
     return { x: rect.right - padding, y: rect.bottom - padding - 4 };
-  }, []);
+  }, [stageRef]);
+};
 
+export default function Typewriter() {
+  const stageRef = useRef<HTMLDivElement>(null);
+  const currentMeasureRef = useRef<HTMLDivElement>(null);
+  const committedMeasureRef = useRef<HTMLDivElement>(null);
+
+  const [committedLines, setCommittedLines] = useState<string[]>([]);
+  const [currentLine, setCurrentLine] = useState<string>('');
+  const [offset, setOffset] = useState({ x: 0, y: 0 });
+  const [committedOffset, setCommittedOffset] = useState({ x: 0, y: 0 });
+
+  const getAnchor = useAnchor(stageRef);
+
+  const lineHeightPx = 1.8 * 16; // approximate; we'll refine via computed style
+
+  // Build committed text block with trailing newline
+  const committedText = useMemo(() => (committedLines.length ? committedLines.join('\n') + '\n' : ''), [committedLines]);
+
+  // Hidden measurement container content mirrors committed + current to get caret position correctly
   const measureCaret = useCallback(() => {
-    const measureEl = measureRef.current;
-    if (!measureEl) return { x: 0, y: 0 };
+    const el = currentMeasureRef.current;
+    if (!el) return { x: 0, y: 0 };
 
-    measureEl.textContent = '';
-    const tNode = document.createTextNode(text);
+    el.textContent = '';
+    const committedNode = document.createTextNode(committedText);
+    const currentNode = document.createTextNode(currentLine);
     const marker = document.createElement('span');
     marker.textContent = '\u200b';
-    measureEl.appendChild(tNode);
-    measureEl.appendChild(marker);
+
+    el.appendChild(committedNode);
+    el.appendChild(currentNode);
+    el.appendChild(marker);
 
     const rect = marker.getBoundingClientRect();
     return { x: rect.left, y: rect.top };
-  }, [text]);
+  }, [committedText, currentLine]);
 
-  // Recompute transform offset so that the caret (end of text) is under the fixed cursor
-  const updateOffset = useCallback(() => {
+  const updateOffsets = useCallback(() => {
     const stage = stageRef.current;
     if (!stage) return;
 
@@ -46,58 +60,121 @@ export default function Typewriter() {
     const desiredLocal = { x: anchor.x - stageRect.left, y: anchor.y - stageRect.top };
 
     setOffset({ x: desiredLocal.x - caretLocal.x, y: desiredLocal.y - caretLocal.y });
-  }, [getAnchor, measureCaret]);
 
-  useLayoutEffect(() => { updateOffset(); }, [text, updateOffset]);
+    // For committed block: position it so its bottom sits exactly one line above the current line's baseline
+    // Measure committed block height using a hidden mirror
+    const committedEl = committedMeasureRef.current;
+    if (committedEl) {
+      committedEl.textContent = committedText || '\u200b';
+      const crect = committedEl.getBoundingClientRect();
+      const committedHeight = crect.height; // includes padding of measure layer
 
-  // Handle key input globally
+      const targetBottomLocal = desiredLocal.y - lineHeightPx; // one line above
+      const committedBottomLocal = committedHeight; // since committed mirror starts at top=0
+      const dy = targetBottomLocal - committedBottomLocal;
+      setCommittedOffset({ x: 0, y: dy });
+    } else {
+      setCommittedOffset({ x: 0, y: 0 });
+    }
+  }, [getAnchor, measureCaret, committedText]);
+
+  useLayoutEffect(() => { updateOffsets(); }, [committedText, currentLine, updateOffsets]);
+
+  // Detect wrapping of current line by comparing its first char y vs last char y
+  const didWrap = useCallback(() => {
+    const el = currentMeasureRef.current;
+    if (!el) return false;
+
+    el.textContent = '';
+    const committedNode = document.createTextNode(committedText);
+    const currentNode = document.createTextNode(currentLine);
+    const probe = document.createElement('span');
+    probe.textContent = '\u200b';
+
+    // First char of current line
+    const firstSpan = document.createElement('span');
+    firstSpan.textContent = currentLine.length ? currentLine[0] : '\u200b';
+
+    el.appendChild(committedNode);
+    el.appendChild(firstSpan);
+    const firstRect = firstSpan.getBoundingClientRect();
+
+    el.textContent = '';
+    const committedNode2 = document.createTextNode(committedText);
+    const currentNode2 = document.createTextNode(currentLine);
+    el.appendChild(committedNode2);
+    el.appendChild(currentNode2);
+    el.appendChild(probe);
+    const lastRect = probe.getBoundingClientRect();
+
+    return currentLine.length > 0 && Math.abs(lastRect.top - firstRect.top) > 1; // wrapped if y changed
+  }, [committedText, currentLine]);
+
+  // Key handling: only mutate currentLine; backspace limited to current line
   useEffect(() => {
     const handler = (e: KeyboardEvent) => {
       if (e.key.length === 1 && !e.metaKey && !e.ctrlKey && !e.altKey) {
-        setText((t) => t + e.key);
+        setCurrentLine((t) => t + e.key);
         e.preventDefault();
       } else if (e.key === 'Backspace') {
-        setText((t) => t.slice(0, -1));
+        setCurrentLine((t) => (t.length ? t.slice(0, -1) : t));
         e.preventDefault();
       } else if (e.key === 'Enter') {
-        setText((t) => t + '\n');
+        setCommittedLines((lines) => [...lines, currentLine]);
+        setCurrentLine('');
         e.preventDefault();
       } else if (e.key === 'Tab') {
-        setText((t) => t + '  ');
+        setCurrentLine((t) => t + '  ');
         e.preventDefault();
       }
     };
 
     window.addEventListener('keydown', handler);
     return () => window.removeEventListener('keydown', handler);
-  }, []);
+  }, [currentLine]);
 
+  // Commit when the current line wraps onto a new visual line
+  useLayoutEffect(() => {
+    if (didWrap()) {
+      setCommittedLines((lines) => [...lines, currentLine]);
+      setCurrentLine('');
+    }
+  }, [currentLine, didWrap]);
+
+  // Recompute positions on resize
   useEffect(() => {
-    const onResize = () => updateOffset();
+    const onResize = () => updateOffsets();
     window.addEventListener('resize', onResize);
     return () => window.removeEventListener('resize', onResize);
-  }, [updateOffset]);
+  }, [updateOffsets]);
 
   const anchor = getAnchor();
 
   return (
     <section className={styles.container}>
       <div className={styles.stage} ref={stageRef} aria-live="polite">
-        {/* Visible layer (translated) */}
+        {/* Frozen committed content (translated to sit one line above current) */}
         <div
-          ref={layerRef}
-          className={styles.layer}
+          className={styles.committedLayer}
+          style={{ transform: `translate(${committedOffset.x}px, ${committedOffset.y}px)` }}
+          aria-hidden
+        >
+          {committedText}
+        </div>
+
+        {/* Visible current line (translated to anchor) */}
+        <div
+          className={styles.currentLayer}
           style={{ transform: `translate(${offset.x}px, ${offset.y}px)` }}
         >
-          {text}
+          {currentLine}
         </div>
 
-        {/* Hidden measurement layer (same metrics, no transform) */}
-        <div ref={measureRef} className={styles.measureLayer} aria-hidden>
-          {text}
-        </div>
+        {/* Hidden measurement layers */}
+        <div ref={currentMeasureRef} className={styles.measureLayer} aria-hidden />
+        <div ref={committedMeasureRef} className={styles.measureLayer} aria-hidden />
 
-        {/* Fixed-position blinking cursor anchored to right edge */}
+        {/* Fixed-position blinking cursor at the right edge */}
         <div
           className={styles.cursor}
           style={{
@@ -108,7 +185,7 @@ export default function Typewriter() {
       </div>
 
       <div className={styles.controls}>
-        <div className={styles.hint}>Start typing. Enter for new line. Backspace to delete. Cursor stays on the right.</div>
+        <div className={styles.hint}>Type. Enter or wrap will commit a line. Backspace only edits current line.</div>
       </div>
     </section>
   );
