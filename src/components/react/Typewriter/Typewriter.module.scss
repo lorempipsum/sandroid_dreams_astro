@@ -1,0 +1,74 @@
+.container {
+  max-width: 800px;
+  margin: 0 auto;
+  padding: 2rem 1rem 3rem;
+}
+.title {
+  margin: 0 0 1rem;
+  font-size: clamp(1.5rem, 2.5vw, 2rem);
+  font-weight: 700;
+  letter-spacing: 0.01em;
+}
+.type {
+  position: relative;
+  min-height: 2.25rem;
+  font-family: ui-monospace, SFMono-Regular, Menlo, Monaco, Consolas, 'Liberation Mono', 'Courier New', monospace;
+  font-size: 1.25rem;
+  line-height: 1.8rem;
+  white-space: pre-wrap;
+  word-break: break-word;
+  padding-right: 0.5rem;
+}
+.type::after {
+  content: '';
+  position: absolute;
+  right: 0;
+  width: 2px;
+  height: 1.2em;
+  background: currentColor;
+  animation: blink 1s steps(2, start) infinite;
+  transform: translateX(2px) translateY(0.2em);
+}
+@keyframes blink { 50% { opacity: 0; } }
+
+.controls {
+  display: grid;
+  grid-template-columns: 1fr 140px auto;
+  gap: 0.75rem;
+  align-items: end;
+  margin-top: 1rem;
+}
+label {
+  display: grid;
+  gap: 0.35rem;
+  font-size: 0.9rem;
+}
+input[type="text"], input[type="number"] {
+  padding: 0.5rem 0.6rem;
+  border: 1px solid color-mix(in oklab, currentColor 20%, transparent);
+  background: color-mix(in oklab, currentColor 3%, transparent);
+  color: inherit;
+  border-radius: 6px;
+  outline: none;
+}
+input:focus {
+  border-color: currentColor;
+  box-shadow: 0 0 0 3px color-mix(in oklab, currentColor 20%, transparent);
+}
+button {
+  height: 2.2rem;
+  padding: 0 0.9rem;
+  border-radius: 6px;
+  border: 1px solid color-mix(in oklab, currentColor 25%, transparent);
+  background: color-mix(in oklab, currentColor 10%, transparent);
+  color: inherit;
+  cursor: pointer;
+}
+button:hover {
+  background: color-mix(in oklab, currentColor 16%, transparent);
+}
+
+@media (max-width: 640px) {
+  .controls { grid-template-columns: 1fr 1fr; }
+  button { grid-column: span 2; }
+}
