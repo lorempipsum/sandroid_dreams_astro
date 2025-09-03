@@ -1,0 +1,134 @@
+.showcase {
+  max-width: 1200px;
+  margin: 0 auto;
+  padding: 1rem;
+}
+
+.description {
+  margin-bottom: 2rem;
+  color: #666;
+  font-size: 1.1rem;
+}
+
+.componentSection {
+  margin-bottom: 3rem;
+  border: 1px solid #e0e0e0;
+  border-radius: 8px;
+  padding: 1.5rem;
+  background: #fafafa;
+}
+
+.componentTitle {
+  margin: 0 0 1rem 0;
+  color: #333;
+  border-bottom: 2px solid #ddd;
+  padding-bottom: 0.5rem;
+}
+
+.componentDemo {
+  display: grid;
+  grid-template-columns: 1fr 300px 1fr;
+  gap: 1.5rem;
+  align-items: start;
+}
+
+.preview {
+  h3 {
+    margin: 0 0 1rem 0;
+    color: #555;
+    font-size: 1rem;
+  }
+}
+
+.previewContainer {
+  padding: 1.5rem;
+  border: 1px solid #ddd;
+  border-radius: 6px;
+  background: white;
+  min-height: 100px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.controls {
+  h3 {
+    margin: 0 0 1rem 0;
+    color: #555;
+    font-size: 1rem;
+  }
+}
+
+.controlsContainer {
+  display: flex;
+  flex-direction: column;
+  gap: 1rem;
+}
+
+.control {
+  display: flex;
+  flex-direction: column;
+  gap: 0.25rem;
+}
+
+.controlLabel {
+  font-weight: 500;
+  font-size: 0.9rem;
+  color: #333;
+}
+
+.controlInput {
+  padding: 0.5rem;
+  border: 1px solid #ccc;
+  border-radius: 4px;
+  font-size: 0.9rem;
+}
+
+.controlCheckbox {
+  width: 18px;
+  height: 18px;
+}
+
+.functionIndicator {
+  padding: 0.25rem 0.5rem;
+  background: #f0f0f0;
+  border-radius: 4px;
+  font-size: 0.8rem;
+  color: #666;
+  font-style: italic;
+}
+
+.code {
+  h3 {
+    margin: 0 0 1rem 0;
+    color: #555;
+    font-size: 1rem;
+  }
+}
+
+.codeBlock {
+  background: #f8f8f8;
+  border: 1px solid #ddd;
+  border-radius: 6px;
+  padding: 1rem;
+  margin: 0;
+  overflow-x: auto;
+  font-family: 'Monaco', 'Menlo', 'Ubuntu Mono', monospace;
+  font-size: 0.85rem;
+  line-height: 1.4;
+  
+  code {
+    color: #333;
+  }
+}
+
+@media (max-width: 1024px) {
+  .componentDemo {
+    grid-template-columns: 1fr;
+    gap: 1rem;
+  }
+  
+  .controls {
+    order: -1;
+  }
+}
