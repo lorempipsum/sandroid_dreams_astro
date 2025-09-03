@@ -1,0 +1,51 @@
+---
+layout: '../../layouts/BaseLayout.astro'
+date: '2024-07-23'
+title: 'Moon Photography Planner'
+tags: ['photography', 'astronomy']
+---
+
+import DummyComponent from '../../components/DummyComponent/DummyComponent.astro';
+
+<DummyComponent />
+
+import MoonPhotographyApp from '../../components/react/MoonPhotographyApp/MoonPhotographyApp.tsx';
+
+# Moon Photography Planner
+
+Find the perfect times to capture stunning moon shots in Bristol, UK. This tool calculates optimal photography conditions by analyzing:
+
+- **Astronomical alignments**: When sunrise/sunset coincides with moonrise/moonset
+- **Moon position**: Times when the moon is low in the sky for dramatic compositions
+- **Moon phases**: Optimal phases for detail and visual appeal
+- **Golden hour opportunities**: Perfect lighting conditions combined with moon visibility
+
+<MoonPhotographyApp client:only />
+
+## Photography Tips
+
+### Best Conditions for Moon Photography
+
+1. **Low Moon**: When the moon is close to the horizon (below 30°), it appears larger and more dramatic
+2. **Golden Hour**: Shooting during sunrise or sunset provides warm, soft lighting
+3. **Phase Consideration**: 
+   - **Crescent moons** (30-70% illuminated) show excellent surface detail
+   - **Full moons** are bright but can lose surface texture
+   - **New moons** are invisible but perfect for starry landscapes
+
+### Equipment Recommendations
+
+- **Telephoto lens** (200mm+) to capture moon detail
+- **Tripod** for sharp images during low light
+- **Remote shutter** to minimize camera shake
+- **Multiple exposures** for HDR processing
+
+### Timing is Everything
+
+The app identifies three types of opportunities:
+
+- **🌟 Optimal**: Multiple favorable conditions align
+- **⭐ Good**: Some favorable conditions present  
+- **📅 Fair**: Basic conditions met
+
+Plan your shoots around these calculated times for the best results!
