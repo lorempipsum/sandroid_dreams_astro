@@ -19,17 +19,19 @@ export default function Typewriter() {
 
   const [committedLines, setCommittedLines] = useState<string[]>([]);
   const [currentLine, setCurrentLine] = useState<string>('');
-  const [offset, setOffset] = useState({ x: 0, y: 0 });
+
+  // Keep current line anchored: baseY is locked; offsetX updates with typing
+  const [offsetX, setOffsetX] = useState(0);
+  const [baseY, setBaseY] = useState<number | null>(null);
   const [committedOffset, setCommittedOffset] = useState({ x: 0, y: 0 });
+
+  const [lineHeight, setLineHeight] = useState<number>(28.8); // fallback ~1.8 * 16
 
   const getAnchor = useAnchor(stageRef);
 
-  const lineHeightPx = 1.8 * 16; // approximate; we'll refine via computed style
-
-  // Build committed text block with trailing newline
   const committedText = useMemo(() => (committedLines.length ? committedLines.join('\n') + '\n' : ''), [committedLines]);
 
-  // Hidden measurement container content mirrors committed + current to get caret position correctly
+  // Measure caret absolute position
   const measureCaret = useCallback(() => {
     const el = currentMeasureRef.current;
     if (!el) return { x: 0, y: 0 };
@@ -48,6 +50,7 @@ export default function Typewriter() {
     return { x: rect.left, y: rect.top };
   }, [committedText, currentLine]);
 
+  // Compute offsets; lock baseY so the current line doesn't move vertically
   const updateOffsets = useCallback(() => {
     const stage = stageRef.current;
     if (!stage) return;
@@ -59,42 +62,47 @@ export default function Typewriter() {
     const caretLocal = { x: caret.x - stageRect.left, y: caret.y - stageRect.top };
     const desiredLocal = { x: anchor.x - stageRect.left, y: anchor.y - stageRect.top };
 
-    setOffset({ x: desiredLocal.x - caretLocal.x, y: desiredLocal.y - caretLocal.y });
+    // Update X on every change
+    setOffsetX(desiredLocal.x - caretLocal.x);
 
-    // For committed block: position it so its bottom sits exactly one line above the current line's baseline
-    // Measure committed block height using a hidden mirror
+    // Initialize or recompute baseY only when not set
+    setBaseY((prev) => (prev == null ? desiredLocal.y - caretLocal.y : prev));
+
+    // Translate committed so its bottom is exactly one line above the current line baseline
     const committedEl = committedMeasureRef.current;
     if (committedEl) {
       committedEl.textContent = committedText || '\u200b';
       const crect = committedEl.getBoundingClientRect();
-      const committedHeight = crect.height; // includes padding of measure layer
-
-      const targetBottomLocal = desiredLocal.y - lineHeightPx; // one line above
-      const committedBottomLocal = committedHeight; // since committed mirror starts at top=0
+      const committedHeight = crect.height;
+      const targetBottomLocal = desiredLocal.y - lineHeight; // one line above baseline
+      const committedBottomLocal = committedHeight; // measure layer starts at 0
       const dy = targetBottomLocal - committedBottomLocal;
       setCommittedOffset({ x: 0, y: dy });
     } else {
       setCommittedOffset({ x: 0, y: 0 });
     }
-  }, [getAnchor, measureCaret, committedText]);
+  }, [getAnchor, measureCaret, committedText, lineHeight]);
+
+  // Read computed line-height from the measure layer for accuracy
+  useLayoutEffect(() => {
+    const el = currentMeasureRef.current;
+    if (!el) return;
+    const cs = window.getComputedStyle(el);
+    const lh = parseFloat(cs.lineHeight);
+    if (!Number.isNaN(lh) && lh > 0) setLineHeight(lh);
+  }, []);
 
   useLayoutEffect(() => { updateOffsets(); }, [committedText, currentLine, updateOffsets]);
 
-  // Detect wrapping of current line by comparing its first char y vs last char y
+  // Detect wrapping of current line (visual)
   const didWrap = useCallback(() => {
     const el = currentMeasureRef.current;
     if (!el) return false;
 
     el.textContent = '';
     const committedNode = document.createTextNode(committedText);
-    const currentNode = document.createTextNode(currentLine);
-    const probe = document.createElement('span');
-    probe.textContent = '\u200b';
-
-    // First char of current line
     const firstSpan = document.createElement('span');
     firstSpan.textContent = currentLine.length ? currentLine[0] : '\u200b';
-
     el.appendChild(committedNode);
     el.appendChild(firstSpan);
     const firstRect = firstSpan.getBoundingClientRect();
@@ -102,15 +110,17 @@ export default function Typewriter() {
     el.textContent = '';
     const committedNode2 = document.createTextNode(committedText);
     const currentNode2 = document.createTextNode(currentLine);
+    const probe = document.createElement('span');
+    probe.textContent = '\u200b';
     el.appendChild(committedNode2);
     el.appendChild(currentNode2);
     el.appendChild(probe);
     const lastRect = probe.getBoundingClientRect();
 
-    return currentLine.length > 0 && Math.abs(lastRect.top - firstRect.top) > 1; // wrapped if y changed
+    return currentLine.length > 0 && Math.abs(lastRect.top - firstRect.top) > 1;
   }, [committedText, currentLine]);
 
-  // Key handling: only mutate currentLine; backspace limited to current line
+  // Key handling: edit only currentLine
   useEffect(() => {
     const handler = (e: KeyboardEvent) => {
       if (e.key.length === 1 && !e.metaKey && !e.ctrlKey && !e.altKey) {
@@ -122,6 +132,7 @@ export default function Typewriter() {
       } else if (e.key === 'Enter') {
         setCommittedLines((lines) => [...lines, currentLine]);
         setCurrentLine('');
+        // Keep the same baseY for the new line; only X will reset on next update
         e.preventDefault();
       } else if (e.key === 'Tab') {
         setCurrentLine((t) => t + '  ');
@@ -133,7 +144,7 @@ export default function Typewriter() {
     return () => window.removeEventListener('keydown', handler);
   }, [currentLine]);
 
-  // Commit when the current line wraps onto a new visual line
+  // Commit when the current line wraps to next line
   useLayoutEffect(() => {
     if (didWrap()) {
       setCommittedLines((lines) => [...lines, currentLine]);
@@ -141,9 +152,13 @@ export default function Typewriter() {
     }
   }, [currentLine, didWrap]);
 
-  // Recompute positions on resize
+  // Recompute baseY on resize so cursor stays aligned
   useEffect(() => {
-    const onResize = () => updateOffsets();
+    const onResize = () => {
+      // Force recompute of baseY on next update
+      setBaseY(null);
+      updateOffsets();
+    };
     window.addEventListener('resize', onResize);
     return () => window.removeEventListener('resize', onResize);
   }, [updateOffsets]);
@@ -162,10 +177,10 @@ export default function Typewriter() {
           {committedText}
         </div>
 
-        {/* Visible current line (translated to anchor) */}
+        {/* Visible current line (X updates, Y locked) */}
         <div
           className={styles.currentLayer}
-          style={{ transform: `translate(${offset.x}px, ${offset.y}px)` }}
+          style={{ transform: `translate(${offsetX}px, ${baseY ?? 0}px)` }}
         >
           {currentLine}
         </div>
@@ -185,7 +200,7 @@ export default function Typewriter() {
       </div>
 
       <div className={styles.controls}>
-        <div className={styles.hint}>Type. Enter or wrap will commit a line. Backspace only edits current line.</div>
+        <div className={styles.hint}>Line stays fixed. Enter or wrap commits a line. Backspace only edits current line.</div>
       </div>
     </section>
   );
