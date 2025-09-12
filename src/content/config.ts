@@ -12,6 +12,7 @@ const TagsEnum = z.enum([
   'blog',
   'gaming',
   'audio',
+  'ai'
 ]);
 
 const blogCollection = defineCollection({
