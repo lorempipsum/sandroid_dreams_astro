@@ -63,9 +63,8 @@ body {
   margin: 0; // reset user agent stylesheet margin
 }
 
-p {
-  display: flex;
-}
+/* Removed global paragraph flex that broke inline layout in MDX/blog content */
+/* p { display: flex; } */
 
 pre,
 code {
