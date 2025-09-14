@@ -1,0 +1,10 @@
+---
+import BaseLayout from '../layouts/BaseLayout.astro';
+import ComponentShowcase from '../components/react/ComponentShowcase/ComponentShowcase.tsx';
+
+const title = 'Components';
+---
+
+<BaseLayout title={title}>
+  <ComponentShowcase client:load />
+</BaseLayout>
